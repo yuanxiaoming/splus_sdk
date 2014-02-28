@@ -41,11 +41,11 @@ public class LoginAdapter extends BaseAdapter {
 
     private TextView mPassword;
 
-    private CheckBox cb_mindPassword;
+    private CheckBox cb_remember_pwd;
 
     private PopupWindow popView;
 
-    private Context context;
+    private Context mContext;
 
     private ArrayList<UserModel> mUsers = new ArrayList<UserModel>();
 
@@ -53,10 +53,10 @@ public class LoginAdapter extends BaseAdapter {
     public LoginAdapter(Context context, ArrayList<UserModel> mUsers, TextView mUserName,
             TextView mPassword, CheckBox cb_mindPassword,PopupWindow popView) {
         this.mUsers = mUsers;
-        this.context = context;
+        this.mContext = context;
         this.mUserName = mUserName;
         this.mPassword = mPassword;
-        this.cb_mindPassword = cb_mindPassword;
+        this.cb_remember_pwd = cb_mindPassword;
         this.popView = popView;
     }
 
@@ -129,16 +129,16 @@ public class LoginAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(
-                    ResourceUtil.getLayoutId(context, KR.layout.ch_login_dropdown_item), null);
-            holder.ll = (LinearLayout) convertView.findViewById(ResourceUtil.getId(context,
-                    KR.id.ch_login_dropdown_ll));
+            convertView = LayoutInflater.from(mContext).inflate(
+                    ResourceUtil.getLayoutId(mContext, KR.layout.splus_login_dropdown_item), null);
+            holder.ll = (LinearLayout) convertView.findViewById(ResourceUtil.getId(mContext,
+                    KR.id.splus_login_dropdown_ll));
             holder.ll.setFocusable(false);
-            holder.btn = (ImageView) convertView.findViewById(ResourceUtil.getId(context,
-                    KR.id.ch_login_dropdown_delete));
+            holder.btn = (ImageView) convertView.findViewById(ResourceUtil.getId(mContext,
+                    KR.id.splus_login_dropdown_delete));
             holder.btn.setFocusable(false);
-            holder.tv = (TextView) convertView.findViewById(ResourceUtil.getId(context,
-                    KR.id.ch_login_dropdown_text));
+            holder.tv = (TextView) convertView.findViewById(ResourceUtil.getId(mContext,
+                    KR.id.splus_login_dropdown_text));
             holder.tv.setFocusable(false);
             convertView.setTag(holder);
         } else {
@@ -155,10 +155,10 @@ public class LoginAdapter extends BaseAdapter {
                     if (UserMode.getChecked()) {
                         // 对应的账户点击了 保存密码，将用户密码自动填写到密码框
                         mPassword.setText(UserMode.getPassword());
-                        cb_mindPassword.setChecked(true);
+                        cb_remember_pwd.setChecked(true);
                     } else {
                         mPassword.setText(null);
-                        cb_mindPassword.setChecked(false);
+                        cb_remember_pwd.setChecked(false);
                     }
                 }
                 popView.dismiss();

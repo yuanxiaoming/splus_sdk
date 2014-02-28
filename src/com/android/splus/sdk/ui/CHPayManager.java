@@ -278,11 +278,11 @@ public class CHPayManager implements IPayManager {
         }
         try {
             // 获取文件输入流
-            InputStream is = assetManager.open("CH_Config.xml");
+            InputStream is = assetManager.open("splus_config.xml");
             if (is == null) {
-                LogHelper.i(TAG, "CH_Config.xml文件不存在");
+                LogHelper.i(TAG, "splus_config.xml文件不存在");
                 if (initCallBack != null) {
-                    initCallBack.initFaile("CH_Config.xml文件不存在");
+                    initCallBack.initFaile("splus_config.xml文件不存在");
                 }
                 return;
             }
@@ -319,8 +319,8 @@ public class CHPayManager implements IPayManager {
 
         } catch (Exception e) {
             LogHelper.i(TAG, e.getLocalizedMessage(), e);
-            LogHelper.i(TAG, "CH_Config.xml文件配置错误");
-            initCallBack.initFaile("CH_Config.xml文件配置错误");
+            LogHelper.i(TAG, "splus_config.xml文件配置错误");
+            initCallBack.initFaile("splus_config.xml文件配置错误");
             return;
         }
     }

@@ -64,15 +64,15 @@ import java.util.regex.Pattern;
 public class LoginView extends LinearLayout implements ViewRecoveryState ,Observer {
     protected final String TAG = "LoginView";
 
-    private EditText et_userName, et_userPwd;
+    private EditText et_userName, et_password;
 
-    private ImageView iv_more, iv_close;
+    private ImageView iv_more, iv_close, iv_back;
 
-    private Button btn_easyRegister, btn_login;
+    private Button btn_register, btn_login;
 
     private TextView tv_fortgetPwd;
 
-    private CheckBox cb_mindPwd;
+    private CheckBox cb_remember_pwd;
 
     private LoginModel mLoginData;
 
@@ -108,7 +108,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
         this.mActivity = activity;
         this.mAlertDialog = alertDialog;
         addView(inflate(mActivity,
-                ResourceUtil.getLayoutId(mActivity, KR.layout.ch_login_activity), null),
+                ResourceUtil.getLayoutId(mActivity, KR.layout.splus_login_activity), null),
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         AccountObservable.getInstance().addObserver(LoginView.this);
         findViewById();
@@ -121,37 +121,37 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
 
     private void findViewById() {
         et_userName = (EditText) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_et_username));
-        et_userName.setHint(KR.string.ch_login_et_username_hint);
-        et_userPwd = (EditText) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_et_userPwd));
-        et_userPwd.setHint(KR.string.ch_register_et_userPwd);
-        iv_more = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.ch_login_iv_more));
-        btn_easyRegister = (Button) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_btnEasyRegister));
-        btn_login = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.ch_login_btnLogin));
-        btn_login.setText(KR.string.ch_register_btn_login_text);
-        tv_fortgetPwd = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_tv_forgetpassword));
-        tv_fortgetPwd.setText((Html.fromHtml("<u>" + "忘记密码" + "</u>")));
-        cb_mindPwd = (CheckBox) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_cb_mindUsrName));
-        cb_mindPwd.setText(KR.string.ch_login_cb_mindUsrName_text);// checkBox
-        iv_close = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.ch_login_iv_close));
+                KR.id.splus_login_et_username));
+        et_userName.setHint(KR.string.splus_login_et_username_hint);
+        et_password = (EditText) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_et_userpassword));
+        et_password.setHint(KR.string.splus_login_et_userpassword_hint);
+        iv_more = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_account_iv_more));
+        btn_register = (Button) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_btn_register));
+        btn_login = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_btn_login));
 
-        ImageView iv_back = (ImageView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_back));
+        btn_login.setText(KR.string.splus_login_btn_text);
+        tv_fortgetPwd = (TextView) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_tv_forgetpassword));
+        tv_fortgetPwd.setText((Html.fromHtml("<u>" + "忘记密码" + "</u>")));
+        cb_remember_pwd = (CheckBox) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_remember_checkbox));
+        cb_remember_pwd.setText(KR.string.splus_login_remember_password_text);// checkBox
+        iv_close = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_iv_close));
+
+        iv_back = (ImageView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_login_back));
         iv_back.setVisibility(View.GONE);
         // 输入框
-        TextView ch_bindphone_account = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_bindphone_account));
-        ch_bindphone_account.setText(KR.string.ch_bind_phone_account);
-        ch_bindphone_account.setTextColor(Color.parseColor("#9a9a9a"));
-        TextView ch_bindphone_password = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_bindphone_password));
-        ch_bindphone_password.setText(KR.string.ch_bind_phone_password);
-        ch_bindphone_password.setSingleLine();
-        ch_bindphone_password.setTextColor(Color.parseColor("#9a9a9a"));
+        TextView splus_login_account_title = (TextView) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_account_title));
+        splus_login_account_title.setTextColor(Color.parseColor("#9a9a9a"));
+        splus_login_account_title.setText(KR.string.splus_login_account_title);
+        TextView splus_login_password_title = (TextView) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_password_title));
+        splus_login_password_title.setTextColor(Color.parseColor("#9a9a9a"));
+        splus_login_password_title.setText(KR.string.splus_login_password_title);
+        splus_login_password_title.setSingleLine();
 
     }
 
@@ -169,7 +169,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
             }
         });
 
-        btn_easyRegister.setOnClickListener(new View.OnClickListener() {
+        btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isQuickClick()) {
@@ -216,11 +216,11 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
 
             @Override
             public void afterTextChanged(Editable s) {
-                et_userPwd.setText(null);
+                et_password.setText(null);
                 CommonUtil.setEditTextInputTypeAndMaxlength(s, 20);
             }
         });
-        et_userPwd.addTextChangedListener(new TextWatcher() {
+        et_password.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -275,9 +275,9 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
     private void processLogic() {
         // 如果是新设备，则一键注册显示为 注册
         if (CHPayManager.getInstance().isNewDevice()) {
-            btn_easyRegister.setText("一键注册");
+            btn_register.setText("一键注册");
         } else {
-            btn_easyRegister.setText("注册");
+            btn_register.setText("注册");
         }
         mAllUsers = AccountObservable.getInstance().getAllUserData();
         if (mAllUsers == null || (mAllUsers != null && mAllUsers.size() <= 1)) {
@@ -300,10 +300,10 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
         if (null != UserMode && null != UserMode.getUserName()) {
             if (UserMode.getChecked()) {
                 // 对应的账户点击了 保存密码，将用户密码自动填写到密码框
-                et_userPwd.setText(getPassword());
-                cb_mindPwd.setChecked(true);
+                et_password.setText(getPassword());
+                cb_remember_pwd.setChecked(true);
             } else {
-                cb_mindPwd.setChecked(false);
+                cb_remember_pwd.setChecked(false);
             }
         }
 
@@ -317,7 +317,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
      */
     private void login() {
         mPassport = et_userName.getText().toString().trim();
-        mPassword = et_userPwd.getText().toString().trim();
+        mPassword = et_password.getText().toString().trim();
         if (mPassport.equals("") || null == mPassport) {
             clickActionedEnableCompons();
             ToastUtil.showToast(mActivity, "账号不能为空!!!");
@@ -393,7 +393,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
                             + CHPayManager.getInstance().getAppkey()))) {
 
                         UserModel UserMode = new UserModel(uid, mPassport, mPassword, sessionid, time,
-                                Boolean.valueOf(cb_mindPwd.isChecked()));
+                                Boolean.valueOf(cb_remember_pwd.isChecked()));
                         // 保存用户数据
                         CHPayManager.getInstance().setUserData(UserMode);
                         AccountObservable.getInstance().modifyUser(UserMode);
@@ -483,7 +483,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
 
     private void clickDisableCompons() {
         btn_login.setEnabled(false);
-        btn_easyRegister.setEnabled(false);
+        btn_register.setEnabled(false);
         tv_fortgetPwd.setEnabled(false);
         iv_more.setEnabled(false);
     }
@@ -495,8 +495,8 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
      * @since 1.0.0 xiaoming.yuan
      */
     private void clickActionedEnableCompons() {
-        if (btn_easyRegister != null) {
-            btn_easyRegister.setEnabled(true);
+        if (btn_register != null) {
+            btn_register.setEnabled(true);
         }
         if (tv_fortgetPwd != null) {
             tv_fortgetPwd.setEnabled(true);
@@ -520,9 +520,9 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
         popView.setFocusable(true);
         popView.setOutsideTouchable(true);
         popView.setBackgroundDrawable(mActivity.getResources().getDrawable(
-                ResourceUtil.getDrawableId(mActivity, KR.drawable.ch_login_input)));
-        dropDownAdapter = new LoginAdapter(mActivity, mAllUsers, et_userName, et_userPwd,
-                cb_mindPwd, popView);
+                ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_login_input_background)));
+        dropDownAdapter = new LoginAdapter(mActivity, mAllUsers, et_userName, et_password,
+                cb_remember_pwd, popView);
         listView.setAdapter(dropDownAdapter);
         dropDownAdapter.notifyDataSetChanged();
     }

@@ -69,9 +69,9 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
 
     private FrameLayout.LayoutParams mDialogClauseparams;
 
-    private EditText et_userName, et_userPwd;
+    private EditText et_userName, et_password;
 
-    private ImageView iv_close;
+    private ImageView iv_close,iv_more, iv_title;
 
     private Button btn_login;
 
@@ -79,7 +79,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
 
     private CheckBox cb_agreeClause;
 
-    private ImageView ch_login_back;
+    private ImageView splus_login_back;
 
     private LoginCallBack mRegisterCallBack;
 
@@ -109,7 +109,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         this.mActivity = activity;
         this.mAlertDialog = alertDialog;
         addView(inflate(mActivity,
-                ResourceUtil.getLayoutId(mActivity, KR.layout.ch_register_activity), null),
+                ResourceUtil.getLayoutId(mActivity, KR.layout.splus_register_activity), null),
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         findViewById();
         setListener();
@@ -120,43 +120,43 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         // To change body of implemented methods use File | Settings | File
         // Templates.
         // 返回
-        ch_login_back = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.ch_login_back));
-        ch_login_back.setVisibility(View.VISIBLE);
+        splus_login_back = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_back));
+        splus_login_back.setVisibility(View.VISIBLE);
         et_userName = (EditText) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_et_username));
-        et_userPwd = (EditText) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_et_userPwd));
-        iv_close = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.ch_login_iv_close));
+                KR.id.splus_login_et_username));
+        et_password = (EditText) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_et_userpassword));
+        iv_close = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_iv_close));
         tv_agreeClause = (ScrollForeverTextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_tv_agreeClause));
-        tv_agreeClause.setText(Html.fromHtml("同意<u>" + KR.string.ch_login_tv_agreeClause_text
+                KR.id.splus_register_tv_agreeClause));
+        tv_agreeClause.setText(Html.fromHtml("同意<u>" + KR.string.splus_register_tv_agreeClause_text
                 + "</u>"));// 同意条款
-        btn_login = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.ch_login_btnLogin));
-        btn_login.setText(KR.string.ch_register_btn_login_text);
+        btn_login = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_btn_login));
+        btn_login.setText(KR.string.splus_login_btn_text);
         cb_agreeClause = (CheckBox) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_cb_agreeClause));
+                KR.id.splus_register_agreeClause_checkbox));
 
-        et_userName.setHint(KR.string.ch_login_et_username_register);
+        et_userName.setHint(KR.string.splus_register_et_username_hint);
         et_userName.setHintTextColor(Color.parseColor("#c1c1c1"));
-        et_userPwd.setHint(KR.string.ch_register_et_userPwd);
-        et_userPwd.setHintTextColor(Color.parseColor("#c1c1c1"));
+        et_password.setHint(KR.string.splus_login_et_userpassword_hint);
+        et_password.setHintTextColor(Color.parseColor("#c1c1c1"));
 
-        ImageView iv_more = (ImageView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_iv_more));
+         iv_more = (ImageView) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_account_iv_more));
         iv_more.setVisibility(View.GONE);
-        ImageView iv_title = (ImageView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_iv_title));
-        iv_title.setImageResource(ResourceUtil.getDrawableId(mActivity, KR.drawable.ch_register));
+        iv_title = (ImageView) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_iv_title));
+        iv_title.setImageResource(ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_register_title));
         // 输入框
-        TextView ch_bindphone_account = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_bindphone_account));
-        ch_bindphone_account.setText(KR.string.ch_bind_phone_account);
-        ch_bindphone_account.setTextColor(Color.parseColor("#9a9a9a"));
-        TextView ch_bindphone_password = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_bindphone_password));
-        ch_bindphone_password.setText(KR.string.ch_bind_phone_password);
-        ch_bindphone_password.setSingleLine();
-        ch_bindphone_password.setTextColor(Color.parseColor("#9a9a9a"));
+        TextView splus_login_account_title = (TextView) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_account_title));
+        splus_login_account_title.setText(KR.string.splus_login_account_title);
+        splus_login_account_title.setTextColor(Color.parseColor("#9a9a9a"));
+        TextView splus_login_password_title = (TextView) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_password_title));
+        splus_login_password_title.setText(KR.string.splus_login_password_title);
+        splus_login_password_title.setSingleLine();
+        splus_login_password_title.setTextColor(Color.parseColor("#9a9a9a"));
     }
 
     private void setListener() {
@@ -200,7 +200,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
             }
         });
 
-        ch_login_back.setOnClickListener(new View.OnClickListener() {
+        splus_login_back.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -237,7 +237,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                 CommonUtil.setEditTextInputTypeAndMaxlength(s, 20);
             }
         });
-        et_userPwd.addTextChangedListener(new TextWatcher() {
+        et_password.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -256,7 +256,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                 if (!TextUtils.isEmpty(text)) {
                     int lenght = text.length();
                     if (lenght >= 21) {
-                        et_userPwd.setText(text.subSequence(0, lenght - 1));
+                        et_password.setText(text.subSequence(0, lenght - 1));
                     }
                 }
             }
@@ -282,7 +282,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
      */
     private void register() {
         mPassport = et_userName.getText().toString().trim();
-        mPassword = et_userPwd.getText().toString().trim();
+        mPassword = et_password.getText().toString().trim();
         if (!cb_agreeClause.isChecked()) {
             clickActionedEnableCompons();
             ToastUtil.showToast(mActivity, "请勾选“37wan用户服务条款”");
@@ -379,8 +379,8 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                     if (et_userName != null) {
                         et_userName.setText(null);
                     }
-                    if (et_userPwd != null) {
-                        et_userPwd.setText(null);
+                    if (et_password != null) {
+                        et_password.setText(null);
                     }
                 } else if (paramObject != null && paramObject.getInt("code") == 9) {
                     ToastUtil.showToast(mActivity, msg);
@@ -388,8 +388,8 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                     if (et_userName != null) {
                         et_userName.setText(null);
                     }
-                    if (et_userPwd != null) {
-                        et_userPwd.setText(null);
+                    if (et_password != null) {
+                        et_password.setText(null);
                     }
                 } else if (paramObject != null && paramObject.getInt("code") == 16) {
                     ToastUtil.showToast(mActivity, msg);
@@ -397,8 +397,8 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                     if (et_userName != null) {
                         et_userName.setText(null);
                     }
-                    if (et_userPwd != null) {
-                        et_userPwd.setText(null);
+                    if (et_password != null) {
+                        et_password.setText(null);
                     }
                 } else {
                     // 回调 注册失败
@@ -466,7 +466,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         iv_close.setEnabled(false);
         tv_agreeClause.setEnabled(false);
         btn_login.setEnabled(false);
-        ch_login_back.setEnabled(false);
+        splus_login_back.setEnabled(false);
     }
 
     /**
@@ -505,15 +505,14 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
      */
     private View getmDialogView() {
 
-        mDialogClauseView = CommonUtil.createCustomView(mActivity, KR.layout.ch_loginclause_dialog);
+        mDialogClauseView = CommonUtil.createCustomView(mActivity, KR.layout.splus_register_clause_dialog);
         TextView content = (TextView) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_clause_dialog_tv_content));
-        content.setText(Html.fromHtml(KR.string.ch_reg_clause_tips));
-        TextView ch_login_clause_dialog_btn_agree = (TextView) mDialogClauseView
-                .findViewById(ResourceUtil.getId(mActivity, KR.id.ch_login_clause_dialog_btn_agree));
-        ch_login_clause_dialog_btn_agree.setText(KR.string.ch_login_clause_dialog_btn_agree);
+                KR.id.splus_register_clause_dialog_tv_content));
+        content.setText(Html.fromHtml(KR.string.splus_register_clause_tips));
+
         Button button = (Button) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity,
-                KR.id.ch_login_clause_dialog_btn_agree));
+                KR.id.splus_register_clause_dialog_btn_agree));
+        button.setText(KR.string.splus_register_clause_dialog_btn_agree);
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -526,9 +525,9 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                 }
             }
         });
-        ImageView ch_login_clause_dialog_iv_close = (ImageView) mDialogClauseView
-                .findViewById(ResourceUtil.getId(mActivity, KR.id.ch_login_clause_dialog_iv_close));
-        ch_login_clause_dialog_iv_close.setOnClickListener(new View.OnClickListener() {
+        ImageView splus_login_clause_dialog_iv_close = (ImageView) mDialogClauseView
+                .findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_iv_close));
+        splus_login_clause_dialog_iv_close.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -577,8 +576,8 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
 
             tv_agreeClause.setEnabled(true);
         }
-        if (ch_login_back != null) {
-            ch_login_back.setEnabled(true);
+        if (splus_login_back != null) {
+            splus_login_back.setEnabled(true);
         }
     }
 

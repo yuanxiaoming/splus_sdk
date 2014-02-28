@@ -12,6 +12,7 @@ package com.android.splus.sdk.utils;
 
 import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.phone.Phoneuitl;
+import com.android.splus.sdk.utils.r.ResourceUtil;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -19,6 +20,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.text.Editable;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 
@@ -165,5 +168,20 @@ public class CommonUtil {
         LayoutParams dialogClauseparams = new LayoutParams(width, height);
         dialogClauseparams.gravity = gravity;
         return dialogClauseparams;
+    }
+
+    /**
+     * getmDialogClauseView(法律声明合同的视图) (这里描述这个方法适用条件 – 可选)
+     *
+     * @param context
+     * @param addViewToDialog
+     * @return View
+     * @exception
+     * @since 1.0.0 xiaoming.yuan
+     */
+    public static View createCustomView(Context context, String resourceId) {
+        View dialogClauseView = LayoutInflater.from(context).inflate(
+                ResourceUtil.getLayoutId(context, resourceId), null);
+        return dialogClauseView;
     }
 }
