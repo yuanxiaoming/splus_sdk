@@ -130,9 +130,9 @@ public class LoginAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(
-                    ResourceUtil.getLayoutId(mContext, KR.layout.splus_login_dropdown_item), null);
+                    ResourceUtil.getLayoutId(mContext, KR.layout.splus_login_dropdown_item_layout), null);
             holder.ll = (LinearLayout) convertView.findViewById(ResourceUtil.getId(mContext,
-                    KR.id.splus_login_dropdown_ll));
+                    KR.id.splus_login_dropdown_layout));
             holder.ll.setFocusable(false);
             holder.btn = (ImageView) convertView.findViewById(ResourceUtil.getId(mContext,
                     KR.id.splus_login_dropdown_delete));

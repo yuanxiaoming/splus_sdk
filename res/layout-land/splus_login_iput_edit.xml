@@ -5,6 +5,7 @@
     android:background="@drawable/splus_login_input_background"
     android:layout_gravity="center"
     android:gravity="center"
+    android:padding="0dp"
     android:orientation="vertical" >
 
     <FrameLayout

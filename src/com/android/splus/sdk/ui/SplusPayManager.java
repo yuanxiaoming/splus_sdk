@@ -34,6 +34,7 @@ import com.android.splus.sdk.utils.md5.MD5Util;
 import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
+import com.android.splus.sdk.widget.SplashPage;
 
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
@@ -68,6 +69,8 @@ public class SplusPayManager implements IPayManager {
     private static SplusPayManager mManager;
 
     private static byte[] lock = new byte[0];
+
+    private static byte[] lock1 = new byte[0];
 
     private static final int INIT_SUCCESS = 0;
 
@@ -105,8 +108,6 @@ public class SplusPayManager implements IPayManager {
 
     /** 初始化最短等待时间 **/
     private final int mWaitTime = 3500;
-
-    // private LoginDialog mLoginDialog;
 
     private Integer mGameid;
 
@@ -198,18 +199,17 @@ public class SplusPayManager implements IPayManager {
     @Override
     public void init(Activity activity, String appkey, InitCallBack initCallBack,
             boolean useUpdate, int screenType) {
-
         mStartTime = DateUtil.getCurrentTimestamp();
         if (initCallBack == null) {
             LogHelper.i(TAG, "InitCallBack参数不能为空");
             return;
         }
-        if (mActivity == null) {
+        if (activity == null) {
             LogHelper.i(TAG, "Activity参数不能为空");
             initCallBack.initFaile("Activity参数不能为空");
             return;
         } else {
-            if (!(mActivity instanceof Activity)) {
+            if (!(activity instanceof Activity)) {
                 LogHelper.i(TAG, "参数Activity不是一个Activity的实例");
                 initCallBack.initFaile("参数Activity不是一个Activity的实例");
                 return;
@@ -218,7 +218,7 @@ public class SplusPayManager implements IPayManager {
         this.mActivity = activity;
         // 加入Loading页面
         mDecorView = (ViewGroup) activity.getWindow().getDecorView();
-        // mView = new WelcomePage(getContext());
+        mView = new SplashPage(getContext());
         mDecorView.addView(mView);
         mView.requestFocus();
         if (TextUtils.isEmpty(appkey)) {
@@ -253,7 +253,7 @@ public class SplusPayManager implements IPayManager {
         this.mAppkey = appkey;
         this.mInitCallBack = initCallBack;
         this.mUseUpdate = useUpdate;
-        // this.mLoginDialog = null;
+        this.mLoginDialog = null;
         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(activity, appkey, false);
         getGameConfig(activity, initCallBack);
 
@@ -346,6 +346,7 @@ public class SplusPayManager implements IPayManager {
                     if (mInitCallBack != null) {
                         mInitCallBack.initSuccess("初始化成功！", mUpdateInfo);
                     }
+                    break;
                 case INIT_START:
                     repeatInit();
                     break;
@@ -433,9 +434,9 @@ public class SplusPayManager implements IPayManager {
                 mUpdateInfo = activeData.getUpdateInfo();
                 setInitStatus(true);
                 if (mUseUpdate) {
-                     Intent intent = new Intent(getContext(),UpdateActivity.class);
-                     intent.putExtra(INTENT_TYPE, INTENT_UPDATE);
-                     getContext().startActivity(intent);
+                    Intent intent = new Intent(getContext(), UpdateActivity.class);
+                    intent.putExtra(INTENT_TYPE, INTENT_UPDATE);
+                    getContext().startActivity(intent);
                 } else {
                     onInitSuccess();
                 }
@@ -532,12 +533,11 @@ public class SplusPayManager implements IPayManager {
                 }
                 if (mInited) {
                     // 初始化成功，自动选择一键注册界面或者是注册界面。
-                    if (AccountObservable.getInstance().getAllUserData().size() >= 0) {
+                    if (AccountObservable.getInstance().getAllUserData().size() >0) {
                         payManagerHandler.sendEmptyMessage(LOGIN_SUCCESS);
                     } else {
                         if (mNewDevice) {
                             payManagerHandler.sendEmptyMessage(REGISTER_SUCCESS);
-
                         } else {
                             payManagerHandler.sendEmptyMessage(LOGIN_SUCCESS);
                         }
@@ -560,7 +560,7 @@ public class SplusPayManager implements IPayManager {
         if (mLoginDialog != null && mLoginDialog.isShowing()) {
             return;
         } else {
-            synchronized (lock) {
+            synchronized (lock1) {
                 if (getContext() != null) {
                     mLoginDialog = new LoginDialog(getContext(), LoginView.class.getSimpleName());
                     mLoginDialog.show();
@@ -579,7 +579,7 @@ public class SplusPayManager implements IPayManager {
         if (mLoginDialog != null && mLoginDialog.isShowing()) {
             return;
         } else {
-            synchronized (lock) {
+            synchronized (lock1) {
                 if (getContext() != null) {
                     mLoginDialog = new LoginDialog(getContext(), RegisterView.class.getSimpleName());
                     mLoginDialog.show();
@@ -692,8 +692,6 @@ public class SplusPayManager implements IPayManager {
     public void setDBUG(boolean logDbug) {
     }
 
-
-
     /**
      * 摧毁实例 改变登录状态
      *
@@ -705,7 +703,6 @@ public class SplusPayManager implements IPayManager {
                 SplusPayManager.getInstance().getAppkey(), false);
         this.mActivity = null;
     }
-
 
     /**
      * @Title: getContext(获取上下文)

@@ -68,7 +68,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
 
     private Dialog mDialogClause;// 条款对话框
 
-    private FrameLayout.LayoutParams mDialogClauseparams;
+    private FrameLayout.LayoutParams mDialogClauseparams;// 条款对话框参数
 
     private EditText et_userName, et_password;
 
@@ -96,9 +96,13 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
 
     private Activity mActivity;
 
-    long mClickTime = 0;
+    private long mClickTime = 0;
 
     private LoginDialog mAlertDialog;
+
+    private static final String EASY_REGISTER="1";
+
+    private static final String COMMON_REGISTER="0";
 
     /**
      * 创建一个新的实例 RegisterView.
@@ -118,8 +122,6 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
     }
 
     private void findViewById() {
-        // To change body of implemented methods use File | Settings | File
-        // Templates.
         // 返回
         splus_login_back = (ImageView) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_login_back));
@@ -172,7 +174,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                 if (isQuickClick()) {
                     return;
                 }
-                disenableCompon();
+                clickDisableCompons();
                 register();
 
             }
@@ -185,7 +187,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                 if (isQuickClick()) {
                     return;
                 }
-                disenableCompon();
+                clickDisableCompons();
                 showClause();
 
             }
@@ -198,8 +200,8 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                 if (isQuickClick()) {
                     return;
                 }
-                disenableCompon();
-                mAlertDialog.dismiss();
+                clickDisableCompons();
+                closeDialog(mAlertDialog);
                 clickActionedEnableCompons();
                 onBackPressed();
             }
@@ -212,9 +214,8 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                 if (isQuickClick()) {
                     return;
                 }
-                disenableCompon();
-                // 切换回登陆界面
-                (mAlertDialog).changeView(LoginView.class.getSimpleName());
+                clickDisableCompons();
+                mAlertDialog.changeView(LoginView.class.getSimpleName());
                 requestFocus();
                 // 隐藏键盘
                 View focus = RegisterView.this.findFocus();
@@ -222,7 +223,6 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                         .hideSoftInputFromWindow(focus.getWindowToken(),
                                 InputMethodManager.HIDE_NOT_ALWAYS);
                 clickActionedEnableCompons();
-
             }
         });
         et_userName.addTextChangedListener(new TextWatcher() {
@@ -290,7 +290,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         mPassword = et_password.getText().toString().trim();
         if (!cb_agreeClause.isChecked()) {
             clickActionedEnableCompons();
-            ToastUtil.showToast(mActivity, "请勾选“37wan用户服务条款”");
+            ToastUtil.showToast(mActivity, "请勾选“用户服务条款”");
             return;
         }
         if (mPassport.equals("") || null == mPassport) {
@@ -336,7 +336,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                     time,
                     CommonUtil.getDebug(),
                     MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()),
-                    "1");// 一键注册
+                    EASY_REGISTER);// 一键注册
         } else {
             mRegisterModel = new RegisterModel(
                     SplusPayManager.getInstance().getGameid(),
@@ -348,7 +348,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                     time,
                     CommonUtil.getDebug(),
                     MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()),
-                    "0");// 普通注册
+                    COMMON_REGISTER);// 普通注册
         }
         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                 SplusPayManager.getInstance().getAppkey(), false);
@@ -388,9 +388,11 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                         //登录状态
                         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                                 SplusPayManager.getInstance().getAppkey(), true);
+                        closeDialog(mAlertDialog);
                         // 登陆成功，弹出悬浮欢迎框
                         ToastUtil.showPassportToast(mActivity, mPassport);
                         ExitAppUtils.getInstance().exit();
+
                         if (mRegisterCallBack != null) {
                             LogHelper.i(TAG, "注册成功");
                             mRegisterCallBack.loginSuccess(userModel);
@@ -485,29 +487,6 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         NetHttpUtil.getDataFromServerPOST(mActivity, mRequestModel, callBack);
     }
 
-    /**
-     * isQuickClick(低于400ms，判断是快速点击) (这里描述这个方法适用条件 – 可选)
-     *
-     * @return boolean
-     * @exception
-     * @since 1.0.0 xiaoming.yuan
-     */
-    private synchronized boolean isQuickClick() {
-        long current = System.currentTimeMillis();
-        if (current - mClickTime < 400) {
-            mClickTime = current;
-            return true;
-        }
-        mClickTime = current;
-        return false;
-    }
-
-    private void disenableCompon() {
-        iv_close.setEnabled(false);
-        tv_agreeClause.setEnabled(false);
-        btn_login.setEnabled(false);
-        splus_login_back.setEnabled(false);
-    }
 
     /**
      * 显示服务条款 showClause(显示服务条款) (这里描述这个方法适用条件 – 可选) void
@@ -567,7 +546,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
             }
         });
         ImageView splus_login_clause_dialog_iv_close = (ImageView) mDialogClauseView
-                .findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_iv_close));
+                .findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_clause_iv_close));
         splus_login_clause_dialog_iv_close.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -599,28 +578,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         return mDialogClauseparams;
     }
 
-    /**
-     * clickActionedEnableCompons(点击动作完成，恢复控件功能) (这里描述这个方法适用条件 – 可选) void
-     *
-     * @exception
-     * @since 1.0.0 xiaoming.yuan
-     */
-    private void clickActionedEnableCompons() {
-        if (btn_login != null) {
-            btn_login.setEnabled(true);
-        }
-        if (iv_close != null) {
 
-            iv_close.setEnabled(true);
-        }
-        if (tv_agreeClause != null) {
-
-            tv_agreeClause.setEnabled(true);
-        }
-        if (splus_login_back != null) {
-            splus_login_back.setEnabled(true);
-        }
-    }
 
     protected void showProgressDialog() {
         if (!(mAlertDialog != null && mAlertDialog.isShowing())) {
@@ -711,4 +669,80 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
     public void recoveryState() {
         processLogic();
     }
+
+    /**
+     *
+     * @Title: closeDialog(关闭对话框)
+     * @author xiaoming.yuan
+     * @data 2014-3-3 下午3:46:11
+     * @param dialog
+     * void 返回类型
+     */
+    private void closeDialog(Dialog dialog) {
+        if (dialog != null && dialog.isShowing()) {
+            try {
+                dialog.dismiss();
+            } catch (Exception e) {
+                LogHelper.d(TAG, e.getMessage());
+            }
+
+        }
+    }
+
+    /**
+     * isQuickClick(低于400ms，判断是快速点击) (这里描述这个方法适用条件 – 可选)
+     *
+     * @return boolean
+     * @exception
+     * @since 1.0.0 xilin.chen
+     */
+    private synchronized boolean isQuickClick() {
+        long current = System.currentTimeMillis();
+        if (current - mClickTime < 400) {
+            mClickTime = current;
+            return true;
+        }
+        mClickTime = current;
+        return false;
+    }
+
+
+    /**
+     *
+     * @Title: disEnableCompon(组件不可用)
+     * @author xiaoming.yuan
+     * @data 2014-3-3 下午3:48:39
+     * void 返回类型
+     */
+    private void clickDisableCompons() {
+        iv_close.setEnabled(false);
+        tv_agreeClause.setEnabled(false);
+        btn_login.setEnabled(false);
+        splus_login_back.setEnabled(false);
+    }
+
+    /**
+     *
+     * @Title: clickActionedEnableCompons(点击动作完成，恢复控件功能)
+     * @author xiaoming.yuan
+     * @data 2014-3-3 下午3:51:19
+     * void 返回类型
+     */
+    private void clickActionedEnableCompons() {
+        if (btn_login != null) {
+            btn_login.setEnabled(true);
+        }
+        if (iv_close != null) {
+
+            iv_close.setEnabled(true);
+        }
+        if (tv_agreeClause != null) {
+
+            tv_agreeClause.setEnabled(true);
+        }
+        if (splus_login_back != null) {
+            splus_login_back.setEnabled(true);
+        }
+    }
+
 }

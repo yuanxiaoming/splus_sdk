@@ -55,7 +55,7 @@ public final class KR {
 
         public static final String splus_login_btn_login = "splus_login_btn_login";// 登陆
 
-        public static final String splus_login_dropdown_ll = "splus_login_dropdown_ll";// 注册下拉视图
+        public static final String splus_login_dropdown_layout = "splus_login_dropdown_layout";// 注册下拉视图
 
         public static final String splus_login_dropdown_text = "splus_login_dropdown_text";// 账号下拉菜单
 
@@ -71,7 +71,6 @@ public final class KR {
 
         public static final String splus_login_iv_close = "splus_login_iv_close";// 右上角关闭图片
 
-        public static final String splus_login_welcome_tv_info = "splus_login_welcome_tv_info";// 登录成功显示账号
 
 
         /**注册**/
@@ -79,6 +78,7 @@ public final class KR {
         public static final String  splus_register_tv_agreeClause = "splus_register_tv_agreeClause";
         public static final String  splus_register_clause_dialog_tv_content = "splus_register_clause_dialog_tv_content";
         public static final String  splus_register_clause_dialog_btn_agree = "splus_register_clause_dialog_btn_agree";
+        public static final String  splus_login_clause_iv_close = "splus_login_clause_iv_close";
 
 
 
@@ -99,9 +99,7 @@ public final class KR {
          */
         public static final String splus_login_activity = "splus_login_activity";
 
-//        public static final String splus_login_welcome = "splus_login_welcome";// 欢迎
-
-        public static final String splus_login_dropdown_item = "splus_login_dropdown_item";
+        public static final String splus_login_dropdown_item_layout = "splus_login_dropdown_item_layout";
 
         public static final String splus_login_title = "splus_login_title";// 顶部布局
 
@@ -127,6 +125,10 @@ public final class KR {
         public static final String splus_login_success_toast_background = "splus_login_success_toast_background";
 
         public static final String splus_login_success_toast_logo = "splus_login_success_toast_logo";
+
+        public static final String splus_splash_loading = "splus_splash_loading";
+
+        public static final String splus_splash_background = "splus_splash_background";
     }
 
     public static final class dimen {

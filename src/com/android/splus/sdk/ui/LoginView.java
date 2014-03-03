@@ -34,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.text.Editable;
@@ -95,10 +96,9 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
 
     private Activity mActivity;
 
-    private long mClickTime = 0;
-
     private LoginDialog mAlertDialog;
 
+    private long mClickTime = 0;
     /**
      * 创建一个新的实例 LoginView.
      *
@@ -179,10 +179,9 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                     return;
                 }
                 clickDisableCompons();
+                // 发送一键注册 请求
                 mAlertDialog.changeView(RegisterView.class.getSimpleName());
                 clickActionedEnableCompons();
-                // 发送一键注册 请求
-
             }
         });
 
@@ -248,7 +247,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
             public void onClick(View v) {
                 if (isQuickClick()) {
                     return;
-                } else if (popView != null) {
+                }else if (popView != null) {
                     if (!popView.isShowing() && (mAllUsers != null && mAllUsers.size() > 0)) {
                         // 如果有已经登录过账号
                         initPopView();
@@ -267,8 +266,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                     return;
                 }
                 clickDisableCompons();
-                mAlertDialog.dismiss();
-                clickActionedEnableCompons();
+                closeDialog(mAlertDialog);
                 clickActionedEnableCompons();
             }
         });
@@ -345,7 +343,6 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
         if (mPassword.equals(mPassport)) {
             clickActionedEnableCompons();
             ToastUtil.showToast(mActivity, "账号和密码不能一样!!!");
-
             return;
         }
         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
@@ -359,7 +356,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
 
         mLoginData = new LoginModel(SplusPayManager.getInstance().getGameid(), deviceno,
                 SplusPayManager.getInstance().getPartner(), SplusPayManager.getInstance()
-                        .getReferer(), mPassport, mPassword, time, CommonUtil.getDebug(),
+                .getReferer(), mPassport, mPassword, time, CommonUtil.getDebug(),
                 MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()));
         getDataFromServer(new RequestModel(Constant.LOGIN_URL, mActivity, mLoginData,
                 new LoginParser()), onLoginCallBack);
@@ -400,6 +397,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                         //登录状态
                         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                                 SplusPayManager.getInstance().getAppkey(), true);
+                        closeDialog(mAlertDialog);
                         ToastUtil.showPassportToast(mActivity, mPassport);
                         ExitAppUtils.getInstance().exit();
                         if (mLoginCallBack != null) {
@@ -472,50 +470,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
         return true;
     }
 
-    private synchronized boolean isQuickClick() {
-        long current = System.currentTimeMillis();
-        if (current - mClickTime < 400) {
-            mClickTime = current;
-            return true;
-        }
-        mClickTime = current;
-        return false;
-    }
 
-    /**
-     * clickDisableCompons(当点击动作发生，禁用其他控件功能，防止频繁点击) (这里描述这个方法适用条件 – 可选) void
-     *
-     * @exception
-     * @since 1.0.0 xiaoming.yuan
-     */
-
-    private void clickDisableCompons() {
-        btn_login.setEnabled(false);
-        btn_register.setEnabled(false);
-        tv_fortgetPwd.setEnabled(false);
-        iv_more.setEnabled(false);
-    }
-
-    /**
-     * clickActionedEnableCompons(当点击动作完成了恢复控件功能) (这里描述这个方法适用条件 – 可选) void
-     *
-     * @exception
-     * @since 1.0.0 xiaoming.yuan
-     */
-    private void clickActionedEnableCompons() {
-        if (btn_register != null) {
-            btn_register.setEnabled(true);
-        }
-        if (tv_fortgetPwd != null) {
-            tv_fortgetPwd.setEnabled(true);
-        }
-        if (iv_more != null) {
-            iv_more.setEnabled(true);
-        }
-        if (btn_login != null) {
-            btn_login.setEnabled(true);
-        }
-    }
 
     private void initPopView() {
         ListView listView = new ListView(mActivity);
@@ -651,6 +606,79 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
             if (popView != null && popView.isShowing()) {
                 popView.dismiss();
             }
+        }
+    }
+
+    /**
+     *
+     * @Title: closeDialog(关闭对话框)
+     * @author xiaoming.yuan
+     * @data 2014-3-3 下午3:58:53
+     * @param dialog
+     * void 返回类型
+     */
+    private void closeDialog(Dialog dialog) {
+        if (dialog != null && dialog.isShowing()) {
+            try {
+                dialog.dismiss();
+            } catch (Exception e) {
+                LogHelper.d(TAG, e.getMessage());
+            }
+
+        }
+    }
+
+    /**
+     * isQuickClick(低于400ms，判断是快速点击) (这里描述这个方法适用条件 – 可选)
+     *
+     * @return boolean
+     * @exception
+     * @since 1.0.0 xilin.chen
+     */
+    private synchronized boolean isQuickClick() {
+        long current = System.currentTimeMillis();
+        if (current - mClickTime < 400) {
+            mClickTime = current;
+            return true;
+        }
+        mClickTime = current;
+        return false;
+    }
+
+
+    /**
+     *
+     * @Title: disEnableCompon(组件不可用)
+     * @author xiaoming.yuan
+     * @data 2014-3-3 下午3:48:39
+     * void 返回类型
+     */
+    private void clickDisableCompons() {
+        btn_login.setEnabled(false);
+        btn_register.setEnabled(false);
+        tv_fortgetPwd.setEnabled(false);
+        iv_more.setEnabled(false);
+    }
+
+    /**
+     *
+     * @Title: clickActionedEnableCompons(点击动作完成，恢复控件功能)
+     * @author xiaoming.yuan
+     * @data 2014-3-3 下午3:51:19
+     * void 返回类型
+     */
+    private void clickActionedEnableCompons() {
+        if (btn_register != null) {
+            btn_register.setEnabled(true);
+        }
+        if (tv_fortgetPwd != null) {
+            tv_fortgetPwd.setEnabled(true);
+        }
+        if (iv_more != null) {
+            iv_more.setEnabled(true);
+        }
+        if (btn_login != null) {
+            btn_login.setEnabled(true);
         }
     }
 
