@@ -13,6 +13,7 @@ package com.android.splus.sdk.ui;
 
 import com.android.splus.sdk.apiinterface.LoginCallBack;
 import com.android.splus.sdk.manager.AccountObservable;
+import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.RegisterModel;
 import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.parse.LoginParser;
@@ -71,7 +72,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
 
     private EditText et_userName, et_password;
 
-    private ImageView iv_close,iv_more, iv_title;
+    private ImageView iv_close, iv_more, iv_title;
 
     private Button btn_login;
 
@@ -120,18 +121,21 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         // To change body of implemented methods use File | Settings | File
         // Templates.
         // 返回
-        splus_login_back = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_back));
+        splus_login_back = (ImageView) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_back));
         splus_login_back.setVisibility(View.VISIBLE);
         et_userName = (EditText) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_login_et_username));
         et_password = (EditText) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_login_et_userpassword));
-        iv_close = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_iv_close));
+        iv_close = (ImageView) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_iv_close));
         tv_agreeClause = (ScrollForeverTextView) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_register_tv_agreeClause));
         tv_agreeClause.setText(Html.fromHtml("同意<u>" + KR.string.splus_register_tv_agreeClause_text
                 + "</u>"));// 同意条款
-        btn_login = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_btn_login));
+        btn_login = (Button) findViewById(ResourceUtil
+                .getId(mActivity, KR.id.splus_login_btn_login));
         btn_login.setText(KR.string.splus_login_btn_text);
         cb_agreeClause = (CheckBox) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_register_agreeClause_checkbox));
@@ -141,12 +145,13 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         et_password.setHint(KR.string.splus_login_et_userpassword_hint);
         et_password.setHintTextColor(Color.parseColor("#c1c1c1"));
 
-         iv_more = (ImageView) findViewById(ResourceUtil.getId(mActivity,
+        iv_more = (ImageView) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_login_account_iv_more));
         iv_more.setVisibility(View.GONE);
         iv_title = (ImageView) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_login_iv_title));
-        iv_title.setImageResource(ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_register_title));
+        iv_title.setImageResource(ResourceUtil.getDrawableId(mActivity,
+                KR.drawable.splus_register_title));
         // 输入框
         TextView splus_login_account_title = (TextView) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_login_account_title));
@@ -208,7 +213,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                     return;
                 }
                 disenableCompon();
-                //  切换回登陆界面
+                // 切换回登陆界面
                 (mAlertDialog).changeView(LoginView.class.getSimpleName());
                 requestFocus();
                 // 隐藏键盘
@@ -265,10 +270,10 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
 
     private void processLogic() {
         // 如果是新设备，则显示为 一键注册的账号
-        if (CHPayManager.getInstance().isNewDevice()) {
-            et_userName.setText(CHPayManager.getInstance().getEasyRegisterUserName());
+        if (SplusPayManager.getInstance().isNewDevice()) {
+            et_userName.setText(SplusPayManager.getInstance().getEasyRegisterUserName());
         }
-        mRegisterCallBack = CHPayManager.getInstance().getLoginCallBack();
+        mRegisterCallBack = SplusPayManager.getInstance().getLoginCallBack();
         if (cb_agreeClause != null) {
             cb_agreeClause.setChecked(true);
         }
@@ -316,23 +321,37 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         }
         String deviceno = getDeviceno();
         Long time = DateUtil.getUnixTime();
-        String keyString = CHPayManager.getInstance().getGameid() + deviceno
-                + CHPayManager.getInstance().getReferer() + CHPayManager.getInstance().getPartner()
-                + mPassport + mPassword + time;
-        if (CHPayManager.getInstance().isNewDevice()
-                && mPassport.equals(CHPayManager.getInstance().getEasyRegisterUserName())) {
-            mRegisterModel = new RegisterModel(CHPayManager.getInstance().getGameid(), deviceno,
-                    CHPayManager.getInstance().getPartner(), CHPayManager.getInstance().getReferer(),
-                    mPassport, mPassword, time, CommonUtil.getDebug(), MD5Util.getMd5toLowerCase(keyString
-                            + CHPayManager.getInstance().getAppkey()), "1");// 一键注册
+        String keyString = SplusPayManager.getInstance().getGameid() + deviceno
+                + SplusPayManager.getInstance().getReferer()
+                + SplusPayManager.getInstance().getPartner() + mPassport + mPassword + time;
+        if (SplusPayManager.getInstance().isNewDevice()
+                && mPassport.equals(SplusPayManager.getInstance().getEasyRegisterUserName())) {
+            mRegisterModel = new RegisterModel(
+                    SplusPayManager.getInstance().getGameid(),
+                    deviceno,
+                    SplusPayManager.getInstance().getPartner(),
+                    SplusPayManager.getInstance().getReferer(),
+                    mPassport,
+                    mPassword,
+                    time,
+                    CommonUtil.getDebug(),
+                    MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()),
+                    "1");// 一键注册
         } else {
-            mRegisterModel = new RegisterModel(CHPayManager.getInstance().getGameid(), deviceno,
-                    CHPayManager.getInstance().getPartner(), CHPayManager.getInstance().getReferer(),
-                    mPassport, mPassword, time, CommonUtil.getDebug(), MD5Util.getMd5toLowerCase(keyString
-                            + CHPayManager.getInstance().getAppkey()), "0");// 普通注册
+            mRegisterModel = new RegisterModel(
+                    SplusPayManager.getInstance().getGameid(),
+                    deviceno,
+                    SplusPayManager.getInstance().getPartner(),
+                    SplusPayManager.getInstance().getReferer(),
+                    mPassport,
+                    mPassword,
+                    time,
+                    CommonUtil.getDebug(),
+                    MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()),
+                    "0");// 普通注册
         }
         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
-                CHPayManager.getInstance().getAppkey(), false);
+                SplusPayManager.getInstance().getAppkey(), false);
         // 一键注册 时注册接口
         getDataFromServer(new RequestModel(Constant.REGISTER_URL, mActivity, mRegisterModel,
                 new LoginParser()), onRegisterCallBack);
@@ -345,31 +364,43 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
             try {
                 closeProgressDialog();
                 clickActionedEnableCompons();
-                String msg = paramObject.getString("msg");
-                if (paramObject != null && paramObject.getInt("code") == 1) {
+                String msg = paramObject.optString("msg");
+                if (paramObject != null && paramObject.optInt("code") == 1) {
+                    JSONObject jsonObject = paramObject.optJSONObject("data");
+                    String sessionid = jsonObject.optString("sessionid");
 
-                    String sessionid = paramObject.getJSONObject("data").getString("sessionid");
+                    int uid = jsonObject.optInt("uid");
 
-                    int uid = paramObject.getJSONObject("data").getInt("uid");
+                    int time = jsonObject.optInt("time");
 
-                    int time = paramObject.getJSONObject("data").getInt("time");
-
-                    String sign = paramObject.getJSONObject("data").getString("sign");
+                    String sign = jsonObject.optString("sign");
 
                     if (sign.equals(MD5Util.getMd5toLowerCase(sessionid + uid + time
-                            + CHPayManager.getInstance().getAppkey()))) {
+                            + SplusPayManager.getInstance().getAppkey()))) {
 
-                        UserModel userModel = new UserModel(uid, mPassport, mPassword, sessionid, time,
-                                Boolean.valueOf(true));
+                        UserModel userModel = new UserModel(uid, mPassport, mPassword, sessionid,
+                                time, Boolean.valueOf(true));
                         // 保存用户数据
-                        CHPayManager.getInstance().setUserData(userModel);
+                        SplusPayManager.getInstance().setUserData(userModel);
                         AccountObservable.getInstance().addUser(userModel);
-                        LogHelper.i(TAG, "注册成功");
                         // 登陆成功，默认不再是新设备。
-                        CHPayManager.getInstance().setNewDevice(false);
-//                        BindPhoneDialog.getInstance(mActivity).getBindStatusFromServer(
-//                                mProgressDialog, mAlertDialog);
+                        SplusPayManager.getInstance().setNewDevice(false);
+                        //登录状态
+                        SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
+                                SplusPayManager.getInstance().getAppkey(), true);
+                        // 登陆成功，弹出悬浮欢迎框
+                        ToastUtil.showPassportToast(mActivity, mPassport);
+                        ExitAppUtils.getInstance().exit();
+                        if (mRegisterCallBack != null) {
+                            LogHelper.i(TAG, "注册成功");
+                            mRegisterCallBack.loginSuccess(userModel);
+                            // BindPhoneDialog.getInstance(mActivity).getBindStatusFromServer(
+                            // mProgressDialog, mAlertDialog);
+                        }
                     } else {
+                        if (mRegisterCallBack != null) {
+                            mRegisterCallBack.loginFaile(msg);
+                        }
                         LogHelper.i(TAG, msg);
                         ToastUtil.showToast(mActivity, "注册失败");
                     }
@@ -382,6 +413,9 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                     if (et_password != null) {
                         et_password.setText(null);
                     }
+                    if (mRegisterCallBack != null) {
+                        mRegisterCallBack.loginFaile(msg);
+                    }
                 } else if (paramObject != null && paramObject.getInt("code") == 9) {
                     ToastUtil.showToast(mActivity, msg);
                     // 该账号已经存在，用户名 清空，密码清空。
@@ -391,6 +425,9 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                     if (et_password != null) {
                         et_password.setText(null);
                     }
+                    if (mRegisterCallBack != null) {
+                        mRegisterCallBack.loginFaile(msg);
+                    }
                 } else if (paramObject != null && paramObject.getInt("code") == 16) {
                     ToastUtil.showToast(mActivity, msg);
                     // 该账号已经存在，用户名 清空，密码清空。
@@ -399,6 +436,9 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                     }
                     if (et_password != null) {
                         et_password.setText(null);
+                    }
+                    if (mRegisterCallBack != null) {
+                        mRegisterCallBack.loginFaile(msg);
                     }
                 } else {
                     // 回调 注册失败
@@ -435,7 +475,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
 
     };
 
-    protected void getDataFromServer(RequestModel mRequestModel, DataCallback<JSONObject> callBack) {
+    protected <T> void getDataFromServer(RequestModel mRequestModel, DataCallback<T> callBack) {
 
         if (setIsShowProgressDialog()) {
             if (mProgressDialog == null || !mProgressDialog.isShowing()) {
@@ -505,7 +545,8 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
      */
     private View getmDialogView() {
 
-        mDialogClauseView = CommonUtil.createCustomView(mActivity, KR.layout.splus_register_clause_dialog);
+        mDialogClauseView = CommonUtil.createCustomView(mActivity,
+                KR.layout.splus_register_clause_dialog);
         TextView content = (TextView) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_register_clause_dialog_tv_content));
         content.setText(Html.fromHtml(KR.string.splus_register_clause_tips));
@@ -629,7 +670,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
      * @data 2013-8-14 下午12:33:26
      */
     protected String getPassword() {
-        UserModel userModel = CHPayManager.getInstance().getUserData();
+        UserModel userModel = SplusPayManager.getInstance().getUserData();
         if (userModel == null) {
             userModel = AppUtil.getUserData();
         }

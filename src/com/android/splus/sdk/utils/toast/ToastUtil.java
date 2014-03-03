@@ -11,9 +11,18 @@
 
 package com.android.splus.sdk.utils.toast;
 
-import com.android.splus.sdk.utils.log.LogHelper;
+import com.android.splus.sdk.utils.phone.Phoneuitl;
+import com.android.splus.sdk.utils.r.KR;
+import com.android.splus.sdk.utils.r.ResourceUtil;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.view.Gravity;
+import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -38,5 +47,49 @@ public class ToastUtil {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 
     }
+
+    /**
+     * showWelcomeToast(账号提示框) (这里描述这个方法适用条件 – 可选)
+     *
+     * @param context
+     * @param userName void
+     * @exception
+     * @since 1.0.0 xiaoming.yuan
+     */
+    public static void showPassportToast(Activity context, String userName) {
+        Toast toast = new Toast(context);
+        FrameLayout view = new FrameLayout(context);
+        FrameLayout.LayoutParams framParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(framParams);
+        view.setBackgroundResource(ResourceUtil
+                .getDrawableId(context, KR.drawable.splus_login_success_toast_background));
+        LayoutParams ivParam = new LayoutParams(LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT);
+        ivParam.gravity = Gravity.CENTER_VERTICAL;
+        ivParam.bottomMargin = 10;
+        ivParam.topMargin = 10;
+        ivParam.leftMargin = 10;
+        ivParam.rightMargin = 5;
+        ImageView iv = new ImageView(context);
+        iv.setBackgroundResource(ResourceUtil.getDrawableId(context,
+                KR.drawable.splus_login_success_toast_logo));
+        view.addView(iv, ivParam);
+        TextView tv = new TextView(context);
+        tv.setSingleLine();
+        tv.setTextSize(14);
+        tv.setTextColor(Color.WHITE);
+        tv.setText(userName + "," + "欢迎您回来！");
+        tv.setGravity(Gravity.CENTER);
+        FrameLayout.LayoutParams tvParams = new LayoutParams(Phoneuitl.getWpixels(context),
+                LayoutParams.MATCH_PARENT);
+        tvParams.gravity = Gravity.CENTER;
+        view.addView(tv, tvParams);
+        toast.setView(view);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 0);
+        toast.setDuration(5);
+        toast.show();
+    }
+
 }
 

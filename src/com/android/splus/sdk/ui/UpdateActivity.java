@@ -71,15 +71,15 @@ public class UpdateActivity extends BaseActivity {
     @Override
     protected void processLogic() {
         Intent intent = getIntent();
-        String type = intent.getStringExtra(CHPayManager.INTENT_TYPE);
-        if (CHPayManager.INTENT_LOGOUT.equals(type)) {
+        String type = intent.getStringExtra(SplusPayManager.INTENT_TYPE);
+        if (SplusPayManager.INTENT_LOGOUT.equals(type)) {
             finish();
             ExitAppUtils.getInstance().exit();
-            CHPayManager.getInstance().destroy();
+            SplusPayManager.getInstance().destroy();
             intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        } else if (CHPayManager.INTENT_UPDATE.equals(type)) {
+        } else if (SplusPayManager.INTENT_UPDATE.equals(type)) {
             String localAppVer = "1.0.0";
             try {
                 PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
@@ -87,13 +87,13 @@ public class UpdateActivity extends BaseActivity {
             } catch (NameNotFoundException e) {
                 e.printStackTrace();
             }
-            JSONObject mJSONObject = CHPayManager.getInstance().getUpdateInfo();
+            JSONObject mJSONObject = SplusPayManager.getInstance().getUpdateInfo();
             try {
-                mUptype = mJSONObject.optInt(CHPayManager.UPDATETYPE);
-                String remoteAppVer = mJSONObject.optString(CHPayManager.GAMEVERSION);
-                String updatecontent = mJSONObject.optString(CHPayManager.UPDATECONTENT);
-                String remoteSDKVer = mJSONObject.optString(CHPayManager.SDKVERSION);
-                update(localAppVer, remoteAppVer, CHPayManager.SDK_VERSION, remoteSDKVer, mUptype,
+                mUptype = mJSONObject.optInt(SplusPayManager.UPDATETYPE);
+                String remoteAppVer = mJSONObject.optString(SplusPayManager.GAMEVERSION);
+                String updatecontent = mJSONObject.optString(SplusPayManager.UPDATECONTENT);
+                String remoteSDKVer = mJSONObject.optString(SplusPayManager.SDKVERSION);
+                update(localAppVer, remoteAppVer, SplusPayManager.SDK_VERSION, remoteSDKVer, mUptype,
                         updatecontent);
             } catch (Exception e) {
                 LogHelper.i(TAG, e.getLocalizedMessage());
@@ -129,14 +129,14 @@ public class UpdateActivity extends BaseActivity {
                 || (localAppVer.trim().equals(remoteAppVer.trim()) && CommonUtil.compareVersion(
                         localSDKVer.trim(), remoteSDKVer.trim()))) {
             switch (updatetype) {
-                case CHPayManager.MUST_UPDATE:
+                case SplusPayManager.MUST_UPDATE:
                     ProgressDialogUtil.showInfoDialog(UpdateActivity.this, "版本更新", updatecontent, 0,
                             mUpdateListener, "更新", null, null, false);
                     break;
-                case CHPayManager.NO_UPDATE:
+                case SplusPayManager.NO_UPDATE:
                     finish(true);
                     break;
-                case CHPayManager.ORDINARY_UPDATE:
+                case SplusPayManager.ORDINARY_UPDATE:
                     ProgressDialogUtil.showInfoDialog(UpdateActivity.this, "版本更新", updatecontent, 0,
                             mUpdateListener, "更新", new DialogInterface.OnClickListener() {
 
@@ -173,7 +173,7 @@ public class UpdateActivity extends BaseActivity {
 
     public void finish(boolean show) {
         if (show) {
-            CHPayManager.getInstance().onInitSuccess();
+            SplusPayManager.getInstance().onInitSuccess();
         }
         super.finish();
     }

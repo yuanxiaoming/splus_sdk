@@ -97,8 +97,8 @@ public class LoginDialog extends AlertDialog{
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         lp.dimAmount = 0.0f;
-        lp.width = CHPayManager.getInstance().getmWidth();
-        lp.height = CHPayManager.getInstance().getmHeight();
+        lp.width = SplusPayManager.getInstance().getmWidth();
+        lp.height = SplusPayManager.getInstance().getmHeight();
         lp.gravity = Gravity.CENTER;
         lp.windowAnimations = android.R.style.Animation;
         window.setAttributes(lp);

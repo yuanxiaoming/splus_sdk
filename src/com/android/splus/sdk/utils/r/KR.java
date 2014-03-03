@@ -99,7 +99,7 @@ public final class KR {
          */
         public static final String splus_login_activity = "splus_login_activity";
 
-        public static final String splus_login_welcome = "splus_login_welcome";// 欢迎
+//        public static final String splus_login_welcome = "splus_login_welcome";// 欢迎
 
         public static final String splus_login_dropdown_item = "splus_login_dropdown_item";
 
@@ -121,7 +121,12 @@ public final class KR {
     public static final class drawable {
 
         public static final String splus_login_input_background = "splus_login_input_background";
+
         public static final String splus_register_title = "splus_register_title";
+
+        public static final String splus_login_success_toast_background = "splus_login_success_toast_background";
+
+        public static final String splus_login_success_toast_logo = "splus_login_success_toast_logo";
     }
 
     public static final class dimen {

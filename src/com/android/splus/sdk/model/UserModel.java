@@ -20,7 +20,7 @@ public class UserModel extends BaseModel implements UserAccount {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String TAG = "UserData";
+    private static final String TAG = "UserModel";
 
     private String passport;
 
@@ -74,7 +74,6 @@ public class UserModel extends BaseModel implements UserAccount {
         this.sessionid = sessionid;
         this.time = time;
         this.checked = checked;
-
         initMap();
         setPath(AppUtil.USER_DATA_PATH, passport);
     }

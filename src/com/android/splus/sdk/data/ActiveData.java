@@ -11,14 +11,11 @@
 
  package com.android.splus.sdk.data;
 
-import com.android.splus.sdk.ui.CHPayManager;
+import com.android.splus.sdk.ui.SplusPayManager;
 import com.android.splus.sdk.utils.log.LogHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * @ClassName: ActiveData
@@ -75,11 +72,11 @@ public class ActiveData {
         this.relationships = relationships;
         updateInfo = new JSONObject();
         try {
-            updateInfo.put(CHPayManager.UPDATETYPE, updatetype);
-            updateInfo.put(CHPayManager.SDKVERSION, sdkver);
-            updateInfo.put(CHPayManager.GAMEVERSION, gamever);
-            updateInfo.put(CHPayManager.UPDATEURL, updateurl);
-            updateInfo.put(CHPayManager.UPDATECONTENT, updatecontent);
+            updateInfo.put(SplusPayManager.UPDATETYPE, updatetype);
+            updateInfo.put(SplusPayManager.SDKVERSION, sdkver);
+            updateInfo.put(SplusPayManager.GAMEVERSION, gamever);
+            updateInfo.put(SplusPayManager.UPDATEURL, updateurl);
+            updateInfo.put(SplusPayManager.UPDATECONTENT, updatecontent);
         } catch (JSONException e) {
              LogHelper.e(TAG,"",e);
 

@@ -1,7 +1,7 @@
 
 package com.android.splus.sdk.model;
 
-import com.android.splus.sdk.ui.CHPayManager;
+import com.android.splus.sdk.ui.SplusPayManager;
 import com.android.splus.sdk.utils.md5.MD5Util;
 
 import org.json.JSONException;
@@ -39,7 +39,7 @@ public abstract class BaseModel extends HashMap<String, Object>  {
     public static final String VERSION = "version";
 
     public BaseModel(String jsonObject) {
-        this.put(VERSION, CHPayManager.SDK_VERSION);
+        this.put(VERSION, SplusPayManager.SDK_VERSION);
     }
 
     /**

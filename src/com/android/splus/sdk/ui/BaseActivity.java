@@ -4,8 +4,8 @@ package com.android.splus.sdk.ui;
 import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.utils.http.NetHttpUtil;
-import com.android.splus.sdk.utils.http.RequestModel;
 import com.android.splus.sdk.utils.http.NetHttpUtil.DataCallback;
+import com.android.splus.sdk.utils.http.RequestModel;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.widget.CustomProgressDialog;
 

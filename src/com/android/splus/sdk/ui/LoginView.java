@@ -10,6 +10,7 @@ package com.android.splus.sdk.ui;
 
 import com.android.splus.sdk.apiinterface.LoginCallBack;
 import com.android.splus.sdk.manager.AccountObservable;
+import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.LoginModel;
 import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.parse.LoginParser;
@@ -61,7 +62,7 @@ import java.util.regex.Pattern;
  *
  * @version 1.0.0
  */
-public class LoginView extends LinearLayout implements ViewRecoveryState ,Observer {
+public class LoginView extends LinearLayout implements ViewRecoveryState, Observer {
     protected final String TAG = "LoginView";
 
     private EditText et_userName, et_password;
@@ -116,7 +117,6 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
         processLogic();
         initPopView();
 
-
     }
 
     private void findViewById() {
@@ -126,10 +126,12 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
         et_password = (EditText) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_login_et_userpassword));
         et_password.setHint(KR.string.splus_login_et_userpassword_hint);
-        iv_more = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_account_iv_more));
+        iv_more = (ImageView) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_account_iv_more));
         btn_register = (Button) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_login_btn_register));
-        btn_login = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_btn_login));
+        btn_login = (Button) findViewById(ResourceUtil
+                .getId(mActivity, KR.id.splus_login_btn_login));
 
         btn_login.setText(KR.string.splus_login_btn_text);
         tv_fortgetPwd = (TextView) findViewById(ResourceUtil.getId(mActivity,
@@ -138,9 +140,10 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
         cb_remember_pwd = (CheckBox) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_login_remember_checkbox));
         cb_remember_pwd.setText(KR.string.splus_login_remember_password_text);// checkBox
-        iv_close = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_iv_close));
+        iv_close = (ImageView) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_iv_close));
 
-        iv_back = (ImageView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_login_back));
+        iv_back = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_back));
         iv_back.setVisibility(View.GONE);
         // 输入框
         TextView splus_login_account_title = (TextView) findViewById(ResourceUtil.getId(mActivity,
@@ -176,7 +179,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
                     return;
                 }
                 clickDisableCompons();
-                (mAlertDialog).changeView(RegisterView.class.getSimpleName());
+                mAlertDialog.changeView(RegisterView.class.getSimpleName());
                 clickActionedEnableCompons();
                 // 发送一键注册 请求
 
@@ -195,10 +198,12 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
                     return;
                 }
                 // 密码找回界面
-//                Intent intent = new Intent(mActivity, PersonActivity.class);
-//                intent.putExtra(PersonActivity.INTENT_TYPE, PersonActivity.INTENT_SQ);
-//                intent.putExtra(Constant.LOGIN_INTENT_USERNAME, et_userName.getText().toString());
-//                mActivity.startActivity(intent);
+                // Intent intent = new Intent(mActivity, PersonActivity.class);
+                // intent.putExtra(PersonActivity.INTENT_TYPE,
+                // PersonActivity.INTENT_SQ);
+                // intent.putExtra(Constant.LOGIN_INTENT_USERNAME,
+                // et_userName.getText().toString());
+                // mActivity.startActivity(intent);
 
             }
         });
@@ -238,15 +243,13 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
 
             }
         });
-        // To change body of implemented methods use File | Settings | File
-        // Templates.
         iv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isQuickClick()) {
                     return;
-                }else if (popView != null) {
-                    if (!popView.isShowing()&&(mAllUsers != null && mAllUsers.size() > 0)) {
+                } else if (popView != null) {
+                    if (!popView.isShowing() && (mAllUsers != null && mAllUsers.size() > 0)) {
                         // 如果有已经登录过账号
                         initPopView();
                         popView.showAsDropDown(et_userName, 0, 1);
@@ -274,7 +277,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
 
     private void processLogic() {
         // 如果是新设备，则一键注册显示为 注册
-        if (CHPayManager.getInstance().isNewDevice()) {
+        if (SplusPayManager.getInstance().isNewDevice()) {
             btn_register.setText("一键注册");
         } else {
             btn_register.setText("注册");
@@ -283,17 +286,17 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
         if (mAllUsers == null || (mAllUsers != null && mAllUsers.size() <= 1)) {
             iv_more.setVisibility(View.GONE);
         }
-        mLoginCallBack = CHPayManager.getInstance().getLoginCallBack();
+        mLoginCallBack = SplusPayManager.getInstance().getLoginCallBack();
 
         if (null == AccountObservable.getInstance().getAllUserData()
-                ||  AccountObservable.getInstance().getAllUserData().size() <= 0) {
-            if (!CHPayManager.getInstance().isNewDevice()) {
-                et_userName.setText(CHPayManager.getInstance().getEasyRegisterUserName());
+                || AccountObservable.getInstance().getAllUserData().size() <= 0) {
+            if (!SplusPayManager.getInstance().isNewDevice()) {
+                et_userName.setText(SplusPayManager.getInstance().getEasyRegisterUserName());
             }
         } else {
             et_userName.setText(getPassport());
         }
-        UserModel UserMode = CHPayManager.getInstance().getUserData();
+        UserModel UserMode = SplusPayManager.getInstance().getUserData();
         if (UserMode == null) {
             UserMode = AppUtil.getUserData();
         }
@@ -346,23 +349,23 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
             return;
         }
         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
-                CHPayManager.getInstance().getAppkey(), false);
+                SplusPayManager.getInstance().getAppkey(), false);
         String deviceno = getDeviceno();
         Long time = DateUtil.getUnixTime();
 
-        String keyString = CHPayManager.getInstance().getGameid() + deviceno
-                + CHPayManager.getInstance().getReferer() + CHPayManager.getInstance().getPartner()
-                + mPassport + mPassword + time;
+        String keyString = SplusPayManager.getInstance().getGameid() + deviceno
+                + SplusPayManager.getInstance().getReferer()
+                + SplusPayManager.getInstance().getPartner() + mPassport + mPassword + time;
 
-        mLoginData = new LoginModel(CHPayManager.getInstance().getGameid(), deviceno, CHPayManager
-                .getInstance().getPartner(), CHPayManager.getInstance().getReferer(), mPassport,
-                mPassword, time, CommonUtil.getDebug(), MD5Util.getMd5toLowerCase(keyString
-                        + CHPayManager.getInstance().getAppkey()));
+        mLoginData = new LoginModel(SplusPayManager.getInstance().getGameid(), deviceno,
+                SplusPayManager.getInstance().getPartner(), SplusPayManager.getInstance()
+                        .getReferer(), mPassport, mPassword, time, CommonUtil.getDebug(),
+                MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()));
         getDataFromServer(new RequestModel(Constant.LOGIN_URL, mActivity, mLoginData,
                 new LoginParser()), onLoginCallBack);
     }
 
-    protected void getDataFromServer(RequestModel mRequestModel, DataCallback<JSONObject> callBack) {
+    protected <T> void getDataFromServer(RequestModel mRequestModel, DataCallback<T> callBack) {
 
         if (setIsShowProgressDialog()) {
             if (mProgressDialog == null || !mProgressDialog.isShowing()) {
@@ -377,29 +380,34 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             try {
-                String msg = paramObject.getString("msg");
+                String msg = paramObject.optString("msg");
                 closeProgressDialog();
                 clickActionedEnableCompons();
-                if (paramObject != null && paramObject.getInt("code") == 1) {
-
-                    String sessionid = paramObject.getJSONObject("data").getString("sessionid");
-
-                    int uid = paramObject.getJSONObject("data").getInt("uid");
-
-                    int time = paramObject.getJSONObject("data").getInt("time");
-
-                    String sign = paramObject.getJSONObject("data").getString("sign");
+                if (paramObject != null && paramObject.optInt("code") == 1) {
+                    JSONObject jsonObject = paramObject.optJSONObject("data");
+                    String sessionid = jsonObject.optString("sessionid");
+                    int uid = jsonObject.getInt("uid");
+                    int time = jsonObject.getInt("time");
+                    String sign = jsonObject.getString("sign");
                     if (sign.equals(MD5Util.getMd5toLowerCase(sessionid + uid + time
-                            + CHPayManager.getInstance().getAppkey()))) {
+                            + SplusPayManager.getInstance().getAppkey()))) {
 
-                        UserModel UserMode = new UserModel(uid, mPassport, mPassword, sessionid, time,
-                                Boolean.valueOf(cb_remember_pwd.isChecked()));
+                        UserModel UserMode = new UserModel(uid, mPassport, mPassword, sessionid,
+                                time, Boolean.valueOf(cb_remember_pwd.isChecked()));
                         // 保存用户数据
-                        CHPayManager.getInstance().setUserData(UserMode);
+                        SplusPayManager.getInstance().setUserData(UserMode);
                         AccountObservable.getInstance().modifyUser(UserMode);
-                        LogHelper.i(TAG, "登录成功");
-//                        BindPhoneDialog.getInstance(mActivity).getBindStatusFromServer(
-//                                mProgressDialog, mAlertDialog);
+                        //登录状态
+                        SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
+                                SplusPayManager.getInstance().getAppkey(), true);
+                        ToastUtil.showPassportToast(mActivity, mPassport);
+                        ExitAppUtils.getInstance().exit();
+                        if (mLoginCallBack != null) {
+                            LogHelper.i(TAG, "登录成功");
+                            mLoginCallBack.loginSuccess(UserMode);
+                        }
+                        // BindPhoneDialog.getInstance(mActivity).getBindStatusFromServer(
+                        // mProgressDialog, mAlertDialog);
                     } else {
                         LogHelper.i(TAG, msg);
                         ToastUtil.showToast(mActivity, "登录失败");
@@ -533,7 +541,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
      * @data 2013-8-14 下午12:33:26
      */
     protected String getPassword() {
-        UserModel mUserData = CHPayManager.getInstance().getUserData();
+        UserModel mUserData = SplusPayManager.getInstance().getUserData();
         if (mUserData == null) {
             mUserData = AppUtil.getUserData();
         }
@@ -569,7 +577,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
      * @data 2013-8-14 下午12:33:59
      */
     protected String getPassport() {
-        UserModel mUserData = CHPayManager.getInstance().getUserData();
+        UserModel mUserData = SplusPayManager.getInstance().getUserData();
         if (mUserData == null) {
             mUserData = AppUtil.getUserData();
         }
@@ -625,8 +633,8 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
     }
 
     /**
-     * Title: update
-     * Description:
+     * Title: update Description:
+     *
      * @param observable
      * @param data
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
@@ -636,7 +644,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState ,Observ
 
         mAllUsers = AccountObservable.getInstance().getAllUserData();
         dropDownAdapter.notifyDataSetChanged();
-        if (mAllUsers.size() >1) {
+        if (mAllUsers.size() > 1) {
             iv_more.setVisibility(View.VISIBLE);
         } else {
             iv_more.setVisibility(View.GONE);

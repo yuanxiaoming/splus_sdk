@@ -347,9 +347,9 @@ public class DownLoadActivity extends BaseActivity {
     private synchronized void startDownload() {
         mText.setVisibility(View.VISIBLE);
         mPBar.setVisibility(View.VISIBLE);
-        mUpdateInfo = CHPayManager.getInstance().getUpdateInfo();
+        mUpdateInfo = SplusPayManager.getInstance().getUpdateInfo();
         try {
-            mDownloadUrl = mUpdateInfo.optString(CHPayManager.UPDATEURL);
+            mDownloadUrl = mUpdateInfo.optString(SplusPayManager.UPDATEURL);
         } catch (Exception e) {
             e.printStackTrace();
         }
