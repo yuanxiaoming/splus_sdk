@@ -40,7 +40,7 @@ public class AppUtil {
     /**
      * 应用根目录
      */
-    public static final String ROOT_PATH = SDCARD_PATH + "/Android/data/canhe/";
+    public static final String ROOT_PATH = SDCARD_PATH + "/Android/data/splus/";
 
     /**
      * 用户数据目录
@@ -50,7 +50,7 @@ public class AppUtil {
     /**
      * 下载目录
      */
-    public static final String DOWNLOAD_PATH = SDCARD_PATH + "/canhe/downs/";
+    public static final String DOWNLOAD_PATH =  ROOT_PATH + "/downs/";
 
     /**
      * 配置目录

@@ -516,7 +516,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
     }
 
     /**
-     * getmDialogView(生成条款视图) (这里描述这个方法适用条件 – 可选)
+     * getmDialogView(生成条款视图)
      *
      * @return View
      * @exception
@@ -529,7 +529,6 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         TextView content = (TextView) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_register_clause_dialog_tv_content));
         content.setText(Html.fromHtml(KR.string.splus_register_clause_tips));
-
         Button button = (Button) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_register_clause_dialog_btn_agree));
         button.setText(KR.string.splus_register_clause_dialog_btn_agree);
@@ -565,7 +564,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
     }
 
     /**
-     * getMParames(生成窗口参数) (这里描述这个方法适用条件 – 可选)
+     * getMParames(生成窗口参数)
      *
      * @return LayoutParams
      * @exception

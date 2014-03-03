@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.text.Editable;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -140,7 +141,39 @@ public class CommonUtil {
     }
 
     /**
-     * getFraLayoutParams(获取layoutparams参数) (这里描述这个方法适用条件 – 可选)
+     * getFraLayoutParams(获取layoutparams参数) (视图离屏幕的距离)
+     *
+     * @param context
+     * @param widthLandScapeScale 横屏全屏宽度
+     * @param widthPortScapeScale 竖屏全屏宽度
+     * @param heightLandScapeScale 横屏全屏高度
+     * @param heightPortScapeScale 竖屏全屏高度
+     * @param gravity
+     * @return FrameLayout.LayoutParams
+     * @exception
+     * @since 1.0.0 xiaoming.yuan
+     */
+    public static FrameLayout.LayoutParams getFrameLayoutParams(Context context,
+            int widthLandPadding, int widthPortPadding, int heightLandPadding,
+            int heightPortPadding, int gravity)  {
+        int width = (Phoneuitl.getWpixels(context));
+        int height = (Phoneuitl.getHpixels(context));
+        int orientation = Phoneuitl.getOrientation(context);
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            height = (int) (height - 2 * dip2px(context, heightLandPadding));
+            width = (int) (width - 2 * dip2px(context, widthLandPadding));
+        } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            height = (int) (height - 2 * dip2px(context, widthPortPadding));
+            width = (int) (width - 2 * dip2px(context, heightPortPadding));
+        }
+        LayoutParams dialogClauseparams = new LayoutParams(width, height);
+        dialogClauseparams.gravity = gravity;
+        return dialogClauseparams;
+    }
+
+
+    /**
+     * getFraLayoutParams(获取layoutparams参数)
      *
      * @param context
      * @param widthLandScapeScale 横屏全屏宽度比例
@@ -171,7 +204,7 @@ public class CommonUtil {
     }
 
     /**
-     * getmDialogClauseView(法律声明合同的视图) (这里描述这个方法适用条件 – 可选)
+     * getmDialogClauseView(法律声明合同的视图)
      *
      * @param context
      * @param addViewToDialog
@@ -184,4 +217,32 @@ public class CommonUtil {
                 ResourceUtil.getLayoutId(context, resourceId), null);
         return dialogClauseView;
     }
+
+    /**
+     * px与dp转化
+     *
+     * @param context
+     * @param dipValue
+     * @return
+     */
+    public static int dip2px(Context context, float dipValue) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, context
+                .getResources().getDisplayMetrics());
+        // final float scale =
+        // context.getResources().getDisplayMetrics().density;
+        // return (int) (dipValue * scale + 0.5f);
+    }
+
+    /**
+     * px与dp转化
+     *
+     * @param context
+     * @param pxValue
+     * @return
+     */
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
+
 }

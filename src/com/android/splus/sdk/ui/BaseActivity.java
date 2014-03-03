@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created with IntelliJ IDEA. Copyright: Copyright (c) 2013
- * Company:上海三七玩网络科技有限公司 User: xiaoming.yuan Email: lijianfeng@37wan.com Date:
+ * User: xiaoming.yuan Email: lijianfeng@37wan.com Date:
  * 13-9-17 Time: 上午10:51 To change this template use File | Settings | File
  * Templates.
  */
@@ -130,6 +130,7 @@ public abstract class BaseActivity extends Activity {
         return null;
     }
 
+
     /**
      * 隐藏软键盘
      */
@@ -158,6 +159,7 @@ public abstract class BaseActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+        hideSoftInput(this);
     }
 
     // 验证密码是否格式良好
