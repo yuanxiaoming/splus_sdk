@@ -334,7 +334,6 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                     mPassport,
                     mPassword,
                     time,
-                    CommonUtil.getDebug(),
                     MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()),
                     EASY_REGISTER);// 一键注册
         } else {
@@ -346,7 +345,6 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                     mPassport,
                     mPassword,
                     time,
-                    CommonUtil.getDebug(),
                     MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()),
                     COMMON_REGISTER);// 普通注册
         }

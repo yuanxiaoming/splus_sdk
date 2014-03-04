@@ -17,6 +17,7 @@ import com.android.splus.sdk.apiinterface.LogoutCallBack;
 import com.android.splus.sdk.apiinterface.RechargeCallBack;
 import com.android.splus.sdk.data.ActiveData;
 import com.android.splus.sdk.manager.AccountObservable;
+import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.ActiveModel;
 import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.parse.ActiveParser;
@@ -34,6 +35,7 @@ import com.android.splus.sdk.utils.md5.MD5Util;
 import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
+import com.android.splus.sdk.utils.toast.ToastUtil;
 import com.android.splus.sdk.widget.SplashPage;
 
 import org.json.JSONObject;
@@ -53,6 +55,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 /**
@@ -154,6 +157,16 @@ public class SplusPayManager implements IPayManager {
     private LoginCallBack mLoginCallBack;
 
     private RechargeCallBack mRechargeCallBack;
+
+    private String mRoleName;
+
+    private String mServerName;
+
+    private String mOutOrderid;
+
+    private String mPext;
+
+    private Float mMoney;// 定额充值金额
 
     private LoginDialog mLoginDialog;
 
@@ -403,8 +416,7 @@ public class SplusPayManager implements IPayManager {
         String keyString = mGameid + mReferer + mPartner + mac + time;
         String sign = MD5Util.getMd5toLowerCase(keyString + mAppkey);
         ActiveModel mActiveMode = new ActiveModel(mGameid, mPartner, mReferer, mac, imei, mWidth,
-                mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time,
-                CommonUtil.getDebug(), sign);
+                mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time, sign);
         NetHttpUtil.getDataFromServerPOST(getContext(), new RequestModel(Constant.ACTIVE_URL,
                 getContext(), mActiveMode, new ActiveParser()), onActiveCallBack);
 
@@ -533,7 +545,7 @@ public class SplusPayManager implements IPayManager {
                 }
                 if (mInited) {
                     // 初始化成功，自动选择一键注册界面或者是注册界面。
-                    if (AccountObservable.getInstance().getAllUserData().size() >0) {
+                    if (AccountObservable.getInstance().getAllUserData().size() > 0) {
                         payManagerHandler.sendEmptyMessage(LOGIN_SUCCESS);
                     } else {
                         if (mNewDevice) {
@@ -607,6 +619,41 @@ public class SplusPayManager implements IPayManager {
     @Override
     public void recharge(Activity activity, String serverName, String roleName, String outOrderid,
             String pext, RechargeCallBack rechargeCallBack) {
+        if (rechargeCallBack == null) {
+            LogHelper.i(TAG, "RechargeCallBack参数不能为空");
+            return;
+        }
+        if (activity == null) {
+            LogHelper.i(TAG, "Activity参数不能为空");
+            rechargeCallBack.rechargeFaile("参数Activity参数不能为空");
+            return;
+        } else {
+            if (!(activity instanceof Activity)) {
+                LogHelper.i(TAG, "参数Activity不是一个Activity的实例");
+                rechargeCallBack.rechargeFaile("参数Activity不是一个Activity的实例");
+                return;
+            }
+        }
+        if (!SharedPreferencesHelper.getInstance()
+                .getLoginStatusPreferences(mActivity, getAppkey())) {
+            String msg = "您还没有登录或登录失效，不能进行充值，以免造成损失，请重新登陆。";
+            LogHelper.i(TAG, msg);
+            ToastUtil.showToast(activity, msg);
+            rechargeCallBack.rechargeFaile(msg);
+            return;
+        }
+        this.mActivity = activity;
+        this.mRechargeCallBack = rechargeCallBack;
+        this.mOutOrderid = outOrderid;
+        this.mPext = pext;
+        this.mServerName = serverName;
+        this.mRoleName = roleName;
+        this.mMoney = null;
+        Intent intent = new Intent(activity, RechargeActivity.class);
+        intent.putExtra(RechargeActivity.class.getName(), Constant.RECHARGE_BY_NO_QUATO);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
+
     }
 
     /**
@@ -627,6 +674,53 @@ public class SplusPayManager implements IPayManager {
     @Override
     public void rechargeByQuota(Activity activity, String serverName, String roleName,
             String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
+        if (rechargeCallBack == null) {
+            LogHelper.i(TAG, "RechargeCallBack参数不能为空");
+            return;
+        }
+        if (activity == null) {
+            LogHelper.i(TAG, "Activity参数不能为空");
+            rechargeCallBack.rechargeFaile("参数Activity参数不能为空");
+            return;
+        } else {
+            if (!(activity instanceof Activity)) {
+                LogHelper.i(TAG, "参数Activity不是一个Activity的实例");
+                rechargeCallBack.rechargeFaile("参数Activity不是一个Activity的实例");
+                return;
+            }
+        }
+        if (!SharedPreferencesHelper.getInstance()
+                .getLoginStatusPreferences(mActivity, getAppkey())) {
+            String msg = "您还没有登录或登录失效，不能进行充值，以免造成损失，请重新登陆。";
+            LogHelper.i(TAG, msg);
+            ToastUtil.showToast(activity, msg);
+            rechargeCallBack.rechargeFaile(msg);
+            return;
+        }
+        if (money >= 1 && money < 1000000) {
+            String str = money.toString();
+            if (str.contains(".")) {
+                if (str.length() - str.indexOf(".") - 1 > 2) {
+                    str = str.substring(0, str.indexOf(".") + 3);
+                    money = Float.parseFloat(str);
+                } else {
+                    money = Float.parseFloat(str);
+                }
+
+            }
+        }
+        this.mActivity = activity;
+        this.mRechargeCallBack = rechargeCallBack;
+        this.mOutOrderid = outOrderid;
+        this.mPext = pext;
+        this.mServerName = serverName;
+        this.mRoleName = roleName;
+        this.mMoney = money;
+        Intent intent = new Intent(activity, RechargeActivity.class);
+        intent.putExtra(RechargeActivity.class.getName(), Constant.RECHARGE_BY_QUATO);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
+
     }
 
     /**
@@ -636,6 +730,7 @@ public class SplusPayManager implements IPayManager {
      */
     @Override
     public void exitSDK() {
+        ExitAppUtils.getInstance().exit();
     }
 
     /**
@@ -646,30 +741,12 @@ public class SplusPayManager implements IPayManager {
      */
     @Override
     public void exitGame(Context context) {
-    }
-
-    /**
-     * Title: sendServerStatics Description:
-     *
-     * @param activity
-     * @param serverName
-     * @see com.android.splus.sdk.apiinterface.IPayManager#sendServerStatics(android.app.Activity,
-     *      java.lang.String)
-     */
-    @Override
-    public void sendServerStatics(Activity activity, String serverName) {
-    }
-
-    /**
-     * Title: sendRoleStatics Description:
-     *
-     * @param activity
-     * @param roleName
-     * @see com.android.splus.sdk.apiinterface.IPayManager#sendRoleStatics(android.app.Activity,
-     *      java.lang.String)
-     */
-    @Override
-    public void sendRoleStatics(Activity activity, String roleName) {
+        if (context == null) {
+            return;
+        }
+        ExitAppUtils.getInstance().exit();
+        // 如果上面没关闭好自己，或者没填写任何东西，就我们sdk来关闭进程。
+        CommonUtil.killSDK(context);
     }
 
     /**
@@ -680,6 +757,13 @@ public class SplusPayManager implements IPayManager {
      */
     @Override
     public void logout(LogoutCallBack logoutCallBack) {
+        if (logoutCallBack == null) {
+            LogHelper.i(TAG, "LogoutCallBack参数不能为空");
+        }
+        this.mLogoutCallBack = logoutCallBack;
+        ExitAppUtils.getInstance().exit();
+        destroy();
+        mLogoutCallBack.logoutCallBack();
     }
 
     /**
@@ -690,6 +774,7 @@ public class SplusPayManager implements IPayManager {
      */
     @Override
     public void setDBUG(boolean logDbug) {
+        LogHelper.setLOGDBUG(logDbug);
     }
 
     /**
@@ -825,6 +910,37 @@ public class SplusPayManager implements IPayManager {
 
     LogoutCallBack getLogoutCallBack() {
         return this.mLogoutCallBack;
+    }
+
+    String getRoleName() {
+        return this.mRoleName == null ? "" : this.mRoleName;
+    }
+
+    String getServerName() {
+        return this.mServerName == null ? "" : this.mRoleName;
+    }
+
+    String getOutorderid() {
+        return this.mOutOrderid == null ? "" : this.mOutOrderid;
+    }
+
+    String getPext() {
+        return this.mPext == null ? "" : this.mPext;
+    }
+    /**
+     * getter method
+     *
+     * @return the money
+     */
+
+    Float getMoney() {
+        if (this.mMoney == null) {
+            BigDecimal b = new BigDecimal(0.00);
+            return b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+        } else {
+            BigDecimal b = new BigDecimal(this.mMoney);
+            return b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+        }
     }
 
 }

@@ -53,9 +53,6 @@ public class RegisterModel extends BaseModel {
 
     private Long time;
 
-    public static final String DEBUG = "debug";
-
-    private String debug;
 
     public static final String SIGN = "sign";
 
@@ -66,7 +63,7 @@ public class RegisterModel extends BaseModel {
     private String fastreg;
 
     public RegisterModel(Integer gameid, String deviceno, String partner, String referer,
-            String passport, String password, Long time, String debug, String sign,
+            String passport, String password, Long time, String sign,
             String fastreg) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
@@ -76,7 +73,6 @@ public class RegisterModel extends BaseModel {
         this.put(PASSPORT, passport == null ? "" : passport);
         this.put(PASSWORD, password == null ? "" : password);
         this.put(TIME, time == null ? 0 : time);
-        this.put(DEBUG, debug == null ? "" : debug);
         this.put(SIGN, sign == null ? "" : sign.toLowerCase());
         this.put(FASTREG, fastreg == null ? "0" : fastreg);
     }

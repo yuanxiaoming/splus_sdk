@@ -58,12 +58,9 @@ public class LoginModel extends BaseModel {
 
     private String sign;
 
-    public static final String DEBUG = "debug";
-
-    private String debug;
 
     public LoginModel(Integer gameid, String deviceno, String partner, String referer,
-            String passport, String password, Long time, String debug, String sign) {
+            String passport, String password, Long time, String sign) {
         super("");
 
         this.put(GAMEID, gameid == null ? 0 : gameid);
@@ -73,7 +70,6 @@ public class LoginModel extends BaseModel {
         this.put(PASSPORT, passport == null ? "" : passport);
         this.put(PASSWORD, password == null ? "" : password);
         this.put(TIME, time == null ? 0 : time);
-        this.put(DEBUG, debug == null ? "" : debug);
         this.put(SIGN, sign == null ? "" : sign.toLowerCase());
     }
 

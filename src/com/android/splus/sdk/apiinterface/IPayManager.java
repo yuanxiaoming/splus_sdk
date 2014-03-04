@@ -49,17 +49,16 @@ public interface IPayManager {
      * 退出游戏
      */
     public void exitGame(Context context);
-
-    /**
-     * 統計选服接口
-     */
-    public void sendServerStatics(Activity activity, String serverName);
-
-    /**
-     * 統計角色接口
-     */
-    public void sendRoleStatics(Activity activity, String roleName);
-
+//
+//    /**
+//     * 統計选服接口
+//     */
+//    public void sendServerStatics(Activity activity, String serverName);
+//
+//    /**
+//     * 統計角色接口
+//     */
+//    public void sendRoleStatics(Activity activity, String roleName);
 
     /**
      * 注销游戏接口

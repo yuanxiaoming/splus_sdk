@@ -38,8 +38,14 @@ public abstract class BaseModel extends HashMap<String, Object>  {
 
     public static final String VERSION = "version";
 
+    /** 开启后会返回服务器加密字符串/耗时/内存 **/
+    public static final String DEBUG = "debug";
+
+    private String debug;
+
     public BaseModel(String jsonObject) {
         this.put(VERSION, SplusPayManager.SDK_VERSION);
+        this.put(debug, "0");
     }
 
     /**

@@ -35,15 +35,7 @@ import android.widget.FrameLayout.LayoutParams;
 public class CommonUtil {
     private static final String TAG = "Common";
 
-    /**
-     * @Title: deBug(这里用一句话描述这个方法的作用)
-     * @author xiaoming.yuan
-     * @data 2013-8-15 下午2:34:47
-     * @return String 返回类型
-     */
-    public static String getDebug() {
-        return "0";
-    }
+
 
     /**
      * @Title: 比较版本

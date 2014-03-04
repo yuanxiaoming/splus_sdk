@@ -7,6 +7,7 @@ import com.android.splus.sdk.utils.http.NetHttpUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil.DataCallback;
 import com.android.splus.sdk.utils.http.RequestModel;
 import com.android.splus.sdk.utils.r.ResourceUtil;
+import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 import com.android.splus.sdk.widget.CustomProgressDialog;
 
 import android.app.Activity;
@@ -276,5 +277,16 @@ public abstract class BaseActivity extends Activity {
     public boolean setIsShowProgressDialog() {
         return true;
     }
+
+    /**
+     * @return String 返回类型
+     * @Title: getDeviceno(获取设备标识)
+     * @author xiaoming.yuan
+     * @data 2013-8-10 下午4:55:01
+     */
+    protected String getDeviceno() {
+        return SharedPreferencesHelper.getInstance().getdevicenoPreferences(mContext);
+    }
+
 
 }

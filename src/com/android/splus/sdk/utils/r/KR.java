@@ -83,6 +83,26 @@ public final class KR {
 
         public static final String splus_login_clause_iv_close = "splus_login_clause_iv_close";
 
+
+        /**
+         * 充值模块
+         */
+        public static final String splus_recharge_title_bar_left_button = "splus_recharge_title_bar_left_button";
+
+        public static final String splus_recharge_title_bar_middle_title = "splus_recharge_title_bar_middle_title";
+
+        public static final String splus_recharge_title_bar_right_button = "splus_recharge_title_bar_right_button";
+
+        public static final String splus_recharge_webview = "splus_recharge_webview";
+
+        // 充值成功与失败界面
+        public static final String splus_rechage_result_tips = "splus_rechage_result_tips";
+
+        public static final String splus_rechage_result_btn_comfirm = "splus_rechage_result_btn_comfirm";
+
+        public static final String splus_rechage_result_bottom_tips = "splus_rechage_result_bottom_tips";
+
+
     }
 
     public static final class layout {
@@ -109,6 +129,15 @@ public final class KR {
         public static final String splus_register_activity = "splus_register_activity";// 注册
 
         public static final String splus_register_clause_dialog = "splus_register_clause_dialog";
+
+        /**
+         * 选择充值模块
+         */
+     // 充值结果界面
+       public static final String splus_recharge_result_activity = "splus_recharge_result_activity";
+
+       public static final String splus_recharge_select_activity = "splus_recharge_select_activity";
+
 
     }
 
@@ -200,5 +229,25 @@ public final class KR {
                 + "<h2>十七、广告与外部链接 </h2>　　1. 灿和的产品和服务中可能包含他人的商业广告或其它活动促销的广告。这些内容由广告商或商品／服务提供者提供并承担相应责任，灿和仅提供刊登内 容的媒介。用户通过灿和或灿和所链接的网站所购买的该等服务或商品，其交易行为仅存于用户与该等商品或服务的提供者之间，与灿和无关，灿和不就用户与该商品或服务的提供者之间所产生的交易行为承担任何法律责任。2. 用户可能在使用灿和的产品和服务过程中链接到第三方的站点。第三方的站点不由灿和控制，并且灿和也不对任何第三方站点的内容、第三方站点包含的任何链接、第三方站点的任何更改或更新负责。灿和 仅为了提供便利的目的而向用户提供这些到第三方站点的链接，灿和所提供的这些链接并不意味着灿和认可该第三方站点，不意味着灿和担保其 真实性、完整性、实时性或可信度。这些个人、公司或组织与灿和间亦不存在任何雇用、委任、代理、合伙或其它类似的关系。用户需要检查并遵守该第三方 站点的相关规定。"
 
                 + "<h2>十八、其他约定  </h2>   1. 本协议的订立、效力、解释、履行及争议解决适用中华人民共和国法律。如果本协议的任何内容与法律相抵触，应以法律规定为准。2. 本协议的任何条款部分或全部无效的，不影响其它条款的效力。3. 就本协议产生的争议及纠纷，用户与灿和应友好协商解决。协商不成的，任何一方有权向本协议签订地人民法院提起诉讼。4. 本协议于用户完成灿和账号注册之日在广州市天河区签订并生效。即便用户没有完成灿和账号注册，但通过其他任何方式获得和使用灿和所提供的产品和服务的，本协议视为在该用户获得及使用产品和服务之日签订并生效。";
+
+
+        /**
+         * 充值
+         */
+        //失败成功提示
+        public final static String splus_recharge_success_result_tips = " 本次充值成功:%s元 \n 快去游戏账号看看吧";
+
+        public final static String splus_recharge_fail_result_tips = " 亲，对不起，支付失败！";
+
+        public final static String splus_recharge_success_result_head_tips = "充值成功";
+
+        public final static String splus_recharge_fail_result_head_tips = "充值失败";
+
+        public final static String splus_recharge_result_comfirm_tips = "回到游戏";
+
+        public final static String splus_recharge_select_tips = "充值问题请联系客服:020-85166576 \n游戏相关问题请联系QQ：2355700639";
+
+        public final static String splus_recharge_title_bar_middle_tips = "充值中心";
+
     }
 }

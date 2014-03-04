@@ -356,7 +356,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
 
         mLoginData = new LoginModel(SplusPayManager.getInstance().getGameid(), deviceno,
                 SplusPayManager.getInstance().getPartner(), SplusPayManager.getInstance()
-                .getReferer(), mPassport, mPassword, time, CommonUtil.getDebug(),
+                .getReferer(), mPassport, mPassword, time,
                 MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()));
         getDataFromServer(new RequestModel(Constant.LOGIN_URL, mActivity, mLoginData,
                 new LoginParser()), onLoginCallBack);

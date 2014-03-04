@@ -67,11 +67,6 @@ public class ActiveModel extends BaseModel {
 
     private Long time;
 
-    /** 开启后会返回服务器加密字符串/耗时/内存 **/
-    public static final String DEBUG = "debug";
-
-    private String debug;
-
     /** 加密验证 **/
     public static final String SIGN = "sign";
 
@@ -79,7 +74,7 @@ public class ActiveModel extends BaseModel {
 
     public ActiveModel(Integer gameid, String partner, String referer, String mac, String imei,
             Integer wpixels, Integer hpixels, String mode, String os, String osver, Long time,
-            String debug, String sign) {
+            String sign) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
         this.put(PARTNER, partner == null ? "" : partner);
@@ -92,7 +87,6 @@ public class ActiveModel extends BaseModel {
         this.put(OS, os == null ? "" : os);
         this.put(OSVER, osver == null ? "" : osver);
         this.put(TIME, time == null ? 0 : time);
-        this.put(DEBUG, debug == null ? "" : debug);
         this.put(SIGN, sign == null ? "" : sign.toLowerCase(Locale.getDefault()));
 
     }
@@ -122,7 +116,6 @@ public class ActiveModel extends BaseModel {
      *
      * @return the partner
      */
-
 
     public String getPartner() {
         return get(PARTNER).toString();
