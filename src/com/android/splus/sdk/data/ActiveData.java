@@ -1,5 +1,4 @@
-
- /**
+/**
  * @Title: ActiveData.java
  * @Package com.android.cansh.sdk.data
  * Copyright: Copyright (c) 2013
@@ -9,7 +8,7 @@
  * @version V1.0
  */
 
- package com.android.splus.sdk.data;
+package com.android.splus.sdk.data;
 
 import com.android.splus.sdk.ui.SplusPayManager;
 import com.android.splus.sdk.utils.log.LogHelper;
@@ -25,39 +24,41 @@ import org.json.JSONObject;
 
 public class ActiveData {
 
-
-
     private static final String TAG = "ActiveData";
 
     public static final String DEVICENO = "deviceno";
+
     private String deviceno;
 
     public static final String UPDATETYPE = "updatetype";
+
     private Integer updatetype;
 
     public static final String SDKVER = "sdkver";
+
     private String sdkver;
 
     public static final String GAMEVER = "gamever";
+
     private String gamever;
 
     public static final String UPDATEURL = "updateurl";
+
     private String updateurl;
 
     public static final String UPDATECONTENT = "updatecontent";
+
     private String updatecontent;
 
     public static final String PASSPORT = "passport";
+
     private String passport;
 
     public static final String RELATIONSHIPS = "relationships";
+
     private String relationships;
 
-    public  JSONObject updateInfo;
-
-
-
-
+    public JSONObject updateInfo;
 
     public ActiveData(String deviceno, Integer updatetype, String sdkver, String gamever,
             String updateurl, String updatecontent, String passport, String relationships) {
@@ -78,13 +79,14 @@ public class ActiveData {
             updateInfo.put(SplusPayManager.UPDATEURL, updateurl);
             updateInfo.put(SplusPayManager.UPDATECONTENT, updatecontent);
         } catch (JSONException e) {
-             LogHelper.e(TAG,"",e);
+            LogHelper.e(TAG, "", e);
 
         }
     }
 
     /**
      * getter method
+     *
      * @return the deviceno
      */
 
@@ -94,8 +96,8 @@ public class ActiveData {
 
     /**
      * setter method
-     * @param deviceno
-     * the deviceno to set
+     *
+     * @param deviceno the deviceno to set
      */
 
     public void setDeviceno(String deviceno) {
@@ -104,6 +106,7 @@ public class ActiveData {
 
     /**
      * getter method
+     *
      * @return the updatetype
      */
 
@@ -113,8 +116,8 @@ public class ActiveData {
 
     /**
      * setter method
-     * @param updatetype
-     * the updatetype to set
+     *
+     * @param updatetype the updatetype to set
      */
 
     public void setUpdatetype(Integer updatetype) {
@@ -123,6 +126,7 @@ public class ActiveData {
 
     /**
      * getter method
+     *
      * @return the sdkver
      */
 
@@ -132,8 +136,8 @@ public class ActiveData {
 
     /**
      * setter method
-     * @param sdkver
-     * the sdkver to set
+     *
+     * @param sdkver the sdkver to set
      */
 
     public void setSdkver(String sdkver) {
@@ -142,6 +146,7 @@ public class ActiveData {
 
     /**
      * getter method
+     *
      * @return the gamever
      */
 
@@ -151,8 +156,8 @@ public class ActiveData {
 
     /**
      * setter method
-     * @param gamever
-     * the gamever to set
+     *
+     * @param gamever the gamever to set
      */
 
     public void setGamever(String gamever) {
@@ -161,6 +166,7 @@ public class ActiveData {
 
     /**
      * getter method
+     *
      * @return the updateurl
      */
 
@@ -170,8 +176,8 @@ public class ActiveData {
 
     /**
      * setter method
-     * @param updateurl
-     * the updateurl to set
+     *
+     * @param updateurl the updateurl to set
      */
 
     public void setUpdateurl(String updateurl) {
@@ -180,6 +186,7 @@ public class ActiveData {
 
     /**
      * getter method
+     *
      * @return the updatecontent
      */
 
@@ -189,8 +196,8 @@ public class ActiveData {
 
     /**
      * setter method
-     * @param updatecontent
-     * the updatecontent to set
+     *
+     * @param updatecontent the updatecontent to set
      */
 
     public void setUpdatecontent(String updatecontent) {
@@ -199,6 +206,7 @@ public class ActiveData {
 
     /**
      * getter method
+     *
      * @return the passport
      */
 
@@ -208,8 +216,8 @@ public class ActiveData {
 
     /**
      * setter method
-     * @param passport
-     * the passport to set
+     *
+     * @param passport the passport to set
      */
 
     public void setPassport(String passport) {
@@ -218,6 +226,7 @@ public class ActiveData {
 
     /**
      * getter method
+     *
      * @return the relationships
      */
 
@@ -227,8 +236,8 @@ public class ActiveData {
 
     /**
      * setter method
-     * @param relationships
-     * the relationships to set
+     *
+     * @param relationships the relationships to set
      */
 
     public void setRelationships(String relationships) {
@@ -237,6 +246,7 @@ public class ActiveData {
 
     /**
      * getter method
+     *
      * @return the mJSONObject
      */
 
@@ -246,8 +256,8 @@ public class ActiveData {
 
     /**
      * setter method
-     * @param mJSONObject
-     * the mJSONObject to set
+     *
+     * @param mJSONObject the mJSONObject to set
      */
 
     public void setUpdateInfo(JSONObject updateInfo) {
@@ -255,4 +265,3 @@ public class ActiveData {
     }
 
 }
-

@@ -75,11 +75,12 @@ public class JSplugin {
         UserModel userModel = SplusPayManager.getInstance().getUserData();
         if (null == userModel) {
             userModel = AppUtil.getUserData();
-        } else {
-            if (null != SplusPayManager.getInstance().getRechargeCallBack()) {
-                SplusPayManager.getInstance().getRechargeCallBack().rechargeSuccess(userModel);
-            }
         }
+        if (null != SplusPayManager.getInstance().getRechargeCallBack()) {
+            SplusPayManager.getInstance().getRechargeCallBack().rechargeSuccess(userModel);
+            LogHelper.i(TAG, "充值成功");
+        }
+
 
         LogHelper.i(TAG, "successBackGame()");
     }
@@ -169,40 +170,35 @@ public class JSplugin {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case JSplugin.SUCCESS_BACK_RECHARGE:
-                    Activity mActivity = ExitAppUtils.getInstance().getRunActivity();
-                    if (null != mActivity) {
-                        if (RechargeActivity.class.getSimpleName().equals(
-                                mActivity.getClass().getSimpleName())) {
-                            if (RechargeActivity.getCustomWebView() != null) {
+                    Activity activity = ExitAppUtils.getInstance().getRunActivity();
+                    if (null != activity) {
+                        if (RechargeActivity.class.getSimpleName().equals(activity.getClass().getSimpleName())) {
+                            if (null !=RechargeActivity.getCustomWebView() ) {
                                 while (RechargeActivity.getCustomWebView().canGoBack()) {
                                     RechargeActivity.getCustomWebView().goBack();
                                 }
                                 UserModel userModel = SplusPayManager.getInstance().getUserData();
                                 if (null == userModel) {
                                     userModel = AppUtil.getUserData();
-                                } else {
-                                    if (null != SplusPayManager.getInstance().getRechargeCallBack()) {
-                                        SplusPayManager.getInstance().getRechargeCallBack()
-                                                .rechargeSuccess(userModel);
-                                    }
+                                }
+                                if (null != SplusPayManager.getInstance().getRechargeCallBack()) {
+                                    SplusPayManager.getInstance().getRechargeCallBack() .rechargeSuccess(userModel);
+                                    LogHelper.i(TAG, "充值成功");
                                 }
                             }
                         }
                     }
-
                     break;
                 case JSplugin.ERROR_BACK_RECHARGE:
-                    Activity mActivity2 = ExitAppUtils.getInstance().getRunActivity();
-                    if (null != mActivity2) {
-                        if (RechargeActivity.class.getSimpleName().equals(
-                                mActivity2.getClass().getSimpleName())) {
+                    Activity activity2 = ExitAppUtils.getInstance().getRunActivity();
+                    if (null != activity2) {
+                        if (RechargeActivity.class.getSimpleName().equals(activity2.getClass().getSimpleName())) {
                             if (null != RechargeActivity.getCustomWebView()) {
                                 while (RechargeActivity.getCustomWebView().canGoBack()) {
                                     RechargeActivity.getCustomWebView().goBack();
                                 }
                                 if (null != SplusPayManager.getInstance().getRechargeCallBack()) {
-                                    SplusPayManager.getInstance().getRechargeCallBack()
-                                            .rechargeFaile("充值失败");
+                                    SplusPayManager.getInstance().getRechargeCallBack().rechargeFaile("充值失败");
                                     LogHelper.i(TAG, "充值失败");
                                 }
                             }
@@ -217,14 +213,9 @@ public class JSplugin {
                 case JSplugin.CALL_PHONE:
                     String phoneNumber = (String) msg.obj;
                     if (!TextUtils.isEmpty(phoneNumber)) {
-                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel://"
-                                + phoneNumber));
+                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel://"+ phoneNumber));
                         // 去调用那些可以处理拨号行为的Activity
-                        if (null != ExitAppUtils.getInstance().getRunActivity()) {
-                            ExitAppUtils.getInstance().getRunActivity().startActivity(intent);
-                        } else if (null != SplusPayManager.getInstance().getContext()) {
-                            SplusPayManager.getInstance().getContext().startActivity(intent);
-                        }
+                        mActivity.startActivity(intent);
                     }
                     break;
             }
@@ -244,12 +235,14 @@ public class JSplugin {
 
     public void alipay_payment(String orderinfo) {
         if (mActivity == null) {
+            LogHelper.d(TAG, "支付的mActivity为空");
             return;
         }
         // 检测安全支付服务是否安装
         MobileSecurePayHelper mspHelper = new MobileSecurePayHelper(mActivity);
         boolean isMobile_spExist = mspHelper.detectMobile_sp();
         if (!isMobile_spExist) {
+            LogHelper.d(TAG, "安全支付服务味安装");
             return;
         }
         Map<String, String> urltoMap = NetHttpUtil.getParamsTOhashMap(orderinfo);
@@ -293,7 +286,7 @@ public class JSplugin {
                             result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
                         }
                     }
-                        break;
+                    break;
                 }
                 super.handleMessage(msg);
             } catch (Exception e) {
