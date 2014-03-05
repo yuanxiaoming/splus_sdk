@@ -8,8 +8,6 @@ import com.android.splus.sdk.utils.log.LogHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.Bundle;
-
 import java.util.HashMap;
 
 /**

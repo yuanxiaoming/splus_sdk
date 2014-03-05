@@ -358,6 +358,9 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                 SplusPayManager.getInstance().getPartner(), SplusPayManager.getInstance()
                 .getReferer(), mPassport, mPassword, time,
                 MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()));
+        SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
+                SplusPayManager.getInstance().getAppkey(), false);
+        System.out.println( NetHttpUtil.hashMapTOgetParams(mLoginData));
         getDataFromServer(new RequestModel(Constant.LOGIN_URL, mActivity, mLoginData,
                 new LoginParser()), onLoginCallBack);
     }
@@ -381,6 +384,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                 closeProgressDialog();
                 clickActionedEnableCompons();
                 if (paramObject != null && paramObject.optInt("code") == 1) {
+                    System.out.println(paramObject.toString());
                     JSONObject jsonObject = paramObject.optJSONObject("data");
                     String sessionid = jsonObject.optString("sessionid");
                     int uid = jsonObject.getInt("uid");

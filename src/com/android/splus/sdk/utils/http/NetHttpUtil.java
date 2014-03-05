@@ -84,23 +84,23 @@ public class NetHttpUtil {
      * @author xiaoming.yuan
      * @data 2014-1-16 上午10:16:09
      * @param context
-     * @param mRequestModel
-     * @param callBack
+     * @param requestModel
+     * @param dataCallBack
      * void 返回类型
      */
-    public static <T> void getDataFromServerPOST(Context context, RequestModel mRequestModel,
-            DataCallback<T> callBack) {
+    public static <T> void getDataFromServerPOST(Context context, RequestModel requestModel,
+            DataCallback<T> dataCallBack) {
         REQUEST_MODE=REQUEST_POST;
-        BaseHandler handler = new BaseHandler(callBack);
-        BaseTask taskThread = new BaseTask(context, mRequestModel, handler);
+        BaseHandler handler = new BaseHandler(dataCallBack);
+        BaseTask taskThread = new BaseTask(context, requestModel, handler);
         ThreadPoolManager.getInstance().addTask(taskThread);
     }
 
-    public static <T> void getDataFromServerGET(Context context, RequestModel mRequestModel,
-            DataCallback<T> callBack) {
+    public static <T> void getDataFromServerGET(Context context, RequestModel requestModel,
+            DataCallback<T> dataCallBack) {
         REQUEST_MODE=REQUEST_GET;
-        BaseHandler handler = new BaseHandler(callBack);
-        BaseTask taskThread = new BaseTask(context, mRequestModel, handler);
+        BaseHandler handler = new BaseHandler(dataCallBack);
+        BaseTask taskThread = new BaseTask(context, requestModel, handler);
         ThreadPoolManager.getInstance().addTask(taskThread);
     }
 
@@ -110,11 +110,11 @@ public class NetHttpUtil {
      * @author xiaoming.yuan
      * @data 2013-7-12 下午9:21:28
      */
-    public static Object post(RequestModel mRequestModel,Context mContext) {
+    public static Object post(RequestModel requestModel,Context context) {
         Object obj = null;
         try {
-            if (mRequestModel.mParams == null || mRequestModel.mParams.size() <= 0
-                    || TextUtils.isEmpty(mRequestModel.mRequestUrl)) {
+            if (requestModel.mParams == null || requestModel.mParams.size() <= 0
+                    || TextUtils.isEmpty(requestModel.mRequestUrl)) {
                 return obj;
             }
             HttpParams httpParameters = new BasicHttpParams();
@@ -125,7 +125,7 @@ public class NetHttpUtil {
             // 构造Httpclient实例
             HttpClient httpClient = new DefaultHttpClient(httpParameters);
             //设置代理
-            if(NetWorkUtil.isCmwap(mContext)){
+            if(NetWorkUtil.isCmwap(context)){
                 // 获取默认代理主机ip
                 String host = android.net.Proxy.getDefaultHost();
                 // 获取端口
@@ -135,10 +135,10 @@ public class NetHttpUtil {
                 httpClient.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY,httpHost);
             }
             // 创建post方法实例
-            HttpPost httpPost = new HttpPost(mRequestModel.mRequestUrl);
+            HttpPost httpPost = new HttpPost(requestModel.mRequestUrl);
             // 设置httppost请求参数
             httpPost.setHeaders(headers);
-            HttpEntity entity = new UrlEncodedFormEntity(hashMapTOpostParams(mRequestModel.mParams),
+            HttpEntity entity = new UrlEncodedFormEntity(hashMapTOpostParams(requestModel.mParams),
                     HTTP.UTF_8);
             httpPost.setEntity(entity);
             // 使用execute方法发送Http post请求并返回Httpresponse对象
@@ -146,7 +146,7 @@ public class NetHttpUtil {
             if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 setCookie(httpResponse);
                 String result = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
-                obj = mRequestModel.mBaseParser.parseJSON(result);
+                obj = requestModel.mBaseParser.parseJSON(result);
             }
             //结束连接
             httpResponse.getEntity().consumeContent();
@@ -170,11 +170,11 @@ public class NetHttpUtil {
      * @author xiaoming.yuan
      * @data 2013-7-24 下午6:04:37
      */
-    public static Object get(RequestModel mRequestModel,Context mContext) {
+    public static Object get(RequestModel requestModel,Context context) {
         Object obj = null;
         try {
-            if (mRequestModel.mParams == null || mRequestModel.mParams.size() <= 0
-                    || TextUtils.isEmpty(mRequestModel.mRequestUrl)) {
+            if (requestModel.mParams == null || requestModel.mParams.size() <= 0
+                    || TextUtils.isEmpty(requestModel.mRequestUrl)) {
                 return obj;
             }
 
@@ -186,7 +186,7 @@ public class NetHttpUtil {
             // 构造Httpclient实例
             HttpClient httpClient = new DefaultHttpClient(httpParameters);
             //设置代理
-            if(NetWorkUtil.isCmwap(mContext)){
+            if(NetWorkUtil.isCmwap(context)){
                 // 获取默认代理主机ip
                 String host = android.net.Proxy.getDefaultHost();
                 // 获取端口
@@ -194,14 +194,14 @@ public class NetHttpUtil {
                 HttpHost httpHost = new HttpHost(host, port);
                 httpClient.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY,httpHost);
             }
-            HttpGet httpGet = new HttpGet(hashMapTOgetParams(mRequestModel.mParams,
-                    mRequestModel.mRequestUrl));
+            HttpGet httpGet = new HttpGet(hashMapTOgetParams(requestModel.mParams,
+                    requestModel.mRequestUrl));
             httpGet.setHeaders(headers);
             HttpResponse httpResponse = httpClient.execute(httpGet);
             if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 setCookie(httpResponse);
                 String result = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
-                obj = mRequestModel.mBaseParser.parseJSON(result);
+                obj = requestModel.mBaseParser.parseJSON(result);
             }
             //结束连接
             httpResponse.getEntity().consumeContent();
@@ -362,10 +362,10 @@ public class NetHttpUtil {
      * @date 2014-1-2 下午4:42:36
      */
     private static class BaseHandler extends Handler {
-        private DataCallback mCallBack;
+        private DataCallback mDataCallBack;
 
-        public BaseHandler(DataCallback callBack) {
-            this.mCallBack = callBack;
+        public BaseHandler(DataCallback dataCallback) {
+            this.mDataCallBack = dataCallback;
         }
 
         @Override
@@ -374,22 +374,22 @@ public class NetHttpUtil {
             // use File | Settings | File Templates.
             if (msg.what == NetHttpUtil.SUCCESS) {
                 if (msg.obj == null) {
-                    if (mCallBack != null) {
-                        mCallBack.callbackError("请求成功，服务器返回参数有误");
+                    if (mDataCallBack != null) {
+                        mDataCallBack.callbackError("请求成功，服务器返回参数有误");
                     }
                 } else {
-                    if (mCallBack != null) {
-                        mCallBack.callbackSuccess(msg.obj);
+                    if (mDataCallBack != null) {
+                        mDataCallBack.callbackSuccess(msg.obj);
                     }
                 }
             } else if (msg.what == NetHttpUtil.FAILED) {
-                if (mCallBack != null) {
-                    mCallBack.callbackError("当前网络不可用，请先连接Internet！");
+                if (mDataCallBack != null) {
+                    mDataCallBack.callbackError("当前网络不可用，请先连接Internet！");
                 }
 
             } else {
-                if (mCallBack != null) {
-                    mCallBack.callbackError("当前网络不可用，请先连接Internet！");
+                if (mDataCallBack != null) {
+                    mDataCallBack.callbackError("当前网络不可用，请先连接Internet！");
                 }
             }
         }
@@ -401,16 +401,16 @@ public class NetHttpUtil {
      * @date 2014-1-2 下午4:42:42
      */
     private static class BaseTask implements Runnable {
-        private Context context;
+        private Context mContext;
 
         private RequestModel mRequestModel;
 
-        private Handler handler;
+        private Handler mHandler;
 
-        public BaseTask(Context context, RequestModel mRequestModel, Handler handler) {
-            this.context = context;
-            this.mRequestModel = mRequestModel;
-            this.handler = handler;
+        public BaseTask(Context context, RequestModel requestModel, Handler handler) {
+            this.mContext = context;
+            this.mRequestModel = requestModel;
+            this.mHandler = handler;
         }
 
         @Override
@@ -420,25 +420,25 @@ public class NetHttpUtil {
             Object obj = null;
             Message msg = Message.obtain();
             try {
-                if (NetWorkUtil.isNetworkAvailable(context)) {
+                if (NetWorkUtil.isNetworkAvailable(mContext)) {
                     if(REQUEST_MODE==REQUEST_GET){
-                        obj = NetHttpUtil.get(mRequestModel,context);
+                        obj = NetHttpUtil.get(mRequestModel,mContext);
                     }
                     if(REQUEST_MODE==REQUEST_POST){
-                        obj = NetHttpUtil.post(mRequestModel,context);
+                        obj = NetHttpUtil.post(mRequestModel,mContext);
 
                     }
                     msg.what = NetHttpUtil.SUCCESS;
                     msg.obj = obj;
-                    handler.sendMessage(msg);
+                    mHandler.sendMessage(msg);
                 } else {
                     msg.what = NetHttpUtil.FAILED;
                     msg.obj = obj;
-                    handler.sendMessage(msg);
+                    mHandler.sendMessage(msg);
                 }
             } catch (Exception e) {
                 msg.what = NetHttpUtil.FAILED;
-                handler.sendMessage(msg);
+                mHandler.sendMessage(msg);
             }
         }
     }

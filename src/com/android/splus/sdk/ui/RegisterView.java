@@ -360,6 +360,8 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             try {
+                SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
+                        SplusPayManager.getInstance().getAppkey(), false);
                 closeProgressDialog();
                 clickActionedEnableCompons();
                 String msg = paramObject.optString("msg");

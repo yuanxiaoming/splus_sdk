@@ -463,7 +463,7 @@ public class SplusPayManager implements IPayManager {
         public void callbackError(String error) {
 
             LogHelper.i(TAG, error);
-            ProgressDialogUtil.showInfoDialog(getContext(), "提示", "当前网络异常,请检查您的网络设置！", 0,
+            ProgressDialogUtil.showInfoDialog(getContext(), "提示", error, 0,
                     new OnClickListener() {
 
                         @Override
