@@ -3,6 +3,7 @@ package com.android.splus.sdk.ui;
 
 import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.UserModel;
+import com.android.splus.sdk.utils.file.AppUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil.DataCallback;
 import com.android.splus.sdk.utils.http.RequestModel;
@@ -25,7 +26,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created with IntelliJ IDEA. Copyright: Copyright (c) 2013
- * User: xiaoming.yuan Email: lijianfeng@37wan.com Date:
+ * User: xiaoming.yuan
  * 13-9-17 Time: 上午10:51 To change this template use File | Settings | File
  * Templates.
  */
@@ -99,7 +100,11 @@ public abstract class BaseActivity extends Activity {
      * @data 2013-8-14 下午12:33:59
      */
     protected String getPassport() {
-        return null;
+        UserModel userModel = getUserData();
+        if (null != userModel && null != userModel.getUserName()) {
+            return userModel.getUserName();
+        }
+        return "";
     }
 
     /**
@@ -109,6 +114,10 @@ public abstract class BaseActivity extends Activity {
      * @data 2013-8-14 下午12:33:59
      */
     protected Integer getUid() {
+        UserModel userModel = getUserData();
+        if (null != userModel && null != userModel.getUserName()) {
+            return userModel.getUid();
+        }
         return null;
     }
 
@@ -119,7 +128,11 @@ public abstract class BaseActivity extends Activity {
      * @data 2013-8-14 下午12:33:26
      */
     protected String getPassword() {
-        return null;
+        UserModel userModel = getUserData();
+        if (null != userModel && null != userModel.getPassword()) {
+            return userModel.getPassword();
+        }
+        return "";
     }
 
     /**
@@ -128,7 +141,11 @@ public abstract class BaseActivity extends Activity {
      * @return
      */
     protected UserModel getUserData() {
-        return null;
+        UserModel userModel = SplusPayManager.getInstance().getUserData();
+        if (userModel == null) {
+            userModel = AppUtil.getUserData();
+        }
+        return userModel;
     }
 
 

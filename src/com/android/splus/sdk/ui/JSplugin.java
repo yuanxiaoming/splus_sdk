@@ -14,7 +14,6 @@ import com.android.splus.sdk.alipay.MobileSecurePayHelper;
 import com.android.splus.sdk.alipay.MobileSecurePayer;
 import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.UserModel;
-import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.file.AppUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil;
@@ -24,7 +23,6 @@ import com.android.splus.sdk.utils.toast.ToastUtil;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
@@ -55,14 +53,14 @@ public class JSplugin {
 
     private static final int CALL_PHONE = 4;
 
-    private  ProgressDialog mProgress = null;
+    private ProgressDialog mProgress = null;
 
     private Activity mActivity;
 
-    private  String mMoney;
+    private String mMoney;
 
-    public  JSplugin(Activity activity){
-        this.mActivity=activity;
+    public JSplugin(Activity activity) {
+        this.mActivity = activity;
 
     }
 
@@ -182,10 +180,10 @@ public class JSplugin {
                                 UserModel userModel = SplusPayManager.getInstance().getUserData();
                                 if (null == userModel) {
                                     userModel = AppUtil.getUserData();
-                                }else {
+                                } else {
                                     if (null != SplusPayManager.getInstance().getRechargeCallBack()) {
                                         SplusPayManager.getInstance().getRechargeCallBack()
-                                        .rechargeSuccess(userModel);
+                                                .rechargeSuccess(userModel);
                                     }
                                 }
                             }
@@ -203,7 +201,8 @@ public class JSplugin {
                                     RechargeActivity.getCustomWebView().goBack();
                                 }
                                 if (null != SplusPayManager.getInstance().getRechargeCallBack()) {
-                                    SplusPayManager.getInstance().getRechargeCallBack().rechargeFaile("充值失败");
+                                    SplusPayManager.getInstance().getRechargeCallBack()
+                                            .rechargeFaile("充值失败");
                                     LogHelper.i(TAG, "充值失败");
                                 }
                             }
@@ -213,9 +212,8 @@ public class JSplugin {
                     break;
                 case JSplugin.ALIPAY_RECHARGE:
                     String orderinfo = (String) msg.obj;
-                    alipay(orderinfo);
+                    alipay_payment(orderinfo);
                     break;
-
                 case JSplugin.CALL_PHONE:
                     String phoneNumber = (String) msg.obj;
                     if (!TextUtils.isEmpty(phoneNumber)) {
@@ -234,7 +232,17 @@ public class JSplugin {
     };
 
 
-    public  void alipay_ss(String orderinfo) {
+
+    /**
+     *
+     * @Title: alipay_payment(快捷支付)
+     * @author xiaoming.yuan
+     * @data 2014-3-5 下午2:29:03
+     * @param orderinfo
+     * void 返回类型
+     */
+
+    public void alipay_payment(String orderinfo) {
         if (mActivity == null) {
             return;
         }
@@ -245,7 +253,7 @@ public class JSplugin {
             return;
         }
         Map<String, String> urltoMap = NetHttpUtil.getParamsTOhashMap(orderinfo);
-        String money = urltoMap.get("total_fee");
+        mMoney = urltoMap.get("total_fee");
         // 支付
         try {
             MobileSecurePayer msp = new MobileSecurePayer();
@@ -261,7 +269,7 @@ public class JSplugin {
 
     // the handler use to receive the pay result.
     // 这里接收支付结果，支付宝手机端同步通知
-    private  Handler mHandler = new Handler() {
+    private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             closeProgress();
             try {
@@ -285,7 +293,7 @@ public class JSplugin {
                             result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
                         }
                     }
-                    break;
+                        break;
                 }
                 super.handleMessage(msg);
             } catch (Exception e) {
@@ -298,7 +306,7 @@ public class JSplugin {
 
     // close the progress bar
     // 关闭进度框
-    private  void closeProgress() {
+    private void closeProgress() {
         try {
             if (mProgress != null) {
                 mProgress.dismiss();
@@ -309,9 +317,9 @@ public class JSplugin {
         }
     }
 
-    private  void result_intent(String rechage_type) {
+    private void result_intent(String rechage_type) {
         Intent intent = new Intent();
-    //    intent.setClass(mActivity, RechargeResultActivity.class);
+        intent.setClass(mActivity, RechargeResultActivity.class);
         intent.putExtra(Constant.RECHARGE_RESULT_TIPS, rechage_type);
         intent.putExtra(Constant.MONEY, mMoney);
         mActivity.startActivity(intent);

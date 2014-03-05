@@ -384,7 +384,6 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                 closeProgressDialog();
                 clickActionedEnableCompons();
                 if (paramObject != null && paramObject.optInt("code") == 1) {
-                    System.out.println(paramObject.toString());
                     JSONObject jsonObject = paramObject.optJSONObject("data");
                     String sessionid = jsonObject.optString("sessionid");
                     int uid = jsonObject.getInt("uid");

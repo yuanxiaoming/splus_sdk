@@ -18,6 +18,7 @@ import com.android.splus.sdk.utils.http.NetHttpUtil;
 import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.md5.MD5Util;
 import com.android.splus.sdk.utils.r.KR;
+import com.android.splus.sdk.utils.toast.ToastUtil;
 import com.android.splus.sdk.widget.CustomWebChromeClient;
 import com.android.splus.sdk.widget.CustomWebView;
 import com.android.splus.sdk.widget.CustomWebViewClient;
@@ -116,6 +117,7 @@ public class RechargeActivity extends BaseActivity {
         mRechargeCallBack = SplusPayManager.getInstance().getRechargeCallBack();
         mPassport = getPassport();
         if (TextUtils.isEmpty(mPassport)) {
+            ToastUtil.showToast(mActivity, "账号为空");
             return;
         }
         mTime = DateUtil.getUnixTime();
@@ -147,6 +149,7 @@ public class RechargeActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);
         mCustomWebView.addJavascriptInterface(new JSplugin(mActivity),JSplugin.ANDROIDJSPLUG);
         String data = NetHttpUtil.hashMapTOgetParams(mRechargeModel);
+        System.out.println(data);
         mCustomWebView.postUrl(Constant.HTMLWAPPAY_URL, EncodingUtils.getBytes(data, "UTF-8"));
 
     }
