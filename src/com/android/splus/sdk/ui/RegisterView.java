@@ -271,7 +271,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
     private void processLogic() {
         // 如果是新设备，则显示为 一键注册的账号
         if (SplusPayManager.getInstance().isNewDevice()) {
-            et_userName.setText(SplusPayManager.getInstance().getEasyRegisterUserName());
+            et_userName.setText(SplusPayManager.getInstance().getEasyRegisterPassport());
         }
         mRegisterCallBack = SplusPayManager.getInstance().getLoginCallBack();
         if (cb_agreeClause != null) {
@@ -325,7 +325,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                 + SplusPayManager.getInstance().getReferer()
                 + SplusPayManager.getInstance().getPartner() + mPassport + mPassword + time;
         if (SplusPayManager.getInstance().isNewDevice()
-                && mPassport.equals(SplusPayManager.getInstance().getEasyRegisterUserName())) {
+                && mPassport.equals(SplusPayManager.getInstance().getEasyRegisterPassport())) {
             mRegisterModel = new RegisterModel(
                     SplusPayManager.getInstance().getGameid(),
                     deviceno,

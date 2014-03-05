@@ -130,7 +130,7 @@ public class SplusPayManager implements IPayManager {
 
     private boolean mNewDevice;// 一键注册获取的用户名是否是新设备
 
-    private String easyRegisterUserName;// 一键注册获取的用户名
+    private String mEasyRegisterPassport;// 一键注册获取的用户名
 
     private static boolean mInited = false;
 
@@ -434,7 +434,7 @@ public class SplusPayManager implements IPayManager {
                     SharedPreferencesHelper.getInstance().setDevicenoPreferences(getContext(),
                             deviceno);
                 }
-                easyRegisterUserName = activeData.getPassport();
+                mEasyRegisterPassport = activeData.getPassport();
 
                 String relationships = activeData.getRelationships();
                 if (relationships.equals(RELATIONSHIPS)) {
@@ -871,8 +871,8 @@ public class SplusPayManager implements IPayManager {
      * @since 1.0.0 xilin.chen
      */
 
-    String getEasyRegisterUserName() {
-        return easyRegisterUserName;
+    String getEasyRegisterPassport() {
+        return mEasyRegisterPassport;
     }
 
     /**

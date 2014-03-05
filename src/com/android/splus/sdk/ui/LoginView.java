@@ -289,7 +289,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
         if (null == AccountObservable.getInstance().getAllUserData()
                 || AccountObservable.getInstance().getAllUserData().size() <= 0) {
             if (!SplusPayManager.getInstance().isNewDevice()) {
-                et_userName.setText(SplusPayManager.getInstance().getEasyRegisterUserName());
+                et_userName.setText(SplusPayManager.getInstance().getEasyRegisterPassport());
             }
         } else {
             et_userName.setText(getPassport());

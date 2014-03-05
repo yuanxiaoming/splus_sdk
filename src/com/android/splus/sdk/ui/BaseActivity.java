@@ -215,14 +215,6 @@ public abstract class BaseActivity extends Activity {
             this.mProgressDialog.dismiss();
     }
 
-    /**
-     * @return void 返回类型
-     * @Title: findViewById(实例化组件)
-     * @author xiaoming.yuan
-     * @data 2013-8-5 下午10:15:03
-     * @param:
-     */
-    protected abstract void findViewById();
 
     /**
      * @return void 返回类型
@@ -234,11 +226,12 @@ public abstract class BaseActivity extends Activity {
 
     /**
      * @return void 返回类型
-     * @Title: processLogic(处理一些其余的操作)
+     * @Title: findViewById(实例化组件)
      * @author xiaoming.yuan
-     * @data 2013-7-12 下午10:09:01
+     * @data 2013-8-5 下午10:15:03
+     * @param:
      */
-    protected abstract void processLogic();
+    protected abstract void findViewById();
 
     /**
      * @return void 返回类型
@@ -247,6 +240,16 @@ public abstract class BaseActivity extends Activity {
      * @data 2013-7-12 下午10:08:51
      */
     protected abstract void setListener();
+
+    /**
+     * @return void 返回类型
+     * @Title: processLogic(处理一些其余的操作)
+     * @author xiaoming.yuan
+     * @data 2013-7-12 下午10:09:01
+     */
+    protected abstract void processLogic();
+
+
 
     protected <T> void getDataFromServer(RequestModel mRequestModel, DataCallback<T> callBack) {
 
