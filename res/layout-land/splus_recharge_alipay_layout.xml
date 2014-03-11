@@ -6,53 +6,71 @@
     android:layout_marginRight="20dp"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/splus_recharge_money_tips"
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="15dip"
-        android:background="@drawable/splus_login_et_selector"
-        android:textColor="#808689"
-        android:textSize="20dp" />
-
-    <com.android.splus.sdk.widget.CustomGridView
-        android:id="@+id/splus_recharge_money_gridview_select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:fadingEdge="none"
         android:scrollbars="none" >
-    </com.android.splus.sdk.widget.CustomGridView>
 
-    <EditText
-        android:id="@+id/splus_recharge_money_custom_et"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/splus_login_et_selector"
-        android:maxLength="6"
-        android:numeric="decimal"
-        android:textColor="#a3a8ab"
-        android:textCursorDrawable="@null"
-        android:textSize="20dp" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/splus_recharge_money_ratio_tv"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="15dip"
-        android:background="@drawable/splus_login_et_selector"
-        android:textColor="#808689"
-        android:textSize="20dp" />
+            <TextView
+                android:id="@+id/splus_recharge_money_tips"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/splus_login_et_selector"
+                android:textColor="#808689"
+                android:textSize="20dp" />
 
-    <Button
-        android:id="@+id/splus_recharge_money_comfirm_btn"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/splus_login_btn_login_bg_selector"
-        android:gravity="center"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:textColor="#ffffff"
-        android:textSize="18dp" />
+            <com.android.splus.sdk.widget.CustomGridView
+                android:id="@+id/splus_recharge_money_gridview_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="none" >
+            </com.android.splus.sdk.widget.CustomGridView>
 
+            <EditText
+                android:id="@+id/splus_recharge_money_custom_et"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/splus_recharge_money_edit_selector"
+                android:maxLength="6"
+                android:numeric="decimal"
+                android:singleLine="true"
+                android:textColor="#9a9a9a"
+                android:textColorHint="#c1c1c1"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/splus_recharge_money_ratio_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dip"
+                android:background="@drawable/splus_recharge_money_edit_selector"
+                android:singleLine="true"
+                android:textColor="#9a9a9a"
+                android:textColorHint="#c1c1c1"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/splus_recharge_money_comfirm_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/splus_login_btn_login_bg_selector"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:textColor="#ffffff"
+                android:textSize="18dp" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

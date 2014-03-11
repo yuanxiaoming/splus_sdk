@@ -13,12 +13,14 @@
 
 import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.RechargeTypeModel;
+import com.android.splus.sdk.ui.recharge.RechargeAlipayPage;
 import com.android.splus.sdk.ui.recharge.RechargeSelectPage;
 import com.android.splus.sdk.ui.recharge.RechargeSelectPage.RechargeItemClick;
 import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.toast.ToastUtil;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +40,9 @@ import android.widget.ViewFlipper;
 
 public class RechargeSelectActivity extends BaseActivity  {
     private static final String TAG = "RechargeSelectActivity";
+
+    private Activity mActivity;
+
 
     private ImageButton recharge_title_left_backbtn;
 
@@ -62,6 +67,8 @@ public class RechargeSelectActivity extends BaseActivity  {
 
     private RechargeSelectPage mRechargeSelectPage;
 
+    private RechargeAlipayPage mRechargeAlipayPage;
+
 
 
     /**
@@ -72,6 +79,7 @@ public class RechargeSelectActivity extends BaseActivity  {
     @Override
     protected void loadViewLayout() {
         setContentView(KR.layout.splus_recharge_activity);
+        this.mActivity=this;
 
     }
 
@@ -91,20 +99,9 @@ public class RechargeSelectActivity extends BaseActivity  {
         recharge_titlr_middle_text.setText(KR.string.splus_recharge_title_bar_middle_tips);
         vf_recharge_center = (ViewFlipper) findViewById(KR.id.splus_recharge_center_views);
 
-
         mRechargeSelectPage = new RechargeSelectPage(this, getPassport());
         addView(mRechargeSelectPage, RechargeSelectPage.class.getName());
-        mRechargeSelectPage.setOnRechargeItemClick(new RechargeItemClick() {
-
-            @Override
-            public void onRechargeItemClick(View v, RechargeTypeModel rechargeTypeModel) {
-               ToastUtil.showToast(mContext, rechargeTypeModel.getImgIcon()+rechargeTypeModel.getRechargeType());
-
-            }
-        });
-
-
-
+        mRechargeSelectPage.setOnRechargeItemClick(mRechargeItemClick);
 
         anim_in_into = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1,
                 Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
@@ -218,5 +215,21 @@ public class RechargeSelectActivity extends BaseActivity  {
         ExitAppUtils.getInstance().exit();
 
     }
+
+    private RechargeItemClick mRechargeItemClick=new RechargeItemClick() {
+
+        @Override
+        public void onRechargeItemClick(View v, RechargeTypeModel rechargeTypeModel) {
+
+            ToastUtil.showToast(mContext, rechargeTypeModel.getImgIcon()+rechargeTypeModel.getRechargeType());
+
+            // 进入客服中心页面
+               if (mRechargeAlipayPage == null) {
+                   mRechargeAlipayPage = new RechargeAlipayPage(getUserData(),mActivity);
+               }
+               addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
+
+        }
+    };
 }
 
