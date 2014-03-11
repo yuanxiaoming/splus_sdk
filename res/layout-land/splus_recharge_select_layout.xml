@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/splus_recharge_select_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dip"
+        android:textColor="#ff000000"
+        android:textSize="18dip" />
+
+    <TextView
+        android:id="@+id/splus_recharge_select_head_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="1dip"
+        android:textColor="#ff000000"
+        android:textSize="18dip"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dip"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:fadingEdge="none"
+            android:scrollbars="none" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <com.android.splus.sdk.widget.CustomGridView
+                    android:id="@+id/splus_recharge_type_gridview_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numColumns="3"
+                    android:scrollbars="none" >
+                </com.android.splus.sdk.widget.CustomGridView>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

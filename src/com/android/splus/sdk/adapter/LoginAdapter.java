@@ -8,7 +8,7 @@
  * @version V1.0
  */
 
-package com.android.splus.sdk.ui;
+package com.android.splus.sdk.adapter;
 
 import com.android.splus.sdk.manager.AccountObservable;
 import com.android.splus.sdk.model.UserModel;

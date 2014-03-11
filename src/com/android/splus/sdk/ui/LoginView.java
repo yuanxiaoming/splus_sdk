@@ -8,6 +8,7 @@
 
 package com.android.splus.sdk.ui;
 
+import com.android.splus.sdk.adapter.LoginAdapter;
 import com.android.splus.sdk.apiinterface.LoginCallBack;
 import com.android.splus.sdk.manager.AccountObservable;
 import com.android.splus.sdk.manager.ExitAppUtils;

@@ -18,7 +18,6 @@ import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.file.AppUtil;
 import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.r.KR;
-import com.android.splus.sdk.utils.r.ResourceUtil;
 
 import android.content.Intent;
 import android.graphics.Color;

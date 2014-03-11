@@ -102,6 +102,11 @@ public final class KR {
 
         public static final String splus_rechage_result_bottom_tips = "splus_rechage_result_bottom_tips";
 
+            /**TEST**/
+        public static final String splus_recharge_center_views = "splus_recharge_center_views";
+
+
+
 
     }
 
@@ -139,6 +144,11 @@ public final class KR {
        public static final String splus_recharge_select_activity = "splus_recharge_select_activity";
 
 
+
+       public static final String splus_recharge_select_layout = "splus_recharge_select_layout";
+
+       public static final String splus_recharge_activity = "splus_recharge_activity";
+
     }
 
     public static final class drawable {
@@ -154,6 +164,15 @@ public final class KR {
         public static final String splus_splash_loading = "splus_splash_loading";
 
         public static final String splus_splash_background = "splus_splash_background";
+
+        //
+
+        public static final String splus_recharge_type_textcolor_selector = "splus_recharge_type_textcolor_selector";
+
+        public static final String splus_recharge_by_alipay_fast_normal = "splus_recharge_by_alipay_fast_normal";
+
+
+
     }
 
     public static final class dimen {
@@ -248,6 +267,11 @@ public final class KR {
         public final static String splus_recharge_select_tips = "充值问题请联系客服:020-85166576 \n游戏相关问题请联系QQ：2355700639";
 
         public final static String splus_recharge_title_bar_middle_tips = "充值中心";
+
+
+
+        ///
+        public final static String splus_recharge_select_head_tips ="请点击选择适合您的充值方式";
 
     }
 }
