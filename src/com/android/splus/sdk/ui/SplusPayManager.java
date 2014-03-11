@@ -649,7 +649,7 @@ public class SplusPayManager implements IPayManager {
         this.mServerName = serverName;
         this.mRoleName = roleName;
         this.mMoney = null;
-        Intent intent = new Intent(activity, RechargeActivity.class);
+        Intent intent = new Intent(activity, RechargeSelectActivity.class);
         intent.putExtra(RechargeActivity.class.getName(), Constant.RECHARGE_BY_NO_QUATO);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);

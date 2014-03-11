@@ -102,8 +102,18 @@ public final class KR {
 
         public static final String splus_rechage_result_bottom_tips = "splus_rechage_result_bottom_tips";
 
-            /**TEST**/
+            /**本地充值**/
         public static final String splus_recharge_center_views = "splus_recharge_center_views";
+
+        public static final String splus_recharge_select_username = "splus_recharge_select_username";
+        public static final String splus_recharge_select_head_tips = "splus_recharge_select_head_tips";
+        public static final String splus_recharge_type_gridview_select = "splus_recharge_type_gridview_select";
+
+        public static final String splus_recharge_money_tips = "splus_recharge_money_tips";
+        public static final String splus_recharge_money_custom_et = "splus_recharge_money_custom_et";
+        public static final String splus_recharge_money_comfirm_btn = "splus_recharge_money_comfirm_btn";
+        public static final String splus_recharge_money_ratio_tv = "splus_recharge_money_ratio_tv";
+        public static final String splus_recharge_money_gridview_select = "splus_recharge_money_gridview_select";
 
 
 
@@ -144,10 +154,13 @@ public final class KR {
        public static final String splus_recharge_select_activity = "splus_recharge_select_activity";
 
 
-
+           //本地充值
        public static final String splus_recharge_select_layout = "splus_recharge_select_layout";
 
        public static final String splus_recharge_activity = "splus_recharge_activity";
+
+       public static final String splus_recharge_alipay_layout = "splus_recharge_alipay_layout";
+
 
     }
 
@@ -165,7 +178,7 @@ public final class KR {
 
         public static final String splus_splash_background = "splus_splash_background";
 
-        //
+        //本地充值
 
         public static final String splus_recharge_type_textcolor_selector = "splus_recharge_type_textcolor_selector";
 
@@ -270,7 +283,7 @@ public final class KR {
 
 
 
-        ///
+        ///本地充值
         public final static String splus_recharge_select_head_tips ="请点击选择适合您的充值方式";
 
     }

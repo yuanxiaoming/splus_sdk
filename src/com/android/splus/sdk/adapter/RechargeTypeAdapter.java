@@ -18,6 +18,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -81,6 +82,10 @@ public class RechargeTypeAdapter extends BaseAdapter {
         ImageView mImageView;
         if (convertView == null) {
             mImageView = new ImageView(mContext);
+            mImageView.setLayoutParams(new GridView.LayoutParams(240, 175));//设置ImageView对象布局
+            mImageView.setAdjustViewBounds(false);//设置边界对齐
+            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);//设置刻度的类型
+            mImageView.setPadding(8, 8, 8, 8);//设置间距
             convertView = mImageView;
         } else {
             mImageView = (ImageView) convertView;

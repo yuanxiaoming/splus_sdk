@@ -17,6 +17,7 @@ import com.android.splus.sdk.ui.recharge.RechargeSelectPage;
 import com.android.splus.sdk.ui.recharge.RechargeSelectPage.RechargeItemClick;
 import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.r.KR;
+import com.android.splus.sdk.utils.toast.ToastUtil;
 
 import android.graphics.Color;
 import android.view.View;
@@ -83,12 +84,11 @@ public class RechargeSelectActivity extends BaseActivity  {
     protected void findViewById() {
 
         recharge_title_left_backbtn = (ImageButton) findViewById(KR.id.splus_recharge_title_bar_left_button);
-        recharge_title_left_backbtn.setVisibility(View.INVISIBLE);
         recharge_title_right_btn = (ImageButton) findViewById(KR.id.splus_recharge_title_bar_right_button);
-        recharge_title_right_btn.setVisibility(View.INVISIBLE);
         recharge_titlr_middle_text = (TextView) findViewById(KR.id.splus_recharge_title_bar_middle_title);
         recharge_titlr_middle_text.setTextColor(Color.WHITE);
         recharge_titlr_middle_text.setTextSize(CommonUtil.dip2px(this, 10));
+        recharge_titlr_middle_text.setText(KR.string.splus_recharge_title_bar_middle_tips);
         vf_recharge_center = (ViewFlipper) findViewById(KR.id.splus_recharge_center_views);
 
 
@@ -98,7 +98,7 @@ public class RechargeSelectActivity extends BaseActivity  {
 
             @Override
             public void onRechargeItemClick(View v, RechargeTypeModel rechargeTypeModel) {
-
+               ToastUtil.showToast(mContext, rechargeTypeModel.getImgIcon()+rechargeTypeModel.getRechargeType());
 
             }
         });

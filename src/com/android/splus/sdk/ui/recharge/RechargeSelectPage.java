@@ -13,16 +13,10 @@ package com.android.splus.sdk.ui.recharge;
 import com.android.splus.sdk.R;
 import com.android.splus.sdk.adapter.RechargeTypeAdapter;
 import com.android.splus.sdk.model.RechargeTypeModel;
-import com.android.splus.sdk.ui.SplusPayManager;
 import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.widget.CustomGridView;
-import com.canhe.android.sdk.person.PersonCenter.PersonClickListener;
-import com.sanqi.android.sdk.model.UserData;
-import com.sanqi.android.sdk.ui._37WanPayManager;
-import com.sanqi.android.sdk.util.AppUtil;
-import com.sanqi.android.sdk.util.CommonUtil;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -88,8 +82,7 @@ public class RechargeSelectPage extends LinearLayout {
         super(activity);
         this.mActivity = activity;
         this.mPassport = passport;
-        inflate(activity,
-                ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_select_layout), this);
+        inflate(activity,ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_select_layout), this);
         findViews();
         initViews();
         setlistener();
@@ -103,16 +96,16 @@ public class RechargeSelectPage extends LinearLayout {
      */
 
     private void findViews() {
-        recharge_username = (TextView) findViewById(R.id.splus_recharge_select_username);
-        recharge_select_head_tips = (TextView) findViewById(R.id.splus_recharge_select_head_tips);
-        recharge_type_gv = (CustomGridView) findViewById(R.id.splus_recharge_type_gridview_select);
+        recharge_username = (TextView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_recharge_select_username));
+        recharge_select_head_tips = (TextView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_recharge_select_head_tips));
+        recharge_type_gv = (CustomGridView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_recharge_type_gridview_select));
 
         recharge_username.setGravity(Gravity.CENTER);
         recharge_username.setTextColor(ResourceUtil.getDrawableId(mActivity,
                 KR.drawable.splus_recharge_type_textcolor_selector));
 
         recharge_username.setTextColor(Color.BLACK);
-        recharge_username.setText(mPassport);
+        recharge_username.setText("欢迎您: "+mPassport);
         recharge_select_head_tips.setText(KR.string.splus_recharge_select_head_tips);
     }
 
@@ -134,11 +127,13 @@ public class RechargeSelectPage extends LinearLayout {
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             recharge_type_gv.setNumColumns(4);
+            recharge_type_gv.setColumnWidth(40);
             recharge_type_gv.setGravity(Gravity.CENTER);
             recharge_type_gv.setLayoutParams(new LinearLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER));
-            recharge_type_gv.setVerticalSpacing(20);
+            recharge_type_gv.setVerticalSpacing(40);
+            recharge_type_gv.setHorizontalSpacing(20);
 
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             // 竖屏
@@ -148,9 +143,10 @@ public class RechargeSelectPage extends LinearLayout {
                     Gravity.CENTER));
             recharge_type_gv.setPadding(5, 50, 5, 50);
             recharge_type_gv.setVerticalSpacing(40);
+            recharge_type_gv.setHorizontalSpacing(20);
 
         }
-        recharge_type_gv.setGravity(Gravity.CENTER);
+        recharge_type_gv.setGravity(Gravity.CENTER_HORIZONTAL);
         recharge_type_gv.setSelector(android.R.color.transparent);
         mRechargeTypeAdapter = new RechargeTypeAdapter(mRechargeTypeArrayList, mActivity);
         recharge_type_gv.setAdapter(mRechargeTypeAdapter);
