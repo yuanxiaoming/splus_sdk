@@ -135,7 +135,7 @@ public class RechargeActivity extends BaseActivity {
         mRechargeModel = new RechargeModel(SplusPayManager.getInstance().getGameid(),
                 SplusPayManager.getInstance().getServerName(), getDeviceno(), SplusPayManager
                         .getInstance().getPartner(), SplusPayManager.getInstance().getReferer(),
-                mUid, mType, mMoney, SplusPayManager
+                mUid, mMoney,  mType,SplusPayManager
                         .getInstance().getRoleName(), mTime, mPassport, mOutOrderid, mPext,
                 MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()));
 

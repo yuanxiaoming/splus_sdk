@@ -15,6 +15,8 @@ public class Constant {
     public static final String REGISTER_URL = "http://sy.api.37wan.cn/sdk/reg/reg.php";
 
     public static final String HTMLWAPPAY_URL = "http://sy.api.37wan.cn/htmlWapPay_test/payIndex.php";
+    
+    public static final String RATIO_URL = "http://sy.api.37wan.cn/sdk/ext/pay_way_ratio.php";
 
     public static final String RECHARGE_BY_NO_QUATO = "1";
 

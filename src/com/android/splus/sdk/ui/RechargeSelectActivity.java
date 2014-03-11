@@ -43,7 +43,6 @@ public class RechargeSelectActivity extends BaseActivity  {
 
     private Activity mActivity;
 
-
     private ImageButton recharge_title_left_backbtn;
 
     private ImageButton recharge_title_right_btn;
@@ -225,7 +224,7 @@ public class RechargeSelectActivity extends BaseActivity  {
 
             // 进入客服中心页面
                if (mRechargeAlipayPage == null) {
-                   mRechargeAlipayPage = new RechargeAlipayPage(getUserData(),mActivity);
+             //      mRechargeAlipayPage = new RechargeAlipayPage(getUserData(),mActivity);
                }
                addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
 
