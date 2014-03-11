@@ -63,21 +63,21 @@ public class ActiveData {
     public ActiveData(String deviceno, Integer updatetype, String sdkver, String gamever,
             String updateurl, String updatecontent, String passport, String relationships) {
         super();
-        this.deviceno = deviceno;
-        this.updatetype = updatetype;
-        this.sdkver = sdkver;
-        this.gamever = gamever;
-        this.updateurl = updateurl;
-        this.updatecontent = updatecontent;
+        this.deviceno = deviceno==null?"":deviceno;
+        this.updatetype = updatetype==null?0:updatetype;
+        this.sdkver = sdkver==null?"":sdkver;
+        this.gamever = gamever==null?"":gamever;
+        this.updateurl = updateurl==null?"":updateurl;
+        this.updatecontent = updatecontent==null?"":updatecontent;
         this.passport = passport;
         this.relationships = relationships;
         updateInfo = new JSONObject();
         try {
-            updateInfo.put(SplusPayManager.UPDATETYPE, updatetype);
-            updateInfo.put(SplusPayManager.SDKVERSION, sdkver);
-            updateInfo.put(SplusPayManager.GAMEVERSION, gamever);
-            updateInfo.put(SplusPayManager.UPDATEURL, updateurl);
-            updateInfo.put(SplusPayManager.UPDATECONTENT, updatecontent);
+            updateInfo.put(SplusPayManager.UPDATETYPE, this.updatetype);
+            updateInfo.put(SplusPayManager.SDKVERSION, this.sdkver);
+            updateInfo.put(SplusPayManager.GAMEVERSION, this.gamever);
+            updateInfo.put(SplusPayManager.UPDATEURL, this.updateurl);
+            updateInfo.put(SplusPayManager.UPDATECONTENT, this.updatecontent);
         } catch (JSONException e) {
             LogHelper.e(TAG, "", e);
 
