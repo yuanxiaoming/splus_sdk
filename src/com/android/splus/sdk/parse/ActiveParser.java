@@ -2,7 +2,9 @@
 package com.android.splus.sdk.parse;
 
 import com.android.splus.sdk.data.ActiveData;
+import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.http.BaseParser;
+import com.android.splus.sdk.utils.http.NetHttpUtil;
 import com.android.splus.sdk.utils.log.LogHelper;
 
 import org.json.JSONException;
@@ -26,6 +28,8 @@ public class ActiveParser extends BaseParser<HashMap<String, Object>> {
 
     @Override
     public HashMap<String, Object> parseJSON(String paramString) throws JSONException {
+
+        System.out.println("paramString-------------"+paramString);
         JSONObject paramObject = new JSONObject(paramString);
         mHashMap = new HashMap<String, Object>();
         if (paramObject != null && paramObject.optInt(CODE) == SUCCESS) {

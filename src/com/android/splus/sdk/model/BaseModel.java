@@ -45,7 +45,7 @@ public abstract class BaseModel extends HashMap<String, Object>  {
 
     public BaseModel(String jsonObject) {
         this.put(VERSION, SplusPayManager.SDK_VERSION);
-        this.put(DEBUG, "0");
+        this.put(DEBUG, "1");
     }
 
     /**
