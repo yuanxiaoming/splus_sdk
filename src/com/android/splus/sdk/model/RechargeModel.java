@@ -83,6 +83,18 @@ public class RechargeModel extends BaseModel {
     private String passport;
 
 
+    public static final String CARDNUMBER = "cardnumber";
+
+    private String cardnumber;
+
+    public static final String CARDPWD = "cardpwd";
+
+    private String cardpwd;
+
+    public static final String CARDAMT = "cardamt";
+
+    private String cardamt;
+
     public static final String SIGN = "sign";
 
     private String sign;
@@ -146,6 +158,31 @@ public class RechargeModel extends BaseModel {
         this.put(ROLENAME, roleName == null ? "" : roleName);
         this.put(TIME, time == null ? 0 : time);
         this.put(PASSPORT, passport == null ? "" : passport);
+        this.put(OUTORDERID, outOrderid == null ? "" : outOrderid);
+        this.put(PEXT, pext == null ? "" : pext);
+        this.put(SIGN, sign == null ? "" : sign.toLowerCase());
+    }
+
+
+    public RechargeModel(Integer gameid, String serverName, String deviceno, String partner,
+            String referer, Integer uid,  Float money,Integer type, String payway,String roleName, Long time,
+            String passport, String cardnumber,String cardpwd,String cardamt, String outOrderid, String pext, String sign) {
+        super("");
+        this.put(GAMEID, gameid == null ? 0 : gameid);
+        this.put(SERVERNAME, serverName == null ? "" : serverName);
+        this.put(DEVICENO, deviceno == null ? "" : deviceno);
+        this.put(PARTNER, partner == null ? "" : partner);
+        this.put(REFERER, referer == null ? "" : referer);
+        this.put(UID, uid == null ? 0 : uid);
+        this.put(MONEY, money == null ? 0.0 : money);
+        this.put(TYPE, type == null ? 0 : type);
+        this.put(PAYWAY, payway == null ? 0 : payway);
+        this.put(ROLENAME, roleName == null ? "" : roleName);
+        this.put(TIME, time == null ? 0 : time);
+        this.put(PASSPORT, passport == null ? "" : passport);
+        this.put(CARDNUMBER, cardnumber == null ? "" : cardnumber);
+        this.put(CARDPWD, cardpwd == null ? "" : cardpwd);
+        this.put(CARDAMT, cardamt == null ? "" : cardamt);
         this.put(OUTORDERID, outOrderid == null ? "" : outOrderid);
         this.put(PEXT, pext == null ? "" : pext);
         this.put(SIGN, sign == null ? "" : sign.toLowerCase());

@@ -106,14 +106,24 @@ public final class KR {
         public static final String splus_recharge_center_views = "splus_recharge_center_views";
 
         public static final String splus_recharge_select_username = "splus_recharge_select_username";
+        
         public static final String splus_recharge_select_head_tips = "splus_recharge_select_head_tips";
+        
         public static final String splus_recharge_type_gridview_select = "splus_recharge_type_gridview_select";
 
         public static final String splus_recharge_money_tips = "splus_recharge_money_tips";
+        
         public static final String splus_recharge_money_custom_et = "splus_recharge_money_custom_et";
+        
         public static final String splus_recharge_money_comfirm_btn = "splus_recharge_money_comfirm_btn";
+        
         public static final String splus_recharge_money_ratio_tv = "splus_recharge_money_ratio_tv";
+        
         public static final String splus_recharge_money_gridview_select = "splus_recharge_money_gridview_select";
+        
+        public static final String splus_recharge_money_cardpassport_edit = "splus_recharge_money_cardpassport_edit";
+
+        public static final String splus_recharge_money_cardpassword_edit = "splus_recharge_money_cardpassword_edit";
 
 
 

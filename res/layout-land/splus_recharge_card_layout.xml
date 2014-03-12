@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:fadingEdge="none"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/splus_recharge_money_tips"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginTop="8dip"
+                android:background="@drawable/splus_login_et_selector"
+                android:textColor="#808689"
+                android:textSize="20dp" />
+
+            <com.android.splus.sdk.widget.CustomGridView
+                android:id="@+id/splus_recharge_money_gridview_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="none" >
+            </com.android.splus.sdk.widget.CustomGridView>
+
+            <TextView
+                android:id="@+id/splus_recharge_money_ratio_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dip"
+                android:background="@drawable/splus_recharge_money_edit_selector"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="#9a9a9a"
+                android:textColorHint="#c1c1c1"
+                android:textSize="20dp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/splus_login_input_background"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="0dp" >
+
+                <EditText
+                    android:id="@+id/splus_recharge_money_cardpassport_edit"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/splus_login_et_selector"
+                    android:bufferType="editable"
+                    android:maxLength="20"
+                    android:singleLine="true"
+                    android:textColor="#9a9a9a"
+                    android:textColorHint="#c1c1c1"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/splus_login_bg_devider" />
+
+                <EditText
+                    android:id="@+id/splus_recharge_money_cardpassword_edit"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/splus_login_et_bottom_selector"
+                    android:bufferType="editable"
+                    android:maxLength="20"
+                    android:paddingLeft="55dp"
+                    android:singleLine="true"
+                    android:textColor="#9a9a9a"
+                    android:textColorHint="#c1c1c1"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/splus_recharge_money_comfirm_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/splus_login_btn_login_bg_selector"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:textColor="#ffffff"
+                android:textSize="18dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

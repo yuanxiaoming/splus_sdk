@@ -11,9 +11,6 @@
 package com.android.splus.sdk.ui.rechargeview;
 
 import com.android.splus.sdk.adapter.MoneyGridViewAdapter;
-import com.android.splus.sdk.alipay.AlixId;
-import com.android.splus.sdk.alipay.MobileSecurePayHelper;
-import com.android.splus.sdk.alipay.MobileSecurePayer;
 import com.android.splus.sdk.model.RatioModel;
 import com.android.splus.sdk.model.RechargeModel;
 import com.android.splus.sdk.model.UserModel;
@@ -27,7 +24,6 @@ import com.android.splus.sdk.utils.http.RequestModel;
 import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.md5.MD5Util;
 import com.android.splus.sdk.utils.phone.Phoneuitl;
-import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.utils.toast.ToastUtil;
@@ -38,15 +34,9 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Handler;
-import android.os.Message;
-import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -57,13 +47,16 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @ClassName: RechargeAlipayPage
  * @author xiaoming.yuan
  * @date 2014-3-11 下午1:37:06
  */
 
-public class RechargeAlipayPage extends LinearLayout {
+public class RechargeCardPage extends LinearLayout {
     private static final String TAG = "RechargeAlipayPage";
 
     private Activity mActivity;
@@ -74,14 +67,24 @@ public class RechargeAlipayPage extends LinearLayout {
 
     private Button recharge_comfirm_btn;
 
-    private EditText recharge_money_custom_et;
+    private EditText recharge_money_cardpassport_edit;
+
+    private EditText recharge_money_cardpassword_edit;
 
     private CustomGridView recharge_money_gridview_select;
 
     private MoneyGridViewAdapter mMoneyGridViewAdapter;
 
-    private static final int[] ALIPAY_MONEY = {
-            10, 20, 30, 50, 100, 200, 300, 500, 1000, 2000, 3000, 5000
+    private final int[] CHINA_MOBILE_MONEY = {
+            10, 20, 30, 50, 100, 300, 500
+    };
+
+    private static final int[] CHINA_UNICOM_MONEY = {
+            20, 30, 50, 100, 300, 500
+    };
+
+    private static final int[] CHINA_SDCOMM_ONEY = {
+            10, 30, 35, 45, 100, 350, 1000
     };
 
     private float mRenminbi = 0; // 人民币
@@ -116,13 +119,15 @@ public class RechargeAlipayPage extends LinearLayout {
 
     private Integer mType;
 
+    private String mCardNumber;
+
+    private String mCardPassword;
+
     protected CustomProgressDialog mProgressDialog;
 
-    private AlipayHtmlClick mAlipayHtmlClick;
-
-    public RechargeAlipayPage(UserModel userModel, Activity activity, String deviceno,
-            String appKey, Integer gamid, String partner, String referer, String roleName,
-            String serverName, String outOrderid, String pext, Integer type, String payway) {
+    public RechargeCardPage(UserModel userModel, Activity activity, String deviceno, String appKey,
+            Integer gamid, String partner, String referer, String roleName, String serverName,
+            String outOrderid, String pext, Integer type, String payway) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -155,8 +160,6 @@ public class RechargeAlipayPage extends LinearLayout {
     private void findViews() {
         recharge_money_tips = (TextView) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_recharge_money_tips));
-        recharge_money_custom_et = (EditText) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_custom_et));
         recharge_comfirm_btn = (Button) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_recharge_money_comfirm_btn));
         recharge_comfirm_btn.setText(KR.string.splus_recharge_comfirm_tips);
@@ -164,13 +167,15 @@ public class RechargeAlipayPage extends LinearLayout {
                 KR.id.splus_recharge_money_ratio_tv));
         recharge_money_gridview_select = (CustomGridView) findViewById(ResourceUtil.getId(
                 mActivity, KR.id.splus_recharge_money_gridview_select));
-
         recharge_money_tips.setText(KR.string.splus_recharge_select_head_tips);
-        recharge_money_custom_et.setFilters(new InputFilter[] {
-            new InputFilter.LengthFilter(6)
-        });
-        recharge_money_custom_et.setHint(KR.string.splus_recharge_custom_et_tips);
         recharge_money_ratio_tv.setHint(KR.string.splus_recharge_ratio_tv_tips);
+
+        recharge_money_cardpassport_edit = (EditText) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_recharge_money_cardpassport_edit));
+
+        recharge_money_cardpassword_edit = (EditText) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_recharge_money_cardpassword_edit));
+
     }
 
     /**
@@ -208,7 +213,13 @@ public class RechargeAlipayPage extends LinearLayout {
         }
         recharge_money_gridview_select.setGravity(Gravity.CENTER_HORIZONTAL);
         recharge_money_gridview_select.setSelector(android.R.color.transparent);
-        mMoneyGridViewAdapter = new MoneyGridViewAdapter(ALIPAY_MONEY, mActivity);
+        if (mPayway.equals(Constant.CHAIN_CMM_PAYWAY)) {
+            mMoneyGridViewAdapter = new MoneyGridViewAdapter(CHINA_MOBILE_MONEY, mActivity);
+        } else if (mPayway.equals(Constant.CHAIN_UNC_PAYWAY)) {
+            mMoneyGridViewAdapter = new MoneyGridViewAdapter(CHINA_UNICOM_MONEY, mActivity);
+        } else if (mPayway.equals(Constant.CHAIN_SD_PAYWAY)) {
+            mMoneyGridViewAdapter = new MoneyGridViewAdapter(CHINA_SDCOMM_ONEY, mActivity);
+        }
         recharge_money_gridview_select.setAdapter(mMoneyGridViewAdapter);
         mRenminbi = mMoneyGridViewAdapter.getMoneyArray()[0];
 
@@ -226,7 +237,6 @@ public class RechargeAlipayPage extends LinearLayout {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                recharge_money_custom_et.setText(null);
                 mMoneyIndex = position;
                 mRenminbi = mMoneyGridViewAdapter.getMoneyArray()[mMoneyIndex];
                 setGetMoneyTextPure(mRenminbi);
@@ -240,50 +250,6 @@ public class RechargeAlipayPage extends LinearLayout {
             @Override
             public void onClick(View v) {
                 payQuest();
-            }
-        });
-        recharge_money_custom_et.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // 清除GIRDVIEW中的选择
-                if (mMoneyIndex != -1) {
-                    mMoneyIndex = -1;
-                    recharge_money_ratio_tv.setText("");
-                    mMoneyGridViewAdapter.setMoneyIndex(mMoneyIndex);
-                }
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String temp = s.toString().trim();
-                if (temp.contains(".")) {
-                    if (temp.length() == 1) {
-                        recharge_money_custom_et.setText(null);
-                    }
-                    int posDot = temp.indexOf(".");
-                    if (posDot <= 0) {
-                        return;
-                    }
-
-                    if (temp.length() - posDot - 1 > 2) {
-                        s.delete(posDot + 3, posDot + 4);
-                    }
-                }
-                String str = s.toString().trim();
-                if (str.length() > 0) {
-                    if (!TextUtils.isEmpty(str)
-                            && !str.subSequence(str.length() - 1, str.length()).equals(".")) {
-                        mRenminbi = Float.valueOf(str);
-                        setGetMoneyTextPure(mRenminbi);
-                    }
-                }
             }
         });
     }
@@ -349,129 +315,74 @@ public class RechargeAlipayPage extends LinearLayout {
     }
 
     private void payQuest() {
-        if (mPayway.equals(Constant.ALIPAY_FAST_PAYWAY)) {
-            // check to see if the MobileSecurePay is already installed.
-            // 检测安全支付服务是否安装
-            MobileSecurePayHelper mspHelper = new MobileSecurePayHelper(mActivity);
-            boolean isMobile_spExist = mspHelper.detectMobile_sp();
-            if (!isMobile_spExist) {
-                return;
-            }
-            long time = DateUtil.getUnixTime();
-            String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner
-                    + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
-            RechargeModel rechargeModel = new RechargeModel(mGameid, mServerName, mDeviceno,
-                    mPartner, mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleName,
-                    time, mUserModel.getPassport(), mOutOrderid, mPext,
-                    MD5Util.getMd5toLowerCase(keyString));
-            if (mProgressDialog == null || !mProgressDialog.isShowing()) {
-                showProgressDialog();
-            }
-            NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.HTMLWAPPAY_URL,
-                    mActivity, rechargeModel, new LoginParser()), onRechargeCallBack);
 
-        } else {
-            String str = "充值金额：" + mRenminbi
-                    + "元, 请确认您的支付宝余额大于充值金额,否则请您先充值到余额宝！储蓄卡或信用卡支付，单笔限额500元，每日限额500元，每月限额500元";
-            ProgressDialogUtil.showInfoDialog(mActivity, "确认支付", str,
-                    android.R.drawable.ic_dialog_info, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mAlipayHtmlClick.onAlipayHtmlClick(mUserModel, mActivity, mDeviceno,
-                                    mAppKey, mGameid, mPartner, mReferer, mRoleName, mServerName,
-                                    mOutOrderid, mPext, mType, mPayway, mRenminbi);
-                        }
-
-                    }, null, true);
-
+        mCardNumber = recharge_money_cardpassport_edit.getText().toString().trim();
+        mCardPassword = recharge_money_cardpassword_edit.getText().toString().trim();
+        if (null == mCardNumber || "".equals(mCardNumber) || !isCardNumberCorrect(mCardNumber)) {
+            ToastUtil.showToast(mActivity, "卡号不能为空或者格式不对");
+            return;
         }
+        if (null == mCardPassword || "".equals(mCardPassword) || !isCardPasswordCorrect(mCardPassword)) {
+            ToastUtil.showToast(mActivity, "密码不能为空或者格式不对");
+            return;
+        }
+        long time = DateUtil.getUnixTime();
+        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner+ mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
+        RechargeModel rechargeModel = new RechargeModel(mGameid, mServerName, mDeviceno,
+                mPartner, mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleName,
+                time, mUserModel.getPassport(),mCardNumber,mCardPassword, String.valueOf(mRenminbi),mOutOrderid, mPext,
+                MD5Util.getMd5toLowerCase(keyString));
+
+
+        if (mProgressDialog == null || !mProgressDialog.isShowing()) {
+            showProgressDialog();
+        }
+        NetHttpUtil.getDataFromServerPOST(mActivity,new RequestModel(Constant.HTMLWAPPAY_URL, mActivity,
+                rechargeModel, new LoginParser()), onRechargebyCardCallBack);
 
     }
 
-    private DataCallback<JSONObject> onRechargeCallBack = new DataCallback<JSONObject>() {
 
+
+    private DataCallback<JSONObject> onRechargebyCardCallBack = new DataCallback<JSONObject>() {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
-            closeProgressDialog();
-            if (paramObject != null&& (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
-                String orderid = paramObject.optJSONObject("data").optString("orderid");
-                int time = paramObject.optJSONObject("data").optInt("time");
-                String orderinfo = paramObject.optJSONObject("data").optString("orderinfo");
-                String sign = paramObject.optJSONObject("data").optString("sign");
-                if (sign.equals(MD5Util.getMd5toLowerCase(orderid + time + mAppKey))) {
-                    // 支付
-                    try {
-                        MobileSecurePayer msp = new MobileSecurePayer();
-                        boolean bRet = msp.pay(orderinfo, mHandler, AlixId.RQF_PAY, mActivity);
-                        if (bRet) {
-                            showProgressDialog();
-                        }
-                    } catch (Exception e) {
+                closeProgressDialog();
+                if (paramObject != null && (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
+                    String orderid = paramObject.optJSONObject("data").optString("orderid");
+                    final int time = paramObject.optJSONObject("data").optInt("time");
+                    String sign = paramObject.optJSONObject("data").optString("sign");
+                    if (sign.equals(MD5Util.getMd5toLowerCase(orderid + time + mAppKey))) {
+                        result_intent(Constant.RECHARGE_RESULT_SUCCESS_TIPS);
+                    } else {
+                        String msg = paramObject.optString("msg");
+                        LogHelper.d(TAG, msg);
+                        ToastUtil.showToast(mActivity, msg);
                         result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
-                        ToastUtil.showToast(mActivity, "支付失败");
                     }
-                } else {
-                    result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+                } else if (paramObject != null && (paramObject.optInt("code") == 19 || paramObject.optInt("code") == 20 || paramObject.optInt("code") == 26)) {
+                    ToastUtil.showToast(mActivity, "系统故障或繁忙，请稍后再试");
                     String msg = paramObject.optString("msg");
                     LogHelper.d(TAG, msg);
-                    ToastUtil.showToast(mActivity, msg);
+                    result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+                } else {
+                    String msg = paramObject.optString("msg");
+                    ToastUtil.showToast(mActivity, "充值失败，请稍后再试");
+                    LogHelper.d(TAG, msg);
+                    result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
                 }
-
-            } else {
-                result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
-                String msg = paramObject.optString("msg");
-                LogHelper.d(TAG, msg);
-                ToastUtil.showToast(mActivity, msg);
-            }
-
         }
 
         @Override
         public void callbackError(String error) {
             closeProgressDialog();
-            result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
             LogHelper.d(TAG, error);
             ToastUtil.showToast(mActivity, error);
+            result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
         }
 
     };
 
-    // the handler use to receive the pay result.
-    // 这里接收支付结果，支付宝手机端同步通知
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            closeProgressDialog();
-            try {
-                String strRet = (String) msg.obj;
-                LogHelper.i(TAG, strRet); // strRet范例：resultStatus={9000};memo={};result={partner="2088201564809153"&seller="2088201564809153"&out_trade_no="050917083121576"&subject="123456"&body="2010新款NIKE 耐克902第三代板鞋 耐克男女鞋 386201 白红"&total_fee="0.01"&notify_url="http://notify.java.jpxx.org/index.jsp"&success="true"&sign_type="RSA"&sign="d9pdkfy75G997NiPS1yZoYNCmtRbdOP0usZIMmKCCMVqbSG1P44ohvqMYRztrB6ErgEecIiPj9UldV5nSy9CrBVjV54rBGoT6VSUF/ufjJeCSuL510JwaRpHtRPeURS1LXnSrbwtdkDOktXubQKnIMg2W0PreT1mRXDSaeEECzc="}
-                switch (msg.what) {
-                    case AlixId.RQF_PAY: {
-                        LogHelper.i(TAG, strRet);
-                        // 处理交易结果
-                        // 获取交易状态码，具体状态代码请参看文档
-                        String tradeStatus = "resultStatus={";
-                        int imemoStart = strRet.indexOf(tradeStatus);
-                        imemoStart += tradeStatus.length();
-                        int imemoEnd = strRet.indexOf("};memo=");
-                        tradeStatus = strRet.substring(imemoStart, imemoEnd);
-                        // 判断交易状态码，只有9000表示交易成功
-                        if (tradeStatus.equals("9000")) {
-                            result_intent(Constant.RECHARGE_RESULT_SUCCESS_TIPS);
-                        } else {
-                            LogHelper.i(TAG, strRet);
-                            result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
-                        }
-                    }
-                        break;
-                }
-                super.handleMessage(msg);
-            } catch (Exception e) {
-                e.printStackTrace();
-                LogHelper.i(TAG, e.getLocalizedMessage());
-                result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
-            }
-        }
-    };
 
     private void result_intent(String rechage_type) {
         Intent intent = new Intent();
@@ -480,6 +391,64 @@ public class RechargeAlipayPage extends LinearLayout {
         intent.putExtra(Constant.MONEY, String.valueOf(mRenminbi));
         mActivity.startActivity(intent);
 
+    }
+
+    /**
+     * 检测充值卡密码格式是否正确
+     *
+     * @param cardNumberpwd
+     * @return
+     */
+    private boolean isCardPasswordCorrect(String cardNumberpwd) {
+
+        if (!TextUtils.isEmpty(cardNumberpwd)) {
+            Pattern pattern = null;
+
+            if (mPayway.equals(Constant.CHAIN_CMM_PAYWAY)) {
+                pattern = Pattern.compile("^\\d{18}$");
+            } else if (mPayway.equals(Constant.CHAIN_UNC_PAYWAY)) {
+                pattern = Pattern.compile("^\\d{19}$");
+            } else if (mPayway.equals(Constant.CHAIN_SD_PAYWAY)) {
+                pattern = Pattern.compile("^\\d{8,9}$");
+            }
+
+            if (pattern != null) {
+                Matcher matcher = pattern.matcher(cardNumberpwd);
+                return matcher.find();
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 检测充值卡号格式是否正确
+     *
+     * @param cardNumber
+     * @return
+     */
+    private boolean isCardNumberCorrect(String cardNumber) {
+        if (!TextUtils.isEmpty(cardNumber)) {
+            Pattern pattern = null;
+            if (mPayway.equals(Constant.CHAIN_CMM_PAYWAY)) {
+                pattern = Pattern.compile("^\\d{17}$");
+            } else if (mPayway.equals(Constant.CHAIN_UNC_PAYWAY)) {
+                pattern = Pattern.compile("^[0-9a-zA-Z]{15}$");
+            } else if (mPayway.equals(Constant.CHAIN_SD_PAYWAY)) {
+                pattern = Pattern.compile("^[0-9a-zA-Z]{15}$");
+            }
+
+            if (pattern != null) {
+                Matcher matcher = pattern.matcher(cardNumber);
+                return matcher.find();
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     protected void showProgressDialog() {
@@ -502,24 +471,6 @@ public class RechargeAlipayPage extends LinearLayout {
         if (this.mProgressDialog != null && this.mProgressDialog.isShowing()) {
             this.mProgressDialog.dismiss();
         }
-    }
-
-    /**
-     * @author xiaoming.yuan
-     * @date 2013年9月29日 下午4:28:56
-     * @param listener
-     */
-    public void setOnAlipayHtmlClick(AlipayHtmlClick listener) {
-        this.mAlipayHtmlClick = listener;
-    }
-
-    public interface AlipayHtmlClick {
-
-        public void onAlipayHtmlClick(UserModel userModel, Activity activity, String deviceno,
-                String appKey, Integer gamid, String partner, String referer, String roleName,
-                String serverName, String outOrderid, String pext, Integer type, String payway,
-                float renminbi);
-
     }
 
 }
