@@ -16,6 +16,7 @@ import com.android.splus.sdk.model.RechargeModel;
 import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.parse.LoginParser;
 import com.android.splus.sdk.ui.RechargeResultActivity;
+import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.date.DateUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil;
@@ -33,9 +34,13 @@ import com.android.splus.sdk.widget.CustomProgressDialog;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.res.Configuration;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -44,6 +49,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -67,6 +74,8 @@ public class RechargeCardPage extends LinearLayout {
 
     private Button recharge_comfirm_btn;
 
+    private ImageButton recharge_card_explian_ibtn;
+
     private EditText recharge_money_cardpassport_edit;
 
     private EditText recharge_money_cardpassword_edit;
@@ -80,11 +89,11 @@ public class RechargeCardPage extends LinearLayout {
     };
 
     private static final int[] CHINA_UNICOM_MONEY = {
-            20, 30, 50, 100, 300, 500
+        20, 30, 50, 100, 300, 500
     };
 
     private static final int[] CHINA_SDCOMM_ONEY = {
-            10, 30, 35, 45, 100, 350, 1000
+        10, 30, 35, 45, 100, 350, 1000
     };
 
     private float mRenminbi = 0; // 人民币
@@ -125,6 +134,14 @@ public class RechargeCardPage extends LinearLayout {
 
     protected CustomProgressDialog mProgressDialog;
 
+
+    private View mDialogClauseView;// 条款视图
+
+    private Dialog mDialogClause;// 条款对话框
+
+    private FrameLayout.LayoutParams mDialogClauseparams;// 条款对话框参数
+
+
     public RechargeCardPage(UserModel userModel, Activity activity, String deviceno, String appKey,
             Integer gamid, String partner, String referer, String roleName, String serverName,
             String outOrderid, String pext, Integer type, String payway) {
@@ -143,7 +160,7 @@ public class RechargeCardPage extends LinearLayout {
         this.mType = type;
         this.mPayway = payway;
         inflate(activity,
-                ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_layout), this);
+                ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_card_layout), this);
         findViews();
         initViews();
         setlistener();
@@ -167,14 +184,19 @@ public class RechargeCardPage extends LinearLayout {
                 KR.id.splus_recharge_money_ratio_tv));
         recharge_money_gridview_select = (CustomGridView) findViewById(ResourceUtil.getId(
                 mActivity, KR.id.splus_recharge_money_gridview_select));
-        recharge_money_tips.setText(KR.string.splus_recharge_select_head_tips);
+        recharge_money_tips.setText(Html.fromHtml(KR.string.splus_recharge_select_head_tips+"<font color=#FE8E35>(选择与充值金额相等的充值卡)</font>"));
         recharge_money_ratio_tv.setHint(KR.string.splus_recharge_ratio_tv_tips);
 
         recharge_money_cardpassport_edit = (EditText) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_recharge_money_cardpassport_edit));
 
+        recharge_money_cardpassport_edit.setHint("请输入卡号");
+
         recharge_money_cardpassword_edit = (EditText) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_recharge_money_cardpassword_edit));
+        recharge_money_cardpassword_edit.setHint("请输入密码");
+        recharge_card_explian_ibtn=(ImageButton) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_recharge_card_explian_ibtn));
 
     }
 
@@ -252,7 +274,21 @@ public class RechargeCardPage extends LinearLayout {
                 payQuest();
             }
         });
+        recharge_card_explian_ibtn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mPayway.equals(Constant.CHAIN_CMM_PAYWAY)) {
+                    show_card_explian("移动卡充值说明", KR.string.splus_recharge_long_cmm_tips, "确定");
+                } else if (mPayway.equals(Constant.CHAIN_UNC_PAYWAY)) {
+                    show_card_explian("联通卡充值说明", KR.string.splus_recharge_long_unc_tips, "确定");
+                } else if (mPayway.equals(Constant.CHAIN_SD_PAYWAY)) {
+                    show_card_explian("盛大卡充值说明", KR.string.splus_recharge_long_sd_tips, "确定");
+                }
+            }
+        });
     }
+
 
     /**
      * @Title: processLogic(这里用一句话描述这个方法的作用)
@@ -347,30 +383,30 @@ public class RechargeCardPage extends LinearLayout {
     private DataCallback<JSONObject> onRechargebyCardCallBack = new DataCallback<JSONObject>() {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
-                closeProgressDialog();
-                if (paramObject != null && (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
-                    String orderid = paramObject.optJSONObject("data").optString("orderid");
-                    final int time = paramObject.optJSONObject("data").optInt("time");
-                    String sign = paramObject.optJSONObject("data").optString("sign");
-                    if (sign.equals(MD5Util.getMd5toLowerCase(orderid + time + mAppKey))) {
-                        result_intent(Constant.RECHARGE_RESULT_SUCCESS_TIPS);
-                    } else {
-                        String msg = paramObject.optString("msg");
-                        LogHelper.d(TAG, msg);
-                        ToastUtil.showToast(mActivity, msg);
-                        result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
-                    }
-                } else if (paramObject != null && (paramObject.optInt("code") == 19 || paramObject.optInt("code") == 20 || paramObject.optInt("code") == 26)) {
-                    ToastUtil.showToast(mActivity, "系统故障或繁忙，请稍后再试");
-                    String msg = paramObject.optString("msg");
-                    LogHelper.d(TAG, msg);
-                    result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+            closeProgressDialog();
+            if (paramObject != null && (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
+                String orderid = paramObject.optJSONObject("data").optString("orderid");
+                final int time = paramObject.optJSONObject("data").optInt("time");
+                String sign = paramObject.optJSONObject("data").optString("sign");
+                if (sign.equals(MD5Util.getMd5toLowerCase(orderid + time + mAppKey))) {
+                    result_intent(Constant.RECHARGE_RESULT_SUCCESS_TIPS);
                 } else {
                     String msg = paramObject.optString("msg");
-                    ToastUtil.showToast(mActivity, "充值失败，请稍后再试");
                     LogHelper.d(TAG, msg);
+                    ToastUtil.showToast(mActivity, msg);
                     result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
                 }
+            } else if (paramObject != null && (paramObject.optInt("code") == 19 || paramObject.optInt("code") == 20 || paramObject.optInt("code") == 26)) {
+                ToastUtil.showToast(mActivity, "系统故障或繁忙，请稍后再试");
+                String msg = paramObject.optString("msg");
+                LogHelper.d(TAG, msg);
+                result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+            } else {
+                String msg = paramObject.optString("msg");
+                ToastUtil.showToast(mActivity, "充值失败，请稍后再试");
+                LogHelper.d(TAG, msg);
+                result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+            }
         }
 
         @Override
@@ -471,6 +507,77 @@ public class RechargeCardPage extends LinearLayout {
         if (this.mProgressDialog != null && this.mProgressDialog.isShowing()) {
             this.mProgressDialog.dismiss();
         }
+    }
+
+
+
+    private void show_card_explian(String title,String content,String okBtnStr) {
+        mDialogClauseparams = getMParames();
+        if (mDialogClause == null) {
+            mDialogClause = new Dialog(mActivity, android.R.style.Theme_Panel);
+            mDialogClause.addContentView(getmDialogView(title,content,okBtnStr), mDialogClauseparams);
+        }
+        if (!mDialogClause.isShowing()) {
+            mDialogClause.show();
+        }
+
+    }
+
+    /**
+     *
+     * @return View
+     * @exception
+     * @since 1.0.0 xiaoming.yuan
+     */
+    private View getmDialogView(String title,String content,String okBtnStr) {
+
+        mDialogClauseView = CommonUtil.createCustomView(mActivity,
+                KR.layout.splus_recharge_card_explian_dialog);
+        TextView mContentTextView = (TextView) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_register_clause_dialog_tv_content));
+        mContentTextView.setText(Html.fromHtml(content));
+        TextView mTitleTextView = (TextView) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_register_clause_dialog_iv_title));
+        mTitleTextView.setText(title);
+        Button button = (Button) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_register_clause_dialog_btn_agree));
+        button.setText(okBtnStr);
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mDialogClause != null && mDialogClause.isShowing()) {
+                    mDialogClause.dismiss();
+                }
+            }
+        });
+        ImageView splus_login_clause_dialog_iv_close = (ImageView) mDialogClauseView
+                .findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_clause_iv_close));
+        splus_login_clause_dialog_iv_close.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mDialogClause != null && mDialogClause.isShowing()) {
+                    mDialogClause.dismiss();
+                }
+
+            }
+        });
+
+        return mDialogClauseView;
+    }
+    /**
+     * getMParames(生成窗口参数)
+     *
+     * @return LayoutParams
+     * @exception
+     * @since 1.0.0 xiaoming.yuan
+     */
+    private FrameLayout.LayoutParams getMParames() {
+        if (mDialogClauseparams == null) {
+            return CommonUtil.getFrameLayoutParams(mActivity, 140, 140, 65, 65, Gravity.CENTER);
+        }
+        return mDialogClauseparams;
     }
 
 }

@@ -17,6 +17,7 @@ import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.ui.rechargeview.RechargeAlipayHtmlPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeAlipayPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeAlipayPage.AlipayHtmlClick;
+import com.android.splus.sdk.ui.rechargeview.RechargeCardPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeSelectPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeSelectPage.RechargeItemClick;
 import com.android.splus.sdk.utils.CommonUtil;
@@ -81,6 +82,8 @@ public class RechargeSelectActivity extends BaseActivity {
     private RechargeAlipayPage mRechargeAlipayPage;
 
     private RechargeAlipayHtmlPage mRechargeAlipayHtmlPage;
+
+    private RechargeCardPage mRechargeCardPage;
 
     /**
      * Title: loadViewLayout Description:
@@ -229,6 +232,21 @@ public class RechargeSelectActivity extends BaseActivity {
             }
         }
 
+        if (RechargeCardPage.class.getName().equals(currentPage) && mRechargeCardPage != null) {
+
+            switch (mRechargeTypeModel.getRechargeType()) {
+                case Constant.CHAIN_CMM:
+                    recharge_titlr_middle_text.setText("移动卡");
+                    break;
+                case Constant.CHAIN_UNC:
+                    recharge_titlr_middle_text.setText("联通卡");
+                    break;
+                case Constant.CHAIN_SD:
+                    recharge_titlr_middle_text.setText("盛大卡");
+                    break;
+            }
+        }
+
         if (RechargeSelectPage.class.getName().equals(currentPage) && mRechargeSelectPage != null) {
 
             recharge_titlr_middle_text.setText(KR.string.splus_recharge_title_bar_middle_tips);
@@ -339,13 +357,37 @@ public class RechargeSelectActivity extends BaseActivity {
                     mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
                     break;
                 case Constant.CHAIN_CMM:
-
+                    recharge_titlr_middle_text.setText("移动卡");
+                    // 进入移动卡页面
+                    mRechargeCardPage = new RechargeCardPage(getUserData(), mActivity,
+                            getDeviceno(), mSplusPayManager.getAppkey(),
+                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                            mSplusPayManager.getPext(), mType, mPayway);
+                    addView(mRechargeCardPage, RechargeCardPage.class.getName());
                     break;
                 case Constant.CHAIN_UNC:
-
+                    recharge_titlr_middle_text.setText("联通卡");
+                    // 进入联通卡页面
+                    mRechargeCardPage = new RechargeCardPage(getUserData(), mActivity,
+                            getDeviceno(), mSplusPayManager.getAppkey(),
+                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                            mSplusPayManager.getPext(), mType, mPayway);
+                    addView(mRechargeCardPage, RechargeCardPage.class.getName());
                     break;
                 case Constant.CHAIN_SD:
-
+                    recharge_titlr_middle_text.setText("盛大卡");
+                    // 进入支盛大卡页面
+                    mRechargeCardPage = new RechargeCardPage(getUserData(), mActivity,
+                            getDeviceno(), mSplusPayManager.getAppkey(),
+                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                            mSplusPayManager.getPext(), mType, mPayway);
+                    addView(mRechargeCardPage, RechargeCardPage.class.getName());
                     break;
 
                 case Constant.PERSON:

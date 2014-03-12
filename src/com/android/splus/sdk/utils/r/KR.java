@@ -106,24 +106,28 @@ public final class KR {
         public static final String splus_recharge_center_views = "splus_recharge_center_views";
 
         public static final String splus_recharge_select_username = "splus_recharge_select_username";
-        
+
         public static final String splus_recharge_select_head_tips = "splus_recharge_select_head_tips";
-        
+
         public static final String splus_recharge_type_gridview_select = "splus_recharge_type_gridview_select";
 
         public static final String splus_recharge_money_tips = "splus_recharge_money_tips";
-        
+
         public static final String splus_recharge_money_custom_et = "splus_recharge_money_custom_et";
-        
+
         public static final String splus_recharge_money_comfirm_btn = "splus_recharge_money_comfirm_btn";
-        
+
         public static final String splus_recharge_money_ratio_tv = "splus_recharge_money_ratio_tv";
-        
+
         public static final String splus_recharge_money_gridview_select = "splus_recharge_money_gridview_select";
-        
+
         public static final String splus_recharge_money_cardpassport_edit = "splus_recharge_money_cardpassport_edit";
 
         public static final String splus_recharge_money_cardpassword_edit = "splus_recharge_money_cardpassword_edit";
+
+        public static final String splus_recharge_card_explian_ibtn = "splus_recharge_card_explian_ibtn";
+
+        public static final String splus_register_clause_dialog_iv_title = "splus_register_clause_dialog_iv_title";
 
 
 
@@ -170,6 +174,10 @@ public final class KR {
        public static final String splus_recharge_activity = "splus_recharge_activity";
 
        public static final String splus_recharge_alipay_layout = "splus_recharge_alipay_layout";
+
+       public static final String splus_recharge_card_layout = "splus_recharge_card_layout";
+
+       public static final String splus_recharge_card_explian_dialog = "splus_recharge_card_explian_dialog";
 
 
     }
@@ -304,5 +312,13 @@ public final class KR {
 
         public final static String splus_recharge_custom_et_tips ="也可以输入自定金额(元)";
         public final static String splus_recharge_ratio_tv_tips ="游戏兑换比率";
+
+
+        public final static String splus_recharge_long_cmm_tips = "<p>1.请您选择<font color=#FE8E35>正确的充值卡金额</font>，以免造成充值失败或卡内资金损失,由此造成的损失由用户自行承担,37wan公司不承担任何责任！</p><p>2.支持中国移动（卡号 17位,密码18位）,支持全国通用的<font color=#FE8E35>一卡充</font>。</p> <p>3.【重要提示】 请务必使用与此面额相同的移动充值卡，否则会导致支付不成功，或支付金额丢失。（使用面额100元的移动充值卡但选择50元，高于50元部分不返还；使用50元卡但选择100元，支付失败，50元不返还。）不支持彩铃充值卡和短信充值卡，选择任何面额彩铃充值卡，将不予退还任何金额。 </p>";
+
+        public final static String splus_recharge_long_unc_tips = "<p>1.请您选择<font color=#FE8E35>正确的充值卡金额</font>，以免造成充值失败或卡内资金损失,由此造成的损失由用户自行承担,37wan公司不承担任何责任！</p><p>2.支持中国联通 (卡号 15位,密码19位)。</p><p>3.【重要提示】 ※请务必使用与您选择的面额相同的联通充值卡进行支付，否则引起的交易失败交易金额不予退还。 如：选择50元面额但使用100元卡支付，则系统认为实际支付金额为50元， 高于50元部分不予退还；选择50元面额但使用30元卡支付则系统认为支付失败， 30元不予退还。 </p>";
+
+        public final static String splus_recharge_long_sd_tips = "<p>1.请您选择<font color=#FE8E35>正确的充值卡金额</font>，以免造成充值失败或卡内资金损失,由此造成的损失由用户自行承担,37wan公司不承担任何责任！</p><p>2.盛大(卡号 15位,密码8/9位),虚卡面值：（任意面值，不含卡密，直充） </font>。 </p><p>3.【温馨提示】 请使用卡号以CSC5、CS、S、CA、CSB、YA、YB、YC、YD开头的“盛大互动娱乐卡”进行支付。</p>";
+
     }
 }
