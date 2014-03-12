@@ -15,12 +15,12 @@ public class Constant {
     public static final String REGISTER_URL = "http://sy.api.37wan.cn/sdk/reg/reg.php";
 
     public static final String HTMLWAPPAY_URL = "http://sy.api.37wan.cn/htmlWapPay_test/payIndex.php";
-    
+
     public static final String RATIO_URL = "http://sy.api.37wan.cn/sdk/ext/pay_way_ratio.php";
 
-    public static final String RECHARGE_BY_NO_QUATO = "1";
+    public static final int RECHARGE_BY_NO_QUATO = 0;
 
-    public static final String RECHARGE_BY_QUATO = "2";
+    public static final int RECHARGE_BY_QUATO = 1;
 
 
     /** ******************************************************************************************/
@@ -39,7 +39,7 @@ public class Constant {
     public static String RECHARGE_RESULT_SUCCESS_TIPS = "recharge_result_success_tips";
 
     public static String RECHARGE_RESULT_FAIL_TIPS = "recharge_result_fail_tips";
-    
+
     public static final String MONEY = "money";
 
 

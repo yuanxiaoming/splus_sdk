@@ -1,5 +1,4 @@
-
- /**
+/**
  * @Title: RechargeSelectActivity.java
  * @Package com.android.splus.sdk.ui
  * Copyright: Copyright (c) 2013
@@ -9,7 +8,7 @@
  * @version V1.0
  */
 
- package com.android.splus.sdk.ui;
+package com.android.splus.sdk.ui;
 
 import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.RechargeTypeModel;
@@ -31,17 +30,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-
 /**
  * @ClassName: RechargeSelectActivity
  * @author xiaoming.yuan
  * @date 2014-3-10 下午3:23:32
  */
 
-public class RechargeSelectActivity extends BaseActivity  {
+public class RechargeSelectActivity extends BaseActivity {
     private static final String TAG = "RechargeSelectActivity";
 
     private Activity mActivity;
+
+    private Integer mType = 0;
+
+    private SplusPayManager mSplusPayManager;
 
     private ImageButton recharge_title_left_backbtn;
 
@@ -56,7 +58,6 @@ public class RechargeSelectActivity extends BaseActivity  {
 
     private ViewFlipper vf_recharge_center;
 
-
     public int anim_time = 500;
 
     /**
@@ -68,23 +69,22 @@ public class RechargeSelectActivity extends BaseActivity  {
 
     private RechargeAlipayPage mRechargeAlipayPage;
 
-
-
     /**
-     * Title: loadViewLayout
-     * Description:
+     * Title: loadViewLayout Description:
+     *
      * @see com.android.splus.sdk.ui.BaseActivity#loadViewLayout()
      */
     @Override
     protected void loadViewLayout() {
         setContentView(KR.layout.splus_recharge_activity);
-        this.mActivity=this;
+        this.mActivity = this;
+        mSplusPayManager = SplusPayManager.getInstance();
 
     }
 
     /**
-     * Title: findViewById
-     * Description:
+     * Title: findViewById Description:
+     *
      * @see com.android.splus.sdk.ui.BaseActivity#findViewById()
      */
     @Override
@@ -117,12 +117,9 @@ public class RechargeSelectActivity extends BaseActivity  {
         anim_out_back.setDuration(anim_time);
     }
 
-
-
-
     /**
-     * Title: setListener
-     * Description:
+     * Title: setListener Description:
+     *
      * @see com.android.splus.sdk.ui.BaseActivity#setListener()
      */
     @Override
@@ -142,18 +139,16 @@ public class RechargeSelectActivity extends BaseActivity  {
             }
         });
 
-
     }
 
     /**
-     * Title: processLogic
-     * Description:
+     * Title: processLogic Description:
+     *
      * @see com.android.splus.sdk.ui.BaseActivity#processLogic()
      */
     @Override
     protected void processLogic() {
     }
-
 
     /**
      * 页面添加
@@ -189,7 +184,6 @@ public class RechargeSelectActivity extends BaseActivity  {
         showNextPage();
     }
 
-
     /**
      * 显示下一个页面
      *
@@ -215,20 +209,24 @@ public class RechargeSelectActivity extends BaseActivity  {
 
     }
 
-    private RechargeItemClick mRechargeItemClick=new RechargeItemClick() {
+    private RechargeItemClick mRechargeItemClick = new RechargeItemClick() {
 
         @Override
         public void onRechargeItemClick(View v, RechargeTypeModel rechargeTypeModel) {
 
-            ToastUtil.showToast(mContext, rechargeTypeModel.getImgIcon()+rechargeTypeModel.getRechargeType());
+            ToastUtil.showToast(mContext,
+                    rechargeTypeModel.getImgIcon() + rechargeTypeModel.getRechargeType());
 
             // 进入客服中心页面
-               if (mRechargeAlipayPage == null) {
-             //      mRechargeAlipayPage = new RechargeAlipayPage(getUserData(),mActivity);
-               }
-               addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
+            if (mRechargeAlipayPage == null) {
+                mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
+                        getDeviceno(), mSplusPayManager.getAppkey(), mSplusPayManager.getGameid(),
+                        mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
+                        mSplusPayManager.getRoleName(), mSplusPayManager.getServerName(),
+                        mSplusPayManager.getOutorderid(), mSplusPayManager.getPext(), mType);
+            }
+            addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
 
         }
     };
 }
-

@@ -54,6 +54,10 @@ public class RechargeModel extends BaseModel {
 
     private Integer type;
 
+    public static final String PAYWAY = "payway";
+
+    private String payway;
+
     public static final String MONEY = "money";
 
     private String money;
@@ -86,7 +90,7 @@ public class RechargeModel extends BaseModel {
   /**
    *
    * @Title:  RechargeModel
-   * @Description:(这里用一句话描述这个方法的作用)
+   * @Description:( 网页支付)
    * @param gameid
    * @param serverName
    * @param deviceno
@@ -105,7 +109,7 @@ public class RechargeModel extends BaseModel {
    */
 
     public RechargeModel(Integer gameid, String serverName, String deviceno, String partner,
-            String referer, Integer uid,  Float money,String type, String roleName, Long time,
+            String referer, Integer uid,  Float money,Integer type, String roleName, Long time,
             String passport, String outOrderid, String pext, String sign) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
@@ -124,6 +128,28 @@ public class RechargeModel extends BaseModel {
         this.put(SIGN, sign == null ? "" : sign.toLowerCase());
     }
 
+
+
+    public RechargeModel(Integer gameid, String serverName, String deviceno, String partner,
+            String referer, Integer uid,  Float money,Integer type, String payway,String roleName, Long time,
+            String passport, String outOrderid, String pext, String sign) {
+        super("");
+        this.put(GAMEID, gameid == null ? 0 : gameid);
+        this.put(SERVERNAME, serverName == null ? "" : serverName);
+        this.put(DEVICENO, deviceno == null ? "" : deviceno);
+        this.put(PARTNER, partner == null ? "" : partner);
+        this.put(REFERER, referer == null ? "" : referer);
+        this.put(UID, uid == null ? 0 : uid);
+        this.put(MONEY, money == null ? 0.0 : money);
+        this.put(TYPE, type == null ? 0 : type);
+        this.put(PAYWAY, payway == null ? 0 : payway);
+        this.put(ROLENAME, roleName == null ? "" : roleName);
+        this.put(TIME, time == null ? 0 : time);
+        this.put(PASSPORT, passport == null ? "" : passport);
+        this.put(OUTORDERID, outOrderid == null ? "" : outOrderid);
+        this.put(PEXT, pext == null ? "" : pext);
+        this.put(SIGN, sign == null ? "" : sign.toLowerCase());
+    }
 
 
     /**

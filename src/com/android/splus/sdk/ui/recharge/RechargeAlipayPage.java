@@ -117,13 +117,15 @@ public class RechargeAlipayPage extends LinearLayout {
 
     private String mDeviceno;
 
+    private Integer mType;
+
     protected CustomProgressDialog mProgressDialog;
 
     private int iconID = android.R.drawable.ic_dialog_info;
 
     public RechargeAlipayPage(UserModel userModel, Activity activity, String deviceno,
             String appKey, Integer gamid, String partner, String referer, String roleName,
-            String serverName, String outOrderid, String pext) {
+            String serverName, String outOrderid, String pext,Integer type) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -136,6 +138,7 @@ public class RechargeAlipayPage extends LinearLayout {
         this.mServerName = serverName;
         this.mOutOrderid = outOrderid;
         this.mPext = pext;
+        this.mType=type;
         inflate(activity,
                 ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_layout), this);
         findViews();
@@ -291,7 +294,7 @@ public class RechargeAlipayPage extends LinearLayout {
      */
 
     private void processLogic() {
-        getRatio();
+  //      getRatio();
     }
 
     /**
@@ -356,7 +359,7 @@ public class RechargeAlipayPage extends LinearLayout {
         String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner
                 + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
         RechargeModel rechargeModel = new RechargeModel(mGameid, mServerName, mDeviceno, mPartner,
-                mReferer, mUserModel.getUid(),  mRenminbi,mPayway, mRoleName, time,
+                mReferer, mUserModel.getUid(),  mRenminbi,mType,mPayway, mRoleName, time,
                 mUserModel.getPassport(), mOutOrderid, mPext, MD5Util.getMd5toLowerCase(keyString));
         if (mProgressDialog == null || !mProgressDialog.isShowing()) {
             showProgressDialog();
