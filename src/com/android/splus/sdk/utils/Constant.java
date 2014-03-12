@@ -18,9 +18,9 @@ public class Constant {
 
     public static final String HTMLWAPPAY_URL = "http://sy.api.37wan.cn/htmlWapPay_test/payIndex.php";
 
-    public static final String RECHARGE_BY_NO_QUATO = "1";
+    public static final String RECHARGE_BY_NO_QUATO = "0";
 
-    public static final String RECHARGE_BY_QUATO = "2";
+    public static final String RECHARGE_BY_QUATO = "1";
 
 
     /** ******************************************************************************************/

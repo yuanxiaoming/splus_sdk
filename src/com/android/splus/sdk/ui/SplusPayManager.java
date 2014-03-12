@@ -923,7 +923,7 @@ public class SplusPayManager implements IPayManager {
     }
 
     String getServerName() {
-        return this.mServerName == null ? "" : this.mRoleName;
+        return this.mServerName == null ? "" : this.mServerName;
     }
 
     String getOutorderid() {

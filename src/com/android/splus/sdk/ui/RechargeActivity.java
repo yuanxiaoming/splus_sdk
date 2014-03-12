@@ -64,7 +64,7 @@ public class RechargeActivity extends BaseActivity {
 
     private RechargeModel mRechargeModel;
 
-    private String mType;
+    private Integer mType;
 
     private RechargeCallBack mRechargeCallBack;
 
@@ -101,10 +101,8 @@ public class RechargeActivity extends BaseActivity {
     protected void loadViewLayout() {
         setContentView(KR.layout.splus_recharge_select_activity);
         mActivity = this;
-        mType = getIntent().getStringExtra(RechargeActivity.class.getName());
-        if (TextUtils.isEmpty(mType)) {
-            mType = Constant.RECHARGE_BY_NO_QUATO;
-        }
+        mType = getIntent().getIntExtra(RechargeActivity.class.getName(),0);
+
     }
 
     /**

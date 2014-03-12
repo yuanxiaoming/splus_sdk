@@ -105,7 +105,7 @@ public class RechargeModel extends BaseModel {
      */
 
     public RechargeModel(Integer gameid, String dsid, String deviceno, String partner,
-            String referer, Integer uid, String type, Float money, String role, Long time,
+            String referer, Integer uid, Integer type, Float money, String role, Long time,
             String passport, String outorderid, String pext, String sign) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
