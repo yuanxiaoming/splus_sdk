@@ -461,6 +461,7 @@ public class SplusPayManager implements IPayManager {
             } else {
                 String msg = paramObject.get(BaseParser.MSG).toString();
                 LogHelper.i(TAG, msg);
+                ToastUtil.showToast(mActivity, msg);
                 repeatInit();
             }
         }
@@ -469,6 +470,7 @@ public class SplusPayManager implements IPayManager {
         public void callbackError(String error) {
 
             LogHelper.i(TAG, error);
+            ToastUtil.showToast(mActivity, error);
             ProgressDialogUtil.showInfoDialog(getContext(), "提示", error, 0,
                     new OnClickListener() {
 
