@@ -146,7 +146,6 @@ public class RechargeActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);
         mCustomWebView.addJavascriptInterface(new JSplugin(mActivity),JSplugin.ANDROIDJSPLUG);
         String data = NetHttpUtil.hashMapTOgetParams(mRechargeModel);
-        System.out.println(data);
         mCustomWebView.postUrl(Constant.HTMLWAPPAY_URL, EncodingUtils.getBytes(data, "UTF-8"));
 
     }

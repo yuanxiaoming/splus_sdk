@@ -8,11 +8,11 @@
  * @version V1.0
  */
 
-package com.android.splus.sdk.ui.recharge;
+package com.android.splus.sdk.ui.rechargeview;
 
-import com.android.splus.sdk.R;
 import com.android.splus.sdk.adapter.RechargeTypeAdapter;
 import com.android.splus.sdk.model.RechargeTypeModel;
+import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
@@ -54,20 +54,7 @@ public class RechargeSelectPage extends LinearLayout {
 
     private ArrayList<RechargeTypeModel> mRechargeTypeArrayList;
 
-    private String mImgICON[] = new String[] {
-            KR.drawable.splus_recharge_by_alipay_fast_normal,
-            KR.drawable.splus_recharge_by_alipay_fast_normal,
-            KR.drawable.splus_recharge_by_alipay_fast_normal,
-            KR.drawable.splus_recharge_by_alipay_fast_normal,
-            KR.drawable.splus_recharge_by_alipay_fast_normal,
-            KR.drawable.splus_recharge_by_alipay_fast_normal,
-            KR.drawable.splus_recharge_by_alipay_fast_normal,
-            KR.drawable.splus_recharge_by_alipay_fast_normal
-    };
 
-    private Integer mRechargeType[] = new Integer[] {
-            0, 1, 2, 3, 4, 5, 6, 7
-    };
 
     private RechargeItemClick mRechargeItemClick;
 
@@ -118,8 +105,8 @@ public class RechargeSelectPage extends LinearLayout {
     private void initViews() {
         mRechargeTypeArrayList = new ArrayList<RechargeTypeModel>();
         RechargeTypeModel rechargeTypeModel = null;
-        for (int i = 0; i < mImgICON.length; i++) {
-            rechargeTypeModel = new RechargeTypeModel(mImgICON[i], mRechargeType[i]);
+        for (int i = 0; i < Constant.IMG_ICON.length; i++) {
+            rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[i],Constant.RECHARGE_TYPE[i],Constant.PAYWAY_TYPE[i]);
             mRechargeTypeArrayList.add(rechargeTypeModel);
         }
 

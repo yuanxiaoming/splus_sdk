@@ -8,41 +8,36 @@
  * @version V1.0
  */
 
-package com.android.splus.sdk.ui.recharge;
+package com.android.splus.sdk.ui.rechargeview;
 
 import com.android.splus.sdk.adapter.MoneyGridViewAdapter;
 import com.android.splus.sdk.alipay.AlixId;
 import com.android.splus.sdk.alipay.MobileSecurePayHelper;
 import com.android.splus.sdk.alipay.MobileSecurePayer;
-import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.RatioModel;
 import com.android.splus.sdk.model.RechargeModel;
 import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.parse.LoginParser;
-import com.android.splus.sdk.ui.RechargeActivity;
-import com.android.splus.sdk.utils.CommonUtil;
+import com.android.splus.sdk.ui.RechargeResultActivity;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.date.DateUtil;
-import com.android.splus.sdk.utils.file.AppUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil.DataCallback;
 import com.android.splus.sdk.utils.http.RequestModel;
 import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.md5.MD5Util;
 import com.android.splus.sdk.utils.phone.Phoneuitl;
-import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.utils.toast.ToastUtil;
 import com.android.splus.sdk.widget.CustomGridView;
 import com.android.splus.sdk.widget.CustomProgressDialog;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Message;
@@ -84,7 +79,7 @@ public class RechargeAlipayPage extends LinearLayout {
     private MoneyGridViewAdapter mMoneyGridViewAdapter;
 
     private static final int[] ALIPAY_MONEY = {
-        10, 20, 30, 50, 100, 200, 300, 500, 1000, 2000, 3000, 5000
+            10, 20, 30, 50, 100, 200, 300, 500, 1000, 2000, 3000, 5000
     };
 
     private float mRenminbi = 0; // 人民币
@@ -121,11 +116,11 @@ public class RechargeAlipayPage extends LinearLayout {
 
     protected CustomProgressDialog mProgressDialog;
 
-    private int iconID = android.R.drawable.ic_dialog_info;
+    private AlipayHtmlClick mAlipayHtmlClick;
 
     public RechargeAlipayPage(UserModel userModel, Activity activity, String deviceno,
             String appKey, Integer gamid, String partner, String referer, String roleName,
-            String serverName, String outOrderid, String pext,Integer type) {
+            String serverName, String outOrderid, String pext, Integer type, String payway) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -138,7 +133,8 @@ public class RechargeAlipayPage extends LinearLayout {
         this.mServerName = serverName;
         this.mOutOrderid = outOrderid;
         this.mPext = pext;
-        this.mType=type;
+        this.mType = type;
+        this.mPayway = payway;
         inflate(activity,
                 ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_layout), this);
         findViews();
@@ -169,7 +165,7 @@ public class RechargeAlipayPage extends LinearLayout {
 
         recharge_money_tips.setText(KR.string.splus_recharge_select_head_tips);
         recharge_money_custom_et.setFilters(new InputFilter[] {
-                new InputFilter.LengthFilter(6)
+            new InputFilter.LengthFilter(6)
         });
         recharge_money_custom_et.setHint(KR.string.splus_recharge_custom_et_tips);
         recharge_money_ratio_tv.setHint(KR.string.splus_recharge_ratio_tv_tips);
@@ -197,13 +193,15 @@ public class RechargeAlipayPage extends LinearLayout {
 
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             // 竖屏
-            recharge_money_gridview_select.setNumColumns(3);
-            recharge_money_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
-                    Gravity.CENTER));
-            recharge_money_gridview_select.setPadding(5, 50, 5, 50);
-            recharge_money_gridview_select.setVerticalSpacing(40);
-            recharge_money_gridview_select.setHorizontalSpacing(20);
+            // recharge_money_gridview_select.setNumColumns(3);
+            // recharge_money_gridview_select.setLayoutParams(new
+            // LinearLayout.LayoutParams(
+            // FrameLayout.LayoutParams.MATCH_PARENT,
+            // FrameLayout.LayoutParams.MATCH_PARENT,
+            // Gravity.CENTER));
+            // recharge_money_gridview_select.setPadding(5, 50, 5, 50);
+            // recharge_money_gridview_select.setVerticalSpacing(40);
+            // recharge_money_gridview_select.setHorizontalSpacing(20);
 
         }
         recharge_money_gridview_select.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -226,10 +224,11 @@ public class RechargeAlipayPage extends LinearLayout {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                recharge_money_custom_et.setText(null);
                 mMoneyIndex = position;
-                mMoneyGridViewAdapter.setMoneyIndex(position);
-                mRenminbi = mMoneyGridViewAdapter.getMoneyArray()[position];
-                ToastUtil.showToast(mActivity, mRenminbi + "YUAN");
+                mRenminbi = mMoneyGridViewAdapter.getMoneyArray()[mMoneyIndex];
+                setGetMoneyTextPure(mRenminbi);
+                mMoneyGridViewAdapter.setMoneyIndex(mMoneyIndex);
 
             }
         });
@@ -294,7 +293,7 @@ public class RechargeAlipayPage extends LinearLayout {
      */
 
     private void processLogic() {
-  //      getRatio();
+        // getRatio();
     }
 
     /**
@@ -348,24 +347,32 @@ public class RechargeAlipayPage extends LinearLayout {
     }
 
     private void payQuest() {
-        // check to see if the MobileSecurePay is already installed.
-        // 检测安全支付服务是否安装
-        MobileSecurePayHelper mspHelper = new MobileSecurePayHelper(mActivity);
-        boolean isMobile_spExist = mspHelper.detectMobile_sp();
-        if (!isMobile_spExist) {
-            return;
+        if (mPayway.equals(Constant.ALIPAY_FAST_PAYWAY)) {
+            // check to see if the MobileSecurePay is already installed.
+            // 检测安全支付服务是否安装
+            MobileSecurePayHelper mspHelper = new MobileSecurePayHelper(mActivity);
+            boolean isMobile_spExist = mspHelper.detectMobile_sp();
+            if (!isMobile_spExist) {
+                return;
+            }
+            long time = DateUtil.getUnixTime();
+            String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner
+                    + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
+            RechargeModel rechargeModel = new RechargeModel(mGameid, mServerName, mDeviceno,
+                    mPartner, mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleName,
+                    time, mUserModel.getPassport(), mOutOrderid, mPext,
+                    MD5Util.getMd5toLowerCase(keyString));
+            if (mProgressDialog == null || !mProgressDialog.isShowing()) {
+                showProgressDialog();
+            }
+            NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.HTMLWAPPAY_URL,
+                    mActivity, rechargeModel, new LoginParser()), onRechargeCallBack);
+
+        } else {
+            mAlipayHtmlClick.onAlipayHtmlClick(mUserModel, mActivity, mDeviceno, mAppKey, mGameid,
+                    mPartner, mReferer, mRoleName, mServerName, mOutOrderid, mPext, mType, mPayway,
+                    mRenminbi);
         }
-        long time = DateUtil.getUnixTime();
-        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner
-                + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
-        RechargeModel rechargeModel = new RechargeModel(mGameid, mServerName, mDeviceno, mPartner,
-                mReferer, mUserModel.getUid(),  mRenminbi,mType,mPayway, mRoleName, time,
-                mUserModel.getPassport(), mOutOrderid, mPext, MD5Util.getMd5toLowerCase(keyString));
-        if (mProgressDialog == null || !mProgressDialog.isShowing()) {
-            showProgressDialog();
-        }
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.HTMLWAPPAY_URL,
-                mActivity, rechargeModel, new LoginParser()), onRechargeCallBack);
 
     }
 
@@ -373,7 +380,6 @@ public class RechargeAlipayPage extends LinearLayout {
 
         @Override
         public void callbackSuccess(JSONObject paramObject) {
-
             closeProgressDialog();
             if (paramObject != null
                     && (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
@@ -390,13 +396,16 @@ public class RechargeAlipayPage extends LinearLayout {
                             showProgressDialog();
                         }
                     } catch (Exception e) {
+                        result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
                         ToastUtil.showToast(mActivity, "支付失败");
                     }
                 } else {
+                    result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
                     LogHelper.d(TAG, "签名错误!!！");
                 }
 
             } else {
+                result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
                 String msg = paramObject.optString("msg");
                 LogHelper.d(TAG, msg);
             }
@@ -406,63 +415,57 @@ public class RechargeAlipayPage extends LinearLayout {
         @Override
         public void callbackError(String error) {
             closeProgressDialog();
+            result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
             LogHelper.d(TAG, error);
         }
 
     };
 
+    // the handler use to receive the pay result.
     // 这里接收支付结果，支付宝手机端同步通知
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-
+            closeProgressDialog();
             try {
                 String strRet = (String) msg.obj;
-                LogHelper.e(TAG, strRet); // strRet范例：resultStatus={9000};memo={};result={partner="2088201564809153"&seller="2088201564809153"&out_trade_no="050917083121576"&subject="123456"&body="2010新款NIKE 耐克902第三代板鞋 耐克男女鞋 386201 白红"&total_fee="0.01"&notify_url="http://notify.java.jpxx.org/index.jsp"&success="true"&sign_type="RSA"&sign="d9pdkfy75G997NiPS1yZoYNCmtRbdOP0usZIMmKCCMVqbSG1P44ohvqMYRztrB6ErgEecIiPj9UldV5nSy9CrBVjV54rBGoT6VSUF/ufjJeCSuL510JwaRpHtRPeURS1LXnSrbwtdkDOktXubQKnIMg2W0PreT1mRXDSaeEECzc="}
+                LogHelper.i(TAG, strRet); // strRet范例：resultStatus={9000};memo={};result={partner="2088201564809153"&seller="2088201564809153"&out_trade_no="050917083121576"&subject="123456"&body="2010新款NIKE 耐克902第三代板鞋 耐克男女鞋 386201 白红"&total_fee="0.01"&notify_url="http://notify.java.jpxx.org/index.jsp"&success="true"&sign_type="RSA"&sign="d9pdkfy75G997NiPS1yZoYNCmtRbdOP0usZIMmKCCMVqbSG1P44ohvqMYRztrB6ErgEecIiPj9UldV5nSy9CrBVjV54rBGoT6VSUF/ufjJeCSuL510JwaRpHtRPeURS1LXnSrbwtdkDOktXubQKnIMg2W0PreT1mRXDSaeEECzc="}
                 switch (msg.what) {
                     case AlixId.RQF_PAY: {
-                        closeProgressDialog();
-                        LogHelper.d(TAG, strRet);
+                        LogHelper.i(TAG, strRet);
                         // 处理交易结果
-                        try {
-                            // 获取交易状态码，具体状态代码请参看文档
-                            String tradeStatus = "resultStatus={";
-                            int imemoStart = strRet.indexOf("resultStatus=");
-                            imemoStart += tradeStatus.length();
-                            int imemoEnd = strRet.indexOf("};memo=");
-                            tradeStatus = strRet.substring(imemoStart, imemoEnd);
-                            // 判断交易状态码，只有9000表示交易成功
-                            if (tradeStatus.equals("9000")) {
-                                ProgressDialogUtil.showInfoDialog(mActivity, "提示",
-                                        "支付成功,预计到账时间1-10分钟", iconID,
-                                        new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        ExitAppUtils.getInstance().exit();
-                                        //Todo
-                                    }
-                                }, null, false);
-                            } else {
-                                ProgressDialogUtil.showInfoDialog(mActivity, "提示", "支付失败",
-                                        iconID, null, null, false);
-
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-
-                            LogHelper.d(TAG, strRet);
-
+                        // 获取交易状态码，具体状态代码请参看文档
+                        String tradeStatus = "resultStatus={";
+                        int imemoStart = strRet.indexOf(tradeStatus);
+                        imemoStart += tradeStatus.length();
+                        int imemoEnd = strRet.indexOf("};memo=");
+                        tradeStatus = strRet.substring(imemoStart, imemoEnd);
+                        // 判断交易状态码，只有9000表示交易成功
+                        if (tradeStatus.equals("9000")) {
+                            result_intent(Constant.RECHARGE_RESULT_SUCCESS_TIPS);
+                        } else {
+                            LogHelper.i(TAG, strRet);
+                            result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
                         }
                     }
-                    break;
+                        break;
                 }
-
                 super.handleMessage(msg);
             } catch (Exception e) {
                 e.printStackTrace();
+                LogHelper.i(TAG, e.getLocalizedMessage());
+                result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
             }
         }
     };
+
+    private void result_intent(String rechage_type) {
+        Intent intent = new Intent();
+        intent.setClass(mActivity, RechargeResultActivity.class);
+        intent.putExtra(Constant.RECHARGE_RESULT_TIPS, rechage_type);
+        intent.putExtra(Constant.MONEY, String.valueOf(mRenminbi));
+        mActivity.startActivity(intent);
+
+    }
 
     protected void showProgressDialog() {
 
@@ -481,8 +484,27 @@ public class RechargeAlipayPage extends LinearLayout {
     }
 
     protected void closeProgressDialog() {
-        if (this.mProgressDialog != null && this.mProgressDialog.isShowing())
+        if (this.mProgressDialog != null && this.mProgressDialog.isShowing()) {
             this.mProgressDialog.dismiss();
+        }
+    }
+
+    /**
+     * @author xiaoming.yuan
+     * @date 2013年9月29日 下午4:28:56
+     * @param listener
+     */
+    public void setOnAlipayHtmlClick(AlipayHtmlClick listener) {
+        this.mAlipayHtmlClick = listener;
+    }
+
+    public interface AlipayHtmlClick {
+
+        public void onAlipayHtmlClick(UserModel userModel, Activity activity, String deviceno,
+                String appKey, Integer gamid, String partner, String referer, String roleName,
+                String serverName, String outOrderid, String pext, Integer type, String payway,
+                float renminbi);
+
     }
 
 }

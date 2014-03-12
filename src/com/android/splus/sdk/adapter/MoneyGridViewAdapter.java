@@ -12,6 +12,7 @@ package com.android.splus.sdk.adapter;
 
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
+import com.android.splus.sdk.utils.toast.ToastUtil;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @ClassName: MoneyGridViewAdapter
@@ -114,8 +116,5 @@ public class MoneyGridViewAdapter extends BaseAdapter {
          this.mMoneyIndex=position;
          notifyDataSetChanged();
     }
-
-
-
 
 }

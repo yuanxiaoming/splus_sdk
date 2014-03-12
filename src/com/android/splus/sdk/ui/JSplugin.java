@@ -257,6 +257,7 @@ public class JSplugin {
             }
         } catch (Exception e) {
             ToastUtil.showToast(mActivity, "支付失败");
+            result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
         }
     }
 

@@ -1,8 +1,9 @@
 
 package com.android.splus.sdk.utils;
 
-public class Constant {
+import com.android.splus.sdk.utils.r.KR;
 
+public class Constant {
 
     /**
      * url
@@ -22,6 +23,62 @@ public class Constant {
 
     public static final int RECHARGE_BY_QUATO = 1;
 
+    public final static int ALIPAY_FAST = 0;
+
+    public final static int ALIPAY_WAP = 1;
+
+    public final static int ALIPAY_DEPOSIT = 2;
+
+    public final static int ALIPAY_CREDIT = 3;
+
+    public final static int CHAIN_CMM = 4;
+
+    public final static int CHAIN_UNC = 5;
+
+    public final static int CHAIN_SD = 6;
+
+    public final static int PERSON = 7;
+
+    public static final Integer RECHARGE_TYPE[] = {
+            ALIPAY_FAST, ALIPAY_WAP, ALIPAY_DEPOSIT, ALIPAY_CREDIT, CHAIN_CMM, CHAIN_UNC, CHAIN_SD,
+            PERSON
+    };
+
+    public static final String IMG_ICON[] = {
+            KR.drawable.splus_recharge_by_alipay_fast_normal,
+            KR.drawable.splus_recharge_by_alipay_fast_normal,
+            KR.drawable.splus_recharge_by_alipay_fast_normal,
+            KR.drawable.splus_recharge_by_alipay_fast_normal,
+            KR.drawable.splus_recharge_by_alipay_fast_normal,
+            KR.drawable.splus_recharge_by_alipay_fast_normal,
+            KR.drawable.splus_recharge_by_alipay_fast_normal,
+            KR.drawable.splus_recharge_by_alipay_fast_normal
+    };
+
+    /**
+     * 充值类型
+     */
+
+    public final static String ALIPAY_FAST_PAYWAY = "alipay_fast";
+
+    public final static String ALIPAY_WAP_PAYWAY = "alipay_way";
+
+    public final static String ALIPAY_DEPOSIT_PAYWAY = "alipay_deposit";
+
+    public final static String ALIPAY_CREDIT_PAYWAY = "alipay_credit";
+
+    public final static String CHAIN_CMM_PAYWAY = "szx";
+
+    public final static String CHAIN_UNC_PAYWAY = "unicom";
+
+    public final static String CHAIN_SD_PAYWAY = "sndacard";
+
+    public final static String PERSON_PAYWAY = "";
+
+    public static final String[] PAYWAY_TYPE = {
+            ALIPAY_FAST_PAYWAY, ALIPAY_WAP_PAYWAY, ALIPAY_DEPOSIT_PAYWAY, ALIPAY_CREDIT_PAYWAY,
+            CHAIN_CMM_PAYWAY, CHAIN_UNC_PAYWAY, CHAIN_SD_PAYWAY, PERSON_PAYWAY
+    };
 
     /** ******************************************************************************************/
     /** sharespreferences 设备唯一标示* */
@@ -41,6 +98,5 @@ public class Constant {
     public static String RECHARGE_RESULT_FAIL_TIPS = "recharge_result_fail_tips";
 
     public static final String MONEY = "money";
-
 
 }

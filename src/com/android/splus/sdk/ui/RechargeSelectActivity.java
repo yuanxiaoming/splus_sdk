@@ -10,17 +10,22 @@
 
 package com.android.splus.sdk.ui;
 
+import com.android.splus.sdk.apiinterface.RechargeCallBack;
 import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.RechargeTypeModel;
-import com.android.splus.sdk.ui.recharge.RechargeAlipayPage;
-import com.android.splus.sdk.ui.recharge.RechargeSelectPage;
-import com.android.splus.sdk.ui.recharge.RechargeSelectPage.RechargeItemClick;
+import com.android.splus.sdk.model.UserModel;
+import com.android.splus.sdk.ui.rechargeview.RechargeAlipayHtmlPage;
+import com.android.splus.sdk.ui.rechargeview.RechargeAlipayPage;
+import com.android.splus.sdk.ui.rechargeview.RechargeAlipayPage.AlipayHtmlClick;
+import com.android.splus.sdk.ui.rechargeview.RechargeSelectPage;
+import com.android.splus.sdk.ui.rechargeview.RechargeSelectPage.RechargeItemClick;
 import com.android.splus.sdk.utils.CommonUtil;
+import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.r.KR;
-import com.android.splus.sdk.utils.toast.ToastUtil;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -45,11 +50,15 @@ public class RechargeSelectActivity extends BaseActivity {
 
     private SplusPayManager mSplusPayManager;
 
+    private RechargeCallBack mRechargeCallBack;
+
     private ImageButton recharge_title_left_backbtn;
 
     private ImageButton recharge_title_right_btn;
 
     private TextView recharge_titlr_middle_text;
+
+    private String mPayway;
 
     /**
      * 页面切换动画
@@ -58,7 +67,9 @@ public class RechargeSelectActivity extends BaseActivity {
 
     private ViewFlipper vf_recharge_center;
 
-    public int anim_time = 500;
+    public int mAnim_time = 500;
+
+    private RechargeTypeModel mRechargeTypeModel;
 
     /**
      * 当前的页面
@@ -68,6 +79,8 @@ public class RechargeSelectActivity extends BaseActivity {
     private RechargeSelectPage mRechargeSelectPage;
 
     private RechargeAlipayPage mRechargeAlipayPage;
+
+    private RechargeAlipayHtmlPage mRechargeAlipayHtmlPage;
 
     /**
      * Title: loadViewLayout Description:
@@ -79,6 +92,7 @@ public class RechargeSelectActivity extends BaseActivity {
         setContentView(KR.layout.splus_recharge_activity);
         this.mActivity = this;
         mSplusPayManager = SplusPayManager.getInstance();
+        mRechargeCallBack = mSplusPayManager.getRechargeCallBack();
 
     }
 
@@ -104,17 +118,17 @@ public class RechargeSelectActivity extends BaseActivity {
 
         anim_in_into = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1,
                 Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
-        anim_in_into.setDuration(anim_time);
+        anim_in_into.setDuration(mAnim_time);
         anim_out_into = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
                 Animation.RELATIVE_TO_SELF, -1, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
-        anim_out_into.setDuration(anim_time);
+        anim_out_into.setDuration(mAnim_time);
 
         anim_in_back = new TranslateAnimation(Animation.RELATIVE_TO_SELF, -1,
                 Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
-        anim_in_back.setDuration(anim_time);
+        anim_in_back.setDuration(mAnim_time);
         anim_out_back = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
                 Animation.RELATIVE_TO_SELF, 1, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
-        anim_out_back.setDuration(anim_time);
+        anim_out_back.setDuration(mAnim_time);
     }
 
     /**
@@ -128,14 +142,14 @@ public class RechargeSelectActivity extends BaseActivity {
 
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                goBack();
             }
         });
         recharge_title_right_btn.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
+                // TODO
             }
         });
 
@@ -148,6 +162,78 @@ public class RechargeSelectActivity extends BaseActivity {
      */
     @Override
     protected void processLogic() {
+        mType = getIntent().getIntExtra(RechargeActivity.class.getName(), 0);
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * 页面返回事件
+     *
+     * @author xiaoming.yuan
+     * @date 2013年9月29日 下午2:24:30
+     * @return
+     */
+    private void goBack() {
+        hideSoftInput(mActivity);
+        /**
+         * 正在切换中
+         */
+        if (vf_recharge_center.isFlipping()) {
+            return;
+        }
+
+        if (RechargeAlipayHtmlPage.class.getName().equals(currentPage)
+                && mRechargeAlipayHtmlPage != null) {
+            if (mRechargeAlipayHtmlPage.goBack()) {
+                return;
+            }
+        }
+
+        int count = vf_recharge_center.getChildCount();
+        if (count == 1) {
+            // 第一个视图,结束当前activity
+            currentPage = "";
+            finish();
+        } else {
+            vf_recharge_center.setInAnimation(anim_in_back);
+            vf_recharge_center.setOutAnimation(anim_out_back);
+            vf_recharge_center.showPrevious();
+            vf_recharge_center.removeViewAt(count - 1);
+            currentPage = vf_recharge_center.getChildAt(count - 2).getClass().getName();
+        }
+
+        if (RechargeAlipayPage.class.getName().equals(currentPage) && mRechargeAlipayPage != null) {
+
+            switch (mRechargeTypeModel.getRechargeType()) {
+                case Constant.ALIPAY_FAST:
+                    recharge_titlr_middle_text.setText("支付宝快捷");
+                    break;
+                case Constant.ALIPAY_WAP:
+                    recharge_titlr_middle_text.setText("支付宝网页");
+                    break;
+                case Constant.ALIPAY_DEPOSIT:
+                    recharge_titlr_middle_text.setText("信用卡");
+                    break;
+                case Constant.ALIPAY_CREDIT:
+                    recharge_titlr_middle_text.setText("储蓄卡");
+                    break;
+            }
+        }
+
+        if (RechargeSelectPage.class.getName().equals(currentPage) && mRechargeSelectPage != null) {
+
+            recharge_titlr_middle_text.setText(KR.string.splus_recharge_title_bar_middle_tips);
+        }
+
     }
 
     /**
@@ -197,6 +283,99 @@ public class RechargeSelectActivity extends BaseActivity {
         hideSoftInput(this);
     }
 
+    private RechargeItemClick mRechargeItemClick = new RechargeItemClick() {
+
+        @Override
+        public void onRechargeItemClick(View v, RechargeTypeModel rechargeTypeModel) {
+            mPayway = rechargeTypeModel.getPayway();
+            mRechargeTypeModel = rechargeTypeModel;
+            switch (rechargeTypeModel.getRechargeType()) {
+                case Constant.ALIPAY_FAST:
+                    recharge_titlr_middle_text.setText("支付宝快捷");
+                    // 进入支付宝快捷页面
+                    mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
+                            getDeviceno(), mSplusPayManager.getAppkey(),
+                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                            mSplusPayManager.getPext(), mType, mPayway);
+                    addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
+                    mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
+                    break;
+                case Constant.ALIPAY_WAP:
+                    recharge_titlr_middle_text.setText("支付宝网页");
+                    // 进入支付宝网页页面
+                    mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
+                            getDeviceno(), mSplusPayManager.getAppkey(),
+                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                            mSplusPayManager.getPext(), mType, mPayway);
+                    addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
+                    mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
+                    break;
+                case Constant.ALIPAY_DEPOSIT:
+                    recharge_titlr_middle_text.setText("信用卡");
+                    // 进入支付宝支付信用卡
+                    mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
+                            getDeviceno(), mSplusPayManager.getAppkey(),
+                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                            mSplusPayManager.getPext(), mType, mPayway);
+                    addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
+                    mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
+                    break;
+                case Constant.ALIPAY_CREDIT:
+                    recharge_titlr_middle_text.setText("储蓄卡");
+                    // 进入支付宝储蓄卡页面
+                    mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
+                            getDeviceno(), mSplusPayManager.getAppkey(),
+                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                            mSplusPayManager.getPext(), mType, mPayway);
+                    addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
+                    mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
+                    break;
+                case Constant.CHAIN_CMM:
+
+                    break;
+                case Constant.CHAIN_UNC:
+
+                    break;
+                case Constant.CHAIN_SD:
+
+                    break;
+
+                case Constant.PERSON:
+
+                    break;
+            }
+
+        }
+
+    };
+
+    /**
+     * 支付宝HTML页面支付
+     */
+    private AlipayHtmlClick mAlipayHtmlClick = new AlipayHtmlClick() {
+
+        @Override
+        public void onAlipayHtmlClick(UserModel userModel, Activity activity, String deviceno,
+                String appKey, Integer gamid, String partner, String referer, String roleName,
+                String serverName, String outOrderid, String pext, Integer type, String payway,
+                float renminbi) {
+
+            mRechargeAlipayHtmlPage = new RechargeAlipayHtmlPage(userModel, activity, deviceno,
+                    appKey, gamid, partner, referer, roleName, serverName, outOrderid, pext, type,
+                    payway, renminbi);
+            addView(mRechargeAlipayHtmlPage, RechargeAlipayHtmlPage.class.getName());
+        }
+
+    };
+
     /**
      * Title: finish Description:
      *
@@ -205,28 +384,10 @@ public class RechargeSelectActivity extends BaseActivity {
     @Override
     public void finish() {
         super.finish();
+        if (mRechargeCallBack != null) {
+            mRechargeCallBack.backKey("充值界面返回");
+        }
         ExitAppUtils.getInstance().exit();
 
     }
-
-    private RechargeItemClick mRechargeItemClick = new RechargeItemClick() {
-
-        @Override
-        public void onRechargeItemClick(View v, RechargeTypeModel rechargeTypeModel) {
-
-            ToastUtil.showToast(mContext,
-                    rechargeTypeModel.getImgIcon() + rechargeTypeModel.getRechargeType());
-
-            // 进入客服中心页面
-            if (mRechargeAlipayPage == null) {
-                mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
-                        getDeviceno(), mSplusPayManager.getAppkey(), mSplusPayManager.getGameid(),
-                        mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
-                        mSplusPayManager.getRoleName(), mSplusPayManager.getServerName(),
-                        mSplusPayManager.getOutorderid(), mSplusPayManager.getPext(), mType);
-            }
-            addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
-
-        }
-    };
 }
