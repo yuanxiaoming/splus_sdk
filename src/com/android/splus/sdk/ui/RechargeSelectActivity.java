@@ -18,6 +18,7 @@ import com.android.splus.sdk.ui.rechargeview.RechargeAlipayHtmlPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeAlipayPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeAlipayPage.AlipayHtmlClick;
 import com.android.splus.sdk.ui.rechargeview.RechargeCardPage;
+import com.android.splus.sdk.ui.rechargeview.RechargePersonPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeSelectPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeSelectPage.RechargeItemClick;
 import com.android.splus.sdk.utils.CommonUtil;
@@ -84,6 +85,9 @@ public class RechargeSelectActivity extends BaseActivity {
     private RechargeAlipayHtmlPage mRechargeAlipayHtmlPage;
 
     private RechargeCardPage mRechargeCardPage;
+
+    private RechargePersonPage mRechargePersonPage;
+
 
     /**
      * Title: loadViewLayout Description:
@@ -252,6 +256,12 @@ public class RechargeSelectActivity extends BaseActivity {
             recharge_titlr_middle_text.setText(KR.string.splus_recharge_title_bar_middle_tips);
         }
 
+        if (RechargePersonPage.class.getName().equals(currentPage) && mRechargePersonPage != null) {
+
+            recharge_titlr_middle_text.setText("人工充值");
+        }
+
+
     }
 
     /**
@@ -391,7 +401,14 @@ public class RechargeSelectActivity extends BaseActivity {
                     break;
 
                 case Constant.PERSON:
-
+                    recharge_titlr_middle_text.setText("人工充值");
+                    mRechargePersonPage = new RechargePersonPage(getUserData(), mActivity,
+                            getDeviceno(), mSplusPayManager.getAppkey(),
+                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                            mSplusPayManager.getPext(), mType, mPayway);
+                    addView(mRechargePersonPage, RechargePersonPage.class.getName());
                     break;
             }
 
@@ -418,6 +435,21 @@ public class RechargeSelectActivity extends BaseActivity {
 
     };
 
+    protected void onDestroy() {
+        super.onDestroy();
+        mRechargeSelectPage=null;
+
+        mRechargeSelectPage=null;
+
+        mRechargeAlipayPage=null;
+
+        mRechargeAlipayHtmlPage=null;
+
+        mRechargeCardPage=null;
+
+        mRechargePersonPage=null;
+
+    };
     /**
      * Title: finish Description:
      *

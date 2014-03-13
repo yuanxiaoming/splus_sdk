@@ -28,36 +28,36 @@ import android.widget.TextView;
  * @date 2014-3-11 下午5:07:42
  */
 
-public class MoneyGridViewAdapter extends BaseAdapter {
+public class BankGridViewAdapter extends BaseAdapter {
     private static final String TAG = "MoneyGridViewAdapter";
 
-    private int[] mMoneyArray;
+    private String[] mBankArray;
 
     private Context mContext;
 
-    private int mMoneyIndex = 0;
+    private int mIndex = 0;
 
-    public MoneyGridViewAdapter(int[] moneyArray, Context context) {
-        this.mMoneyArray = moneyArray;
+    public BankGridViewAdapter(String[] bankArray, Context context) {
+        this.mBankArray = bankArray;
         this.mContext = context;
     }
 
-    public void changeMoneyType(int[] moneyArray) {
-        this.mMoneyArray = moneyArray;
+    public void changeMoneyType(String[] bankArray) {
+        this.mBankArray = bankArray;
     }
 
-    public int[] getMoneyArray() {
-        return this.mMoneyArray;
+    public String[] getMoneyArray() {
+        return this.mBankArray;
     }
 
     @Override
     public int getCount() {
-        return mMoneyArray != null ? mMoneyArray.length : 0;
+        return mBankArray != null ? mBankArray.length : 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return mMoneyArray[position];
+        return mBankArray[position];
     }
 
     @Override
@@ -90,13 +90,13 @@ public class MoneyGridViewAdapter extends BaseAdapter {
         } else {
             textView = (TextView) convertView;
         }
-        textView.setText(mMoneyArray[position] + "元");
+        textView.setText(mBankArray[position]);
         int selectorId = ResourceUtil.getDrawableId(mContext,
                 KR.drawable.splus_recharge_money_item_press);
         int unselectorId = ResourceUtil.getDrawableId(mContext,
                 KR.drawable.splus_recharge_money_item_normal);
 
-        if (mMoneyIndex == position) {
+        if (mIndex == position) {
             Drawable dw = mContext.getResources().getDrawable(selectorId);
             textView.setTextColor(Color.WHITE);
             textView.setBackgroundDrawable(dw);
@@ -110,8 +110,8 @@ public class MoneyGridViewAdapter extends BaseAdapter {
 
     }
 
-    public void setMoneyIndex(int position) {
-         this.mMoneyIndex=position;
+    public void setIndex(int position) {
+         this.mIndex=position;
          notifyDataSetChanged();
     }
 
