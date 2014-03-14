@@ -21,11 +21,13 @@ import com.android.splus.sdk.ui.rechargeview.RechargeCardPage;
 import com.android.splus.sdk.ui.rechargeview.RechargePersonPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeSelectPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeSelectPage.RechargeItemClick;
+import com.android.splus.sdk.ui.rechargeview.RechargeUnionPayPage;
 import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.r.KR;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.KeyEvent;
 import android.view.View;
@@ -87,6 +89,9 @@ public class RechargeSelectActivity extends BaseActivity {
     private RechargeCardPage mRechargeCardPage;
 
     private RechargePersonPage mRechargePersonPage;
+
+    private RechargeUnionPayPage mRechargeUnionPayPage;
+
 
 
     /**
@@ -261,6 +266,10 @@ public class RechargeSelectActivity extends BaseActivity {
             recharge_titlr_middle_text.setText("人工充值");
         }
 
+        if (RechargeUnionPayPage.class.getName().equals(currentPage) && mRechargeUnionPayPage != null) {
+
+            recharge_titlr_middle_text.setText("银联");
+        }
 
     }
 
@@ -366,6 +375,18 @@ public class RechargeSelectActivity extends BaseActivity {
                     addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
                     mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
                     break;
+
+                case Constant.UNION_PAY:
+                    recharge_titlr_middle_text.setText("银联");
+                    // 进入支付宝储蓄卡页面
+                    mRechargeUnionPayPage = new RechargeUnionPayPage(getUserData(), mActivity,
+                            getDeviceno(), mSplusPayManager.getAppkey(),
+                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                            mSplusPayManager.getPext(), mType, mPayway);
+                    addView(mRechargeUnionPayPage, RechargeUnionPayPage.class.getName());
+                    break;
                 case Constant.CHAIN_CMM:
                     recharge_titlr_middle_text.setText("移动卡");
                     // 进入移动卡页面
@@ -449,6 +470,8 @@ public class RechargeSelectActivity extends BaseActivity {
 
         mRechargePersonPage=null;
 
+        mRechargeUnionPayPage=null;
+
     };
     /**
      * Title: finish Description:
@@ -464,4 +487,41 @@ public class RechargeSelectActivity extends BaseActivity {
         ExitAppUtils.getInstance().exit();
 
     }
+
+
+    /**
+     * Title: onActivityResult
+     * Description:
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data !=null) {
+            /*************************************************
+             * 处理银联手机支付控件返回的支付结果
+             * 支付控件返回字符串:success、fail、cancel 分别代表支付成功，支付失败，支付取消
+             ************************************************/
+            if(mRechargeUnionPayPage==null){
+                return;
+            }
+            String str = data.getExtras().getString("pay_result");
+            if (str.equalsIgnoreCase("success")) {
+
+                mRechargeUnionPayPage.result_intent(Constant.RECHARGE_RESULT_SUCCESS_TIPS);
+            } else if (str.equalsIgnoreCase("fail")) {
+                mRechargeUnionPayPage.result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+            } else if (str.equalsIgnoreCase("cancel")) {
+                mRechargeUnionPayPage.result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+            }
+        }
+
+
+
+    }
+
+
 }

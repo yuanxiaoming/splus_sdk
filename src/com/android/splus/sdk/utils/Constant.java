@@ -31,20 +31,23 @@ public class Constant {
 
     public final static int ALIPAY_CREDIT = 3;
 
-    public final static int CHAIN_CMM = 4;
+    public final static int UNION_PAY = 4;
 
-    public final static int CHAIN_UNC = 5;
+    public final static int CHAIN_CMM = 5;
 
-    public final static int CHAIN_SD = 6;
+    public final static int CHAIN_UNC = 6;
 
-    public final static int PERSON = 7;
+    public final static int CHAIN_SD = 7;
+
+    public final static int PERSON = 8;
 
     public static final Integer RECHARGE_TYPE[] = {
-            ALIPAY_FAST, ALIPAY_WAP, ALIPAY_DEPOSIT, ALIPAY_CREDIT, CHAIN_CMM, CHAIN_UNC, CHAIN_SD,
+            ALIPAY_FAST, ALIPAY_WAP, ALIPAY_DEPOSIT, ALIPAY_CREDIT, UNION_PAY,CHAIN_CMM, CHAIN_UNC, CHAIN_SD,
             PERSON
     };
 
     public static final String IMG_ICON[] = {
+            KR.drawable.splus_recharge_by_alipay_fast_normal,
             KR.drawable.splus_recharge_by_alipay_fast_normal,
             KR.drawable.splus_recharge_by_alipay_fast_normal,
             KR.drawable.splus_recharge_by_alipay_fast_normal,
@@ -67,6 +70,8 @@ public class Constant {
 
     public final static String ALIPAY_CREDIT_PAYWAY = "alipay_credit";
 
+    public final static String UNION_PAYWAY = "union_pay";
+
     public final static String CHAIN_CMM_PAYWAY = "szx";
 
     public final static String CHAIN_UNC_PAYWAY = "unicom";
@@ -76,7 +81,7 @@ public class Constant {
     public final static String PERSON_PAYWAY = "";
 
     public static final String[] PAYWAY_TYPE = {
-            ALIPAY_FAST_PAYWAY, ALIPAY_WAP_PAYWAY, ALIPAY_DEPOSIT_PAYWAY, ALIPAY_CREDIT_PAYWAY,
+            ALIPAY_FAST_PAYWAY, ALIPAY_WAP_PAYWAY, ALIPAY_DEPOSIT_PAYWAY, ALIPAY_CREDIT_PAYWAY,UNION_PAYWAY,
             CHAIN_CMM_PAYWAY, CHAIN_UNC_PAYWAY, CHAIN_SD_PAYWAY, PERSON_PAYWAY
     };
 
