@@ -21,6 +21,7 @@ import com.android.splus.sdk.widget.CustomGridView;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -88,11 +89,14 @@ public class RechargeSelectPage extends LinearLayout {
         recharge_type_gv = (CustomGridView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_recharge_type_gridview_select));
 
         recharge_username.setGravity(Gravity.CENTER);
+        recharge_username.setFocusable(true);
+        recharge_username.setFocusableInTouchMode(true);
+        recharge_username.requestFocus();
         recharge_username.setTextColor(ResourceUtil.getDrawableId(mActivity,
                 KR.drawable.splus_recharge_type_textcolor_selector));
 
         recharge_username.setTextColor(Color.BLACK);
-        recharge_username.setText("欢迎您: "+mPassport);
+        recharge_username.setText(Html.fromHtml("欢迎您: <font color=#FE8E35>"+mPassport+"</font>"));
         recharge_select_head_tips.setText(KR.string.splus_recharge_select_head_tips);
     }
 

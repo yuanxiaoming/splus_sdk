@@ -375,7 +375,7 @@ public class NetHttpUtil {
             if (msg.what == NetHttpUtil.SUCCESS) {
                 if (msg.obj == null) {
                     if (mDataCallBack != null) {
-                        mDataCallBack.callbackError("请求成功，服务器返回参数有误");
+                        mDataCallBack.callbackError("请求成功，服务器故障");
                     }
                 } else {
                     if (mDataCallBack != null) {
