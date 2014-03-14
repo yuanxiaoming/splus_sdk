@@ -30,9 +30,9 @@ public class RechargeModel extends BaseModel {
 
     private Integer gameid;
 
-    public static final String DSID = "dsid";
+    public static final String SERVERNAME = "serverName";
 
-    private String dsid;
+    private String serverName;
 
     public static final String DEVICENO = "deviceno";
 
@@ -54,17 +54,21 @@ public class RechargeModel extends BaseModel {
 
     private Integer type;
 
+    public static final String PAYWAY = "payway";
+
+    private String payway;
+
     public static final String MONEY = "money";
 
     private String money;
 
-    public static final String ROLE = "role";
+    public static final String ROLENAME = "roleName";
 
-    private String role;
+    private String roleName;
 
-    public static final String OUTORDERID = "outorderid";
+    public static final String OUTORDERID = "outOrderid";
 
-    private String outorderid;
+    private String outOrderid;
 
     public static final String PEXT = "pext";
 
@@ -79,50 +83,110 @@ public class RechargeModel extends BaseModel {
     private String passport;
 
 
+    public static final String CARDNUMBER = "cardnumber";
+
+    private String cardnumber;
+
+    public static final String CARDPWD = "cardpwd";
+
+    private String cardpwd;
+
+    public static final String CARDAMT = "cardamt";
+
+    private String cardamt;
+
     public static final String SIGN = "sign";
 
     private String sign;
 
-    /**
-     * @Title: RechargeModel
-     * @Description:(非卡类充值模型)
-     * @param: @param gameid
-     * @param: @param dsid
-     * @param: @param deviceno
-     * @param: @param partner
-     * @param: @param referer
-     * @param: @param uid
-     * @param: @param money
-     * @param: @param payway
-     * @param: @param role
-     * @param: @param time
-     * @param: @param passport
-     * @param: @param outorderid
-     * @param: @param pext
-     * @param: @param debug
-     * @param: @param sign
-     * @throws
-     */
+  /**
+   *
+   * @Title:  RechargeModel
+   * @Description:( 网页支付)
+   * @param gameid
+   * @param serverName
+   * @param deviceno
+   * @param partner
+   * @param referer
+   * @param uid
+   * @param type
+   * @param money
+   * @param roleName
+   * @param time
+   * @param passport
+   * @param outOrderid
+   * @param pext
+   * @param sign
+   * @throws
+   */
 
-    public RechargeModel(Integer gameid, String dsid, String deviceno, String partner,
-            String referer, Integer uid, Integer type, Float money, String role, Long time,
-            String passport, String outorderid, String pext, String sign) {
+    public RechargeModel(Integer gameid, String serverName, String deviceno, String partner,
+            String referer, Integer uid,  Float money,Integer type, String roleName, Long time,
+            String passport, String outOrderid, String pext, String sign) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
-        this.put(DSID, dsid == null ? "" : dsid);
+        this.put(SERVERNAME, serverName == null ? "" : serverName);
         this.put(DEVICENO, deviceno == null ? "" : deviceno);
         this.put(PARTNER, partner == null ? "" : partner);
         this.put(REFERER, referer == null ? "" : referer);
         this.put(UID, uid == null ? 0 : uid);
-        this.put(TYPE, type == null ? 0 : type);
         this.put(MONEY, money == null ? 0.0 : money);
-        this.put(ROLE, role == null ? "" : role);
+        this.put(TYPE, type == null ? 0 : type);
+        this.put(ROLENAME, roleName == null ? "" : roleName);
         this.put(TIME, time == null ? 0 : time);
         this.put(PASSPORT, passport == null ? "" : passport);
-        this.put(OUTORDERID, outorderid == null ? "" : outorderid);
+        this.put(OUTORDERID, outOrderid == null ? "" : outOrderid);
         this.put(PEXT, pext == null ? "" : pext);
         this.put(SIGN, sign == null ? "" : sign.toLowerCase());
     }
+
+
+    public RechargeModel(Integer gameid, String serverName, String deviceno, String partner,
+            String referer, Integer uid, Float money, Integer type, String payway,String roleName, Long time,
+            String passport, String outOrderid, String pext, String sign) {
+        super("");
+        this.put(GAMEID, gameid == null ? 0 : gameid);
+        this.put(SERVERNAME, serverName == null ? "" : serverName);
+        this.put(DEVICENO, deviceno == null ? "" : deviceno);
+        this.put(PARTNER, partner == null ? "" : partner);
+        this.put(REFERER, referer == null ? "" : referer);
+        this.put(UID, uid == null ? 0 : uid);
+        this.put(MONEY, money == null ? 0.0 : money);
+        this.put(TYPE, type == null ? 0 : type);
+        this.put(PAYWAY, payway == null ? 0 : payway);
+        this.put(ROLENAME, roleName == null ? "" : roleName);
+        this.put(TIME, time == null ? 0 : time);
+        this.put(PASSPORT, passport == null ? "" : passport);
+        this.put(OUTORDERID, outOrderid == null ? "" : outOrderid);
+        this.put(PEXT, pext == null ? "" : pext);
+        this.put(SIGN, sign == null ? "" : sign.toLowerCase());
+    }
+
+
+    public RechargeModel(Integer gameid, String serverName, String deviceno, String partner,
+            String referer, Integer uid,  Float money,Integer type, String payway,String roleName, Long time,
+            String passport, String cardnumber,String cardpwd,String cardamt, String outOrderid, String pext, String sign) {
+        super("");
+        this.put(GAMEID, gameid == null ? 0 : gameid);
+        this.put(SERVERNAME, serverName == null ? "" : serverName);
+        this.put(DEVICENO, deviceno == null ? "" : deviceno);
+        this.put(PARTNER, partner == null ? "" : partner);
+        this.put(REFERER, referer == null ? "" : referer);
+        this.put(UID, uid == null ? 0 : uid);
+        this.put(MONEY, money == null ? 0.0 : money);
+        this.put(TYPE, type == null ? 0 : type);
+        this.put(PAYWAY, payway == null ? 0 : payway);
+        this.put(ROLENAME, roleName == null ? "" : roleName);
+        this.put(TIME, time == null ? 0 : time);
+        this.put(PASSPORT, passport == null ? "" : passport);
+        this.put(CARDNUMBER, cardnumber == null ? "" : cardnumber);
+        this.put(CARDPWD, cardpwd == null ? "" : cardpwd);
+        this.put(CARDAMT, cardamt == null ? "" : cardamt);
+        this.put(OUTORDERID, outOrderid == null ? "" : outOrderid);
+        this.put(PEXT, pext == null ? "" : pext);
+        this.put(SIGN, sign == null ? "" : sign.toLowerCase());
+    }
+
 
     /**
      * Title: initMap Description:

@@ -413,9 +413,9 @@ public class SplusPayManager implements IPayManager {
         long time = DateUtil.getUnixTime();
         String mac = Phoneuitl.getLocalMacAddress(getContext());
         String imei = Phoneuitl.getIMEI(getContext());
-        String keyString = mGameid + mReferer + mPartner + mac +imei+ time;
 
-        System.out.println("keyString-------------"+keyString+mAppkey);
+     //   String keyString = mGameid + mReferer + mPartner + mac +imei+ time;
+        String keyString = mGameid + mReferer + mPartner + mac + time;
         String sign = MD5Util.getMd5toLowerCase(keyString + mAppkey);
         System.out.println("sign-------------"+sign);
         ActiveModel mActiveMode = new ActiveModel(mGameid, mPartner, mReferer, mac, imei, mWidth,
@@ -657,7 +657,7 @@ public class SplusPayManager implements IPayManager {
         this.mServerName = serverName;
         this.mRoleName = roleName;
         this.mMoney = null;
-        Intent intent = new Intent(activity, RechargeActivity.class);
+        Intent intent = new Intent(activity, RechargeSelectActivity.class);
         intent.putExtra(RechargeActivity.class.getName(), Constant.RECHARGE_BY_NO_QUATO);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);

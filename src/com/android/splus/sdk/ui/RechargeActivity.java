@@ -102,7 +102,6 @@ public class RechargeActivity extends BaseActivity {
         setContentView(KR.layout.splus_recharge_select_activity);
         mActivity = this;
         mType = getIntent().getIntExtra(RechargeActivity.class.getName(),0);
-
     }
 
     /**
@@ -133,7 +132,7 @@ public class RechargeActivity extends BaseActivity {
         mRechargeModel = new RechargeModel(SplusPayManager.getInstance().getGameid(),
                 SplusPayManager.getInstance().getServerName(), getDeviceno(), SplusPayManager
                         .getInstance().getPartner(), SplusPayManager.getInstance().getReferer(),
-                mUid, mType, mMoney, SplusPayManager
+                mUid, mMoney,  mType,SplusPayManager
                         .getInstance().getRoleName(), mTime, mPassport, mOutOrderid, mPext,
                 MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()));
 
@@ -147,7 +146,6 @@ public class RechargeActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);
         mCustomWebView.addJavascriptInterface(new JSplugin(mActivity),JSplugin.ANDROIDJSPLUG);
         String data = NetHttpUtil.hashMapTOgetParams(mRechargeModel);
-        System.out.println(data);
         mCustomWebView.postUrl(Constant.HTMLWAPPAY_URL, EncodingUtils.getBytes(data, "UTF-8"));
 
     }

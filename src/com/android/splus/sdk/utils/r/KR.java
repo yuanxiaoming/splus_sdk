@@ -102,6 +102,49 @@ public final class KR {
 
         public static final String splus_rechage_result_bottom_tips = "splus_rechage_result_bottom_tips";
 
+            /**本地充值**/
+        public static final String splus_recharge_center_views = "splus_recharge_center_views";
+
+        public static final String splus_recharge_select_username = "splus_recharge_select_username";
+
+        public static final String splus_recharge_select_head_tips = "splus_recharge_select_head_tips";
+
+        public static final String splus_recharge_type_gridview_select = "splus_recharge_type_gridview_select";
+
+        public static final String splus_recharge_money_tips = "splus_recharge_money_tips";
+
+        public static final String splus_recharge_money_custom_et = "splus_recharge_money_custom_et";
+
+        public static final String splus_recharge_money_comfirm_btn = "splus_recharge_money_comfirm_btn";
+
+        public static final String splus_recharge_money_ratio_tv = "splus_recharge_money_ratio_tv";
+
+        public static final String splus_recharge_money_gridview_select = "splus_recharge_money_gridview_select";
+
+        public static final String splus_recharge_money_cardpassport_edit = "splus_recharge_money_cardpassport_edit";
+
+        public static final String splus_recharge_money_cardpassword_edit = "splus_recharge_money_cardpassword_edit";
+
+        public static final String splus_recharge_card_explian_ibtn = "splus_recharge_card_explian_ibtn";
+
+        public static final String splus_register_clause_dialog_iv_title = "splus_register_clause_dialog_iv_title";
+
+        public static final String splus_recharge_person_tips = "splus_recharge_person_tips";
+
+
+        public static final String recharge_persontel_tips = "recharge_persontel_tips";
+        public static final String splus_recharge_person_bank_tips = "splus_recharge_person_bank_tips";
+        public static final String splus_recharge_personqq_tips = "splus_recharge_personqq_tips";
+        public static final String splus_recharge_persontel_tips = "splus_recharge_persontel_tips";
+        public static final String splus_recharge_personweixin_tips = "splus_recharge_personweixin_tips";
+        public static final String splus_recharge_person_gridview_select = "splus_recharge_person_gridview_select";
+
+        public static final String splus_recharge_person_explian_scrollview = "splus_recharge_person_explian_scrollview";
+        public static final String splus_recharge_person_linearlayout = "splus_recharge_person_linearlayout";
+        public static final String splus_recharge_person_explian_tips = "splus_recharge_person_explian_tips";
+
+
+
 
     }
 
@@ -139,6 +182,20 @@ public final class KR {
        public static final String splus_recharge_select_activity = "splus_recharge_select_activity";
 
 
+           //本地充值
+       public static final String splus_recharge_select_layout = "splus_recharge_select_layout";
+
+       public static final String splus_recharge_activity = "splus_recharge_activity";
+
+       public static final String splus_recharge_alipay_layout = "splus_recharge_alipay_layout";
+
+       public static final String splus_recharge_card_layout = "splus_recharge_card_layout";
+
+       public static final String splus_recharge_card_explian_dialog = "splus_recharge_card_explian_dialog";
+
+       public static final String splus_recharge_person_layout = "splus_recharge_person_layout";
+
+
     }
 
     public static final class drawable {
@@ -154,6 +211,19 @@ public final class KR {
         public static final String splus_splash_loading = "splus_splash_loading";
 
         public static final String splus_splash_background = "splus_splash_background";
+
+        //本地充值
+
+        public static final String splus_recharge_type_textcolor_selector = "splus_recharge_type_textcolor_selector";
+
+        public static final String splus_recharge_by_alipay_fast_normal = "splus_recharge_by_alipay_fast_normal";
+
+        public static final String  splus_recharge_money_item_press = "splus_recharge_money_item_press";
+        public static final String  splus_recharge_money_item_normal = "splus_recharge_money_item_normal";
+        public static final String  splus_recharge_money_item_selector = "splus_recharge_money_item_selector";
+
+
+
     }
 
     public static final class dimen {
@@ -248,6 +318,53 @@ public final class KR {
         public final static String splus_recharge_select_tips = "充值问题请联系客服:020-85166576 \n游戏相关问题请联系QQ：2355700639";
 
         public final static String splus_recharge_title_bar_middle_tips = "充值中心";
+
+
+
+        ///本地充值
+        public final static String splus_recharge_select_head_tips ="请点击选择适合您的充值方式";
+
+        public final static String splus_recharge_comfirm_tips ="确认";
+
+        public final static String splus_recharge_custom_et_tips ="也可以输入自定金额(元)";
+        public final static String splus_recharge_ratio_tv_tips ="游戏兑换比率";
+
+
+        public final static String splus_recharge_long_cmm_tips = "<p>1.请您选择<font color=#FE8E35>正确的充值卡金额</font>，以免造成充值失败或卡内资金损失,由此造成的损失由用户自行承担,灿和公司不承担任何责任！</p><p>2.支持中国移动（卡号 17位,密码18位）,支持全国通用的<font color=#FE8E35>一卡充</font>。</p> <p>3.【重要提示】 请务必使用与此面额相同的移动充值卡，否则会导致支付不成功，或支付金额丢失。（使用面额100元的移动充值卡但选择50元，高于50元部分不返还；使用50元卡但选择100元，支付失败，50元不返还。）不支持彩铃充值卡和短信充值卡，选择任何面额彩铃充值卡，将不予退还任何金额。 </p>";
+
+        public final static String splus_recharge_long_unc_tips = "<p>1.请您选择<font color=#FE8E35>正确的充值卡金额</font>，以免造成充值失败或卡内资金损失,由此造成的损失由用户自行承担,灿和公司不承担任何责任！</p><p>2.支持中国联通 (卡号 15位,密码19位)。</p><p>3.【重要提示】 ※请务必使用与您选择的面额相同的联通充值卡进行支付，否则引起的交易失败交易金额不予退还。 如：选择50元面额但使用100元卡支付，则系统认为实际支付金额为50元， 高于50元部分不予退还；选择50元面额但使用30元卡支付则系统认为支付失败， 30元不予退还。 </p>";
+
+        public final static String splus_recharge_long_sd_tips = "<p>1.请您选择<font color=#FE8E35>正确的充值卡金额</font>，以免造成充值失败或卡内资金损失,由此造成的损失由用户自行承担,灿和公司不承担任何责任！</p><p>2.盛大(卡号 15位,密码8/9位),虚卡面值：（任意面值，不含卡密，直充） </font>。 </p><p>3.【温馨提示】 请使用卡号以CSC5、CS、S、CA、CSB、YA、YB、YC、YD开头的“盛大互动娱乐卡”进行支付。</p>";
+
+        public final static String splus_recharge_persontel_tips = "客服电话:020-85166576";
+        public final static String splus_recharge_personqq_tips = "客服QQ:020-85166576";
+        public final static String splus_recharge_personweixin_tips = "客服微信:020-85166576";
+        public final static String splus_recharge_person_explian_tips ="<p>因对公账户查询手续较为繁琐，我们会在半个工作日内为您处理汇款，有不便之处请您谅解。由于银行方面的结算制度，会使人工汇款有可能出现延迟到帐。下面我们为大家列出几种可能会出现延迟到帐的情况：</p>"
+                + "<p>1、跨行汇款，例如：从工商银行汇款到农业银行的账户;</p>"
+                + "<p>2、跨地区汇款，例如：从上海汇到广州;</p>"
+                + "<p>3、非银行结算时间段汇款，例如：周末或下午17:00以后；以上情况只是有可能会出现延迟，并非100%出现。请各位朋友汇款后及时联系我们的客服人员，我们会在第一时间为您充值。</p>"
+                + "<p><font color=#FE8E35>温馨提示：目前灿和暂不接收公司账户给我们的汇款。</font></p>" +
+                "<h5>2.人工充值流程：</h5>" +
+                "<p>第1步、请从官网充值中心获取<font color=#FE8E35>人工充值银行</font>帐号信息。"
+                + "<p>第2步、请向官方相应银行帐号汇款或转帐。</p>"
+                + "<p>第3步、联系充值客服，向充值客服提供准确的游戏帐号,游戏名称,游戏区服,游戏角色,充值银行,充值金额,汇款账户名、充值渠道及充值时间。 <p/>"
+                + "<p>第4步、灿和充值客服确认玩家汇款或转帐到账，实时充游戏币。</p>"
+                + "<p>第5步、请玩家查收游戏币。</p>"
+                 +"<h2>二、充值客服QQ：<font color=#FE8E35>2355700632</font></h2> "
+                + "<h2>三、特别说明：</h2> "
+                + "<p>1、人工充值均由灿和官方服务在线快充，每个账号目前只接受单笔充值100元RMB以上，低于100元RMB请选择其他充值方式操作。</p>"
+                + "<p>2、请汇款或转帐时将转账金额增加角和分，例如：充值100元，请转账100.01元到100.99元之间的金额，方便官方充值客服查询。</p>"
+                + "<p>3、银行汇款或转帐的实到金额享有和支付宝充值相同的充值比例，异地和跨行汇款或转帐的手续费根据各银行规定由银行向用户收取。</p>"
+                + "<p>4、请汇款或转帐的时候保留单据和转账订单号。"
+                + "<p>5、如海外汇款的玩家，建议先向当地银行咨询所需资料以后再联系充值客服，确认资料正确后再进行汇款。</p>"
+                + "<p>6、充值完成后请联系充值客服核对金额到账情况及提供充值资料。</p>"
+                + "<p>7、请尽量选择我们支持的银行进行汇款，不建议使用跨行汇款，如条件不允许的情况下使用跨行汇款，请务必保留您的汇款凭据，便于我们查询。跨行汇款处理时间3—5个工作日。</p>" + "<h2>四、服务说明：</h2>"
+                + "<p>1、人工充值需要官方人员手动处理，务必正确告知客服您需要充值的游戏帐号，游戏帐号填写错误导致的损失请自行承担。</p>"
+                + "<p>2、充值后如客服在线，半天内充值完成；如客服没在线，请留言，我们承诺第一时间为您充值。</p>"
+                + "<p>3、核实完成后，请玩家立即进入游戏查收游戏币！</p>"
+                + "<p>4、一旦充值成功，系统将不提供充值修正服务，如填写金额错误导致的损失我们不承担！</p>"
+                + "<p>5、人工充值不需要您提供任何密码，请各位玩家提高安全意识，非本页公布的帐号信息均非我平台官方帐号。</p>";
+
 
     }
 }
