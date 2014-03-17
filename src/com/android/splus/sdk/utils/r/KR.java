@@ -195,6 +195,10 @@ public final class KR {
 
        public static final String splus_recharge_person_layout = "splus_recharge_person_layout";
 
+       public static final String splus_recharge_alipay_quota_layout = "splus_recharge_alipay_quota_layout";
+
+       public static final String splus_recharge_card_quota_layout = "splus_recharge_card_quota_layout";
+
 
     }
 

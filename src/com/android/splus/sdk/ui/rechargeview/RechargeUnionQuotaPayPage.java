@@ -45,6 +45,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -67,7 +68,7 @@ import java.io.IOException;
  * @date 2014-3-11 下午1:37:06
  */
 
-public class RechargeUnionPayPage extends LinearLayout {
+public class RechargeUnionQuotaPayPage extends LinearLayout {
     private static final String TAG = "RechargeUnionPayPage";
 
     private Activity mActivity;
@@ -78,19 +79,12 @@ public class RechargeUnionPayPage extends LinearLayout {
 
     private Button recharge_comfirm_btn;
 
-    private EditText recharge_money_custom_et;
-
-    private CustomGridView recharge_money_gridview_select;
-
-    private MoneyGridViewAdapter mMoneyGridViewAdapter;
-
     private float mRenminbi = 0; // 人民币
 
     private String mCoin_name = "金币";
 
     private int mRatio = 10;
 
-    private int mMoneyIndex = 0;
 
     private String mPayway;
 
@@ -120,9 +114,9 @@ public class RechargeUnionPayPage extends LinearLayout {
 
     private String mMode = "00";// 测试
 
-    public RechargeUnionPayPage(UserModel userModel, Activity activity, String deviceno,
+    public RechargeUnionQuotaPayPage(UserModel userModel, Activity activity, String deviceno,
             String appKey, Integer gamid, String partner, String referer, String roleName,
-            String serverName, String outOrderid, String pext, Integer type, String payway) {
+            String serverName, String outOrderid, String pext, Integer type, String payway,Float money) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -137,8 +131,9 @@ public class RechargeUnionPayPage extends LinearLayout {
         this.mPext = pext;
         this.mType = type;
         this.mPayway = payway;
+        this.mRenminbi=money;
         inflate(activity,
-                ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_layout), this);
+                ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_quota_layout), this);
         findViews();
         initViews();
         setlistener();
@@ -155,21 +150,13 @@ public class RechargeUnionPayPage extends LinearLayout {
     private void findViews() {
         recharge_money_tips = (TextView) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_recharge_money_tips));
-        recharge_money_custom_et = (EditText) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_custom_et));
         recharge_comfirm_btn = (Button) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_recharge_money_comfirm_btn));
         recharge_comfirm_btn.setText(KR.string.splus_recharge_comfirm_tips);
         recharge_money_ratio_tv = (TextView) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_recharge_money_ratio_tv));
-        recharge_money_gridview_select = (CustomGridView) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_recharge_money_gridview_select));
 
         recharge_money_tips.setText(KR.string.splus_recharge_select_head_tips);
-        recharge_money_custom_et.setFilters(new InputFilter[] {
-            new InputFilter.LengthFilter(6)
-        });
-        recharge_money_custom_et.setHint(KR.string.splus_recharge_custom_et_tips);
         recharge_money_ratio_tv.setHint(KR.string.splus_recharge_ratio_tv_tips);
     }
 
@@ -181,37 +168,8 @@ public class RechargeUnionPayPage extends LinearLayout {
 
     private void initViews() {
 
-        int orientation = Phoneuitl.getOrientation(mActivity);
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // 横屏
-            recharge_money_gridview_select.setNumColumns(6);
-            recharge_money_gridview_select.setColumnWidth(40);
-            recharge_money_gridview_select.setGravity(Gravity.CENTER);
-            recharge_money_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
-                    Gravity.CENTER));
-            recharge_money_gridview_select.setVerticalSpacing(30);
-            recharge_money_gridview_select.setHorizontalSpacing(20);
-
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // 竖屏
-            // recharge_money_gridview_select.setNumColumns(3);
-            // recharge_money_gridview_select.setLayoutParams(new
-            // LinearLayout.LayoutParams(
-            // FrameLayout.LayoutParams.MATCH_PARENT,
-            // FrameLayout.LayoutParams.MATCH_PARENT,
-            // Gravity.CENTER));
-            // recharge_money_gridview_select.setPadding(5, 50, 5, 50);
-            // recharge_money_gridview_select.setVerticalSpacing(40);
-            // recharge_money_gridview_select.setHorizontalSpacing(20);
-
-        }
-        recharge_money_gridview_select.setGravity(Gravity.CENTER_HORIZONTAL);
-        recharge_money_gridview_select.setSelector(android.R.color.transparent);
-        mMoneyGridViewAdapter = new MoneyGridViewAdapter(Constant.ALIPAY_MONEY, mActivity);
-        recharge_money_gridview_select.setAdapter(mMoneyGridViewAdapter);
-        mRenminbi = mMoneyGridViewAdapter.getMoneyArray()[0];
-
+        recharge_money_tips.setText(Html.fromHtml("<font color=#FE8E35>充值金额: "+ mRenminbi+"元</font>"));
+        recharge_money_ratio_tv.setHint(KR.string.splus_recharge_ratio_tv_tips);
     }
 
     /**
@@ -222,19 +180,6 @@ public class RechargeUnionPayPage extends LinearLayout {
 
     private void setlistener() {
 
-        recharge_money_gridview_select.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                recharge_money_custom_et.setText(null);
-                mMoneyIndex = position;
-                mRenminbi = mMoneyGridViewAdapter.getMoneyArray()[mMoneyIndex];
-                setGetMoneyTextPure(mRenminbi);
-                mMoneyGridViewAdapter.setMoneyIndex(mMoneyIndex);
-
-            }
-        });
-
         recharge_comfirm_btn.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -242,50 +187,7 @@ public class RechargeUnionPayPage extends LinearLayout {
                 payQuest();
             }
         });
-        recharge_money_custom_et.addTextChangedListener(new TextWatcher() {
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // 清除GIRDVIEW中的选择
-                if (mMoneyIndex != -1) {
-                    mMoneyIndex = -1;
-                    recharge_money_ratio_tv.setText("");
-                    mMoneyGridViewAdapter.setMoneyIndex(mMoneyIndex);
-                }
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String temp = s.toString().trim();
-                if (temp.contains(".")) {
-                    if (temp.length() == 1) {
-                        recharge_money_custom_et.setText(null);
-                    }
-                    int posDot = temp.indexOf(".");
-                    if (posDot <= 0) {
-                        return;
-                    }
-
-                    if (temp.length() - posDot - 1 > 2) {
-                        s.delete(posDot + 3, posDot + 4);
-                    }
-                }
-                String str = s.toString().trim();
-                if (str.length() > 0) {
-                    if (!TextUtils.isEmpty(str)
-                            && !str.subSequence(str.length() - 1, str.length()).equals(".")) {
-                        mRenminbi = Float.valueOf(str);
-                        setGetMoneyTextPure(mRenminbi);
-                    }
-                }
-            }
-        });
     }
 
     /**

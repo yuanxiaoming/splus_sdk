@@ -17,11 +17,15 @@ import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.ui.rechargeview.RechargeAlipayHtmlPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeAlipayPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeAlipayPage.AlipayHtmlClick;
+import com.android.splus.sdk.ui.rechargeview.RechargeAlipayQuotaPage;
+import com.android.splus.sdk.ui.rechargeview.RechargeAlipayQuotaPage.AlipayQuotaHtmlClick;
 import com.android.splus.sdk.ui.rechargeview.RechargeCardPage;
+import com.android.splus.sdk.ui.rechargeview.RechargeCardQuotaPage;
 import com.android.splus.sdk.ui.rechargeview.RechargePersonPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeSelectPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeSelectPage.RechargeItemClick;
 import com.android.splus.sdk.ui.rechargeview.RechargeUnionPayPage;
+import com.android.splus.sdk.ui.rechargeview.RechargeUnionQuotaPayPage;
 import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.r.KR;
@@ -64,6 +68,8 @@ public class RechargeSelectActivity extends BaseActivity {
 
     private String mPayway;
 
+    private Float mMoney;
+
     /**
      * 页面切换动画
      */
@@ -92,7 +98,11 @@ public class RechargeSelectActivity extends BaseActivity {
 
     private RechargeUnionPayPage mRechargeUnionPayPage;
 
+    private RechargeAlipayQuotaPage mRechargeAlipayQuotaPage;
 
+    private RechargeCardQuotaPage mRechargeCardQuotaPage;
+
+    private RechargeUnionQuotaPayPage mRechargeUnionQuotaPayPage;
 
     /**
      * Title: loadViewLayout Description:
@@ -124,23 +134,6 @@ public class RechargeSelectActivity extends BaseActivity {
         recharge_titlr_middle_text.setText(KR.string.splus_recharge_title_bar_middle_tips);
         vf_recharge_center = (ViewFlipper) findViewById(KR.id.splus_recharge_center_views);
 
-        mRechargeSelectPage = new RechargeSelectPage(this, getPassport());
-        addView(mRechargeSelectPage, RechargeSelectPage.class.getName());
-        mRechargeSelectPage.setOnRechargeItemClick(mRechargeItemClick);
-
-        anim_in_into = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1,
-                Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
-        anim_in_into.setDuration(mAnim_time);
-        anim_out_into = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, -1, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
-        anim_out_into.setDuration(mAnim_time);
-
-        anim_in_back = new TranslateAnimation(Animation.RELATIVE_TO_SELF, -1,
-                Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
-        anim_in_back.setDuration(mAnim_time);
-        anim_out_back = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, 1, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
-        anim_out_back.setDuration(mAnim_time);
     }
 
     /**
@@ -161,7 +154,7 @@ public class RechargeSelectActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                // TODO
+                // TODO 客服
             }
         });
 
@@ -174,8 +167,28 @@ public class RechargeSelectActivity extends BaseActivity {
      */
     @Override
     protected void processLogic() {
-        mType = getIntent().getIntExtra(RechargeActivity.class.getName(), 0);
+        mType = getIntent().getIntExtra(RechargeSelectActivity.class.getName(), 0);
+        mMoney = mSplusPayManager.getMoney();
+        if (mMoney == 0) {
+            mType = Constant.RECHARGE_BY_NO_QUATO;
+        }
+        mRechargeSelectPage = new RechargeSelectPage(this, getPassport(), mType, mMoney);
+        addView(mRechargeSelectPage, RechargeSelectPage.class.getName());
+        mRechargeSelectPage.setOnRechargeItemClick(mRechargeItemClick);
 
+        anim_in_into = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1,
+                Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
+        anim_in_into.setDuration(mAnim_time);
+        anim_out_into = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, -1, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
+        anim_out_into.setDuration(mAnim_time);
+
+        anim_in_back = new TranslateAnimation(Animation.RELATIVE_TO_SELF, -1,
+                Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
+        anim_in_back.setDuration(mAnim_time);
+        anim_out_back = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 1, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
+        anim_out_back.setDuration(mAnim_time);
     }
 
     @Override
@@ -223,7 +236,8 @@ public class RechargeSelectActivity extends BaseActivity {
             currentPage = vf_recharge_center.getChildAt(count - 2).getClass().getName();
         }
 
-        if (RechargeAlipayPage.class.getName().equals(currentPage) && mRechargeAlipayPage != null) {
+        if ((RechargeAlipayPage.class.getName().equals(currentPage) && mRechargeAlipayPage != null)
+                || (RechargeAlipayQuotaPage.class.getName().equals(currentPage) && mRechargeAlipayQuotaPage != null)) {
 
             switch (mRechargeTypeModel.getRechargeType()) {
                 case Constant.ALIPAY_FAST:
@@ -241,7 +255,7 @@ public class RechargeSelectActivity extends BaseActivity {
             }
         }
 
-        if (RechargeCardPage.class.getName().equals(currentPage) && mRechargeCardPage != null) {
+        if ((RechargeCardPage.class.getName().equals(currentPage) && mRechargeCardPage != null)||(RechargeCardQuotaPage.class.getName().equals(currentPage) && mRechargeCardQuotaPage != null)) {
 
             switch (mRechargeTypeModel.getRechargeType()) {
                 case Constant.CHAIN_CMM:
@@ -266,7 +280,7 @@ public class RechargeSelectActivity extends BaseActivity {
             recharge_titlr_middle_text.setText("人工充值");
         }
 
-        if (RechargeUnionPayPage.class.getName().equals(currentPage) && mRechargeUnionPayPage != null) {
+        if ((RechargeUnionPayPage.class.getName().equals(currentPage)&& mRechargeUnionPayPage != null)||(RechargeUnionQuotaPayPage.class.getName().equals(currentPage)&& mRechargeUnionQuotaPayPage != null)) {
 
             recharge_titlr_middle_text.setText("银联");
         }
@@ -329,96 +343,180 @@ public class RechargeSelectActivity extends BaseActivity {
             switch (rechargeTypeModel.getRechargeType()) {
                 case Constant.ALIPAY_FAST:
                     recharge_titlr_middle_text.setText("支付宝快捷");
-                    // 进入支付宝快捷页面
-                    mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
-                            getDeviceno(), mSplusPayManager.getAppkey(),
-                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
-                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
-                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                            mSplusPayManager.getPext(), mType, mPayway);
-                    addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
-                    mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
+                    if (mType == Constant.RECHARGE_BY_NO_QUATO) {
+                        // 进入支付宝快捷页面
+                        mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
+                                getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway);
+                        addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
+                        mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
+                    } else if (mType == Constant.RECHARGE_BY_QUATO) {
+                        mRechargeAlipayQuotaPage = new RechargeAlipayQuotaPage(getUserData(),
+                                mActivity, getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway, mMoney);
+                        addView(mRechargeAlipayQuotaPage, RechargeAlipayQuotaPage.class.getName());
+                        mRechargeAlipayQuotaPage.setOnAlipayQuotaHtmlClick(mAlipayQuotaHtmlClick);
+                    }
                     break;
                 case Constant.ALIPAY_WAP:
                     recharge_titlr_middle_text.setText("支付宝网页");
                     // 进入支付宝网页页面
-                    mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
-                            getDeviceno(), mSplusPayManager.getAppkey(),
-                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
-                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
-                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                            mSplusPayManager.getPext(), mType, mPayway);
-                    addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
-                    mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
+                    if (mType == Constant.RECHARGE_BY_NO_QUATO) {
+                        mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
+                                getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway);
+                        addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
+                        mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
+                    } else if (mType == Constant.RECHARGE_BY_QUATO) {
+                        mRechargeAlipayQuotaPage = new RechargeAlipayQuotaPage(getUserData(),
+                                mActivity, getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway, mMoney);
+                        addView(mRechargeAlipayQuotaPage, RechargeAlipayQuotaPage.class.getName());
+                        mRechargeAlipayQuotaPage.setOnAlipayQuotaHtmlClick(mAlipayQuotaHtmlClick);
+                    }
                     break;
                 case Constant.ALIPAY_DEPOSIT:
                     recharge_titlr_middle_text.setText("信用卡");
                     // 进入支付宝支付信用卡
-                    mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
-                            getDeviceno(), mSplusPayManager.getAppkey(),
-                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
-                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
-                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                            mSplusPayManager.getPext(), mType, mPayway);
-                    addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
-                    mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
+                    if (mType == Constant.RECHARGE_BY_NO_QUATO) {
+                        mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
+                                getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway);
+                        addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
+                        mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
+                    } else if (mType == Constant.RECHARGE_BY_QUATO) {
+                        mRechargeAlipayQuotaPage = new RechargeAlipayQuotaPage(getUserData(),
+                                mActivity, getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway, mMoney);
+                        addView(mRechargeAlipayQuotaPage, RechargeAlipayQuotaPage.class.getName());
+                        mRechargeAlipayQuotaPage.setOnAlipayQuotaHtmlClick(mAlipayQuotaHtmlClick);
+                    }
                     break;
                 case Constant.ALIPAY_CREDIT:
                     recharge_titlr_middle_text.setText("储蓄卡");
                     // 进入支付宝储蓄卡页面
-                    mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
-                            getDeviceno(), mSplusPayManager.getAppkey(),
-                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
-                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
-                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                            mSplusPayManager.getPext(), mType, mPayway);
-                    addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
-                    mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
+                    if (mType == Constant.RECHARGE_BY_NO_QUATO) {
+                        mRechargeAlipayPage = new RechargeAlipayPage(getUserData(), mActivity,
+                                getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway);
+                        addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
+                        mRechargeAlipayQuotaPage.setOnAlipayQuotaHtmlClick(mAlipayQuotaHtmlClick);
+                    } else if (mType == Constant.RECHARGE_BY_QUATO) {
+                        mRechargeAlipayQuotaPage = new RechargeAlipayQuotaPage(getUserData(),
+                                mActivity, getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway, mMoney);
+                        addView(mRechargeAlipayQuotaPage, RechargeAlipayQuotaPage.class.getName());
+                        mRechargeAlipayQuotaPage.setOnAlipayQuotaHtmlClick(mAlipayQuotaHtmlClick);
+                    }
                     break;
-
                 case Constant.UNION_PAY:
                     recharge_titlr_middle_text.setText("银联");
-                    // 进入支付宝储蓄卡页面
-                    mRechargeUnionPayPage = new RechargeUnionPayPage(getUserData(), mActivity,
-                            getDeviceno(), mSplusPayManager.getAppkey(),
-                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
-                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
-                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                            mSplusPayManager.getPext(), mType, mPayway);
-                    addView(mRechargeUnionPayPage, RechargeUnionPayPage.class.getName());
+                    // 进入银联页面
+                    if (mType == Constant.RECHARGE_BY_NO_QUATO) {
+                        mRechargeUnionPayPage = new RechargeUnionPayPage(getUserData(), mActivity,
+                                getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway);
+                        addView(mRechargeUnionPayPage, RechargeUnionPayPage.class.getName());
+                    } else if (mType == Constant.RECHARGE_BY_QUATO) {
+                        mRechargeUnionQuotaPayPage = new RechargeUnionQuotaPayPage(getUserData(),
+                                mActivity, getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway, mMoney);
+                        addView(mRechargeUnionQuotaPayPage,
+                                RechargeUnionQuotaPayPage.class.getName());
+                    }
                     break;
                 case Constant.CHAIN_CMM:
                     recharge_titlr_middle_text.setText("移动卡");
                     // 进入移动卡页面
-                    mRechargeCardPage = new RechargeCardPage(getUserData(), mActivity,
-                            getDeviceno(), mSplusPayManager.getAppkey(),
-                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
-                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
-                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                            mSplusPayManager.getPext(), mType, mPayway);
-                    addView(mRechargeCardPage, RechargeCardPage.class.getName());
+                    if (mType == Constant.RECHARGE_BY_NO_QUATO) {
+                        mRechargeCardPage = new RechargeCardPage(getUserData(), mActivity,
+                                getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway);
+                        addView(mRechargeCardPage, RechargeCardPage.class.getName());
+                    } else if (mType == Constant.RECHARGE_BY_QUATO) {
+                        mRechargeCardQuotaPage = new RechargeCardQuotaPage(getUserData(),
+                                mActivity, getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway, mMoney);
+                        addView(mRechargeCardQuotaPage, RechargeCardQuotaPage.class.getName());
+                    }
                     break;
                 case Constant.CHAIN_UNC:
                     recharge_titlr_middle_text.setText("联通卡");
                     // 进入联通卡页面
-                    mRechargeCardPage = new RechargeCardPage(getUserData(), mActivity,
-                            getDeviceno(), mSplusPayManager.getAppkey(),
-                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
-                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
-                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                            mSplusPayManager.getPext(), mType, mPayway);
-                    addView(mRechargeCardPage, RechargeCardPage.class.getName());
+                    if (mType == Constant.RECHARGE_BY_NO_QUATO) {
+                        mRechargeCardPage = new RechargeCardPage(getUserData(), mActivity,
+                                getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway);
+                        addView(mRechargeCardPage, RechargeCardPage.class.getName());
+                    } else if (mType == Constant.RECHARGE_BY_QUATO) {
+                        mRechargeCardQuotaPage = new RechargeCardQuotaPage(getUserData(),
+                                mActivity, getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway, mMoney);
+                        addView(mRechargeCardQuotaPage, RechargeCardQuotaPage.class.getName());
+                    }
                     break;
                 case Constant.CHAIN_SD:
                     recharge_titlr_middle_text.setText("盛大卡");
                     // 进入支盛大卡页面
-                    mRechargeCardPage = new RechargeCardPage(getUserData(), mActivity,
-                            getDeviceno(), mSplusPayManager.getAppkey(),
-                            mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
-                            mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
-                            mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                            mSplusPayManager.getPext(), mType, mPayway);
-                    addView(mRechargeCardPage, RechargeCardPage.class.getName());
+                    if (mType == Constant.RECHARGE_BY_NO_QUATO) {
+                        mRechargeCardPage = new RechargeCardPage(getUserData(), mActivity,
+                                getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway);
+                        addView(mRechargeCardPage, RechargeCardPage.class.getName());
+                    } else if (mType == Constant.RECHARGE_BY_QUATO) {
+                        mRechargeCardQuotaPage = new RechargeCardQuotaPage(getUserData(),
+                                mActivity, getDeviceno(), mSplusPayManager.getAppkey(),
+                                mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
+                                mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
+                                mSplusPayManager.getPext(), mType, mPayway, mMoney);
+                        addView(mRechargeCardQuotaPage, RechargeCardQuotaPage.class.getName());
+                    }
                     break;
 
                 case Constant.PERSON:
@@ -456,23 +554,48 @@ public class RechargeSelectActivity extends BaseActivity {
 
     };
 
-    protected void onDestroy() {
-        super.onDestroy();
-        mRechargeSelectPage=null;
+    /**
+     * 支付宝HTML页面支付
+     */
+    private AlipayQuotaHtmlClick mAlipayQuotaHtmlClick = new AlipayQuotaHtmlClick() {
 
-        mRechargeSelectPage=null;
-
-        mRechargeAlipayPage=null;
-
-        mRechargeAlipayHtmlPage=null;
-
-        mRechargeCardPage=null;
-
-        mRechargePersonPage=null;
-
-        mRechargeUnionPayPage=null;
+        @Override
+        public void onAlipayQuotaHtmlClick(UserModel userModel, Activity activity, String deviceno,
+                String appKey, Integer gamid, String partner, String referer, String roleName,
+                String serverName, String outOrderid, String pext, Integer type, String payway,
+                float renminbi) {
+            mRechargeAlipayHtmlPage = new RechargeAlipayHtmlPage(userModel, activity, deviceno,
+                    appKey, gamid, partner, referer, roleName, serverName, outOrderid, pext, type,
+                    payway, renminbi);
+            addView(mRechargeAlipayHtmlPage, RechargeAlipayHtmlPage.class.getName());
+        }
 
     };
+
+    protected void onDestroy() {
+        super.onDestroy();
+        mRechargeSelectPage = null;
+
+        mRechargeSelectPage = null;
+
+        mRechargeAlipayPage = null;
+
+        mRechargeAlipayHtmlPage = null;
+
+        mRechargeCardPage = null;
+
+        mRechargePersonPage = null;
+
+        mRechargeUnionPayPage = null;
+
+        mRechargeAlipayQuotaPage = null;
+
+        mRechargeCardQuotaPage = null;
+
+        mRechargeUnionQuotaPayPage = null;
+
+    };
+
     /**
      * Title: finish Description:
      *
@@ -488,24 +611,24 @@ public class RechargeSelectActivity extends BaseActivity {
 
     }
 
-
     /**
-     * Title: onActivityResult
-     * Description:
+     * Title: onActivityResult Description:
+     *
      * @param requestCode
      * @param resultCode
      * @param data
-     * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+     * @see android.app.Activity#onActivityResult(int, int,
+     *      android.content.Intent)
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data !=null) {
+        if (data != null) {
             /*************************************************
-             * 处理银联手机支付控件返回的支付结果
-             * 支付控件返回字符串:success、fail、cancel 分别代表支付成功，支付失败，支付取消
+             * 处理银联手机支付控件返回的支付结果 支付控件返回字符串:success、fail、cancel
+             * 分别代表支付成功，支付失败，支付取消
              ************************************************/
-            if(mRechargeUnionPayPage==null){
+            if (mRechargeUnionPayPage == null) {
                 return;
             }
             String str = data.getExtras().getString("pay_result");
@@ -519,6 +642,5 @@ public class RechargeSelectActivity extends BaseActivity {
         }
 
     }
-
 
 }

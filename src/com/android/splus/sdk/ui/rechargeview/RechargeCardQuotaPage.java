@@ -10,7 +10,6 @@
 
 package com.android.splus.sdk.ui.rechargeview;
 
-import com.android.splus.sdk.adapter.MoneyGridViewAdapter;
 import com.android.splus.sdk.model.RatioModel;
 import com.android.splus.sdk.model.RechargeModel;
 import com.android.splus.sdk.model.UserModel;
@@ -24,11 +23,9 @@ import com.android.splus.sdk.utils.http.NetHttpUtil.DataCallback;
 import com.android.splus.sdk.utils.http.RequestModel;
 import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.md5.MD5Util;
-import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.utils.toast.ToastUtil;
-import com.android.splus.sdk.widget.CustomGridView;
 import com.android.splus.sdk.widget.CustomProgressDialog;
 
 import org.json.JSONObject;
@@ -37,13 +34,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -61,7 +55,7 @@ import java.util.regex.Pattern;
  * @date 2014-3-11 下午1:37:06
  */
 
-public class RechargeCardPage extends LinearLayout {
+public class RechargeCardQuotaPage extends LinearLayout {
     private static final String TAG = "RechargeAlipayPage";
 
     private Activity mActivity;
@@ -78,17 +72,11 @@ public class RechargeCardPage extends LinearLayout {
 
     private EditText recharge_money_cardpassword_edit;
 
-    private CustomGridView recharge_money_gridview_select;
-
-    private MoneyGridViewAdapter mMoneyGridViewAdapter;
-
     private float mRenminbi = 0; // 人民币
 
     private String mCoin_name = "金币";
 
     private int mRatio = 9;
-
-    private int mMoneyIndex = 0;
 
     private String mPayway;
 
@@ -128,9 +116,9 @@ public class RechargeCardPage extends LinearLayout {
     private FrameLayout.LayoutParams mDialogClauseparams;// 条款对话框参数
 
 
-    public RechargeCardPage(UserModel userModel, Activity activity, String deviceno, String appKey,
+    public RechargeCardQuotaPage(UserModel userModel, Activity activity, String deviceno, String appKey,
             Integer gamid, String partner, String referer, String roleName, String serverName,
-            String outOrderid, String pext, Integer type, String payway) {
+            String outOrderid, String pext, Integer type, String payway,Float money) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -145,8 +133,9 @@ public class RechargeCardPage extends LinearLayout {
         this.mPext = pext;
         this.mType = type;
         this.mPayway = payway;
+        this.mRenminbi=money;
         inflate(activity,
-                ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_card_layout), this);
+                ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_card_quota_layout), this);
         findViews();
         initViews();
         setlistener();
@@ -168,19 +157,10 @@ public class RechargeCardPage extends LinearLayout {
         recharge_comfirm_btn.setText(KR.string.splus_recharge_comfirm_tips);
         recharge_money_ratio_tv = (TextView) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_recharge_money_ratio_tv));
-        recharge_money_gridview_select = (CustomGridView) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_recharge_money_gridview_select));
-        recharge_money_tips.setText(Html.fromHtml(KR.string.splus_recharge_select_head_tips+"<font color=#FE8E35>(选择与充值金额相等的充值卡)</font>"));
-        recharge_money_ratio_tv.setHint(KR.string.splus_recharge_ratio_tv_tips);
-
         recharge_money_cardpassport_edit = (EditText) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_recharge_money_cardpassport_edit));
-
-        recharge_money_cardpassport_edit.setHint("请输入卡号");
-
         recharge_money_cardpassword_edit = (EditText) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_recharge_money_cardpassword_edit));
-        recharge_money_cardpassword_edit.setHint("请输入密码");
         recharge_card_explian_ibtn=(ImageButton) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_recharge_card_explian_ibtn));
 
@@ -194,42 +174,10 @@ public class RechargeCardPage extends LinearLayout {
 
     private void initViews() {
 
-        int orientation = Phoneuitl.getOrientation(mActivity);
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // 横屏
-            recharge_money_gridview_select.setNumColumns(6);
-            recharge_money_gridview_select.setColumnWidth(40);
-            recharge_money_gridview_select.setGravity(Gravity.CENTER);
-            recharge_money_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
-                    Gravity.CENTER));
-            recharge_money_gridview_select.setVerticalSpacing(30);
-            recharge_money_gridview_select.setHorizontalSpacing(20);
-
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // 竖屏
-            // recharge_money_gridview_select.setNumColumns(3);
-            // recharge_money_gridview_select.setLayoutParams(new
-            // LinearLayout.LayoutParams(
-            // FrameLayout.LayoutParams.MATCH_PARENT,
-            // FrameLayout.LayoutParams.MATCH_PARENT,
-            // Gravity.CENTER));
-            // recharge_money_gridview_select.setPadding(5, 50, 5, 50);
-            // recharge_money_gridview_select.setVerticalSpacing(40);
-            // recharge_money_gridview_select.setHorizontalSpacing(20);
-
-        }
-        recharge_money_gridview_select.setGravity(Gravity.CENTER_HORIZONTAL);
-        recharge_money_gridview_select.setSelector(android.R.color.transparent);
-        if (mPayway.equals(Constant.CHAIN_CMM_PAYWAY)) {
-            mMoneyGridViewAdapter = new MoneyGridViewAdapter(Constant.CHINA_MOBILE_MONEY, mActivity);
-        } else if (mPayway.equals(Constant.CHAIN_UNC_PAYWAY)) {
-            mMoneyGridViewAdapter = new MoneyGridViewAdapter(Constant.CHINA_UNICOM_MONEY, mActivity);
-        } else if (mPayway.equals(Constant.CHAIN_SD_PAYWAY)) {
-            mMoneyGridViewAdapter = new MoneyGridViewAdapter(Constant.CHINA_SDCOMM_ONEY, mActivity);
-        }
-        recharge_money_gridview_select.setAdapter(mMoneyGridViewAdapter);
-        mRenminbi = mMoneyGridViewAdapter.getMoneyArray()[0];
+        recharge_money_tips.setText(Html.fromHtml("<font color=#FE8E35>充值金额: "+ mRenminbi+"元</font>"));
+        recharge_money_ratio_tv.setHint(KR.string.splus_recharge_ratio_tv_tips);
+        recharge_money_cardpassport_edit.setHint("请输入卡号");
+        recharge_money_cardpassword_edit.setHint("请输入密码");
 
     }
 
@@ -241,17 +189,7 @@ public class RechargeCardPage extends LinearLayout {
 
     private void setlistener() {
 
-        recharge_money_gridview_select.setOnItemClickListener(new OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mMoneyIndex = position;
-                mRenminbi = mMoneyGridViewAdapter.getMoneyArray()[mMoneyIndex];
-                setGetMoneyTextPure(mRenminbi);
-                mMoneyGridViewAdapter.setMoneyIndex(mMoneyIndex);
-
-            }
-        });
 
         recharge_comfirm_btn.setOnClickListener(new OnClickListener() {
 

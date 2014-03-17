@@ -51,10 +51,14 @@ public class RechargeSelectPage extends LinearLayout {
 
     private Activity mActivity;
 
+    private float mRenminbi = 0; // 人民币
+
+    private Integer mType;
+
     private RechargeTypeAdapter mRechargeTypeAdapter;
 
     private ArrayList<RechargeTypeModel> mRechargeTypeArrayList;
-
+    private RechargeTypeModel rechargeTypeModel = null;
 
 
     private RechargeItemClick mRechargeItemClick;
@@ -66,10 +70,12 @@ public class RechargeSelectPage extends LinearLayout {
      * @throws
      */
 
-    public RechargeSelectPage(Activity activity, String passport) {
+    public RechargeSelectPage(Activity activity, String passport,Integer type,Float money) {
         super(activity);
         this.mActivity = activity;
         this.mPassport = passport;
+        this.mRenminbi=money;
+        this.mType=type;
         inflate(activity,ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_select_layout), this);
         findViews();
         initViews();
@@ -108,10 +114,15 @@ public class RechargeSelectPage extends LinearLayout {
 
     private void initViews() {
         mRechargeTypeArrayList = new ArrayList<RechargeTypeModel>();
-        RechargeTypeModel rechargeTypeModel = null;
-        for (int i = 0; i < Constant.IMG_ICON.length; i++) {
-            rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[i],Constant.RECHARGE_TYPE[i],Constant.PAYWAY_TYPE[i]);
-            mRechargeTypeArrayList.add(rechargeTypeModel);
+
+        if(mType==Constant.RECHARGE_BY_QUATO){
+            showRechargeType(mRenminbi);
+
+        }else if(mType==Constant.RECHARGE_BY_NO_QUATO){
+            for (int i = 0; i < Constant.IMG_ICON.length; i++) {
+                rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[i],Constant.RECHARGE_TYPE[i],Constant.PAYWAY_TYPE[i]);
+                mRechargeTypeArrayList.add(rechargeTypeModel);
+            }
         }
 
         int orientation = Phoneuitl.getOrientation(mActivity);
@@ -175,5 +186,49 @@ public class RechargeSelectPage extends LinearLayout {
         public void onRechargeItemClick(View v, RechargeTypeModel rechargeTypeModel);
 
     }
+
+    /**
+     * 定额支付
+     *
+     * @param userMoney
+     */
+    private void showRechargeType(Float userMoney) {
+
+        // 定额支付
+        for (int i = 0; i <=Constant.UNION_PAY; i++) {
+            if ((userMoney > 500&i==Constant.ALIPAY_CREDIT)||(userMoney > 500&i==Constant.ALIPAY_DEPOSIT)) {
+                continue;
+            }
+            rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[i],Constant.RECHARGE_TYPE[i],Constant.PAYWAY_TYPE[i]);
+            mRechargeTypeArrayList.add(rechargeTypeModel);
+        }
+
+
+        for (int i = 0; i < Constant.CHINA_MOBILE_MONEY.length; i++) {
+            if (userMoney == Constant.CHINA_MOBILE_MONEY[i]) {
+                rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[Constant.CHAIN_CMM],Constant.RECHARGE_TYPE[Constant.CHAIN_CMM],Constant.PAYWAY_TYPE[Constant.CHAIN_CMM]);
+                mRechargeTypeArrayList.add(rechargeTypeModel);
+                break;
+            }
+        }
+        for (int i = 0; i < Constant.CHINA_UNICOM_MONEY.length; i++) {
+            if (userMoney == Constant.CHINA_UNICOM_MONEY[i]) {
+                rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[Constant.CHAIN_UNC],Constant.RECHARGE_TYPE[Constant.CHAIN_UNC],Constant.PAYWAY_TYPE[Constant.CHAIN_UNC]);
+                mRechargeTypeArrayList.add(rechargeTypeModel);
+                break;
+            }
+        }
+        for (int i = 0; i < Constant.CHINA_SDCOMM_ONEY.length; i++) {
+            if (userMoney == Constant.CHINA_SDCOMM_ONEY[i]) {
+                rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[Constant.CHAIN_SD],Constant.RECHARGE_TYPE[Constant.CHAIN_SD],Constant.PAYWAY_TYPE[Constant.CHAIN_SD]);
+                mRechargeTypeArrayList.add(rechargeTypeModel);
+                break;
+            }
+        }
+
+        rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[Constant.PERSON],Constant.RECHARGE_TYPE[Constant.PERSON],Constant.PAYWAY_TYPE[Constant.PERSON]);
+        mRechargeTypeArrayList.add(rechargeTypeModel);
+    }
+
 
 }
