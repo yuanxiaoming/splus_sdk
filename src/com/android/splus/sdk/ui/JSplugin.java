@@ -24,7 +24,6 @@ import com.android.splus.sdk.utils.toast.ToastUtil;
 import com.unionpay.UPPayAssistEx;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -66,7 +65,7 @@ public class JSplugin {
 
     private Activity mActivity;
 
-    public static String mMoney;
+    public static String sMoney;
 
     public JSplugin(Activity activity) {
         this.mActivity = activity;
@@ -161,7 +160,7 @@ public class JSplugin {
     @JavascriptInterface
     public void unionpay(final String orderinfo, final String money) {
         Log.i("orderinfo +money :", orderinfo + money);
-        mMoney = money;
+        sMoney = money;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -281,7 +280,7 @@ public class JSplugin {
             return;
         }
         Map<String, String> urltoMap = NetHttpUtil.getParamsTOhashMap(orderinfo);
-        mMoney = urltoMap.get("total_fee");
+        sMoney = urltoMap.get("total_fee");
         // 支付
         try {
             MobileSecurePayer msp = new MobileSecurePayer();
@@ -333,6 +332,7 @@ public class JSplugin {
         }
     };
 
+
     /**
      * @Title: union_payment(银联支付)
      * @author xiaoming.yuan
@@ -345,7 +345,7 @@ public class JSplugin {
             return;
         }
         int startPay = UPPayAssistEx.startPay(mActivity, null, null, orderinfo, "00");
-        if (startPay == -1 || startPay == 2) {
+        if (startPay == UPPayAssistEx.PLUGIN_NOT_FOUND) {
             // 需要重新安装控件
             Log.e(TAG, " plugin not found or need upgrade!!!");
             ProgressDialogUtil.showInfoDialog(mActivity, "提示", "完成购买需要安装银联支付控件，是否安装？", 0,
@@ -355,6 +355,8 @@ public class JSplugin {
                             boolean installUPPayPlugin = UPPayAssistEx
                                     .installUPPayPlugin(mActivity);
                             if (!installUPPayPlugin) {
+                             // 显示“正在支付”进度条
+                                mProgress = ProgressDialogUtil.showProgress(mActivity, null, "正在支付", false, true);
                                 new Thread(new Runnable() {
                                     public void run() {
                                         String cachePath = mActivity.getCacheDir()
@@ -407,11 +409,11 @@ public class JSplugin {
     // 安装apk
     private Handler mUnionHandler = new Handler() {
         public void handleMessage(Message msg) {
-
+            closeProgress();
             switch (msg.what) {
                 case 1: {
                     String cachePath = (String) msg.obj;
-                    showInstallConfirmDialog(mActivity, cachePath);
+                    showInstallAPK(mActivity, cachePath);
                 }
                     break;
             }
@@ -424,14 +426,7 @@ public class JSplugin {
      * @param context 上下文环境
      * @param cachePath 安装文件路径
      */
-    public void showInstallConfirmDialog(final Context context, final String cachePath) {
-        AlertDialog.Builder tDialog = new AlertDialog.Builder(context);
-        tDialog.setIcon(android.R.drawable.ic_dialog_info);
-        tDialog.setTitle("安装提示");
-        tDialog.setMessage("完成购买需要安装银联支付控件，是否安装？。");
-
-        tDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
+    public void showInstallAPK(final Context context, final String cachePath) {
                 // 修改apk权限
                 try {
                     String command = "chmod " + "777" + " " + cachePath;
@@ -446,15 +441,7 @@ public class JSplugin {
                 intent.setDataAndType(Uri.parse("file://" + cachePath),
                         "application/vnd.android.package-archive");
                 context.startActivity(intent);
-            }
-        });
-        tDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
 
-        tDialog.show();
     }
 
     // close the progress bar
@@ -480,7 +467,7 @@ public class JSplugin {
         Intent intent = new Intent();
         intent.setClass(mActivity, RechargeResultActivity.class);
         intent.putExtra(Constant.RECHARGE_RESULT_TIPS, rechage_type);
-        intent.putExtra(Constant.MONEY, mMoney);
+        intent.putExtra(Constant.MONEY, sMoney);
         mActivity.startActivity(intent);
 
     }

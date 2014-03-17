@@ -250,7 +250,7 @@ public class RechargeActivity extends BaseActivity {
         Intent intent = new Intent();
         intent.setClass(mActivity, RechargeResultActivity.class);
         intent.putExtra(Constant.RECHARGE_RESULT_TIPS, rechage_type);
-        intent.putExtra(Constant.MONEY, JSplugin.mMoney);
+        intent.putExtra(Constant.MONEY, JSplugin.sMoney);
         mActivity.startActivity(intent);
 
     }

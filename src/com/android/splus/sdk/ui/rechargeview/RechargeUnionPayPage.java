@@ -393,6 +393,7 @@ public class RechargeUnionPayPage extends LinearLayout {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         if (!UPPayAssistEx.installUPPayPlugin(mActivity)) {
+                                            showProgressDialog();
                                             new Thread(new Runnable() {
                                                 public void run() {
                                                     String cachePath = mActivity.getCacheDir().getAbsolutePath() + "/UPPayPluginEx.apk";
@@ -512,7 +513,7 @@ public class RechargeUnionPayPage extends LinearLayout {
                 case 1: {
                     closeProgressDialog();
                     String cachePath = (String) msg.obj;
-                    showInstallConfirmDialog(mActivity, cachePath);
+                    showInstallAPK(mActivity, cachePath);
                 }
                     break;
             }
@@ -525,14 +526,8 @@ public class RechargeUnionPayPage extends LinearLayout {
      * @param context 上下文环境
      * @param cachePath 安装文件路径
      */
-    public void showInstallConfirmDialog(final Context context, final String cachePath) {
-        AlertDialog.Builder tDialog = new AlertDialog.Builder(context);
-        tDialog.setIcon(android.R.drawable.ic_dialog_info);
-        tDialog.setTitle("安装提示");
-        tDialog.setMessage("完成购买需要安装银联支付控件，是否安装？。");
+    public void showInstallAPK(final Context context, final String cachePath) {
 
-        tDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
                 // 修改apk权限
                 try {
                     String command = "chmod " + "777" + " " + cachePath;
@@ -540,6 +535,7 @@ public class RechargeUnionPayPage extends LinearLayout {
                     runtime.exec(command);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    ToastUtil.showToast(context, "安装失败");
                 }
                 // 安装安全支付服务APK
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -547,16 +543,7 @@ public class RechargeUnionPayPage extends LinearLayout {
                 intent.setDataAndType(Uri.parse("file://" + cachePath),
                         "application/vnd.android.package-archive");
                 context.startActivity(intent);
-            }
-        });
 
-        tDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        tDialog.show();
     }
 
 }
