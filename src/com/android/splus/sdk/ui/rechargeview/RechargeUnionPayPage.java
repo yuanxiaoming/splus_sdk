@@ -11,6 +11,7 @@
 package com.android.splus.sdk.ui.rechargeview;
 
 import com.android.splus.sdk.adapter.MoneyGridViewAdapter;
+import com.android.splus.sdk.alipay.NetworkManager;
 import com.android.splus.sdk.model.RatioModel;
 import com.android.splus.sdk.model.RechargeModel;
 import com.android.splus.sdk.model.UserModel;
@@ -35,10 +36,15 @@ import com.unionpay.UPPayAssistEx;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -53,6 +59,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 /**
  * @ClassName: RechargeUnionPayPage
@@ -115,8 +123,7 @@ public class RechargeUnionPayPage extends LinearLayout {
 
     protected CustomProgressDialog mProgressDialog;
 
-
-    private String mMode = "01";
+    private String mMode = "01";// 测试
 
     public RechargeUnionPayPage(UserModel userModel, Activity activity, String deviceno,
             String appKey, Integer gamid, String partner, String referer, String roleName,
@@ -356,11 +363,12 @@ public class RechargeUnionPayPage extends LinearLayout {
         if (mProgressDialog == null || !mProgressDialog.isShowing()) {
             showProgressDialog();
         }
-//        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.HTMLWAPPAY_URL,
-//                mActivity, rechargeModel, new LoginParser()), onRechargeCallBack);
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel("http://121.201.96.82/upmp/examples/purchase.php",
-                mActivity, rechargeModel, new LoginParser()), onRechargeCallBack);
-
+        // NetHttpUtil.getDataFromServerPOST(mActivity, new
+        // RequestModel(Constant.HTMLWAPPAY_URL,
+        // mActivity, rechargeModel, new LoginParser()), onRechargeCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(
+                "http://121.201.96.82/upmp/examples/purchase.php", mActivity, rechargeModel,
+                new LoginParser()), onRechargeCallBack);
 
     }
 
@@ -369,22 +377,38 @@ public class RechargeUnionPayPage extends LinearLayout {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             closeProgressDialog();
-            if (paramObject != null&& (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
+            if (paramObject != null
+                    && (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
                 String orderid = paramObject.optJSONObject("data").optString("orderid");
                 int time = paramObject.optJSONObject("data").optInt("time");
                 String orderinfo = paramObject.optJSONObject("data").optString("orderinfo");
                 String sign = paramObject.optJSONObject("data").optString("sign");
-              //  if (sign.equals(MD5Util.getMd5toLowerCase(orderid + time + mAppKey))) {
+//                if (sign.equals(MD5Util.getMd5toLowerCase(orderid + time + mAppKey))) {
                     int startPay = UPPayAssistEx.startPay(mActivity, null, null, orderinfo, mMode);
-                    if (startPay == -1 || startPay == 2) {
+                    if (startPay == UPPayAssistEx.PLUGIN_NOT_FOUND) {
                         // 需要重新安装控件
                         Log.e(TAG, " plugin not found or need upgrade!!!");
                         ProgressDialogUtil.showInfoDialog(mActivity, "提示", "完成购买需要安装银联支付控件，是否安装？",
                                 0, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        boolean installUPPayPlugin = UPPayAssistEx.installUPPayPlugin(mActivity);
-
+                                        if (!UPPayAssistEx.installUPPayPlugin(mActivity)) {
+                                            new Thread(new Runnable() {
+                                                public void run() {
+                                                    String cachePath = mActivity.getCacheDir().getAbsolutePath() + "/UPPayPluginEx.apk";
+                                                    // 动态下载
+                                                    retrieveApkFromNet(
+                                                            mActivity,
+                                                            "http://mobile.unionpay.com/getclient?platform=android&type=securepayplugin",
+                                                            cachePath);
+                                                    // 发送结果
+                                                    Message msg = new Message();
+                                                    msg.what = 1;
+                                                    msg.obj = cachePath;
+                                                    mHandler.sendMessage(msg);
+                                                }
+                                            }).start();
+                                        }
                                     }
                                 }, new DialogInterface.OnClickListener() {
 
@@ -421,7 +445,14 @@ public class RechargeUnionPayPage extends LinearLayout {
 
     };
 
-
+    /**
+     *
+     * @Title: result_intent(跳转到支付界面)
+     * @author xiaoming.yuan
+     * @data 2014-3-17 上午11:06:05
+     * @param rechage_type
+     * void 返回类型
+     */
     public void result_intent(String rechage_type) {
         Intent intent = new Intent();
         intent.setClass(mActivity, RechargeResultActivity.class);
@@ -453,7 +484,79 @@ public class RechargeUnionPayPage extends LinearLayout {
         }
     }
 
+    /**
+     * 动态下载apk
+     *
+     * @param context 上下文环境
+     * @param strurl 下载地址
+     * @param filename 文件名称
+     * @return
+     */
+    public boolean retrieveApkFromNet(Context context, String strurl, String filename) {
+        boolean bRet = false;
 
+        try {
+            NetworkManager nM = new NetworkManager(mActivity);
+            bRet = nM.urlDownloadToFile(context, strurl, filename);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bRet;
+    }
 
+    // 安装
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+
+            switch (msg.what) {
+                case 1: {
+                    closeProgressDialog();
+                    String cachePath = (String) msg.obj;
+                    showInstallConfirmDialog(mActivity, cachePath);
+                }
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 显示确认安装的提示
+     *
+     * @param context 上下文环境
+     * @param cachePath 安装文件路径
+     */
+    public void showInstallConfirmDialog(final Context context, final String cachePath) {
+        AlertDialog.Builder tDialog = new AlertDialog.Builder(context);
+        tDialog.setIcon(android.R.drawable.ic_dialog_info);
+        tDialog.setTitle("安装提示");
+        tDialog.setMessage("完成购买需要安装银联支付控件，是否安装？。");
+
+        tDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // 修改apk权限
+                try {
+                    String command = "chmod " + "777" + " " + cachePath;
+                    Runtime runtime = Runtime.getRuntime();
+                    runtime.exec(command);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // 安装安全支付服务APK
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setDataAndType(Uri.parse("file://" + cachePath),
+                        "application/vnd.android.package-archive");
+                context.startActivity(intent);
+            }
+        });
+
+        tDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        tDialog.show();
+    }
 
 }

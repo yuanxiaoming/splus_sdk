@@ -26,6 +26,7 @@ import com.android.splus.sdk.widget.CustomWebViewClient;
 import org.apache.http.util.EncodingUtils;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
@@ -131,9 +132,9 @@ public class RechargeActivity extends BaseActivity {
                 + mTime;
         mRechargeModel = new RechargeModel(SplusPayManager.getInstance().getGameid(),
                 SplusPayManager.getInstance().getServerName(), getDeviceno(), SplusPayManager
-                        .getInstance().getPartner(), SplusPayManager.getInstance().getReferer(),
+                .getInstance().getPartner(), SplusPayManager.getInstance().getReferer(),
                 mUid, mMoney,  mType,SplusPayManager
-                        .getInstance().getRoleName(), mTime, mPassport, mOutOrderid, mPext,
+                .getInstance().getRoleName(), mTime, mPassport, mOutOrderid, mPext,
                 MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()));
 
         mCustomWebView.setWebChromeClient(new CustomWebChromeClient(this, new WebChromeClient()));
@@ -191,8 +192,6 @@ public class RechargeActivity extends BaseActivity {
         }
     }
 
-
-
     /**
      * Title: onDestroy Description:
      *
@@ -216,12 +215,44 @@ public class RechargeActivity extends BaseActivity {
         mActivity = null;
     }
 
-
-
     public static CustomWebView getCustomWebView() {
         return mCustomWebView;
     }
 
+    /**
+     * Title: onActivityResult
+     * Description:
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data !=null) {
+            /*************************************************
+             * 处理银联手机支付控件返回的支付结果
+             * 支付控件返回字符串:success、fail、cancel 分别代表支付成功，支付失败，支付取消
+             ************************************************/
+            String str = data.getExtras().getString("pay_result");
+            if (str.equalsIgnoreCase("success")) {
+                result_intent(Constant.RECHARGE_RESULT_SUCCESS_TIPS);
+            } else if (str.equalsIgnoreCase("fail")) {
+                result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+            } else if (str.equalsIgnoreCase("cancel")) {
+                result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+            }
+        }
+    }
 
+    public void result_intent(String rechage_type) {
+        Intent intent = new Intent();
+        intent.setClass(mActivity, RechargeResultActivity.class);
+        intent.putExtra(Constant.RECHARGE_RESULT_TIPS, rechage_type);
+        intent.putExtra(Constant.MONEY, JSplugin.mMoney);
+        mActivity.startActivity(intent);
+
+    }
 
 }

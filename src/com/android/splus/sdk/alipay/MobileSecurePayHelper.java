@@ -75,8 +75,9 @@ public class MobileSecurePayHelper {
                         PackageInfo apkInfo = getApkInfo(mContext, cachePath);
                         String newApkdlUrl = checkNewUpdate(apkInfo);
                         // 动态下载
-                        if (newApkdlUrl != null)
+                        if (newApkdlUrl != null){
                             retrieveApkFromNet(mContext, newApkdlUrl, cachePath);
+                        }
                         // 发送结果
                         Message msg = new Message();
                         msg.what = AlixId.RQF_INSTALL_CHECK;
@@ -90,8 +91,9 @@ public class MobileSecurePayHelper {
                 new Thread(new Runnable() {
                     public void run() {
                         String newApkdlUrl = checkNewUpdate();
-                        if (newApkdlUrl != null)
+                        if (newApkdlUrl != null){
                             retrieveApkFromNet(mContext, newApkdlUrl, cachePath);
+                            }
                         // 发送结果
                         Message msg = new Message();
                         msg.what = AlixId.RQF_INSTALL_CHECK;
@@ -350,7 +352,7 @@ public class MobileSecurePayHelper {
                         String cachePath = (String) msg.obj;
                         showInstallConfirmDialog(mContext, cachePath);
                     }
-                        break;
+                    break;
                 }
 
                 super.handleMessage(msg);

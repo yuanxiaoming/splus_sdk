@@ -510,7 +510,6 @@ public class RechargeSelectActivity extends BaseActivity {
             }
             String str = data.getExtras().getString("pay_result");
             if (str.equalsIgnoreCase("success")) {
-
                 mRechargeUnionPayPage.result_intent(Constant.RECHARGE_RESULT_SUCCESS_TIPS);
             } else if (str.equalsIgnoreCase("fail")) {
                 mRechargeUnionPayPage.result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
@@ -518,8 +517,6 @@ public class RechargeSelectActivity extends BaseActivity {
                 mRechargeUnionPayPage.result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
             }
         }
-
-
 
     }
 

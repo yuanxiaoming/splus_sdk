@@ -98,7 +98,7 @@ public class RechargeCardPage extends LinearLayout {
 
     private String mCoin_name = "金币";
 
-    private int mRatio = 10;
+    private int mRatio = 9;
 
     private int mMoneyIndex = 0;
 
