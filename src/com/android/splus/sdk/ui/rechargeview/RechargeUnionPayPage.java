@@ -348,7 +348,37 @@ public class RechargeUnionPayPage extends LinearLayout {
 
     }
 
+    /**
+     * 核查充值金额
+     */
+     private boolean checkInputMoney(Float userMoney) {
+         if (mUserModel.getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
+             if (userMoney < 0.01) {
+                 ToastUtil.showToast(mActivity,"单次充值最低0.01元起，请重新输入金额");
+                 return false;
+             }
+         } else {
+             if (userMoney < 10) {
+                 ToastUtil.showToast(mActivity,"单次充值最低10元起，请重新输入金额");
+                 return false;
+             }
+         }
+         return true;
+
+     }
+
+    /**
+     *
+     * @Title: payQuest(发起充值请求)
+     * @author xiaoming.yuan
+     * @data 2014-3-18 上午10:21:38
+     * void 返回类型
+     */
     private void payQuest() {
+        if(!checkInputMoney(mRenminbi)){
+            return;
+         }
+
         long time = DateUtil.getUnixTime();
         String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner
                 + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;

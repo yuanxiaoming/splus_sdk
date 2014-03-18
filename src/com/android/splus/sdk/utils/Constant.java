@@ -134,5 +134,9 @@ public class Constant {
     public static String RECHARGE_RESULT_FAIL_TIPS = "recharge_result_fail_tips";
 
     public static final String MONEY = "money";
+    
+    public static final String TEST_PASSPROT = "yuanxiaoming";
+    
+    
 
 }

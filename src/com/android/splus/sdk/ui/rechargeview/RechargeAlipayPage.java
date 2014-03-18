@@ -345,7 +345,38 @@ public class RechargeAlipayPage extends LinearLayout {
 
     }
 
+
+    /**
+     * 核查充值金额
+     */
+     private boolean checkInputMoney(Float userMoney) {
+         if (mUserModel.getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
+             if (userMoney < 0.01) {
+                 ToastUtil.showToast(mActivity,"单次充值最低0.01元起，请重新输入金额");
+                 return false;
+             }
+         } else {
+             if (userMoney < 10) {
+                 ToastUtil.showToast(mActivity,"单次充值最低10元起，请重新输入金额");
+                 return false;
+             }
+         }
+         return true;
+
+     }
+
+     /**
+      *
+      * @Title: payQuest(请求支付)
+      * @author xiaoming.yuan
+      * @data 2014-3-18 上午10:19:41
+      * void 返回类型
+      */
     private void payQuest() {
+
+        if(!checkInputMoney(mRenminbi)){
+           return;
+        }
         if (mPayway.equals(Constant.ALIPAY_FAST_PAYWAY)) {
             // check to see if the MobileSecurePay is already installed.
             // 检测安全支付服务是否安装

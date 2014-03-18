@@ -37,6 +37,7 @@ import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 import com.android.splus.sdk.utils.toast.ToastUtil;
 import com.android.splus.sdk.widget.SplashPage;
+import com.example.splus_demo.EnterGameActivity;
 
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
@@ -53,6 +54,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -716,6 +718,13 @@ public class SplusPayManager implements IPayManager {
                 }
 
             }
+        }else if (money >= 0.01 && money < 1000000){
+            //测试账号
+            if(!getUserData().getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)){
+                ToastUtil.showToast(activity, "请输入金额大于0.01元");
+                return;
+            }
+
         }
         this.mActivity = activity;
         this.mRechargeCallBack = rechargeCallBack;
