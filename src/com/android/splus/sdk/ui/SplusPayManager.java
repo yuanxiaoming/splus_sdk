@@ -390,13 +390,13 @@ public class SplusPayManager implements IPayManager {
             ProgressDialogUtil.showInfoDialog(getContext(), "提示", "当前网络不稳定,请检查您的网络设置！", 0,
                     new OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                            repeatInit();
+                    repeatInit();
 
-                        }
-                    }, "确定", null, null, false);
+                }
+            }, "确定", null, null, false);
 
         } else {
             requestInit();
@@ -705,6 +705,9 @@ public class SplusPayManager implements IPayManager {
             rechargeCallBack.rechargeFaile(msg);
             return;
         }
+        if(null==money){
+            money=0.0f;
+        }
         if (money >=1000000) {
             ToastUtil.showToast(activity, "请输入金额小于1000000元");
             return;
@@ -718,7 +721,7 @@ public class SplusPayManager implements IPayManager {
                 return;
             }
         }
-        if (money >= 0 && money < 0.01) {
+        if (money > 0 && money < 0.01) {
             // 测试账号
             if (getUserData().getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
                 ToastUtil.showToast(activity, "请输入金额大于0.01元");
