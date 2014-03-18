@@ -37,7 +37,6 @@ import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 import com.android.splus.sdk.utils.toast.ToastUtil;
 import com.android.splus.sdk.widget.SplashPage;
-import com.example.splus_demo.EnterGameActivity;
 
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
@@ -54,7 +53,6 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -416,14 +414,15 @@ public class SplusPayManager implements IPayManager {
         String mac = Phoneuitl.getLocalMacAddress(getContext());
         String imei = Phoneuitl.getIMEI(getContext());
 
-     //   String keyString = mGameid + mReferer + mPartner + mac +imei+ time;
+        // String keyString = mGameid + mReferer + mPartner + mac +imei+ time;
         String keyString = mGameid + mReferer + mPartner + mac + time;
         String sign = MD5Util.getMd5toLowerCase(keyString + mAppkey);
-        System.out.println("sign-------------"+sign);
+        System.out.println("sign-------------" + sign);
         ActiveModel mActiveMode = new ActiveModel(mGameid, mPartner, mReferer, mac, imei, mWidth,
                 mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time, sign);
 
-        System.out.println("url-------------"+NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
+        System.out.println("url-------------"
+                + NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
 
         NetHttpUtil.getDataFromServerPOST(getContext(), new RequestModel(Constant.ACTIVE_URL,
                 getContext(), mActiveMode, new ActiveParser()), onActiveCallBack);
@@ -473,16 +472,15 @@ public class SplusPayManager implements IPayManager {
 
             LogHelper.i(TAG, error);
             ToastUtil.showToast(mActivity, error);
-            ProgressDialogUtil.showInfoDialog(getContext(), "提示", error, 0,
-                    new OnClickListener() {
+            ProgressDialogUtil.showInfoDialog(getContext(), "提示", error, 0, new OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                            repeatInit();
+                    repeatInit();
 
-                        }
-                    }, "确定", null, null, false);
+                }
+            }, "确定", null, null, false);
 
         }
     };
@@ -707,25 +705,30 @@ public class SplusPayManager implements IPayManager {
             rechargeCallBack.rechargeFaile(msg);
             return;
         }
-        if (money >= 1 && money < 1000000) {
-            String str = money.toString();
-            if (str.contains(".")) {
-                if (str.length() - str.indexOf(".") - 1 > 2) {
-                    str = str.substring(0, str.indexOf(".") + 3);
-                    money = Float.parseFloat(str);
-                } else {
-                    money = Float.parseFloat(str);
-                }
-
-            }
-        }else if (money >= 0.01 && money < 1000000){
-            //测试账号
-            if(!getUserData().getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)){
-                ToastUtil.showToast(activity, "请输入金额大于0.01元");
-                return;
-            }
+        if (money >=1000000) {
+            ToastUtil.showToast(activity, "请输入金额小于1000000元");
+            return;
 
         }
+
+        if (money >= 0.01 && money < 10) {
+            // 测试账号
+            if (!getUserData().getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
+                ToastUtil.showToast(activity, "请输入金额大于10元");
+                return;
+            }
+        }
+        if (money >= 0 && money < 0.01) {
+            // 测试账号
+            if (getUserData().getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
+                ToastUtil.showToast(activity, "请输入金额大于0.01元");
+                return;
+            } else {
+                ToastUtil.showToast(activity, "请输入金额大于10元");
+                return;
+            }
+        }
+
         this.mActivity = activity;
         this.mRechargeCallBack = rechargeCallBack;
         this.mOutOrderid = outOrderid;
@@ -944,6 +947,7 @@ public class SplusPayManager implements IPayManager {
     String getPext() {
         return this.mPext == null ? "" : this.mPext;
     }
+
     /**
      * getter method
      *
