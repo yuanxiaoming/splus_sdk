@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 public abstract class BaseActivity extends Activity {
     private static final String TAG = "BaseActivity";
 
-    protected Context mContext;
+    protected Activity mActivity;
 
     protected CustomProgressDialog mProgressDialog;
 
@@ -43,7 +43,7 @@ public abstract class BaseActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        mContext = this;
+        mActivity = this;
         initView();
         ExitAppUtils.getInstance().addActivity(this);
 
@@ -85,7 +85,7 @@ public abstract class BaseActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mContext = null;
+        mActivity = null;
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
             mProgressDialog = null;
@@ -305,7 +305,7 @@ public abstract class BaseActivity extends Activity {
      * @data 2013-8-10 下午4:55:01
      */
     protected String getDeviceno() {
-        return SharedPreferencesHelper.getInstance().getdevicenoPreferences(mContext);
+        return SharedPreferencesHelper.getInstance().getdevicenoPreferences(mActivity);
     }
 
 
