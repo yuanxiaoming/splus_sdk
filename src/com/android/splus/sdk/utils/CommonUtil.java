@@ -211,23 +211,20 @@ public class CommonUtil {
     }
 
     /**
-     * px与dp转化
-     *
+     * 将dip或dp值转换为px值，保证尺寸大小不变
      * @param context
      * @param dipValue
      * @return
      */
     public static int dip2px(Context context, float dipValue) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, context
-                .getResources().getDisplayMetrics());
-        // final float scale =
-        // context.getResources().getDisplayMetrics().density;
-        // return (int) (dipValue * scale + 0.5f);
+//        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, context
+//                .getResources().getDisplayMetrics());
+         final float scale =context.getResources().getDisplayMetrics().density;
+         return (int) (dipValue * scale + 0.5f);
     }
 
     /**
-     * px与dp转化
-     *
+     *将px值转换为dip或dp值，保证尺寸大小不变
      * @param context
      * @param pxValue
      * @return
