@@ -21,7 +21,6 @@ import com.android.splus.sdk.ui.LoginDialog.ViewRecoveryState;
 import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.date.DateUtil;
-import com.android.splus.sdk.utils.file.AppUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil.DataCallback;
 import com.android.splus.sdk.utils.http.RequestModel;
@@ -273,6 +272,9 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         if (SplusPayManager.getInstance().isNewDevice()) {
             et_userName.setText(SplusPayManager.getInstance().getEasyRegisterPassport());
         }
+        if(!TextUtils.isEmpty(et_userName.getText().toString())){
+            et_userName.setSelection(et_userName.getText().toString().length());
+        }
         mRegisterCallBack = SplusPayManager.getInstance().getLoginCallBack();
         if (cb_agreeClause != null) {
             cb_agreeClause.setChecked(true);
@@ -293,12 +295,12 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
             ToastUtil.showToast(mActivity, "请勾选“用户服务条款”");
             return;
         }
-        if (mPassport.equals("") || null == mPassport) {
+        if (TextUtils.isEmpty(mPassport)) {
             clickActionedEnableCompons();
             ToastUtil.showToast(mActivity, "账号不能为空!!!");
             return;
         }
-        if (mPassword.equals("") || null == mPassword) {
+        if (TextUtils.isEmpty(mPassword)) {
             clickActionedEnableCompons();
             ToastUtil.showToast(mActivity, "密码不能为空!!!");
             return;
@@ -621,21 +623,6 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         return SharedPreferencesHelper.getInstance().getdevicenoPreferences(mActivity);
     }
 
-    /**
-     * @return String 返回类型
-     * @Title: password(获取用户密码)
-     * @data 2013-8-14 下午12:33:26
-     */
-    protected String getPassword() {
-        UserModel userModel = SplusPayManager.getInstance().getUserData();
-        if (userModel == null) {
-            userModel = AppUtil.getUserData();
-        }
-        if (null != userModel && null != userModel.getPassword()) {
-            return userModel.getPassword();
-        }
-        return "";
-    }
 
     // 验证密码是否格式良好
     protected boolean isPasswordCorrect(String password) {

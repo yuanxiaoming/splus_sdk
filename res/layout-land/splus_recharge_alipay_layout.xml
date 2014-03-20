@@ -42,12 +42,13 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/splus_recharge_money_edit_selector"
+                android:gravity="center_vertical"
                 android:maxLength="6"
                 android:numeric="decimal"
                 android:singleLine="true"
                 android:textColor="#9a9a9a"
                 android:textColorHint="#c1c1c1"
-                android:gravity="center_vertical"
+                android:textCursorDrawable="@null"
                 android:textSize="20dp" />
 
             <TextView
@@ -56,10 +57,10 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="8dip"
                 android:background="@drawable/splus_recharge_money_edit_selector"
+                android:gravity="center_vertical"
                 android:singleLine="true"
                 android:textColor="#9a9a9a"
                 android:textColorHint="#c1c1c1"
-                android:gravity="center_vertical"
                 android:textSize="20dp" />
 
             <Button
@@ -75,4 +76,5 @@
                 android:textSize="18dp" />
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>

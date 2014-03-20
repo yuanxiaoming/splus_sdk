@@ -68,6 +68,7 @@
                     android:singleLine="true"
                     android:textColor="#9a9a9a"
                     android:textColorHint="#c1c1c1"
+                    android:textCursorDrawable="@null"
                     android:textSize="18dp" />
 
                 <ImageView

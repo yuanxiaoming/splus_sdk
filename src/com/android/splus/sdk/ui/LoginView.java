@@ -287,32 +287,33 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
         }
         mLoginCallBack = SplusPayManager.getInstance().getLoginCallBack();
 
-        if (null == AccountObservable.getInstance().getAllUserData()
-                || AccountObservable.getInstance().getAllUserData().size() <= 0) {
+        if (null == AccountObservable.getInstance().getAllUserData()|| AccountObservable.getInstance().getAllUserData().size() <= 0) {
             if (!SplusPayManager.getInstance().isNewDevice()) {
                 et_userName.setText(SplusPayManager.getInstance().getEasyRegisterPassport());
             }
         } else {
-            et_userName.setText(getPassport());
-        }
-        UserModel UserMode = SplusPayManager.getInstance().getUserData();
-        if (UserMode == null) {
-            UserMode = AppUtil.getUserData();
-        }
-        if (null != UserMode && null != UserMode.getUserName()) {
-            if (UserMode.getChecked()) {
-                // 对应的账户点击了 保存密码，将用户密码自动填写到密码框
-                et_password.setText(getPassword());
-                cb_remember_pwd.setChecked(true);
-            } else {
-                cb_remember_pwd.setChecked(false);
+            UserModel UserMode = SplusPayManager.getInstance().getUserData();
+            if (UserMode == null) {
+                UserMode = AppUtil.getUserData();
+            }
+            if (null != UserMode &&(!TextUtils.isEmpty(UserMode.getUserName()))) {
+                et_userName.setText(UserMode.getUserName());
+                if (UserMode.getChecked()) {
+                    // 对应的账户点击了 保存密码，将用户密码自动填写到密码框
+                    et_password.setText(UserMode.getPassword());
+                    cb_remember_pwd.setChecked(true);
+                } else {
+                    cb_remember_pwd.setChecked(false);
+                }
             }
         }
-
+        if(!TextUtils.isEmpty(et_userName.getText().toString())){
+            et_userName.setSelection(et_userName.getText().toString().length());
+        }
     }
 
     /**
-     * login(登陆) (这里描述这个方法适用条件 – 可选) void
+     * login(登陆)
      *
      * @exception
      * @since 1.0.0 xiaoming.yuan
@@ -320,12 +321,12 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
     private void login() {
         mPassport = et_userName.getText().toString().trim();
         mPassword = et_password.getText().toString().trim();
-        if (mPassport.equals("") || null == mPassport) {
+        if (TextUtils.isEmpty(mPassport)) {
             clickActionedEnableCompons();
             ToastUtil.showToast(mActivity, "账号不能为空!!!");
             return;
         }
-        if (mPassword.equals("") || null == mPassword) {
+        if (TextUtils.isEmpty(mPassword)) {
             clickActionedEnableCompons();
             ToastUtil.showToast(mActivity, "密码不能为空!!!");
             return;
@@ -494,21 +495,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
         dropDownAdapter.notifyDataSetChanged();
     }
 
-    /**
-     * @return String 返回类型
-     * @Title: password(获取用户密码)
-     * @data 2013-8-14 下午12:33:26
-     */
-    protected String getPassword() {
-        UserModel mUserData = SplusPayManager.getInstance().getUserData();
-        if (mUserData == null) {
-            mUserData = AppUtil.getUserData();
-        }
-        if (null != mUserData && null != mUserData.getPassword()) {
-            return mUserData.getPassword();
-        }
-        return "";
-    }
+
 
     // 验证密码是否格式良好
     protected boolean isPasswordCorrect(String password) {
@@ -530,21 +517,6 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
         return false;
     }
 
-    /**
-     * @return String 返回类型
-     * @Title: passport(获取用户名)
-     * @data 2013-8-14 下午12:33:59
-     */
-    protected String getPassport() {
-        UserModel mUserData = SplusPayManager.getInstance().getUserData();
-        if (mUserData == null) {
-            mUserData = AppUtil.getUserData();
-        }
-        if (null != mUserData && null != mUserData.getUserName()) {
-            return mUserData.getUserName();
-        }
-        return "";
-    }
 
     /**
      * @return String 返回类型
