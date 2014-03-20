@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/splus_login_input_background"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:padding="0dp"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/splus_login_et_username"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/splus_login_et_selector"
+            android:bufferType="editable"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
+            android:maxLength="20"
+            android:paddingLeft="55dp"
+            android:singleLine="true"
+            android:textColor="#9a9a9a"
+            android:textColorHint="#c1c1c1"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/splus_login_account_title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:textColor="#9a9a9a"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:id="@+id/splus_login_account_iv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/splus_login_more" />
+    </FrameLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/splus_login_bg_devider" />
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/splus_login_et_userpassword"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/splus_login_et_bottom_selector"
+            android:bufferType="editable"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:paddingLeft="55dp"
+            android:singleLine="true"
+            android:textColor="#9a9a9a"
+            android:textColorHint="#c1c1c1"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/splus_login_password_title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:textSize="18dp" />
+    </FrameLayout>
+
+</LinearLayout>

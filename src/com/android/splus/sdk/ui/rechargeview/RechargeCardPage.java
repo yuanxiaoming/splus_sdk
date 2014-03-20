@@ -208,15 +208,15 @@ public class RechargeCardPage extends LinearLayout {
 
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             // 竖屏
-            // recharge_money_gridview_select.setNumColumns(3);
-            // recharge_money_gridview_select.setLayoutParams(new
-            // LinearLayout.LayoutParams(
-            // FrameLayout.LayoutParams.MATCH_PARENT,
-            // FrameLayout.LayoutParams.MATCH_PARENT,
-            // Gravity.CENTER));
-            // recharge_money_gridview_select.setPadding(5, 50, 5, 50);
-            // recharge_money_gridview_select.setVerticalSpacing(40);
-            // recharge_money_gridview_select.setHorizontalSpacing(20);
+             recharge_money_gridview_select.setNumColumns(3);
+             recharge_money_gridview_select.setLayoutParams(new
+             LinearLayout.LayoutParams(
+             FrameLayout.LayoutParams.MATCH_PARENT,
+             FrameLayout.LayoutParams.MATCH_PARENT,
+             Gravity.CENTER));
+             recharge_money_gridview_select.setPadding(5, 20, 5, 20);
+             recharge_money_gridview_select.setVerticalSpacing(40);
+             recharge_money_gridview_select.setHorizontalSpacing(20);
 
         }
         recharge_money_gridview_select.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -561,7 +561,7 @@ public class RechargeCardPage extends LinearLayout {
      */
     private FrameLayout.LayoutParams getMParames() {
         if (mDialogClauseparams == null) {
-            return CommonUtil.getFrameLayoutParams(mActivity, 140, 140, 65, 65, Gravity.CENTER);
+            return CommonUtil.getFrameLayoutParams(mActivity, 140, 140, 65, 50, Gravity.CENTER);
         }
         return mDialogClauseparams;
     }

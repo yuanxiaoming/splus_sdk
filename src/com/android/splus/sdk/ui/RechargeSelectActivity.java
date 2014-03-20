@@ -421,7 +421,7 @@ public class RechargeSelectActivity extends BaseActivity {
                                 mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
                                 mSplusPayManager.getPext(), mType, mPayway);
                         addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
-                        mRechargeAlipayQuotaPage.setOnAlipayQuotaHtmlClick(mAlipayQuotaHtmlClick);
+                        mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
                     } else if (mType == Constant.RECHARGE_BY_QUATO) {
                         mRechargeAlipayQuotaPage = new RechargeAlipayQuotaPage(getUserData(),
                                 mActivity, getDeviceno(), mSplusPayManager.getAppkey(),
