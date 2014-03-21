@@ -80,7 +80,7 @@ public class PersonCenter extends ScrollView {
         /**
          * 分隔线
          */
-        private ImageView mLine1;
+        private ImageView mLine1,mLine2,mLine3,mLine4;
 
         private PersonClickListener mListener;
 
@@ -106,11 +106,6 @@ public class PersonCenter extends ScrollView {
             btn_logout = inflate(activity,
                     ResourceUtil.getLayoutId(activity, KR.layout.splus_person_center_bottom_item),
                     null);
-            mLine1 = new ImageView(activity);
-            mLine1.setBackgroundColor(0xfff7f7f7);
-            mLine1.setScaleType(ScaleType.FIT_XY);
-            mLine1.setImageResource(ResourceUtil.getDrawableId(activity,
-                    KR.drawable.splus_login_bg_devider));
             LayoutParams params = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(50, 0, 50, 0);
@@ -120,25 +115,44 @@ public class PersonCenter extends ScrollView {
 
             LayoutParams params2 = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
-            params2.setMargins(50, 0, 50, 100);
+            params2.setMargins(50, 0, 50, 50);
 
             addView(mWelcomeView, new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
 
+            mLine1 = new ImageView(activity);
+            mLine1.setBackgroundColor(0xfff7f7f7);
+            mLine1.setScaleType(ScaleType.FIT_XY);
+            mLine1.setImageResource(ResourceUtil.getDrawableId(activity,
+                    KR.drawable.splus_login_bg_devider));
             addView(btn_account, params);
             addView(mLine1, params1);
 
+            mLine2 = new ImageView(activity);
+            mLine2.setBackgroundColor(0xfff7f7f7);
+            mLine2.setScaleType(ScaleType.FIT_XY);
+            mLine2.setImageResource(ResourceUtil.getDrawableId(activity,
+                    KR.drawable.splus_login_bg_devider));
             addView(btn_sq, params);
-            addView(mLine1, params1);
+            addView(mLine2, params1);
 
+            mLine3 = new ImageView(activity);
+            mLine3.setBackgroundColor(0xfff7f7f7);
+            mLine3.setScaleType(ScaleType.FIT_XY);
+            mLine3.setImageResource(ResourceUtil.getDrawableId(activity,
+                    KR.drawable.splus_login_bg_devider));
             addView(btn_forum, params);
-            addView(mLine1, params1);
+            addView(mLine3, params1);
 
+            mLine4 = new ImageView(activity);
+            mLine4.setBackgroundColor(0xfff7f7f7);
+            mLine4.setScaleType(ScaleType.FIT_XY);
+            mLine4.setImageResource(ResourceUtil.getDrawableId(activity,
+                    KR.drawable.splus_login_bg_devider));
             addView(btn_announcementsPage, params);
-            addView(mLine1, params1);
+            addView(mLine4, params1);
 
-            addView(btn_logout, params);
-            addView(mLine1, params2);
+            addView(btn_logout, params2);
 
             intViews(activity, passport, isLandscape);
             setListener();
@@ -184,6 +198,9 @@ public class PersonCenter extends ScrollView {
             ((ImageView) (btn_forum.findViewById(ResourceUtil.getId(activity,
                     KR.id.splus_person_center_item_ic_right)))).setImageResource(ResourceUtil
                     .getDrawableId(activity, KR.drawable.splus_person_center_arrow_icon_selector));
+
+            mTvForum = (TextView) btn_forum.findViewById(ResourceUtil.getId(activity,
+                    KR.id.splus_person_center_item_tv));
             mTvForum.setText(KR.string.splus_person_center_forum_btn_text);
             mTvForum.setTextColor(createColorStateList(0xff747474, 0xffffffff, 0xffffffff,
                     0xffffffff));
@@ -195,16 +212,20 @@ public class PersonCenter extends ScrollView {
             ((ImageView) (btn_announcementsPage.findViewById(ResourceUtil.getId(activity,
                     KR.id.splus_person_center_item_ic_right)))).setImageResource(ResourceUtil
                     .getDrawableId(activity, KR.drawable.splus_person_center_arrow_icon_selector));
+            mTvAnnouncementsPage = (TextView) btn_announcementsPage.findViewById(ResourceUtil.getId(activity,
+                    KR.id.splus_person_center_item_tv));
             mTvAnnouncementsPage.setText(KR.string.splus_person_center_announcementspage_btn_text);
             mTvAnnouncementsPage.setTextColor(createColorStateList(0xff747474, 0xffffffff,
                     0xffffffff, 0xffffffff));
 
             ((ImageView) (btn_logout.findViewById(ResourceUtil.getId(activity,
-                    KR.id.splus_person_center_item_ic_left)))).setImageResource(ResourceUtil
+                    KR.id.splus_person_center_bottom_item_ic_left)))).setImageResource(ResourceUtil
                     .getDrawableId(activity, KR.drawable.splus_person_center_logout_icon_selector));
             ((ImageView) (btn_logout.findViewById(ResourceUtil.getId(activity,
-                    KR.id.splus_person_center_item_ic_right)))).setImageResource(ResourceUtil
+                    KR.id.splus_person_center_bottom_item_ic_right)))).setImageResource(ResourceUtil
                     .getDrawableId(activity, KR.drawable.splus_person_center_arrow_icon_selector));
+            mTvLogout = (TextView) btn_logout.findViewById(ResourceUtil.getId(activity,
+                    KR.id.splus_person_center_bottom_item_tv));
             mTvLogout.setText(KR.string.splus_person_center_logout_btn_text);
             mTvLogout.setTextColor(createColorStateList(0xff747474, 0xffffffff, 0xffffffff,
                     0xffffffff));

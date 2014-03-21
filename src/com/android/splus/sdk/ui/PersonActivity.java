@@ -50,7 +50,7 @@ public class PersonActivity extends BaseActivity {
 
     @Override
     protected void loadViewLayout() {
-        setContentView(KR.layout.splus_person_center_views);
+        setContentView(KR.layout.splus_person_center);
         this.mActivity = this;
         mSplusPayManager = SplusPayManager.getInstance();
         mLogoutCallBack = mSplusPayManager.getLogoutCallBack();
@@ -58,6 +58,7 @@ public class PersonActivity extends BaseActivity {
 
     @Override
     protected void findViewById() {
+
         ibtn_back = (ImageButton) findViewById(KR.id.splus_person_title_bar_left_button);
         ibtn_submit = (ImageButton) findViewById(KR.id.splus_person_title_bar_right_button);
         mTvTitleBarCenter = (TextView) findViewById(KR.id.splus_person_title_bar_middle_title);
@@ -87,8 +88,9 @@ public class PersonActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
+
         if (mPersonCenter != null) {
-          //  mPersonCenter.setOnPersonClickListener(mPersonClickListener);
+            mPersonCenter.setOnPersonClickListener(mPersonClickListener);
         }
         ibtn_back.setOnClickListener(new OnClickListener() {
 
@@ -115,6 +117,42 @@ public class PersonActivity extends BaseActivity {
 
 
     }
+
+
+    /**
+     * 个人中心页面点击事件
+     */
+    private PersonCenter.PersonClickListener mPersonClickListener = new PersonCenter.PersonClickListener() {
+
+        @Override
+        public void onAccountClick(View v) {
+        }
+
+        @Override
+        public void onSQClick(View v) {
+        }
+
+        @Override
+        public void onForumClick(View v) {
+        }
+
+        @Override
+        public void onLogoutClick(View v) {
+        }
+
+        @Override
+        public void onAnnouncement(View v) {
+        }
+
+        @Override
+        public void onGameRecommendationClick(View v) {
+        }
+
+
+
+    };
+
+
 
 
     /**

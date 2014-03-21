@@ -167,6 +167,12 @@ public final class KR {
 
         public static final String splus_person_center_item_tv = "splus_person_center_item_tv";
 
+        public static final String splus_person_center_bottom_item_tv = "splus_person_center_bottom_item_tv";
+
+        public static final String splus_person_center_bottom_item_ic_left = "splus_person_center_bottom_item_ic_left";
+
+        public static final String splus_person_center_bottom_item_ic_right = "splus_person_center_bottom_item_ic_right";
+
     }
 
     public static final class layout {
@@ -205,7 +211,7 @@ public final class KR {
 
        //个人中心
 
-       public static final String splus_person_center_views = "splus_person_center_views";
+       public static final String splus_person_center = "splus_person_center";
 
        public static final String splus_person_center_welcome = "splus_person_center_welcome";
 
