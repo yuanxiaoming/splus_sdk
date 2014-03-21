@@ -84,7 +84,7 @@ public class RechargeSelectActivity extends BaseActivity {
     /**
      * 当前的页面
      */
-    private String currentPage = RechargeSelectPage.class.getName();
+    private String mCurrentPage = RechargeSelectPage.class.getName();
 
     private RechargeSelectPage mRechargeSelectPage;
 
@@ -216,7 +216,7 @@ public class RechargeSelectActivity extends BaseActivity {
             return;
         }
 
-        if (RechargeAlipayHtmlPage.class.getName().equals(currentPage)
+        if (RechargeAlipayHtmlPage.class.getName().equals(mCurrentPage)
                 && mRechargeAlipayHtmlPage != null) {
             if (mRechargeAlipayHtmlPage.goBack()) {
                 return;
@@ -226,18 +226,18 @@ public class RechargeSelectActivity extends BaseActivity {
         int count = vf_recharge_center.getChildCount();
         if (count == 1) {
             // 第一个视图,结束当前activity
-            currentPage = "";
+            mCurrentPage = "";
             finish();
         } else {
             vf_recharge_center.setInAnimation(anim_in_back);
             vf_recharge_center.setOutAnimation(anim_out_back);
             vf_recharge_center.showPrevious();
             vf_recharge_center.removeViewAt(count - 1);
-            currentPage = vf_recharge_center.getChildAt(count - 2).getClass().getName();
+            mCurrentPage = vf_recharge_center.getChildAt(count - 2).getClass().getName();
         }
 
-        if ((RechargeAlipayPage.class.getName().equals(currentPage) && mRechargeAlipayPage != null)
-                || (RechargeAlipayQuotaPage.class.getName().equals(currentPage) && mRechargeAlipayQuotaPage != null)) {
+        if ((RechargeAlipayPage.class.getName().equals(mCurrentPage) && mRechargeAlipayPage != null)
+                || (RechargeAlipayQuotaPage.class.getName().equals(mCurrentPage) && mRechargeAlipayQuotaPage != null)) {
 
             switch (mRechargeTypeModel.getRechargeType()) {
                 case Constant.ALIPAY_FAST:
@@ -255,7 +255,7 @@ public class RechargeSelectActivity extends BaseActivity {
             }
         }
 
-        if ((RechargeCardPage.class.getName().equals(currentPage) && mRechargeCardPage != null)||(RechargeCardQuotaPage.class.getName().equals(currentPage) && mRechargeCardQuotaPage != null)) {
+        if ((RechargeCardPage.class.getName().equals(mCurrentPage) && mRechargeCardPage != null)||(RechargeCardQuotaPage.class.getName().equals(mCurrentPage) && mRechargeCardQuotaPage != null)) {
 
             switch (mRechargeTypeModel.getRechargeType()) {
                 case Constant.CHAIN_CMM:
@@ -270,17 +270,17 @@ public class RechargeSelectActivity extends BaseActivity {
             }
         }
 
-        if (RechargeSelectPage.class.getName().equals(currentPage) && mRechargeSelectPage != null) {
+        if (RechargeSelectPage.class.getName().equals(mCurrentPage) && mRechargeSelectPage != null) {
 
             recharge_titlr_middle_text.setText(KR.string.splus_recharge_title_bar_middle_tips);
         }
 
-        if (RechargePersonPage.class.getName().equals(currentPage) && mRechargePersonPage != null) {
+        if (RechargePersonPage.class.getName().equals(mCurrentPage) && mRechargePersonPage != null) {
 
             recharge_titlr_middle_text.setText("人工充值");
         }
 
-        if ((RechargeUnionPayPage.class.getName().equals(currentPage)&& mRechargeUnionPayPage != null)||(RechargeUnionQuotaPayPage.class.getName().equals(currentPage)&& mRechargeUnionQuotaPayPage != null)) {
+        if ((RechargeUnionPayPage.class.getName().equals(mCurrentPage)&& mRechargeUnionPayPage != null)||(RechargeUnionQuotaPayPage.class.getName().equals(mCurrentPage)&& mRechargeUnionQuotaPayPage != null)) {
 
             recharge_titlr_middle_text.setText("银联");
         }
@@ -298,7 +298,7 @@ public class RechargeSelectActivity extends BaseActivity {
     private void addView(View v, String tag) {
         View view = vf_recharge_center.getCurrentView();
         if (v.equals(view)) {
-            currentPage = tag;
+            mCurrentPage = tag;
             return;
         }
 
@@ -317,7 +317,7 @@ public class RechargeSelectActivity extends BaseActivity {
 
         vf_recharge_center.addView(v, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        currentPage = tag;
+        mCurrentPage = tag;
         showNextPage();
     }
 

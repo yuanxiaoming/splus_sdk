@@ -69,8 +69,8 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="18dip"
                     android:layout_marginTop="10dip"
-                    android:background="@drawable/splus_recharge_card_explian_selectior"
-                    android:src="@drawable/splus_recharge_card_explian_selectior" />
+                    android:background="@drawable/splus_recharge_card_explian_selector"
+                    android:src="@drawable/splus_recharge_card_explian_selector" />
             </LinearLayout>
         </ScrollView>
 

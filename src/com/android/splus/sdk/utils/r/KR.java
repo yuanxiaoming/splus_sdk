@@ -102,6 +102,7 @@ public final class KR {
 
         public static final String splus_rechage_result_bottom_tips = "splus_rechage_result_bottom_tips";
 
+
             /**本地充值**/
         public static final String splus_recharge_center_views = "splus_recharge_center_views";
 
@@ -132,7 +133,6 @@ public final class KR {
         public static final String splus_recharge_person_tips = "splus_recharge_person_tips";
 
 
-        public static final String recharge_persontel_tips = "recharge_persontel_tips";
         public static final String splus_recharge_person_bank_tips = "splus_recharge_person_bank_tips";
         public static final String splus_recharge_personqq_tips = "splus_recharge_personqq_tips";
         public static final String splus_recharge_persontel_tips = "splus_recharge_persontel_tips";
@@ -144,7 +144,28 @@ public final class KR {
         public static final String splus_recharge_person_explian_tips = "splus_recharge_person_explian_tips";
 
 
+        /**个人中心***/
+        public static final String splus_person_title_bar_left_button = "splus_person_title_bar_left_button";
 
+        public static final String splus_person_title_bar_right_button = "splus_person_title_bar_right_button";
+
+        public static final String splus_person_title_bar_middle_title = "splus_person_title_bar_middle_title";
+
+        public static final String splus_person_center_views = "splus_person_center_views";
+
+        public static final String splus_person_center_welcome_text = "splus_person_center_welcome_text";
+
+        public static final String splus_person_center_item_top_ic_left = "splus_person_center_item_top_ic_left";
+
+        public static final String splus_person_center_item_top_ic_right = "splus_person_center_item_top_ic_right";
+
+        public static final String splus_person_center_item_top_tv = "splus_person_center_item_top_tv";
+
+        public static final String splus_person_center_item_ic_left = "splus_person_center_item_ic_left";
+
+        public static final String splus_person_center_item_ic_right = "splus_person_center_item_ic_right";
+
+        public static final String splus_person_center_item_tv = "splus_person_center_item_tv";
 
     }
 
@@ -182,6 +203,21 @@ public final class KR {
        public static final String splus_recharge_select_activity = "splus_recharge_select_activity";
 
 
+       //个人中心
+
+       public static final String splus_person_center_views = "splus_person_center_views";
+
+       public static final String splus_person_center_welcome = "splus_person_center_welcome";
+
+       public static final String splus_person_center_top_item = "splus_person_center_top_item";
+
+       public static final String splus_person_center_item = "splus_person_center_item";
+
+       public static final String splus_person_center_bottom_item = "splus_person_center_bottom_item";
+
+
+
+
            //本地充值
        public static final String splus_recharge_select_layout = "splus_recharge_select_layout";
 
@@ -212,6 +248,8 @@ public final class KR {
 
         public static final String splus_login_success_toast_logo = "splus_login_success_toast_logo";
 
+        public static final String splus_login_bg_devider= "splus_login_bg_devider";
+
         public static final String splus_splash_loading = "splus_splash_loading";
 
         public static final String splus_splash_background = "splus_splash_background";
@@ -225,6 +263,15 @@ public final class KR {
         public static final String  splus_recharge_money_item_press = "splus_recharge_money_item_press";
         public static final String  splus_recharge_money_item_normal = "splus_recharge_money_item_normal";
         public static final String  splus_recharge_money_item_selector = "splus_recharge_money_item_selector";
+
+        //个人中心
+        public static final String  splus_person_center_account_icon_selector = "splus_person_center_account_icon_selector";
+        public static final String  splus_person_center_arrow_icon_selector = "splus_person_center_arrow_icon_selector";
+        public static final String  splus_person_center_sq_icon_selector = "splus_person_center_sq_icon_selector";
+        public static final String  splus_person_center_forum_icon_selector = "splus_person_center_forum_icon_selector";
+        public static final String  splus_person_center_logout_icon_selector = "splus_person_center_logout_icon_selector";
+        public static final String  splus_person_center_announcementspage_icon_selector = "splus_person_center_announcementspage_icon_selector";
+
 
 
 
@@ -368,6 +415,26 @@ public final class KR {
                 + "<p>3、核实完成后，请玩家立即进入游戏查收游戏币！</p>"
                 + "<p>4、一旦充值成功，系统将不提供充值修正服务，如填写金额错误导致的损失我们不承担！</p>"
                 + "<p>5、人工充值不需要您提供任何密码，请各位玩家提高安全意识，非本页公布的帐号信息均非我平台官方帐号。</p>";
+
+
+        /**
+         * 个人中心
+         */
+        public static final String splus_person_center_welcome_text = "尊敬的：%s，欢迎来到个人中心";
+
+        public static final String splus_person_center_welcome_text_portrait = "尊敬的：%s\n欢迎来到个人中心";
+
+
+
+        public static final String  splus_person_center_idcard_btn_text = "账号安全";
+
+        public static final String  splus_person_center_sq_btn_text = "客服中心";
+
+        public static final String  splus_person_center_forum_btn_text = "论坛";
+
+        public static final String  splus_person_center_announcementspage_btn_text = "活动";
+
+        public static final String  splus_person_center_logout_btn_text = "注销账号";
 
 
     }

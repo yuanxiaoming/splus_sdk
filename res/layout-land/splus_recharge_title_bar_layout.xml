@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/splus_recharge_title_bar_relativelayout"
     android:layout_width="fill_parent"
-    android:layout_height="48dp"
+    android:layout_height="45dp"
     android:background="#00b4ff"
     android:padding="0dp" >
 
@@ -10,8 +10,8 @@
 
     <ImageButton
         android:id="@+id/splus_recharge_title_bar_left_button"
-        android:layout_width="60dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginBottom="3.5dp"
@@ -31,8 +31,8 @@
 
     <ImageButton
         android:id="@+id/splus_recharge_title_bar_right_button"
-        android:layout_width="75dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginBottom="3.5dp"

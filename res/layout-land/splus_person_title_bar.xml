@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:id="@+id/splus_person_title_bar_relativelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="#00b4ff"
+        android:padding="0dp" >
+
+        <!-- 左按钮 -->
+
+        <ImageButton
+            android:id="@+id/splus_person_title_bar_left_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="3.5dp"
+            android:layout_marginLeft="3dip"
+            android:layout_marginTop="3.5dp"
+            android:background="@drawable/splus_recharge_title_backbtn_selector" />
+
+        <!-- 标题 -->
+
+        <TextView
+            android:id="@+id/splus_person_title_bar_middle_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#FFFFFFFF"
+            android:textSize="22dp" />
+
+        <!-- 右按钮 -->
+
+        <ImageButton
+            android:id="@+id/splus_person_title_bar_right_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="3.5dp"
+            android:layout_marginRight="3dip"
+            android:layout_marginTop="3.5dp"
+            android:background="@drawable/splus_person_title_right_bar_selecor" />
+    </RelativeLayout>
+
+</LinearLayout>

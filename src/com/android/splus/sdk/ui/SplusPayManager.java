@@ -642,8 +642,7 @@ public class SplusPayManager implements IPayManager {
                 return;
             }
         }
-        if (!SharedPreferencesHelper.getInstance()
-                .getLoginStatusPreferences(mActivity, getAppkey())) {
+        if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, getAppkey())) {
             String msg = "您还没有登录或登录失效，不能进行充值，以免造成损失，请重新登陆。";
             LogHelper.i(TAG, msg);
             ToastUtil.showToast(activity, msg);
@@ -697,8 +696,7 @@ public class SplusPayManager implements IPayManager {
                 return;
             }
         }
-        if (!SharedPreferencesHelper.getInstance()
-                .getLoginStatusPreferences(mActivity, getAppkey())) {
+        if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, getAppkey())) {
             String msg = "您还没有登录或登录失效，不能进行充值，以免造成损失，请重新登陆。";
             LogHelper.i(TAG, msg);
             ToastUtil.showToast(activity, msg);
@@ -799,6 +797,46 @@ public class SplusPayManager implements IPayManager {
     public void setDBUG(boolean logDbug) {
         LogHelper.setLOGDBUG(logDbug);
     }
+
+
+    /**
+     *
+     * Title: enterUserCenter   (个人中心)
+     * Description:
+     * @param mActivity
+     * @param mLogoutCallBack
+     * @see com.android.splus.sdk.apiinterface.IPayManager#enterUserCenter(android.app.Activity, com.android.splus.sdk.apiinterface.LogoutCallBack)
+     */
+    @Override
+    public void enterUserCenter(Activity mActivity, LogoutCallBack mLogoutCallBack) {
+
+        if (mLogoutCallBack == null) {
+            LogHelper.i(TAG, "LogoutCallBack参数不能为空");
+            return;
+        }
+        if (mActivity == null) {
+            LogHelper.i(TAG, "Activity参数不能为空");
+            return;
+        } else {
+            if (!(mActivity instanceof Activity)) {
+                LogHelper.i(TAG, "参数Activity不是一个Activity的实例");
+                return;
+            }
+        }
+        if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, getAppkey())) {
+            String msg = "您还没有登录或者登陆失效，不能个人中心，请重新登陆。";
+            LogHelper.i(TAG, msg);
+            ToastUtil.showToast(mActivity, msg);
+            return;
+        }
+        this.mLogoutCallBack = mLogoutCallBack;
+        this.mActivity = mActivity;
+        mActivity.startActivity(new Intent(mActivity, PersonActivity.class));
+
+    }
+
+
+
 
     /**
      * 摧毁实例 改变登录状态
@@ -966,5 +1004,6 @@ public class SplusPayManager implements IPayManager {
             return b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
         }
     }
+
 
 }

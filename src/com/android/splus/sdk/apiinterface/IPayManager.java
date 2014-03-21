@@ -74,6 +74,12 @@ public interface IPayManager {
      */
     public void setDBUG(boolean logDbug);
 
-
+    /**
+     * 进入个人中心
+     *
+     * @author xiaoming.yuan
+     * @date 2013年10月14日 上午10:27:05
+     */
+    public void enterUserCenter(Activity mActivity, LogoutCallBack mLogoutCallBack);
 
 }
