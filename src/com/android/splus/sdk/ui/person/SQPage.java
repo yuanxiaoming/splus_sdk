@@ -1,0 +1,88 @@
+
+package com.android.splus.sdk.ui.person;
+
+import com.android.splus.sdk.model.SQModel;
+import com.android.splus.sdk.ui.JSplugin;
+import com.android.splus.sdk.utils.Constant;
+import com.android.splus.sdk.utils.http.NetHttpUtil;
+import com.android.splus.sdk.widget.CustomWebChromeClient;
+import com.android.splus.sdk.widget.CustomWebView;
+import com.android.splus.sdk.widget.CustomWebViewClient;
+
+import org.apache.http.util.EncodingUtils;
+
+import android.app.Activity;
+import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.widget.LinearLayout;
+
+public class SQPage extends LinearLayout {
+
+    private static final String TAG = "SQPage";
+
+    private Integer mGameid;
+
+    private String mPartner;
+
+    private String mReferer;
+
+    private String mDeviceno;
+
+    private Activity mActivity;
+
+    private String mRoleName;
+
+    private String mServerName;
+
+    private SQModel mSqModel;
+
+    private  CustomWebView mCustomWebView;
+
+    private Integer mUid;
+
+    private String mPassport;
+
+    private String mPassword;
+
+    public SQPage(Activity activity, String deviceno,Integer gamid, String partner, String referer,Integer uid, String passport, String password,String roleName, String serverName) {
+
+        super(activity);
+        this.mActivity=activity;
+        this.mDeviceno=deviceno;
+        this.mGameid=gamid;
+        this.mPartner=partner;
+        this.mReferer=referer;
+        this.mUid=uid;
+        this.mPassword=password;
+        this.mPassport=passport;
+        this.mRoleName=roleName;
+        this.mServerName=serverName;
+        mSqModel=new SQModel(mGameid, mDeviceno, mReferer, mPartner,mUid, mPassword, mPassport, mRoleName, mServerName);
+        mCustomWebView = new CustomWebView(activity);
+        mCustomWebView.setWebChromeClient(new CustomWebChromeClient(activity, new WebChromeClient()));
+        mCustomWebView.setWebViewClient(new CustomWebViewClient(activity));
+        mCustomWebView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+        mCustomWebView.clearCache(true);
+        mCustomWebView.requestFocus();
+        WebSettings webSettings = mCustomWebView.getSettings();
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setJavaScriptEnabled(true);
+        mCustomWebView.addJavascriptInterface(new JSplugin(activity), JSplugin.ANDROIDJSPLUG);
+        String data = NetHttpUtil.hashMapTOgetParams(mSqModel);
+        mCustomWebView.postUrl(Constant.HTMLWAPPAY_URL, EncodingUtils.getBytes(data, "UTF-8"));
+        LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        addView(mCustomWebView, lps);
+
+    }
+
+    public boolean goBack() {
+        if (mCustomWebView != null && mCustomWebView.canGoBack()) {
+            mCustomWebView.goBack();
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
