@@ -1,4 +1,4 @@
-package com.android.splus.sdk.ui.person;
+package com.android.splus.sdk.ui.personview;
 
 import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.r.KR;

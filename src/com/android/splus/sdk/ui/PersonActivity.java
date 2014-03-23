@@ -3,7 +3,7 @@ package com.android.splus.sdk.ui;
 
 import com.android.splus.sdk.apiinterface.LogoutCallBack;
 import com.android.splus.sdk.model.UserModel;
-import com.android.splus.sdk.ui.person.PersonCenter;
+import com.android.splus.sdk.ui.personview.PersonCenter;
 import com.android.splus.sdk.utils.file.AppUtil;
 import com.android.splus.sdk.utils.r.KR;
 

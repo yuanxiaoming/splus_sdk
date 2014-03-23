@@ -1,5 +1,5 @@
 
-package com.android.splus.sdk.ui.person;
+package com.android.splus.sdk.ui.personview;
 
 import com.android.splus.sdk.model.SQModel;
 import com.android.splus.sdk.ui.JSplugin;
