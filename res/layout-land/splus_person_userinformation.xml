@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            layout="@layout/splus_person_center_welcome" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp" >
+
+                <TextView
+                    android:id="@+id/splus_person_center_userinformation_realname_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:textColor="#ff747474"
+                    android:textSize="18dp" />
+
+                <LinearLayout
+                    android:layout_width="0.0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="5.0"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/splus_recharge_money_edit_selector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/splus_person_center_userinformation_realname_et"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:singleLine="true"
+                        android:textColor="#ff41403e"
+                        android:textColorHint="#ff9ea4a6"
+                        android:textCursorDrawable="@null"
+                        android:textSize="15dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp" >
+
+                <TextView
+                    android:id="@+id/splus_person_center_userinformation_sex_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:textColor="#ff747474"
+                    android:textSize="18dp" />
+
+                <RadioGroup
+                    android:id="@+id/splus_person_center_userinformation_sex_rg"
+                    android:layout_width="0.0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="5.0"
+                    android:gravity="left|center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingRight="0dp" >
+
+                    <RadioButton
+                        android:id="@+id/splus_person_center_userinformation_sex_boy_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/splus_person_center_radiobutton_icon"
+                        android:padding="0dp"
+                        android:textColor="#ff747474"
+                        android:textSize="15dp" />
+
+                    <RadioButton
+                        android:id="@+id/splus_person_center_userinformation_sex_girl_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/splus_person_center_radiobutton_icon"
+                        android:padding="0dp"
+                        android:textColor="#ff747474"
+                        android:textSize="15dp" />
+
+                    <RadioButton
+                        android:id="@+id/splus_person_center_userinformation_sex_secret_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/splus_person_center_radiobutton_icon"
+                        android:padding="0dp"
+                        android:textColor="#ff747474"
+                        android:textSize="15dp" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp" >
+
+                <TextView
+                    android:id="@+id/splus_person_center_userinformation_idcard_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:textColor="#ff747474"
+                    android:textSize="18dp" />
+
+                <LinearLayout
+                    android:layout_width="0.0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="5.0"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/splus_recharge_money_edit_selector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/splus_person_center_userinformation_idcard_et"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:inputType="textVisiblePassword"
+                        android:singleLine="true"
+                        android:textColor="#ff41403e"
+                        android:textColorHint="#ff9ea4a6"
+                        android:textCursorDrawable="@null"
+                        android:textSize="15dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/splus_person_center_userinformation_qq_tv"
+                    android:layout_width="0.0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:textColor="#ff747474"
+                    android:textSize="18dp" />
+
+                <LinearLayout
+                    android:layout_width="0.0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="5.0"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/splus_recharge_money_edit_selector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/splus_person_center_userinformation_qq_et"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="#ff41403e"
+                        android:textColorHint="#ff9ea4a6"
+                        android:textCursorDrawable="@null"
+                        android:textSize="15dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/splus_person_center_userinformation_complete_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="30dp"
+            android:textSize="18dp"
+            android:background="@drawable/splus_login_btn_login_bg_selector"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/splus_person_center_userinformation_tips_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="#fe5f2e"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+</ScrollView>

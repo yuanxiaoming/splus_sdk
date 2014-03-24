@@ -3,16 +3,23 @@ package com.android.splus.sdk.ui;
 
 import com.android.splus.sdk.apiinterface.LogoutCallBack;
 import com.android.splus.sdk.manager.ExitAppUtils;
+import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.ui.personview.AccountManager;
 import com.android.splus.sdk.ui.personview.AnnouncementsPage;
 import com.android.splus.sdk.ui.personview.ForumPage;
 import com.android.splus.sdk.ui.personview.LogoutPage;
+import com.android.splus.sdk.ui.personview.PasswordPage;
 import com.android.splus.sdk.ui.personview.PersonCenter;
 import com.android.splus.sdk.ui.personview.SQPage;
+import com.android.splus.sdk.ui.personview.UserInformationPage;
+import com.android.splus.sdk.utils.file.AppUtil;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -28,6 +35,13 @@ public class PersonActivity extends BaseActivity {
     private Activity mActivity;
     private SplusPayManager mSplusPayManager;
     private LogoutCallBack mLogoutCallBack;
+
+
+    public static final int PASSWORDPAGE = 0;
+
+    public static final int PHONEBIND = 1;
+
+    public static final int LOGOUT = 2;
 
     /**
      * 页面切换动画
@@ -77,6 +91,17 @@ public class PersonActivity extends BaseActivity {
      * 安全信息页面
      */
     private AccountManager mAccountManager;
+
+    /**
+     * 个人资料页面
+     */
+    private UserInformationPage mUserInformationPage;
+
+    /**
+     * 密码修改页面
+     */
+    private PasswordPage mPasswordPage;
+
 
 
     @Override
@@ -228,13 +253,40 @@ public class PersonActivity extends BaseActivity {
     private AccountManager.AccountClickListener mAccountClickListener = new AccountManager.AccountClickListener() {
 
         @Override
-        public void onUserInformationClick(View v) {}
+        public void onUserInformationClick(View v) {
+
+            // 进入个人资料页面
+            if (mUserInformationPage == null) {
+                mUserInformationPage = new UserInformationPage(PersonActivity.this, getPassport(),getUid(), mSplusPayManager.getServerName(), getDeviceno(), mSplusPayManager.getPartner(),
+                        mSplusPayManager.getReferer(),mSplusPayManager.getGameid(), mSplusPayManager.getAppkey());
+            }
+            // 把个人资料页面显示在前台
+            mTvTitleBarCenter.setText(KR.string.splus_person_account_user_information);
+            addView(mUserInformationPage, UserInformationPage.class.getName());
+
+        }
 
         @Override
-        public void onPasswordClick(View v) {}
+        public void onPasswordClick(View v) {
+            // 进入修改密码页面
+            if (mPasswordPage == null) {
+                mPasswordPage = new PasswordPage(PersonActivity.this, getPassport(), getUid(),mSplusPayManager.getServerName(),
+                        getDeviceno(),mSplusPayManager.getPartner(),mSplusPayManager.getReferer(),mSplusPayManager.getGameid(),mSplusPayManager.getAppkey(), mHandler);
+            }
+            mTvTitleBarCenter.setText(KR.string.splus_person_account_modify_pwd);
+            // 把修改密码页面显示在前台
+            addView(mPasswordPage, PasswordPage.class.getName());
+
+
+        }
 
         @Override
-        public void onPhoneClick(View v) {}
+        public void onPhoneClick(View v) {
+
+
+
+
+        }
 
     };
 
@@ -356,6 +408,60 @@ public class PersonActivity extends BaseActivity {
         if (mLogoutCallBack != null) {
             mLogoutCallBack.logoutCallBack();
         }
+    }
+
+    /**
+     * 网络请求成功回调
+     */
+    private Handler mHandler = new Handler() {
+        @SuppressWarnings("unchecked")
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case PASSWORDPAGE:
+                    String newPwd = (String) msg.obj;
+                    savaNewPwd(newPwd);
+                    goBack();
+                    break;
+                case PHONEBIND:
+                    mAccountManager.setBindStatus(true);
+                    goBack();
+                    break;
+                case LOGOUT:
+                   mSplusPayManager.destroy();
+                    break;
+                default:
+                    break;
+            }
+
+        };
+    };
+
+    /**
+     * 保存新密码
+     *
+     * @author xiaoming.yuan
+     * @date 2013年10月10日 下午11:03:42
+     * @param newPwd
+     */
+    private void savaNewPwd(String newPwd) {
+        UserModel mUserModel =mSplusPayManager.getUserData();
+        if (mUserModel == null) {
+            mUserModel = AppUtil.getUserData();
+        }
+        if (mUserModel == null) {
+            return;
+        }
+        mUserModel.setPassword(newPwd);
+        mSplusPayManager.setUserData(mUserModel);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

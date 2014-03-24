@@ -291,7 +291,7 @@ public class AccountManager extends ScrollView {
                             KR.drawable.splus_person_center_account_icon_selector));
             ((ImageView) (btn_userinformation.findViewById(ResourceUtil.getId(activity,
                     KR.id.splus_person_center_item_top_ic_right)))).setImageResource(ResourceUtil
-                    .getDrawableId(activity, KR.drawable.splus_person_center_arrow_icon_selector));
+                            .getDrawableId(activity, KR.drawable.splus_person_center_arrow_icon_selector));
             mTvUserinformationText =  (TextView) btn_userinformation.findViewById(
                     ResourceUtil.getId(activity, KR.id.splus_person_center_item_top_tv));
             mTvUserinformationText.setText(KR.string.splus_person_account_user_information);
@@ -300,10 +300,10 @@ public class AccountManager extends ScrollView {
 
             ((ImageView) (btn_pwd.findViewById(ResourceUtil.getId(activity,
                     KR.id.splus_person_center_item_ic_left)))).setImageResource(ResourceUtil
-                    .getDrawableId(activity, KR.drawable.splus_person_account_modify_pwd_selector));
+                            .getDrawableId(activity, KR.drawable.splus_person_account_modify_pwd_selector));
             ((ImageView) (btn_pwd.findViewById(ResourceUtil.getId(activity,
                     KR.id.splus_person_center_item_ic_right)))).setImageResource(ResourceUtil
-                    .getDrawableId(activity, KR.drawable.splus_person_center_arrow_icon_selector));
+                            .getDrawableId(activity, KR.drawable.splus_person_center_arrow_icon_selector));
             mTvPwd = (TextView) btn_pwd.findViewById(ResourceUtil.getId(activity,
                     KR.id.splus_person_center_item_tv));
             mTvPwd.setText(KR.string.splus_person_account_modify_pwd);
@@ -311,8 +311,8 @@ public class AccountManager extends ScrollView {
 
             ((ImageView) (btn_phone.findViewById(ResourceUtil.getId(activity,
                     KR.id.splus_person_center_bottom_item_ic_left)))).setImageResource(ResourceUtil
-                    .getDrawableId(activity,
-                            KR.drawable.splus_person_account_binding_phone_selector));
+                            .getDrawableId(activity,
+                                    KR.drawable.splus_person_account_binding_phone_selector));
             ((ImageView) (btn_phone.findViewById(ResourceUtil.getId(activity,
                     KR.id.splus_person_center_bottom_item_ic_right))))
                     .setImageResource(ResourceUtil.getDrawableId(activity,
@@ -331,19 +331,20 @@ public class AccountManager extends ScrollView {
 
                 @Override
                 public void onClick(View v) {
-                    if (mHasBindPhone) {
-                        mListener.onPasswordClick(v);
-                    } else {
-                        ToastUtil.showToast(mActivity, "您还没有绑定手机号码，暂时不能修改密码，请先绑定手机号码后再修改密码！");
-                    }
+                    mListener.onUserInformationClick(v);
                 }
             });
             btn_pwd.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
+                    if (mHasBindPhone) {
+                        mListener.onPasswordClick(v);
+                    } else {
+                        ToastUtil.showToast(mActivity, "您还没有绑定手机号码，暂时不能修改密码，请先绑定手机号码后再修改密码！");
+                        mListener.onPasswordClick(v);
+                    }
 
-                    mListener.onPhoneClick(v);
                 }
             });
 
@@ -351,8 +352,8 @@ public class AccountManager extends ScrollView {
 
                 @Override
                 public void onClick(View v) {
+                    mListener.onPhoneClick(v);
 
-                    mListener.onUserInformationClick(v);
                 }
             });
 
@@ -373,13 +374,13 @@ public class AccountManager extends ScrollView {
                     android.R.attr.state_enabled, android.R.attr.state_focused
             };
             states[2] = new int[] {
-                android.R.attr.state_enabled
+                    android.R.attr.state_enabled
             };
             states[3] = new int[] {
-                android.R.attr.state_focused
+                    android.R.attr.state_focused
             };
             states[4] = new int[] {
-                android.R.attr.state_window_focused
+                    android.R.attr.state_window_focused
             };
             states[5] = new int[] {};
             ColorStateList colorList = new ColorStateList(states, colors);

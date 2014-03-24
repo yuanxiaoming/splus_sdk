@@ -23,6 +23,8 @@ import android.text.Editable;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 
@@ -232,6 +234,20 @@ public class CommonUtil {
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+
+    /**
+     * @author xiaoming.yuan
+     * @date 2013年9月30日 下午3:40:23
+     * @param context
+     * @param edit edit输入框取得焦点并弹出软键盘
+     */
+    public static void showInput(Context context, EditText edit) {
+        edit.requestFocus();
+        InputMethodManager imm = (InputMethodManager) context
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(edit, 0);
+        edit.setSelection(edit.getText().toString().length());
     }
 
 }

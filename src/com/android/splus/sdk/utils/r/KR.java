@@ -189,6 +189,29 @@ public final class KR {
 
         public static final String splus_person_logout_game_ic = "splus_person_logout_game_ic";
 
+
+        public static final String splus_person_center_userinformation_realname_tv = "splus_person_center_userinformation_realname_tv";
+        public static final String splus_person_center_userinformation_realname_et = "splus_person_center_userinformation_realname_et";
+        public static final String splus_person_center_userinformation_sex_tv = "splus_person_center_userinformation_sex_tv";
+        public static final String splus_person_center_userinformation_sex_rg = "splus_person_center_userinformation_sex_rg";
+        public static final String splus_person_center_userinformation_sex_secret_rb = "splus_person_center_userinformation_sex_secret_rb";
+        public static final String splus_person_center_userinformation_sex_boy_rb = "splus_person_center_userinformation_sex_boy_rb";
+        public static final String splus_person_center_userinformation_sex_girl_rb = "splus_person_center_userinformation_sex_girl_rb";
+        public static final String splus_person_center_userinformation_idcard_tv = "splus_person_center_userinformation_idcard_tv";
+        public static final String splus_person_center_userinformation_idcard_et = "splus_person_center_userinformation_idcard_et";
+        public static final String splus_person_center_userinformation_qq_tv = "splus_person_center_userinformation_qq_tv";
+        public static final String splus_person_center_userinformation_qq_et = "splus_person_center_userinformation_qq_et";
+        public static final String splus_person_center_userinformation_complete_btn = "splus_person_center_userinformation_complete_btn";
+        public static final String splus_person_center_userinformation_tips_tv = "splus_person_center_userinformation_tips_tv";
+
+        public static final String splus_person_pwd_old_tv = "splus_person_pwd_old_tv";
+        public static final String splus_person_pwd_new_tv = "splus_person_pwd_new_tv";
+        public static final String splus_person_pwd_new_repeat_tv = "splus_person_pwd_new_repeat_tv";
+        public static final String splus_person_pwd_old_et = "splus_person_pwd_old_et";
+        public static final String splus_person_pwd_new_et = "splus_person_pwd_new_et";
+        public static final String splus_person_pwd_new_repeat_et = "splus_person_pwd_new_repeat_et";
+        public static final String splus_person_pwd_submit_btn = "splus_person_pwd_submit_btn";
+
     }
 
     public static final class layout {
@@ -238,6 +261,10 @@ public final class KR {
        public static final String splus_person_center_bottom_item = "splus_person_center_bottom_item";
 
        public static final String splus_person_logout = "splus_person_logout";
+
+       public static final String splus_person_userinformation = "splus_person_userinformation";
+
+       public static final String splus_person_pwd = "splus_person_pwd";
 
 
 
@@ -479,6 +506,37 @@ public final class KR {
         public static final String splus_person_account_welcome_text = "尊敬的：%s欢迎来到个人中心";
 
         public static final String splus_person_account_welcome_text_portrait = "尊敬的：%s\n为保障您的账号安全，请尽快完善您的资料";
+
+
+        /**个人中心  ---- 个人资料菜单*/
+        public static final String splus_person_center_userinformation_welcone_text_user = "尊敬的：%s为保障您的账号安全，请尽快完善您的资料";
+        public static final String splus_person_center_userinformation_welcone_text_user_portrait = "尊敬的：%s\n为保障您的账号安全，请尽快完善您的资料";
+        public static final String splus_person_center_userinformation_realname_text = "真实姓名：";
+        public static final String splus_person_center_userinformation_sex_text = "性别：";
+        public static final String splus_person_center_userinformation_sex_rb_secret_text = "保密";
+        public static final String splus_person_center_userinformation_sex_rb_boy_text = "男";
+        public static final String splus_person_center_userinformation_sex_rb_girl_text = "女";
+        public static final String splus_person_center_userinformation_idcard_text = "身份证号：";
+        public static final String splus_person_center_userinformation_qq_text = "QQ：";
+        public static final String splus_person_center_userinformation_complete_text = "完成";
+        public static final String splus_person_center_userinformation_tips_text = "*我们将保证您填写的资料不会外泄";
+
+
+        public static final String splus_person_pwd_old_tv = "旧\u0008\u0008密\u0008\u0008码：";
+
+        public static final String splus_person_pwd_old_et = "请输入旧的帐号密码";
+
+        public static final String splus_person_pwd_new_tv = "新\u0008\u0008密\u0008\u0008码：";
+
+        public static final String splus_person_pwd_new_et = "请输入新密码，6~20位字母、数字和下划线\"_\"";
+
+        public static final String splus_person_pwd_new_et_portrait = "请输入新密码，6~20位字母、数字和\"_\"";
+
+        public static final String splus_person_pwd_new_repeat_tv = "再次输入：";
+
+        public static final String splus_person_pwd_new_repeat_et = "再输入一遍新密码";
+
+        public static final String splus_person_pwd_submit_btn_text = "提交";
 
     }
 }
