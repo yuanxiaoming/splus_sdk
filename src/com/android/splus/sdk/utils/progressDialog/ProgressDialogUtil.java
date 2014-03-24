@@ -46,6 +46,7 @@ public class ProgressDialogUtil {
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setIndeterminate(indeterminate);
         dialog.setCancelable(cancelable);
+        dialog.setCanceledOnTouchOutside(cancelable);
         dialog.show();
         return dialog;
     }

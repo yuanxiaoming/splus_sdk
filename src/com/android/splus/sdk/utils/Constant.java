@@ -9,7 +9,7 @@ public class Constant {
      * url
      */
 
-    //    public static final String URL="http://121.201.96.82/api.splusgame.com/sdk/";
+    //    public static final String URL="http://api.splusgame.com/sdk/";
     //
     //    public static final String ACTIVE_URL = URL+"active.php";
     //
@@ -32,6 +32,7 @@ public class Constant {
 
     public static final String RATIO_URL = "http://sy.api.37wan.cn/sdk/ext/pay_way_ratio.php";
 
+    public static final String BINDMOBILE_URL = "http://sy.api.37wan.cn/action/activebindmobile.php?";
 
     //充值：
     public static final int[] CHINA_MOBILE_MONEY = {

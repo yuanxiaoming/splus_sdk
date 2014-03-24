@@ -200,7 +200,7 @@ public class SplusPayManager implements IPayManager {
     /**
      * Title: init Description:
      *
-     * @param mActivity
+     * @param mBaseActivity
      * @param appkey
      * @param callBack
      * @param useupdate

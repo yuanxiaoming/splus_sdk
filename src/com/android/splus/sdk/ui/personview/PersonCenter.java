@@ -4,6 +4,7 @@ import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+@SuppressLint("ViewConstructor")
 public class PersonCenter extends ScrollView {
 
     private static final String TAG = "PersonCenter";
@@ -49,7 +51,7 @@ public class PersonCenter extends ScrollView {
             // 竖屏
             mLandscape = false;
         }
-        mBody = new Body(activity, passport, mLandscape);
+        mBody = new Body(mActivity, mPassport, mLandscape);
         mBody.setOrientation(LinearLayout.VERTICAL);
         addView(mBody);
     }
@@ -125,30 +127,41 @@ public class PersonCenter extends ScrollView {
             mLine1.setScaleType(ScaleType.FIT_XY);
             mLine1.setImageResource(ResourceUtil.getDrawableId(activity,
                     KR.drawable.splus_login_bg_devider));
-            addView(btn_account, params);
-            addView(mLine1, params1);
-
             mLine2 = new ImageView(activity);
             mLine2.setBackgroundColor(0xfff7f7f7);
             mLine2.setScaleType(ScaleType.FIT_XY);
             mLine2.setImageResource(ResourceUtil.getDrawableId(activity,
                     KR.drawable.splus_login_bg_devider));
-            addView(btn_sq, params);
-            addView(mLine2, params1);
-
             mLine3 = new ImageView(activity);
             mLine3.setBackgroundColor(0xfff7f7f7);
             mLine3.setScaleType(ScaleType.FIT_XY);
             mLine3.setImageResource(ResourceUtil.getDrawableId(activity,
                     KR.drawable.splus_login_bg_devider));
-            addView(btn_forum, params);
-            addView(mLine3, params1);
-
             mLine4 = new ImageView(activity);
             mLine4.setBackgroundColor(0xfff7f7f7);
             mLine4.setScaleType(ScaleType.FIT_XY);
             mLine4.setImageResource(ResourceUtil.getDrawableId(activity,
                     KR.drawable.splus_login_bg_devider));
+            int padding = 0;
+            if (isLandscape) {
+                padding = 20;
+            } else {
+                padding = 0;
+            }
+            mLine1.setPadding(padding, 0, padding, 0);
+            mLine2.setPadding(padding, 0, padding, 0);
+            mLine3.setPadding(padding, 0, padding, 0);
+            mLine4.setPadding(padding, 0, padding, 0);
+
+            addView(btn_account, params);
+            addView(mLine1, params1);
+
+            addView(btn_sq, params);
+            addView(mLine2, params1);
+
+            addView(btn_forum, params);
+            addView(mLine3, params1);
+
             addView(btn_announcementsPage, params);
             addView(mLine4, params1);
 

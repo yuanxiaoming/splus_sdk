@@ -173,6 +173,22 @@ public final class KR {
 
         public static final String splus_person_center_bottom_item_ic_right = "splus_person_center_bottom_item_ic_right";
 
+        public static final String splus_person_logout_account_tv = "splus_person_logout_account_tv";
+
+        public static final String splus_person_logout_game_tv = "splus_person_logout_game_tv";
+
+        public static final String splus_person_logout_game_name_hint = "splus_person_logout_game_name_hint";
+
+        public static final String splus_person_logout_game_name_text = "splus_person_logout_game_name_text";
+
+        public static final String splus_person_logout_game_version_hint = "splus_person_logout_game_version_hint";
+
+        public static final String splus_person_logout_game_version_text = "splus_person_logout_game_version_text";
+
+        public static final String splus_person_logout_btn = "splus_person_logout_btn";
+
+        public static final String splus_person_logout_game_ic = "splus_person_logout_game_ic";
+
     }
 
     public static final class layout {
@@ -203,7 +219,7 @@ public final class KR {
         /**
          * 选择充值模块
          */
-     // 充值结果界面
+        // 充值结果界面
        public static final String splus_recharge_result_activity = "splus_recharge_result_activity";
 
        public static final String splus_recharge_select_activity = "splus_recharge_select_activity";
@@ -220,6 +236,8 @@ public final class KR {
        public static final String splus_person_center_item = "splus_person_center_item";
 
        public static final String splus_person_center_bottom_item = "splus_person_center_bottom_item";
+
+       public static final String splus_person_logout = "splus_person_logout";
 
 
 
@@ -277,6 +295,8 @@ public final class KR {
         public static final String  splus_person_center_forum_icon_selector = "splus_person_center_forum_icon_selector";
         public static final String  splus_person_center_logout_icon_selector = "splus_person_center_logout_icon_selector";
         public static final String  splus_person_center_announcementspage_icon_selector = "splus_person_center_announcementspage_icon_selector";
+        public static final String  splus_person_account_modify_pwd_selector = "splus_person_account_modify_pwd_selector";
+        public static final String  splus_person_account_binding_phone_selector = "splus_person_account_binding_phone_selector";
 
 
 
@@ -430,8 +450,6 @@ public final class KR {
 
         public static final String splus_person_center_welcome_text_portrait = "尊敬的：%s\n欢迎来到个人中心";
 
-
-
         public static final String  splus_person_center_idcard_btn_text = "账号安全";
 
         public static final String  splus_person_center_sq_btn_text = "客服中心";
@@ -442,6 +460,25 @@ public final class KR {
 
         public static final String  splus_person_center_logout_btn_text = "注销账号";
 
+        public static final String splus_person_logout_account_tv = "当前灿和帐号：%s";
+
+        public static final String splus_person_logout_game_tv = "正在玩的游戏";
+
+        public static final String splus_person_logout_game_name_hint = "游戏名称：";
+
+        public static final String splus_person_logout_game_version_hint = "版\u0008\u0008本\u0008\u0008号：";
+
+        public static final String splus_person_logout = "确认并注销";
+
+        public static final String splus_person_account_user_information = "个人资料";
+
+        public static final String splus_person_account_modify_pwd = "修改密码";
+
+        public static final String splus_person_account_binding_phone = "绑定手机";
+
+        public static final String splus_person_account_welcome_text = "尊敬的：%s欢迎来到个人中心";
+
+        public static final String splus_person_account_welcome_text_portrait = "尊敬的：%s\n为保障您的账号安全，请尽快完善您的资料";
 
     }
 }

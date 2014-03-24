@@ -82,7 +82,7 @@ public class UpdateActivity extends BaseActivity {
         } else if (SplusPayManager.INTENT_UPDATE.equals(type)) {
             String localAppVer = "1.0.0";
             try {
-                PackageInfo info = mActivity.getPackageManager().getPackageInfo(mActivity.getPackageName(), 0);
+                PackageInfo info = mBaseActivity.getPackageManager().getPackageInfo(mBaseActivity.getPackageName(), 0);
                 localAppVer = info.versionName;
             } catch (NameNotFoundException e) {
                 e.printStackTrace();
@@ -164,10 +164,10 @@ public class UpdateActivity extends BaseActivity {
         public void onClick(DialogInterface dialog, int which) {
             finish(false);
             DownLoadActivity.CALLINSTALL = false;
-            Intent intent = new Intent(mActivity, DownLoadActivity.class);
+            Intent intent = new Intent(mBaseActivity, DownLoadActivity.class);
             intent.putExtra(UPTYPE, mUptype);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mActivity.startActivity(intent);
+            mBaseActivity.startActivity(intent);
         }
     };
 

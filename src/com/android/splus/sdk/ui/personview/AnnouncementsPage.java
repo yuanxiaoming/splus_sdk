@@ -17,9 +17,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.widget.LinearLayout;
 
-public class SQPage extends LinearLayout {
+public class AnnouncementsPage extends LinearLayout {
 
-    private static final String TAG = "SQPage";
+    private static final String TAG = "AnnouncementsPage";
 
     private Integer mGameid;
 
@@ -45,7 +45,7 @@ public class SQPage extends LinearLayout {
 
     private String mPassword;
 
-    public SQPage(Activity activity, String deviceno,Integer gameid, String partner, String referer,Integer uid, String passport, String password,String roleName, String serverName) {
+    public AnnouncementsPage(Activity activity, String deviceno,Integer gameid, String partner, String referer,Integer uid, String passport, String password,String roleName, String serverName) {
 
         super(activity);
         this.mActivity=activity;
@@ -86,3 +86,4 @@ public class SQPage extends LinearLayout {
         }
     }
 }
+

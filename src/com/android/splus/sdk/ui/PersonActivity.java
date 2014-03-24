@@ -2,10 +2,15 @@
 package com.android.splus.sdk.ui;
 
 import com.android.splus.sdk.apiinterface.LogoutCallBack;
-import com.android.splus.sdk.model.UserModel;
+import com.android.splus.sdk.manager.ExitAppUtils;
+import com.android.splus.sdk.ui.personview.AccountManager;
+import com.android.splus.sdk.ui.personview.AnnouncementsPage;
+import com.android.splus.sdk.ui.personview.ForumPage;
+import com.android.splus.sdk.ui.personview.LogoutPage;
 import com.android.splus.sdk.ui.personview.PersonCenter;
-import com.android.splus.sdk.utils.file.AppUtil;
+import com.android.splus.sdk.ui.personview.SQPage;
 import com.android.splus.sdk.utils.r.KR;
+import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 
 import android.app.Activity;
 import android.view.View;
@@ -46,6 +51,32 @@ public class PersonActivity extends BaseActivity {
      * 个人中心页面
      */
     private PersonCenter mPersonCenter;
+
+
+    /**
+     * 注销页面
+     */
+    private LogoutPage mLogoutPage;
+
+    /**
+     * 客服中心
+     */
+    private SQPage mSqPage;
+
+    /**
+     * 论坛
+     */
+    private ForumPage mForumPage;
+
+    /**
+     * 活动页面
+     */
+    private AnnouncementsPage mAnnouncementsPage;
+
+    /**
+     * 安全信息页面
+     */
+    private AccountManager mAccountManager;
 
 
     @Override
@@ -113,9 +144,6 @@ public class PersonActivity extends BaseActivity {
 
     @Override
     protected void processLogic() {
-
-
-
     }
 
 
@@ -126,34 +154,89 @@ public class PersonActivity extends BaseActivity {
 
         @Override
         public void onAccountClick(View v) {
+            // 进入账号安全页面
+            if (mAccountManager == null) {
+                mAccountManager = new AccountManager(mActivity, getPassport(),
+                        getUid(), mSplusPayManager.getServerName(), getDeviceno(), mSplusPayManager.getPartner(),mSplusPayManager.getReferer(), mSplusPayManager.getGameid(), mSplusPayManager.getAppkey());
+                mAccountManager.setOnAccountClickListener(mAccountClickListener);
+            }
+            mTvTitleBarCenter.setText(KR.string.splus_person_center_idcard_btn_text);
+            // 把通行证管理页面显示在前台
+            addView(mAccountManager, AccountManager.class.getName());
+
         }
 
         @Override
         public void onSQClick(View v) {
+            // 进入客服中心页面
+            if (mSqPage == null) {
+                mSqPage = new SQPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
+                        getUid(), getPassport(), getPassword(), mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
+            }
+            mTvTitleBarCenter.setText(KR.string.splus_person_center_sq_btn_text);
+            addView(mSqPage, SQPage.class.getName());
         }
 
         @Override
         public void onForumClick(View v) {
+            // 进入论坛页面看
+            if (mForumPage == null) {
+                mForumPage = new ForumPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
+                        getUid(), getPassport(), getPassword(), mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
+                mTvTitleBarCenter.setText(KR.string.splus_person_center_forum_btn_text);
+                // 把论坛页面显示在前台
+                addView(mForumPage, ForumPage.class.getName());
+            }
         }
 
         @Override
         public void onLogoutClick(View v) {
+            // 进入注销页面
+            if (mLogoutPage == null) {
+                mLogoutPage = new LogoutPage(mActivity, getPassport());
+            }
+            mTvTitleBarCenter.setText(KR.string.splus_person_center_logout_btn_text);
+            // 把注销页面显示在前台
+            addView(mLogoutPage, LogoutPage.class.getName());
+
         }
 
         @Override
         public void onAnnouncement(View v) {
+            // 进入活动页面
+            if (mAnnouncementsPage == null) {
+                mAnnouncementsPage = new AnnouncementsPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
+                        getUid(), getPassport(), getPassword(), mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
+            }
+            mTvTitleBarCenter.setText(KR.string.splus_person_center_announcementspage_btn_text);
+            // 把活动页面显示在前台
+            addView(mAnnouncementsPage, AnnouncementsPage.class.getName());
+
         }
 
         @Override
         public void onGameRecommendationClick(View v) {
+
+
         }
-
-
-
     };
 
 
+    /**
+     * 安全信息页面点击事件
+     */
+    private AccountManager.AccountClickListener mAccountClickListener = new AccountManager.AccountClickListener() {
 
+        @Override
+        public void onUserInformationClick(View v) {}
+
+        @Override
+        public void onPasswordClick(View v) {}
+
+        @Override
+        public void onPhoneClick(View v) {}
+
+    };
 
     /**
      * 页面添加
@@ -182,9 +265,7 @@ public class PersonActivity extends BaseActivity {
         if (hasView) {
             vf_person_center.removeView(v);
         }
-
-        vf_person_center.addView(v, new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        vf_person_center.addView(v, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         mCurrentPage = tag;
         showNextPage();
     }
@@ -203,62 +284,6 @@ public class PersonActivity extends BaseActivity {
     }
 
 
-
-    /**
-     * @return String 返回类型
-     * @Title: passport(获取用户名)
-     * @author xiaoming.yuan
-     * @data 2013-8-14 下午12:33:59
-     */
-    protected String getPassport() {
-        UserModel userModel = getUserData();
-        if (null != userModel && null != userModel.getUserName()) {
-            return userModel.getUserName();
-        }
-        return "";
-    }
-
-    /**
-     * @return Integer 返回类型
-     * @Title: uid(获取用户名的唯一标示)
-     * @author xiaoming.yuan
-     * @data 2013-8-14 下午12:33:59
-     */
-    protected Integer getUid() {
-        UserModel userModel = getUserData();
-        if (null != userModel && null != userModel.getUserName()) {
-            return userModel.getUid();
-        }
-        return null;
-    }
-
-    /**
-     * @return String 返回类型
-     * @Title: password(获取用户密码)
-     * @author xiaoming.yuan
-     * @data 2013-8-14 下午12:33:26
-     */
-    protected String getPassword() {
-        UserModel userModel = getUserData();
-        if (null != userModel && null != userModel.getPassword()) {
-            return userModel.getPassword();
-        }
-        return "";
-    }
-
-    /**
-     * @author xiaoming.yuan
-     * @date 2013年10月18日 下午6:58:56
-     * @return
-     */
-    protected UserModel getUserData() {
-        UserModel userModel = SplusPayManager.getInstance().getUserData();
-        if (userModel == null) {
-            userModel = AppUtil.getUserData();
-        }
-        return userModel;
-    }
-
     /**
      * 页面返回事件
      *
@@ -275,6 +300,25 @@ public class PersonActivity extends BaseActivity {
             return;
         }
 
+        if (ForumPage.class.getName().equals(mCurrentPage) && mForumPage != null) {
+            if (mForumPage.goBack()) {
+                mTvTitleBarCenter.setText(KR.string.splus_person_center_forum_btn_text);
+                return;
+            }
+        }
+
+        if (SQPage.class.getName().equals(mCurrentPage) && mSqPage != null) {
+            if (mSqPage.goBack()) {
+                mTvTitleBarCenter.setText(KR.string.splus_person_center_sq_btn_text);
+                return;
+            }
+        }
+        if (AnnouncementsPage.class.getName().equals(mCurrentPage) && mAnnouncementsPage != null) {
+            if (mAnnouncementsPage.goBack()) {
+                mTvTitleBarCenter.setText(KR.string.splus_person_center_announcementspage_btn_text);
+                return;
+            }
+        }
         int count = vf_person_center.getChildCount();
         if (count == 1) {
             // 第一个视图,结束当前activity
@@ -288,6 +332,30 @@ public class PersonActivity extends BaseActivity {
             mCurrentPage = vf_person_center.getChildAt(count - 2).getClass().getName();
         }
 
+        if (PersonCenter.class.getName().equals(mCurrentPage) && mPersonCenter != null) {
+            mTvTitleBarCenter.setText("用户中心");
+        }
+
+        if (AccountManager.class.getName().equals(mCurrentPage) && mAccountManager!= null) {
+            mTvTitleBarCenter.setText(KR.string.splus_person_center_idcard_btn_text);
+        }
+    }
+
+    /**
+     *
+     * @Title: logout_in_person(个人中心注销)
+     * @author xiaoming.yuan
+     * @data 2014-3-24 上午10:48:42
+     * void 返回类型
+     */
+    public void logout_in_person() {
+        SharedPreferencesHelper.getInstance().setLoginStatusPreferences(this,
+                mSplusPayManager.getAppkey(), false);
+        finish();
+        ExitAppUtils.getInstance().exit();
+        if (mLogoutCallBack != null) {
+            mLogoutCallBack.logoutCallBack();
+        }
     }
 
 }

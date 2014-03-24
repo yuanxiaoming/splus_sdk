@@ -21,7 +21,6 @@ public class ForumPage extends LinearLayout {
 
     private static final String TAG = "ForumPage";
 
-
     private Integer mGameid;
 
     private String mPartner;
@@ -41,15 +40,17 @@ public class ForumPage extends LinearLayout {
     private  CustomWebView mCustomWebView;
 
     private Integer mUid;
+
     private String mPassport;
+
     private String mPassword;
 
-    public ForumPage(Activity activity, String deviceno,Integer gamid, String partner, String referer,Integer uid, String passport, String password,String roleName, String serverName) {
+    public ForumPage(Activity activity, String deviceno,Integer gameid, String partner, String referer,Integer uid, String passport, String password,String roleName, String serverName) {
 
         super(activity);
         this.mActivity=activity;
         this.mDeviceno=deviceno;
-        this.mGameid=gamid;
+        this.mGameid=gameid;
         this.mPartner=partner;
         this.mReferer=referer;
         this.mUid=uid;
@@ -57,7 +58,7 @@ public class ForumPage extends LinearLayout {
         this.mPassport=passport;
         this.mRoleName=roleName;
         this.mServerName=serverName;
-        mSqModel=new SQModel(mGameid, mDeviceno, mReferer, mPartner,mUid, mPassword, mPassport, mRoleName, mServerName);
+        mSqModel=new SQModel(mGameid, mDeviceno, mReferer, mPartner,mUid, mPassport, mPassword, mRoleName, mServerName);
         mCustomWebView = new CustomWebView(activity);
         mCustomWebView.setWebChromeClient(new CustomWebChromeClient(activity, new WebChromeClient()));
         mCustomWebView.setWebViewClient(new CustomWebViewClient(activity));

@@ -121,14 +121,14 @@ public class RechargeUnionPayPage extends LinearLayout {
     private String mMode = "00";// 测试
 
     public RechargeUnionPayPage(UserModel userModel, Activity activity, String deviceno,
-            String appKey, Integer gamid, String partner, String referer, String roleName,
+            String appKey, Integer gameid, String partner, String referer, String roleName,
             String serverName, String outOrderid, String pext, Integer type, String payway) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
         this.mDeviceno = deviceno;
         this.mAppKey = appKey;
-        this.mGameid = gamid;
+        this.mGameid = gameid;
         this.mPartner = partner;
         this.mReferer = referer;
         this.mRoleName = roleName;
