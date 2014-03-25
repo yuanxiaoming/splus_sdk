@@ -26,7 +26,6 @@ import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.utils.toast.ToastUtil;
-import com.android.splus.sdk.widget.CustomProgressDialog;
 
 import org.json.JSONObject;
 
@@ -36,6 +35,7 @@ import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -183,7 +183,7 @@ public class PasswordPage extends ScrollView implements View.OnFocusChangeListen
             @Override
             public void afterTextChanged(Editable s) {
                 if (!isNewPwdSame()) {
-                    et_newpwd_repeat.setError("两次密码输入不一致，请重新输入");
+                    et_newpwd_repeat.setError(Html.fromHtml("<font color=#000000>两次密码输入不一致，请重新输入</font>"));
                 }
             }
         });
@@ -213,18 +213,18 @@ public class PasswordPage extends ScrollView implements View.OnFocusChangeListen
      */
     public void submit() {
         if (getOldPwd().length() < 6) {
-            et_oldpwd.setError("旧密码不能少于6位");
+            et_oldpwd.setError(Html.fromHtml("<font color=#000000>旧密码不能少于6位</font>"));
             et_oldpwd.requestFocus();
             return;
         }
 
         if (getNewPwd().length() < 6) {
-            et_newpwd.setError("新密码不能少于6位");
+            et_newpwd.setError(Html.fromHtml("<font color=#000000>新密码不能少于6位</font>"));
             et_newpwd.requestFocus();
             return;
         }
         if (!isNewPwdSame()) {
-            et_newpwd_repeat.setError("两次密码输入不一致，请重新输入");
+            et_newpwd_repeat.setError(Html.fromHtml("<font color=#000000>两次密码输入不一致，请重新输入</font>"));
             et_newpwd_repeat.requestFocus();
             return;
         }

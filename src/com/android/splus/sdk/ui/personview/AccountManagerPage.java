@@ -353,7 +353,6 @@ public class AccountManagerPage extends ScrollView {
                 @Override
                 public void onClick(View v) {
                     mListener.onPhoneClick(v);
-
                 }
             });
 

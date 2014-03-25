@@ -2,6 +2,7 @@
 package com.android.splus.sdk.ui;
 
 import com.android.splus.sdk.apiinterface.LogoutCallBack;
+import com.android.splus.sdk.manager.AccountObservable;
 import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.ui.personview.AccountManagerPage;
@@ -167,12 +168,9 @@ public class PersonActivity extends BaseActivity {
         ibtn_submit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
             }
         });
-
-
-
     }
 
     @Override
@@ -348,7 +346,7 @@ public class PersonActivity extends BaseActivity {
         vf_person_center.setInAnimation(anim_in_into);
         vf_person_center.setOutAnimation(anim_out_into);
         vf_person_center.showNext();
-        hideSoftInput(this);
+        hideSoftInput(mActivity);
     }
 
 
@@ -432,7 +430,7 @@ public class PersonActivity extends BaseActivity {
      * void 返回类型
      */
     public void logout_in_person() {
-        SharedPreferencesHelper.getInstance().setLoginStatusPreferences(this,
+        SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                 mSplusPayManager.getAppkey(), false);
         finish();
         ExitAppUtils.getInstance().exit();
@@ -454,11 +452,13 @@ public class PersonActivity extends BaseActivity {
                     goBack();
                     break;
                 case PHONEBIND:
-                    mAccountManagerPage.setBindStatus(true);
+                    if(mAccountManagerPage!=null){
+                        mAccountManagerPage.setBindStatus(true);
+                    }
                     goBack();
                     break;
                 case LOGOUT:
-                   mSplusPayManager.destroy();
+                    mSplusPayManager.destroy();
                     break;
                 default:
                     break;
@@ -475,15 +475,16 @@ public class PersonActivity extends BaseActivity {
      * @param newPwd
      */
     private void savaNewPwd(String newPwd) {
-        UserModel mUserModel =mSplusPayManager.getUserData();
-        if (mUserModel == null) {
-            mUserModel = AppUtil.getUserData();
+        UserModel userModel =mSplusPayManager.getUserData();
+        if (userModel == null) {
+            userModel = AppUtil.getUserData();
         }
-        if (mUserModel == null) {
+        if (userModel == null) {
             return;
         }
-        mUserModel.setPassword(newPwd);
-        mSplusPayManager.setUserData(mUserModel);
+        userModel.setPassword(newPwd);
+        mSplusPayManager.setUserData(userModel);
+        AccountObservable.getInstance().modifyUser(userModel);
     }
 
     @Override
@@ -494,6 +495,37 @@ public class PersonActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPhoneBindPage != null) {
+            mPhoneBindPage.unregisterReceiver();
+        }
+        mPersonCenterPage=null;
+        mLogoutPage=null;
+        mSqPage=null;
+        mForumPage=null;
+        mAnnouncementsPage=null;
+        mAccountManagerPage=null;
+        mUserInformationPage=null;
+        mPasswordPage=null;
+        mPhoneBindPage=null;
+    }
+
+    /**
+     * Title: finish Description:
+     *
+     * @see android.app.Activity#finish()
+     */
+    @Override
+    public void finish() {
+        super.finish();
+        ExitAppUtils.getInstance().exit();
+
+    }
+
+
 
 }
 

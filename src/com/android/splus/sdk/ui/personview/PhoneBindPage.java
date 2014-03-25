@@ -23,6 +23,7 @@ import com.android.splus.sdk.utils.http.RequestModel;
 import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.md5.MD5Util;
 import com.android.splus.sdk.utils.phone.Phoneuitl;
+import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.utils.toast.ToastUtil;
@@ -115,9 +116,9 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
 
     private Handler mHandler;
 
-    private String number = "0123456789";
+    private String mNumber = "0123456789";
 
-    private SmsReceiver receiver;
+    private SmsReceiver mSmsReceiver;
 
     private String mPhoneNumber;
 
@@ -160,7 +161,7 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
             mLandscape = false;
         }
 
-        receiver = new SmsReceiver(Phone, mSmsListener);
+        mSmsReceiver = new SmsReceiver(Phone, mSmsListener);
         init();
     }
 
@@ -180,15 +181,7 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
         }
     };
 
-    public void setBindedStatus() {
-        if (mHasBinded) {
-            llayout_related.setVisibility(View.VISIBLE);
-            llayout_unrelated.setVisibility(View.GONE);
-        } else {
-            llayout_related.setVisibility(View.GONE);
-            llayout_unrelated.setVisibility(View.VISIBLE);
-        }
-    }
+
 
     /**
      * 接收验证码
@@ -200,12 +193,12 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
     private Intent registerReceiver() {
         IntentFilter filter = new IntentFilter(SmsReceiver.SMS_RECEIVED);
         filter.setPriority(1000);
-        return mActivity.registerReceiver(receiver, new IntentFilter(SmsReceiver.SMS_RECEIVED));
+        return mActivity.registerReceiver(mSmsReceiver, new IntentFilter(SmsReceiver.SMS_RECEIVED));
     }
 
     public void unregisterReceiver() {
         try {
-            mActivity.unregisterReceiver(receiver);
+            mActivity.unregisterReceiver(mSmsReceiver);
         } catch (Exception e) {
             LogHelper.i(TAG, e.toString());
         }
@@ -278,34 +271,29 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
      * @date 2013年9月29日 下午5:25:16
      */
     private void initViews() {
-
+        et_phone.setSingleLine();
+        et_code.setSingleLine();
         tv_hint.setText(KR.string.splus_person_account_phone_hint);
-
         tv_relatedText.setMovementMethod(LinkMovementMethod.getInstance());
-
         tv_unrelatedText.setText(KR.string.splus_person_account_phone_unrelated_text);
         et_code.setHint(KR.string.splus_person_account_phone_unrelated_code);
         et_phone.setHint(KR.string.splus_person_account_phone_unrelated_hint);
         btn_code.setText(KR.string.splus_person_account_phone_unrelated_getcode_btn);
         btn_submit.setText(KR.string.splus_person_pwd_submit_btn_text);
-
         if (mLandscape) {
-            tv_relatedText
-                    .setText(Html.fromHtml(KR.string.splus_person_account_phone_related_text));
+            tv_relatedText.setText(Html.fromHtml(KR.string.splus_person_account_phone_related_text));
         } else {
-            tv_relatedText.setText(Html
-                    .fromHtml(KR.string.splus_person_account_phone_related_text_portrait));
+            tv_relatedText.setText(Html.fromHtml(KR.string.splus_person_account_phone_related_text_portrait));
         }
 
-        et_phone.setSingleLine();
-        et_code.setSingleLine();
-
-        et_phone.addTextChangedListener(new CustomTextWatcher(et_phone, number));
-
+        et_phone.addTextChangedListener(new CustomTextWatcher(et_phone, mNumber));
         llayout_phone.setOnFocusChangeListener(this);
         btn_code.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
+        setBindedStatus();
+    }
 
+    public void setBindedStatus() {
         if (mHasBinded) {
             llayout_related.setVisibility(View.VISIBLE);
             llayout_unrelated.setVisibility(View.GONE);
@@ -313,7 +301,6 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
             llayout_related.setVisibility(View.GONE);
             llayout_unrelated.setVisibility(View.VISIBLE);
         }
-
     }
 
     /**
@@ -338,10 +325,7 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
         GetCodeModel getCodeModel = new GetCodeModel(mUid, mServerName, mGameid,
                 MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mReferer, mReferer,
                 mPassport, mPhoneNumber);
-        mDialog = new CustomProgressDialog(mActivity);
-        mDialog.setCancelable(false);
-        mDialog.setCanceledOnTouchOutside(false);
-        mDialog.show();
+        mDialog = ProgressDialogUtil.showProgress(mActivity, "加载中...", null, false, false);
         registerReceiver();
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,
                 mActivity, getCodeModel, new LoginParser()), mCodeCallBack);
@@ -376,11 +360,7 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
                 MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner, mReferer,
                 mPassport, getCodeString(), mPhoneNumber);
 
-        mDialog = new CustomProgressDialog(mActivity);
-        mDialog.setCancelable(false);
-        mDialog.setCanceledOnTouchOutside(false);
-        mDialog.show();
-
+        mDialog = ProgressDialogUtil.showProgress(mActivity, "加载中...", null, false, false);
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,
                 mActivity, bindPhoneModel, new LoginParser()), mBindCallBack);
     }
