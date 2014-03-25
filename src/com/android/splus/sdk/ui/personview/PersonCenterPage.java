@@ -20,7 +20,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 @SuppressLint("ViewConstructor")
-public class PersonCenter extends ScrollView {
+public class PersonCenterPage extends ScrollView {
 
     private static final String TAG = "PersonCenter";
 
@@ -37,7 +37,7 @@ public class PersonCenter extends ScrollView {
 
     private Body mBody;
 
-    public PersonCenter(Activity activity, String passport) {
+    public PersonCenterPage(Activity activity, String passport) {
         super(activity);
         this.mActivity = activity;
         this.mPassport = passport;

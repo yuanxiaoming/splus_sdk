@@ -35,7 +35,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 @SuppressLint("ViewConstructor")
-public class AccountManager extends ScrollView {
+public class AccountManagerPage extends ScrollView {
 
     private static final String TAG = "AccountManager";
 
@@ -65,7 +65,7 @@ public class AccountManager extends ScrollView {
 
     private boolean mHasBindPhone = false;
 
-    public AccountManager(Activity activity, String passport, Integer uid, String serverName,
+    public AccountManagerPage(Activity activity, String passport, Integer uid, String serverName,
             String deviceno, String partner, String referer, Integer gameid, String appkey) {
         super(activity);
         this.mActivity = activity;

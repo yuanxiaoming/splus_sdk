@@ -4,12 +4,13 @@ package com.android.splus.sdk.ui;
 import com.android.splus.sdk.apiinterface.LogoutCallBack;
 import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.UserModel;
-import com.android.splus.sdk.ui.personview.AccountManager;
+import com.android.splus.sdk.ui.personview.AccountManagerPage;
 import com.android.splus.sdk.ui.personview.AnnouncementsPage;
 import com.android.splus.sdk.ui.personview.ForumPage;
 import com.android.splus.sdk.ui.personview.LogoutPage;
 import com.android.splus.sdk.ui.personview.PasswordPage;
-import com.android.splus.sdk.ui.personview.PersonCenter;
+import com.android.splus.sdk.ui.personview.PersonCenterPage;
+import com.android.splus.sdk.ui.personview.PhoneBindPage;
 import com.android.splus.sdk.ui.personview.SQPage;
 import com.android.splus.sdk.ui.personview.UserInformationPage;
 import com.android.splus.sdk.utils.file.AppUtil;
@@ -59,12 +60,12 @@ public class PersonActivity extends BaseActivity {
     /**
      * 当前的页面
      */
-    private String mCurrentPage = PersonCenter.class.getName();
+    private String mCurrentPage = PersonCenterPage.class.getName();
 
     /**
      * 个人中心页面
      */
-    private PersonCenter mPersonCenter;
+    private PersonCenterPage mPersonCenterPage;
 
 
     /**
@@ -90,7 +91,7 @@ public class PersonActivity extends BaseActivity {
     /**
      * 安全信息页面
      */
-    private AccountManager mAccountManager;
+    private AccountManagerPage mAccountManagerPage;
 
     /**
      * 个人资料页面
@@ -101,6 +102,13 @@ public class PersonActivity extends BaseActivity {
      * 密码修改页面
      */
     private PasswordPage mPasswordPage;
+
+
+    /**
+     * 绑定手机页面
+     */
+    private PhoneBindPage mPhoneBindPage;
+
 
 
 
@@ -121,9 +129,9 @@ public class PersonActivity extends BaseActivity {
         vf_person_center = (ViewFlipper) findViewById(KR.id.splus_person_center_views);
 
 
-        mPersonCenter = new PersonCenter(this, getPassport());
+        mPersonCenterPage = new PersonCenterPage(this, getPassport());
         mTvTitleBarCenter.setText("用户中心");
-        addView(mPersonCenter, PersonCenter.class.getName());
+        addView(mPersonCenterPage, PersonCenterPage.class.getName());
 
 
 
@@ -145,8 +153,8 @@ public class PersonActivity extends BaseActivity {
     @Override
     protected void setListener() {
 
-        if (mPersonCenter != null) {
-            mPersonCenter.setOnPersonClickListener(mPersonClickListener);
+        if (mPersonCenterPage != null) {
+            mPersonCenterPage.setOnPersonClickListener(mPersonClickListener);
         }
         ibtn_back.setOnClickListener(new OnClickListener() {
 
@@ -175,19 +183,19 @@ public class PersonActivity extends BaseActivity {
     /**
      * 个人中心页面点击事件
      */
-    private PersonCenter.PersonClickListener mPersonClickListener = new PersonCenter.PersonClickListener() {
+    private PersonCenterPage.PersonClickListener mPersonClickListener = new PersonCenterPage.PersonClickListener() {
 
         @Override
         public void onAccountClick(View v) {
             // 进入账号安全页面
-            if (mAccountManager == null) {
-                mAccountManager = new AccountManager(mActivity, getPassport(),
+            if (mAccountManagerPage == null) {
+                mAccountManagerPage = new AccountManagerPage(mActivity, getPassport(),
                         getUid(), mSplusPayManager.getServerName(), getDeviceno(), mSplusPayManager.getPartner(),mSplusPayManager.getReferer(), mSplusPayManager.getGameid(), mSplusPayManager.getAppkey());
-                mAccountManager.setOnAccountClickListener(mAccountClickListener);
+                mAccountManagerPage.setOnAccountClickListener(mAccountClickListener);
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_idcard_btn_text);
             // 把通行证管理页面显示在前台
-            addView(mAccountManager, AccountManager.class.getName());
+            addView(mAccountManagerPage, AccountManagerPage.class.getName());
 
         }
 
@@ -250,7 +258,7 @@ public class PersonActivity extends BaseActivity {
     /**
      * 安全信息页面点击事件
      */
-    private AccountManager.AccountClickListener mAccountClickListener = new AccountManager.AccountClickListener() {
+    private AccountManagerPage.AccountClickListener mAccountClickListener = new AccountManagerPage.AccountClickListener() {
 
         @Override
         public void onUserInformationClick(View v) {
@@ -282,8 +290,16 @@ public class PersonActivity extends BaseActivity {
 
         @Override
         public void onPhoneClick(View v) {
-
-
+            // 进入绑定手机页面
+            if (mPhoneBindPage == null) {
+                mPhoneBindPage = new PhoneBindPage(PersonActivity.this, getPassport(), getUid(),
+                        mSplusPayManager.getServerName(), getDeviceno(), mSplusPayManager.getPartner(),mSplusPayManager.getReferer(),mSplusPayManager.getGameid(),
+                        mSplusPayManager.getAppkey(), mAccountManagerPage.isBinded(), mHandler);
+            }
+            mPhoneBindPage.setBindedStatus();
+            mTvTitleBarCenter.setText(KR.string.splus_person_account_binding_phone);
+            // 把绑定手机页面显示在前台
+            addView(mPhoneBindPage, PhoneBindPage.class.getName());
 
 
         }
@@ -384,14 +400,29 @@ public class PersonActivity extends BaseActivity {
             mCurrentPage = vf_person_center.getChildAt(count - 2).getClass().getName();
         }
 
-        if (PersonCenter.class.getName().equals(mCurrentPage) && mPersonCenter != null) {
+        if (PersonCenterPage.class.getName().equals(mCurrentPage) && mPersonCenterPage != null) {
             mTvTitleBarCenter.setText("用户中心");
         }
 
-        if (AccountManager.class.getName().equals(mCurrentPage) && mAccountManager!= null) {
+        if (AccountManagerPage.class.getName().equals(mCurrentPage) && mAccountManagerPage!= null) {
             mTvTitleBarCenter.setText(KR.string.splus_person_center_idcard_btn_text);
         }
+
+        if (UserInformationPage.class.getName().equals(mCurrentPage) && mUserInformationPage != null) {
+            mTvTitleBarCenter.setText(KR.string.splus_person_account_user_information);
+        }
+
+        if (PasswordPage.class.getName().equals(mCurrentPage) && mPasswordPage != null) {
+            mTvTitleBarCenter.setText(KR.string.splus_person_account_modify_pwd);
+        }
+
+        if (PhoneBindPage.class.getName().equals(mCurrentPage) && mPhoneBindPage != null) {
+            mPhoneBindPage.unregisterReceiver();
+            mTvTitleBarCenter.setText(KR.string.splus_person_account_binding_phone);
+        }
     }
+
+
 
     /**
      *
@@ -423,7 +454,7 @@ public class PersonActivity extends BaseActivity {
                     goBack();
                     break;
                 case PHONEBIND:
-                    mAccountManager.setBindStatus(true);
+                    mAccountManagerPage.setBindStatus(true);
                     goBack();
                     break;
                 case LOGOUT:

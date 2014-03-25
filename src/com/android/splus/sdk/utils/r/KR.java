@@ -212,6 +212,28 @@ public final class KR {
         public static final String splus_person_pwd_new_repeat_et = "splus_person_pwd_new_repeat_et";
         public static final String splus_person_pwd_submit_btn = "splus_person_pwd_submit_btn";
 
+
+        public static final String splus_person_account_phone_unrelated_text = "splus_person_account_phone_unrelated_text";
+
+        public static final String splus_person_account_phone_unrelated_num = "splus_person_account_phone_unrelated_num";
+
+        public static final String splus_person_account_phone_unrelated_getcode_btn = "splus_person_account_phone_unrelated_getcode_btn";
+
+        public static final String splus_person_account_phone_unrelated_code = "splus_person_account_phone_unrelated_code";
+
+        public static final String splus_person_account_phone_unrelated_submit_btn = "splus_person_account_phone_unrelated_submit_btn";
+
+        public static final String splus_person_account_phone_welcome = "splus_person_account_phone_welcome";
+
+        public static final String splus_person_account_phone_related = "splus_person_account_phone_related";
+
+        public static final String splus_person_account_phone_related_text = "splus_person_account_phone_related_text";
+
+        public static final String splus_person_account_phone_unrelated = "splus_person_account_phone_unrelated";
+
+        public static final String splus_person_account_phone_hint = "splus_person_account_phone_hint";
+
+
     }
 
     public static final class layout {
@@ -265,7 +287,7 @@ public final class KR {
        public static final String splus_person_userinformation = "splus_person_userinformation";
 
        public static final String splus_person_pwd = "splus_person_pwd";
-
+       public static final String splus_person_account_phone_manager = "splus_person_account_phone_manager";
 
 
 
@@ -285,6 +307,8 @@ public final class KR {
        public static final String splus_recharge_alipay_quota_layout = "splus_recharge_alipay_quota_layout";
 
        public static final String splus_recharge_card_quota_layout = "splus_recharge_card_quota_layout";
+
+
 
 
     }
@@ -537,6 +561,23 @@ public final class KR {
         public static final String splus_person_pwd_new_repeat_et = "再输入一遍新密码";
 
         public static final String splus_person_pwd_submit_btn_text = "提交";
+
+        public static final String splus_person_account_phone_welcome = "您好: %s";
+
+        public static final String splus_person_account_phone_related_text = "该帐号已绑定手机号码，如需修改请访问<a href=\"http://kf.灿和.com/\">http://kf.灿和.com/</a>";
+
+        public static final String splus_person_account_phone_related_text_portrait = "该帐号已绑定手机号码，如需修改请访问<br><a href=\"http://kf.灿和.com/\">http://kf.灿和.com/</a>";
+
+        public static final String splus_person_account_phone_hint = "温馨提示:\n1.同一个手机号码最多可绑定3个账号,请勿用同一个手机号码绑定多个账号，否则获取验证码失败。\n2.手机号码为保护帐号安全进行验证，我们承诺保障您的隐私权益，不会泄漏您的信息。\n3.短信验证费用我们全部承担，不会收取您的任何费用，请您放心使用。\n4.手机绑定是保护您帐号安全的重要手段，请您尽快绑定，避免帐号风险。";
+
+        public static final String splus_person_account_phone_unrelated_text = "绑定手机号码可以保障您的帐号安全，享受更多灿和贴心服务";
+
+        public static final String splus_person_account_phone_unrelated_hint = "请输入您的手机号";
+
+        public static final String splus_person_account_phone_unrelated_getcode_btn = "免费获取验证码";
+
+        public static final String splus_person_account_phone_unrelated_code = "请输入您收到的验证号";
+
 
     }
 }
