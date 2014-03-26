@@ -176,7 +176,7 @@ public class RechargeResultActivity extends BaseActivity {
 
         if (mRecharge_Type.equals(Constant.RECHARGE_RESULT_SUCCESS_TIPS)) {
             if (mRechargeCallBack != null) {
-                UserModel userModel = SplusPayManager.getInstance().getUserData();
+                UserModel userModel = SplusPayManager.getInstance().getUserModel();
                 if (userModel == null) {
                     userModel = AppUtil.getUserData();
                 }

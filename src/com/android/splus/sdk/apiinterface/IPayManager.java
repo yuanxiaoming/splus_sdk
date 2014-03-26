@@ -49,16 +49,6 @@ public interface IPayManager {
      * 退出游戏
      */
     public void exitGame(Context context);
-//
-//    /**
-//     * 統計选服接口
-//     */
-//    public void sendServerStatics(Activity activity, String serverName);
-//
-//    /**
-//     * 統計角色接口
-//     */
-//    public void sendRoleStatics(Activity activity, String roleName);
 
     /**
      * 注销游戏接口
@@ -80,6 +70,38 @@ public interface IPayManager {
      * @author xiaoming.yuan
      * @date 2013年10月14日 上午10:27:05
      */
-    public void enterUserCenter(Activity mActivity, LogoutCallBack mLogoutCallBack);
+    public void enterUserCenter(Activity activity, LogoutCallBack mLogoutCallBack);
+
+
+    /**
+     * 統計区服角色等级接口
+     */
+    public void sendGameStatics(Activity activity, String roleName, String level,String serverName);
+
+
+    /**
+     * 论坛
+     */
+    public void enterBBS(Activity activity);
+
+
+//   /**
+//    * 悬浮按钮
+//    */
+//
+//   public FloatToolBar creatFloatButton(Activity mActivity, boolean showlasttime,
+//           FloatToolBarAlign align, float position, LogoutCallBack mLogoutCallBack);
+
+   /**
+    * 在线时长统计开始
+    */
+
+   public void onResume(Activity activity);
+
+   /**
+    * 在线时长统计结束
+    */
+   public void onPause(Activity activity);
+
 
 }

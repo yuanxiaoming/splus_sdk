@@ -385,7 +385,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                         UserModel userModel = new UserModel(uid, mPassport, mPassword, sessionid,
                                 time, Boolean.valueOf(true));
                         // 保存用户数据
-                        SplusPayManager.getInstance().setUserData(userModel);
+                        SplusPayManager.getInstance().setUserModel(userModel);
                         AccountObservable.getInstance().addUser(userModel);
                         // 登陆成功，默认不再是新设备。
                         SplusPayManager.getInstance().setNewDevice(false);

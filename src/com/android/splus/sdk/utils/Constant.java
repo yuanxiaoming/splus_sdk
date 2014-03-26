@@ -43,6 +43,10 @@ public class Constant {
      */
     public static final String PASSWORD_URL = "http://sy.api.37wan.cn/action/changepasswd.php";
 
+    public static final String STATISTICS_GAME_URL = "http://sy.api.37wan.cn/action/changepasswd.php";
+
+    public static final String STATISTICS_ONLINETIME_URL = "http://sy.api.37wan.cn/action/changepasswd.php";
+
 
     //充值：
     public static final int[] CHINA_MOBILE_MONEY = {
@@ -137,6 +141,11 @@ public class Constant {
 
     public static final String LOGIN_STATUS = "login_status";
 
+
+    public static final String ONTIMELINE_FILE = "onlinetime_file";
+
+    public static final String ONTIMELINE_START = "onlinetime_start";
+
     /** ******************************************************************************************/
     public static String RECHARGE_RESULT_TIPS = "recharge_result_tips";
 
@@ -147,6 +156,11 @@ public class Constant {
     public static final String MONEY = "money";
 
     public static final String TEST_PASSPROT = "splus123";
+
+
+
+
+
 
 
 

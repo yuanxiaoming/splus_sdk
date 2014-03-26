@@ -141,7 +141,7 @@ public abstract class BaseActivity extends Activity {
      * @return
      */
     protected UserModel getUserData() {
-        UserModel userModel = SplusPayManager.getInstance().getUserData();
+        UserModel userModel = SplusPayManager.getInstance().getUserModel();
         if (userModel == null) {
             userModel = AppUtil.getUserData();
         }

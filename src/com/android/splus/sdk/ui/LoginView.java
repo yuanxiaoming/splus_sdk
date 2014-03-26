@@ -296,7 +296,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                 et_userName.setText(SplusPayManager.getInstance().getEasyRegisterPassport());
             }
         } else {
-            UserModel UserMode = SplusPayManager.getInstance().getUserData();
+            UserModel UserMode = SplusPayManager.getInstance().getUserModel();
             if (UserMode == null) {
                 UserMode = AppUtil.getUserData();
             }
@@ -401,7 +401,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                         UserModel UserMode = new UserModel(uid, mPassport, mPassword, sessionid,
                                 time, Boolean.valueOf(cb_remember_pwd.isChecked()));
                         // 保存用户数据
-                        SplusPayManager.getInstance().setUserData(UserMode);
+                        SplusPayManager.getInstance().setUserModel(UserMode);
                         AccountObservable.getInstance().modifyUser(UserMode);
                         //登录状态
                         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,

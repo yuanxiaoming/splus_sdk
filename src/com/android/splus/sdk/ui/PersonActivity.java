@@ -475,7 +475,7 @@ public class PersonActivity extends BaseActivity {
      * @param newPwd
      */
     private void savaNewPwd(String newPwd) {
-        UserModel userModel =mSplusPayManager.getUserData();
+        UserModel userModel =mSplusPayManager.getUserModel();
         if (userModel == null) {
             userModel = AppUtil.getUserData();
         }
@@ -483,7 +483,7 @@ public class PersonActivity extends BaseActivity {
             return;
         }
         userModel.setPassword(newPwd);
-        mSplusPayManager.setUserData(userModel);
+        mSplusPayManager.setUserModel(userModel);
         AccountObservable.getInstance().modifyUser(userModel);
     }
 

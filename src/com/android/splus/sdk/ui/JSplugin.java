@@ -80,7 +80,7 @@ public class JSplugin {
     public void successBackGame() {
 
         ExitAppUtils.getInstance().exit();
-        UserModel userModel = SplusPayManager.getInstance().getUserData();
+        UserModel userModel = SplusPayManager.getInstance().getUserModel();
         if (null == userModel) {
             userModel = AppUtil.getUserData();
         }
@@ -204,7 +204,7 @@ public class JSplugin {
                                 while (RechargeActivity.getCustomWebView().canGoBack()) {
                                     RechargeActivity.getCustomWebView().goBack();
                                 }
-                                UserModel userModel = SplusPayManager.getInstance().getUserData();
+                                UserModel userModel = SplusPayManager.getInstance().getUserModel();
                                 if (null == userModel) {
                                     userModel = AppUtil.getUserData();
                                 }

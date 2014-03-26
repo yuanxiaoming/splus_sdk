@@ -19,8 +19,10 @@ import com.android.splus.sdk.data.ActiveData;
 import com.android.splus.sdk.manager.AccountObservable;
 import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.model.ActiveModel;
+import com.android.splus.sdk.model.GameStatisticsModel;
 import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.parse.ActiveParser;
+import com.android.splus.sdk.parse.LoginParser;
 import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.date.DateUtil;
@@ -38,6 +40,7 @@ import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 import com.android.splus.sdk.utils.toast.ToastUtil;
 import com.android.splus.sdk.widget.SplashPage;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -161,6 +164,8 @@ public class SplusPayManager implements IPayManager {
     private String mRoleName;
 
     private String mServerName;
+
+    private String mLevel;
 
     private String mOutOrderid;
 
@@ -390,13 +395,13 @@ public class SplusPayManager implements IPayManager {
             ProgressDialogUtil.showInfoDialog(getContext(), "提示", "当前网络不稳定,请检查您的网络设置！", 0,
                     new OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    repeatInit();
+                            repeatInit();
 
-                }
-            }, "确定", null, null, false);
+                        }
+                    }, "确定", null, null, false);
 
         } else {
             requestInit();
@@ -642,7 +647,8 @@ public class SplusPayManager implements IPayManager {
                 return;
             }
         }
-        if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, getAppkey())) {
+        if (!SharedPreferencesHelper.getInstance()
+                .getLoginStatusPreferences(mActivity, getAppkey())) {
             String msg = "您还没有登录或登录失效，不能进行充值，以免造成损失，请重新登陆。";
             LogHelper.i(TAG, msg);
             ToastUtil.showToast(activity, msg);
@@ -696,17 +702,18 @@ public class SplusPayManager implements IPayManager {
                 return;
             }
         }
-        if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, getAppkey())) {
+        if (!SharedPreferencesHelper.getInstance()
+                .getLoginStatusPreferences(mActivity, getAppkey())) {
             String msg = "您还没有登录或登录失效，不能进行充值，以免造成损失，请重新登陆。";
             LogHelper.i(TAG, msg);
             ToastUtil.showToast(activity, msg);
             rechargeCallBack.rechargeFaile(msg);
             return;
         }
-        if(null==money){
-            money=0.0f;
+        if (null == money) {
+            money = 0.0f;
         }
-        if (money >=1000000) {
+        if (money >= 1000000) {
             ToastUtil.showToast(activity, "请输入金额小于1000000元");
             return;
 
@@ -714,14 +721,14 @@ public class SplusPayManager implements IPayManager {
 
         if (money >= 0.01 && money < 10) {
             // 测试账号
-            if (!getUserData().getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
+            if (!getUserModel().getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
                 ToastUtil.showToast(activity, "请输入金额大于10元");
                 return;
             }
         }
         if (money > 0 && money < 0.01) {
             // 测试账号
-            if (getUserData().getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
+            if (getUserModel().getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
                 ToastUtil.showToast(activity, "请输入金额大于0.01元");
                 return;
             } else {
@@ -798,44 +805,243 @@ public class SplusPayManager implements IPayManager {
         LogHelper.setLOGDBUG(logDbug);
     }
 
-
     /**
+     * Title: enterUserCenter (个人中心) Description:
      *
-     * Title: enterUserCenter   (个人中心)
-     * Description:
      * @param mActivity
      * @param mLogoutCallBack
-     * @see com.android.splus.sdk.apiinterface.IPayManager#enterUserCenter(android.app.Activity, com.android.splus.sdk.apiinterface.LogoutCallBack)
+     * @see com.android.splus.sdk.apiinterface.IPayManager#enterUserCenter(android.app.Activity,
+     *      com.android.splus.sdk.apiinterface.LogoutCallBack)
      */
     @Override
-    public void enterUserCenter(Activity mActivity, LogoutCallBack mLogoutCallBack) {
+    public void enterUserCenter(Activity activity, LogoutCallBack mLogoutCallBack) {
 
         if (mLogoutCallBack == null) {
             LogHelper.i(TAG, "LogoutCallBack参数不能为空");
             return;
         }
-        if (mActivity == null) {
+        if (activity == null) {
             LogHelper.i(TAG, "Activity参数不能为空");
             return;
         } else {
-            if (!(mActivity instanceof Activity)) {
+            if (!(activity instanceof Activity)) {
+                LogHelper.i(TAG, "参数Activity不是一个Activity的实例");
+                return;
+            }
+        }
+        if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(activity, getAppkey())) {
+            String msg = "您还没有登录或者登陆失效，不能个人中心，请重新登陆。";
+            LogHelper.i(TAG, msg);
+            ToastUtil.showToast(activity, msg);
+            return;
+        }
+        this.mLogoutCallBack = mLogoutCallBack;
+        this.mActivity = activity;
+        activity.startActivity(new Intent(activity, PersonActivity.class));
+
+    }
+
+    /**
+     * Title: sendGameStatics 统计游戏数据 Description:
+     *
+     * @param mActivity
+     * @param roleName
+     * @param level
+     * @param serverName
+     * @see com.android.splus.sdk.apiinterface.IPayManager#sendGameStatics(android.app.Activity,
+     *      java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public void sendGameStatics(Activity activity, String roleName, String level, String serverName) {
+
+        if (activity == null) {
+            LogHelper.i(TAG, "Activity参数不能为空");
+            return;
+        }
+        if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, getAppkey())) {
+            String msg = "您还没有登录或者登陆失效，请重新登陆。";
+            LogHelper.i(TAG, "统计区服角色等级失败" + msg);
+            return;
+        }
+
+        if (TextUtils.isEmpty(roleName)) {
+            roleName = getRoleName();
+        }
+        if (TextUtils.isEmpty(level)) {
+            level = getLevel();
+        }
+
+        if (TextUtils.isEmpty(serverName)) {
+            serverName = getServerName();
+        }
+
+        this.mLevel = level;
+        String passport;
+        String uid;
+        if (mUserModel == null) {
+            passport = AppUtil.getUserData().getUserName();
+            uid = AppUtil.getUserData().getUid().toString();
+        } else {
+            passport = mUserModel.getUserName();
+            uid = mUserModel.getUid().toString();
+        }
+        long time = DateUtil.getUnixTime();
+        String deviceno = SharedPreferencesHelper.getInstance().getdevicenoPreferences(activity);
+        String keyString = getGameid()+ deviceno + getReferer() + getPartner()+ uid + passport + roleName + level + time;
+        GameStatisticsModel mGameStatisticsModel = new GameStatisticsModel(getGameid(),
+                deviceno,getPartner(),getReferer(), uid, passport, roleName, level, serverName, time,MD5Util.getMd5toLowerCase(keyString));
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(
+                Constant.STATISTICS_GAME_URL, mActivity, mGameStatisticsModel,
+                new LoginParser()), new DataCallback<JSONObject>() {
+            @Override
+            public void callbackSuccess(JSONObject paramObject) {
+
+                try {
+                    if (paramObject != null && paramObject.getInt("code") == 1) {
+                        LogHelper.i(TAG, paramObject.toString());
+                        LogHelper.i(TAG, "统计区服角色等级成功");
+                    } else {
+                        LogHelper.i(TAG, "统计区服角色等级失败");
+                    }
+                } catch (JSONException e) {
+                    LogHelper.i(TAG, e.getLocalizedMessage());
+                    LogHelper.i(TAG, "统计区服角色等级失败");
+                }
+            }
+
+            @Override
+            public void callbackError(String error) {
+                LogHelper.i(TAG, error);
+                LogHelper.i(TAG, "统计区服角色等级失败");
+            }
+        });
+
+    }
+
+    /**
+     * Title: enterBBS BBS Description:
+     *
+     * @param mActivity
+     * @see com.android.splus.sdk.apiinterface.IPayManager#enterBBS(android.app.Activity)
+     */
+    @Override
+    public void enterBBS(Activity activity) {
+
+        if (activity == null) {
+            LogHelper.i(TAG, "Activity参数不能为空");
+            return;
+        } else {
+            if (!(activity instanceof Activity)) {
                 LogHelper.i(TAG, "参数Activity不是一个Activity的实例");
                 return;
             }
         }
         if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, getAppkey())) {
-            String msg = "您还没有登录或者登陆失效，不能个人中心，请重新登陆。";
+            String msg = "您还没有登录或者登陆失效，不能进行论坛，请重新登陆。";
             LogHelper.i(TAG, msg);
-            ToastUtil.showToast(mActivity, msg);
+            ToastUtil.showToast(activity, msg);
             return;
         }
-        this.mLogoutCallBack = mLogoutCallBack;
-        this.mActivity = mActivity;
-        mActivity.startActivity(new Intent(mActivity, PersonActivity.class));
+        this.mActivity = activity;
+        Intent intent = new Intent(getContext(), PersonActivity.class);
+   //     intent.putExtra(PersonActivity.INTENT_TYPE, PersonActivity.INTENT_FORUM);
+        activity.startActivity(intent);
+    }
 
+    /**
+     * Title: onResume Description:
+     *
+     * @param mActivity
+     * @see com.android.splus.sdk.apiinterface.IPayManager#onResume(android.app.Activity)
+     */
+    @Override
+    public void onResume(Activity activity) {
+
+        SharedPreferencesHelper.getInstance().setOnlineTimeStartPreferences(mActivity,
+                DateUtil.getUnixTime());
+        LogHelper.i(TAG, "统计在线时长开始------ " + "onResume");
+    }
+
+    /**
+     * Title: onPause Description:
+     *
+     * @param mActivity
+     * @see com.android.splus.sdk.apiinterface.IPayManager#onPause(android.app.Activity)
+     */
+    @Override
+    public void onPause(Activity activity) {
+        LogHelper.i(TAG, "统计在线时长结束------ " + "onResume");
+        sendOnLineTimeStatics(activity, getRoleName(), getLevel(), getServerName());
     }
 
 
+    /**
+     * Title: sendOnLineTimeStatics 统计在线时长 Description:
+     *
+     * @param mActivity
+     * @param rolename
+     * @param serverName
+     * @param level
+     * @see com.canhe.android.sdk.apinterface.IPayManager#sendOnLineTimeStatics(android.app.Activity,
+     *      java.lang.String, java.lang.String, java.lang.String)
+     */
+
+    void sendOnLineTimeStatics(final Activity activity, String roleName, String level,String serverName) {
+        if (activity == null) {
+            LogHelper.i(TAG, "Activity参数不能为空");
+            return;
+        }
+        if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, getAppkey())) {
+            String msg = "您还没有登录或者登陆失效，请重新登陆。";
+            LogHelper.i(TAG, "统计在线时长失败------ " + msg);
+            return;
+        }
+        String passport;
+        String uid;
+        if (mUserModel == null) {
+            passport = AppUtil.getUserData().getUserName();
+            uid = AppUtil.getUserData().getUid().toString();
+        } else {
+            passport = mUserModel.getUserName();
+            uid = mUserModel.getUid().toString();
+        }
+        long time = DateUtil.getUnixTime();
+        long onLineTimeEnd = time;
+        long onLineTimeStart = SharedPreferencesHelper.getInstance().getOnlineTimeStartPreferences(
+                mActivity);
+        long onLineTime = onLineTimeEnd - onLineTimeStart;
+        String deviceno = SharedPreferencesHelper.getInstance().getdevicenoPreferences(mActivity);
+        String keyString = getGameid() + deviceno+getReferer() + getPartner()+ uid + passport + time;
+        GameStatisticsModel mGameStatisticsModel= new GameStatisticsModel(getGameid(),deviceno,getPartner(),getReferer(),
+                uid, passport, roleName, level, serverName, onLineTimeStart,onLineTimeEnd, onLineTime, time, MD5Util.getMd5toLowerCase(keyString ));
+
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.STATISTICS_ONLINETIME_URL,
+                mActivity, mGameStatisticsModel, new LoginParser()),
+                new DataCallback<JSONObject>() {
+            @Override
+            public void callbackSuccess(JSONObject paramObject) {
+
+                try {
+                    if (paramObject != null && paramObject.getInt("code") == 1) {
+                        LogHelper.i(TAG, paramObject.toString());
+                        LogHelper.i(TAG, "统计在线时长成功");
+                    } else {
+                        LogHelper.i(TAG, "统计在线时失败");
+                    }
+                } catch (JSONException e) {
+                    LogHelper.i(TAG, e.getLocalizedMessage());
+                    LogHelper.i(TAG, "统计在线时失败");
+                }
+            }
+
+            @Override
+            public void callbackError(String error) {
+                LogHelper.i(TAG, error);
+                LogHelper.i(TAG, "统计在线时失败");
+            }
+        });
+
+    }
 
 
     /**
@@ -903,10 +1109,10 @@ public class SplusPayManager implements IPayManager {
     /**
      * getter method
      *
-     * @return the mUserData
+     * @return the mUserModel
      */
 
-    UserModel getUserData() {
+    UserModel getUserModel() {
         return this.mUserModel;
     }
 
@@ -916,7 +1122,7 @@ public class SplusPayManager implements IPayManager {
      * @param mUserData
      */
 
-    void setUserData(UserModel userModel) {
+    void setUserModel(UserModel userModel) {
         this.mUserModel = userModel;
         if (userModel != null) {
             // 保存用户数据
@@ -981,6 +1187,12 @@ public class SplusPayManager implements IPayManager {
         return this.mServerName == null ? "" : this.mServerName;
     }
 
+    String getLevel() {
+
+        return this.mLevel == null ? "" : this.mLevel;
+
+    }
+
     String getOutorderid() {
         return this.mOutOrderid == null ? "" : this.mOutOrderid;
     }
@@ -1004,6 +1216,5 @@ public class SplusPayManager implements IPayManager {
             return b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
         }
     }
-
 
 }
