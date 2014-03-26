@@ -29,6 +29,7 @@ import com.android.splus.sdk.ui.rechargeview.RechargeUnionQuotaPayPage;
 import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.r.KR;
+import com.android.splus.sdk.utils.toast.ToastUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -227,7 +228,7 @@ public class RechargeSelectActivity extends BaseActivity {
         if (count == 1) {
             // 第一个视图,结束当前activity
             mCurrentPage = "";
-            finish();
+            onBackPressed();
         } else {
             vf_recharge_center.setInAnimation(anim_in_back);
             vf_recharge_center.setOutAnimation(anim_out_back);
@@ -596,19 +597,13 @@ public class RechargeSelectActivity extends BaseActivity {
 
     };
 
-    /**
-     * Title: finish Description:
-     *
-     * @see android.app.Activity#finish()
-     */
     @Override
-    public void finish() {
-        super.finish();
+    public void onBackPressed() {
+        super.onBackPressed();
         if (mRechargeCallBack != null) {
-            mRechargeCallBack.backKey("充值界面返回");
+            mRechargeCallBack.backKey("取消充值");
         }
         ExitAppUtils.getInstance().exit();
-
     }
 
     /**

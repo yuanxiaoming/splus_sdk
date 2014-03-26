@@ -8,6 +8,7 @@
 package com.android.splus.sdk.ui;
 
 import com.android.splus.sdk.utils.log.LogHelper;
+import com.android.splus.sdk.utils.toast.ToastUtil;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -114,6 +115,13 @@ public class LoginDialog extends AlertDialog{
         public void recoveryState();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (SplusPayManager.getInstance().getLoginCallBack() != null) {
+            SplusPayManager.getInstance().getLoginCallBack() .loginFaile("取消登录操作");
+        }
 
+    }
 
 }

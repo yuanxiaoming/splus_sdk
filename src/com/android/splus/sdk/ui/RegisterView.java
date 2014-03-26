@@ -99,9 +99,9 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
 
     private LoginDialog mAlertDialog;
 
-    private static final String EASY_REGISTER="1";
+    private static final String EASY_REGISTER = "1";
 
-    private static final String COMMON_REGISTER="0";
+    private static final String COMMON_REGISTER = "0";
 
     /**
      * 创建一个新的实例 RegisterView.
@@ -202,7 +202,9 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                 clickDisableCompons();
                 closeDialog(mAlertDialog);
                 clickActionedEnableCompons();
-                onBackPressed();
+                if (mRegisterCallBack != null) {
+                    mRegisterCallBack.backKey("取消登录操作");
+                }
             }
         });
 
@@ -272,7 +274,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         if (SplusPayManager.getInstance().isNewDevice()) {
             et_userName.setText(SplusPayManager.getInstance().getEasyRegisterPassport());
         }
-        if(!TextUtils.isEmpty(et_userName.getText().toString())){
+        if (!TextUtils.isEmpty(et_userName.getText().toString())) {
             et_userName.setSelection(et_userName.getText().toString().length());
         }
         mRegisterCallBack = SplusPayManager.getInstance().getLoginCallBack();
@@ -387,7 +389,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                         AccountObservable.getInstance().addUser(userModel);
                         // 登陆成功，默认不再是新设备。
                         SplusPayManager.getInstance().setNewDevice(false);
-                        //登录状态
+                        // 登录状态
                         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                                 SplusPayManager.getInstance().getAppkey(), true);
                         closeDialog(mAlertDialog);
@@ -489,7 +491,6 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         NetHttpUtil.getDataFromServerPOST(mActivity, mRequestModel, callBack);
     }
 
-
     /**
      * 显示服务条款 showClause(显示服务条款) (这里描述这个方法适用条件 – 可选) void
      *
@@ -579,8 +580,6 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         return mDialogClauseparams;
     }
 
-
-
     protected void showProgressDialog() {
         if (!(mAlertDialog != null && mAlertDialog.isShowing())) {
             return;
@@ -623,7 +622,6 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         return SharedPreferencesHelper.getInstance().getdevicenoPreferences(mActivity);
     }
 
-
     // 验证密码是否格式良好
     protected boolean isPasswordCorrect(String password) {
         if (!TextUtils.isEmpty(password)) {
@@ -644,25 +642,16 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         return false;
     }
 
-    private void onBackPressed() {
-        if (mRegisterCallBack != null) {
-            mRegisterCallBack.backKey("登陆界面返回键退出");
-            LogHelper.i(TAG, "注册界面返回键退出");
-        }
-    }
-
     @Override
     public void recoveryState() {
         processLogic();
     }
 
     /**
-     *
      * @Title: closeDialog(关闭对话框)
      * @author xiaoming.yuan
      * @data 2014-3-3 下午3:46:11
-     * @param dialog
-     * void 返回类型
+     * @param dialog void 返回类型
      */
     private void closeDialog(Dialog dialog) {
         if (dialog != null && dialog.isShowing()) {
@@ -692,13 +681,10 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         return false;
     }
 
-
     /**
-     *
      * @Title: disEnableCompon(组件不可用)
      * @author xiaoming.yuan
-     * @data 2014-3-3 下午3:48:39
-     * void 返回类型
+     * @data 2014-3-3 下午3:48:39 void 返回类型
      */
     private void clickDisableCompons() {
         iv_close.setEnabled(false);
@@ -708,11 +694,9 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
     }
 
     /**
-     *
      * @Title: clickActionedEnableCompons(点击动作完成，恢复控件功能)
      * @author xiaoming.yuan
-     * @data 2014-3-3 下午3:51:19
-     * void 返回类型
+     * @data 2014-3-3 下午3:51:19 void 返回类型
      */
     private void clickActionedEnableCompons() {
         if (btn_login != null) {
