@@ -19,6 +19,7 @@ import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
@@ -436,6 +437,11 @@ public class PersonActivity extends BaseActivity {
         ExitAppUtils.getInstance().exit();
         if (mLogoutCallBack != null) {
             mLogoutCallBack.logoutCallBack();
+        }else{
+            Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(
+                    getBaseContext().getPackageName());
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
         }
     }
 

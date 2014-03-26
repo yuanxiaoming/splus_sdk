@@ -818,7 +818,7 @@ public class SplusPayManager implements IPayManager {
 
         if (mLogoutCallBack == null) {
             LogHelper.i(TAG, "LogoutCallBack参数不能为空");
-            return;
+//            return;
         }
         if (activity == null) {
             LogHelper.i(TAG, "Activity参数不能为空");
