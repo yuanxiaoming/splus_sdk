@@ -131,7 +131,7 @@ public class PersonActivity extends BaseActivity {
 
 
         mPersonCenterPage = new PersonCenterPage(this, getPassport());
-        mTvTitleBarCenter.setText("用户中心");
+        mTvTitleBarCenter.setText(KR.string.splus_person_center_text);
         addView(mPersonCenterPage, PersonCenterPage.class.getName());
 
 
@@ -399,7 +399,7 @@ public class PersonActivity extends BaseActivity {
         }
 
         if (PersonCenterPage.class.getName().equals(mCurrentPage) && mPersonCenterPage != null) {
-            mTvTitleBarCenter.setText("用户中心");
+            mTvTitleBarCenter.setText(KR.string.splus_person_center_text);
         }
 
         if (AccountManagerPage.class.getName().equals(mCurrentPage) && mAccountManagerPage!= null) {

@@ -501,6 +501,8 @@ public final class KR {
 
         public static final String splus_person_center_welcome_text_portrait = "尊敬的：%s\n欢迎来到个人中心";
 
+        public static final String  splus_person_center_text = "个人中心";
+
         public static final String  splus_person_center_idcard_btn_text = "账号安全";
 
         public static final String  splus_person_center_sq_btn_text = "客服中心";
