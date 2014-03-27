@@ -93,15 +93,15 @@ public class Constant {
     };
 
     public static final String IMG_ICON[] = {
-        KR.drawable.splus_recharge_by_alipay_fast_normal,
-        KR.drawable.splus_recharge_by_alipay_fast_normal,
-        KR.drawable.splus_recharge_by_alipay_fast_normal,
-        KR.drawable.splus_recharge_by_alipay_fast_normal,
-        KR.drawable.splus_recharge_by_alipay_fast_normal,
-        KR.drawable.splus_recharge_by_alipay_fast_normal,
-        KR.drawable.splus_recharge_by_alipay_fast_normal,
-        KR.drawable.splus_recharge_by_alipay_fast_normal,
-        KR.drawable.splus_recharge_by_alipay_fast_normal
+        KR.drawable.splus_recharge_by_alipay_fast_selector,
+        KR.drawable.splus_recharge_by_alipay_wap_selector,
+        KR.drawable.splus_recharge_by_alipay_deposit_selector,
+        KR.drawable.splus_recharge_by_alipay_credit_selector,
+        KR.drawable.splus_recharge_by_alipay_deposit_selector,
+        KR.drawable.splus_recharge_by_cmm_selector,
+        KR.drawable.splus_recharge_by_unc_selector,
+        KR.drawable.splus_recharge_by_sd_selector,
+        KR.drawable.splus_recharge_by_person_selector
     };
 
     /**

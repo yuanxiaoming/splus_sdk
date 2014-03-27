@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/splus_recharge_comfirm_btn_press" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/splus_recharge_by_alipay_fast_press" android:state_pressed="true"></item>
     <item android:drawable="@drawable/splus_recharge_by_alipay_fast_normal"></item>
 
 </selector>

@@ -333,7 +333,25 @@ public final class KR {
 
         public static final String splus_recharge_type_textcolor_selector = "splus_recharge_type_textcolor_selector";
 
-        public static final String splus_recharge_by_alipay_fast_normal = "splus_recharge_by_alipay_fast_normal";
+        public static final String splus_recharge_by_alipay_fast_selector = "splus_recharge_by_alipay_fast_selector";
+        public static final String splus_recharge_by_alipay_wap_selector = "splus_recharge_by_alipay_wap_selector";
+        public static final String splus_recharge_by_alipay_deposit_selector = "splus_recharge_by_alipay_deposit_selector";
+        public static final String splus_recharge_by_alipay_credit_selector = "splus_recharge_by_alipay_credit_selector";
+        public static final String splus_recharge_by_cmm_selector = "splus_recharge_by_cmm_selector";
+        public static final String splus_recharge_by_unc_selector = "splus_recharge_by_unc_selector";
+        public static final String splus_recharge_by_sd_selector = "splus_recharge_by_sd_selector";
+        public static final String splus_recharge_by_person_selector = "splus_recharge_by_person_selector";
+
+
+
+
+
+
+
+
+
+
+
 
         public static final String  splus_recharge_money_item_press = "splus_recharge_money_item_press";
         public static final String  splus_recharge_money_item_normal = "splus_recharge_money_item_normal";
