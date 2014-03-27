@@ -568,7 +568,7 @@ public final class KR {
 
         public static final String splus_person_account_phone_related_text = "该帐号已绑定手机号码，如需修改请访问<a href=\"http://kf.灿和.com/\">http://kf.灿和.com/</a>";
 
-        public static final String splus_person_account_phone_related_text_portrait = "该帐号已绑定手机号码，如需修改请访问<br><a href=\"http://kf.灿和.com/\">http://kf.灿和.com/</a>";
+        public static final String splus_person_account_phone_related_text_portrait = "该帐号已绑定手机号码，如需修改请访问<br><a href=\"http://www.splusgame.com/\">http://wwwsplusgame.com/</a>";
 
         public static final String splus_person_account_phone_hint = "温馨提示:\n1.同一个手机号码最多可绑定3个账号,请勿用同一个手机号码绑定多个账号，否则获取验证码失败。\n2.手机号码为保护帐号安全进行验证，我们承诺保障您的隐私权益，不会泄漏您的信息。\n3.短信验证费用我们全部承担，不会收取您的任何费用，请您放心使用。\n4.手机绑定是保护您帐号安全的重要手段，请您尽快绑定，避免帐号风险。";
 
