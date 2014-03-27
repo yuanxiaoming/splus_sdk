@@ -339,6 +339,9 @@ public final class KR {
         public static final String  splus_recharge_money_item_normal = "splus_recharge_money_item_normal";
         public static final String  splus_recharge_money_item_selector = "splus_recharge_money_item_selector";
 
+        public static final String  splus_recharge_result_success_icon = "splus_recharge_result_success_icon";
+        public static final String  splus_recharge_result__fail_icon = "splus_recharge_result__fail_icon";
+
         //个人中心
         public static final String  splus_person_center_account_icon_selector = "splus_person_center_account_icon_selector";
         public static final String  splus_person_center_arrow_icon_selector = "splus_person_center_arrow_icon_selector";
@@ -452,7 +455,7 @@ public final class KR {
         ///本地充值
         public final static String splus_recharge_select_head_tips ="请点击选择适合您的充值方式";
 
-        public final static String splus_recharge_comfirm_tips ="确认";
+        public final static String splus_recharge_comfirm_tips ="确定";
 
         public final static String splus_recharge_custom_et_tips ="也可以输入自定金额(元)";
         public final static String splus_recharge_ratio_tv_tips ="游戏兑换比率";

@@ -18,6 +18,7 @@ import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.file.AppUtil;
 import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.r.KR;
+import com.android.splus.sdk.utils.r.ResourceUtil;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -109,13 +110,13 @@ public class RechargeResultActivity extends BaseActivity {
         mMoney = intent.getStringExtra(Constant.MONEY);
         LogHelper.i(TAG, mMoney);
         if (mRecharge_Type.equals(Constant.RECHARGE_RESULT_SUCCESS_TIPS)) {
-//            tv_rechage_result_tips.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(
-//                    ResourceUtil.getDrawableId(this,KR.drawable.splus_recharge_success_icon)), null, null,null);
+            tv_rechage_result_tips.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(
+                    ResourceUtil.getDrawableId(this,KR.drawable.splus_recharge_result_success_icon)), null, null,null);
             tv_rechage_result_tips.setText(KR.string.splus_recharge_success_result_tips.replace("%s", mMoney));
             recharge_titlr_middle_text.setText(KR.string.splus_recharge_success_result_head_tips);
         } else if (mRecharge_Type.equals(Constant.RECHARGE_RESULT_FAIL_TIPS)) {
-//            tv_rechage_result_tips.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(
-//                            ResourceUtil.getDrawableId(this, KR.drawable.splus_recharge_fail_icon)),null, null, null);
+            tv_rechage_result_tips.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(
+                            ResourceUtil.getDrawableId(this, KR.drawable.splus_recharge_result__fail_icon)),null, null, null);
             tv_rechage_result_tips.setText(KR.string.splus_recharge_fail_result_tips);
             recharge_titlr_middle_text.setText(KR.string.splus_recharge_fail_result_head_tips);
         }
