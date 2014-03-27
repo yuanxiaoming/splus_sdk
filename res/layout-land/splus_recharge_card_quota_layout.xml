@@ -35,7 +35,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="8dip"
-                android:background="@drawable/splus_recharge_money_edit_selector"
+                android:background="@drawable/splus_recharge_money_ratio_tv_bg"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:textColor="#9a9a9a"
