@@ -23,6 +23,7 @@ import com.android.splus.sdk.model.GameStatisticsModel;
 import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.parse.ActiveParser;
 import com.android.splus.sdk.parse.LoginParser;
+import com.android.splus.sdk.ui.FloatToolBar.FloatToolBarAlign;
 import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.date.DateUtil;
@@ -1215,6 +1216,13 @@ public class SplusPayManager implements IPayManager {
             BigDecimal b = new BigDecimal(this.mMoney);
             return b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
         }
+    }
+
+    @Override
+    public FloatToolBar creatFloatButton(Activity mActivity, boolean showlasttime,
+            FloatToolBarAlign align, float position) {
+        return FloatToolBar.getFloatToolBar(mActivity, showlasttime, align, position);
+
     }
 
 }

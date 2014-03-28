@@ -1,5 +1,4 @@
 /**
- * 系统项目名称
  * com.sanqi.android.sdk.login
  * LoginView.java
  * xiaoming.yuan
@@ -37,12 +36,12 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -198,13 +197,19 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                 if (isQuickClick()) {
                     return;
                 }
-                // 密码找回界面
-                // Intent intent = new Intent(mActivity, PersonActivity.class);
-                // intent.putExtra(PersonActivity.INTENT_TYPE,
-                // PersonActivity.INTENT_SQ);
-                // intent.putExtra(Constant.LOGIN_INTENT_USERNAME,
-                // et_userName.getText().toString());
-                // mActivity.startActivity(intent);
+                //密码找回界面
+                 Intent intent = new Intent(mActivity, PersonActivity.class);
+                 intent.putExtra(PersonActivity.INTENT_TYPE,
+                 PersonActivity.INTENT_SQ);
+                 intent.putExtra(Constant.LOGIN_INTENT_USERNAME,
+                 et_userName.getText().toString());
+                 intent.putExtra(Constant.LOGIN_INTENT_USERPWD,
+                         et_password.getText().toString());
+                 if(et_userName.getText().toString().equals(SplusPayManager.getInstance().getUserModel().getPassport())){
+                 intent.putExtra(Constant.LOGIN_INTENT_USERID,
+                         SplusPayManager.getInstance().getUserModel().getUid());
+                 }
+                 mActivity.startActivity(intent);
 
             }
         });

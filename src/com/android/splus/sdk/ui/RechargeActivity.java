@@ -169,6 +169,11 @@ public class RechargeActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
+                //密码找回界面
+                Intent intent = new Intent(mActivity, PersonActivity.class);
+                intent.putExtra(PersonActivity.INTENT_TYPE,
+                PersonActivity.INTENT_SQ);
+                mActivity.startActivity(intent);
 
             }
         });

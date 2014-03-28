@@ -20,6 +20,7 @@ import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
@@ -53,9 +54,9 @@ public class RechargeResultActivity extends BaseActivity {
 
     private String mRecharge_Type;
 
-    private int mTime;
-
     private String mMoney;
+
+    private Activity mActivity;
 
 
     /**
@@ -94,7 +95,7 @@ public class RechargeResultActivity extends BaseActivity {
     protected void loadViewLayout() {
 
         setContentView(KR.layout.splus_recharge_result_activity);
-
+        mActivity=this;
     }
 
     /**
@@ -150,11 +151,29 @@ public class RechargeResultActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
+                //密码找回界面
+                if (mRecharge_Type.equals(Constant.RECHARGE_RESULT_SUCCESS_TIPS)) {
+                    if (mRechargeCallBack != null) {
+                        UserModel userModel = SplusPayManager.getInstance().getUserModel();
+                        if (userModel == null) {
+                            userModel = AppUtil.getUserData();
+                        }
+                        mRechargeCallBack.rechargeSuccess(userModel);
+                        LogHelper.i(TAG, "充值成功");
+                    }
 
-//                Intent intent = new Intent(RechargeResultActivity.this, PersonActivity.class);
-//                intent.putExtra(PersonActivity.INTENT_TYPE, PersonActivity.INTENT_SQ);
-//                startActivity(intent);
-                rechageCallBack();
+                } else if (mRecharge_Type.equals(Constant.RECHARGE_RESULT_FAIL_TIPS)) {
+                    if (mRechargeCallBack != null) {
+                        mRechargeCallBack.rechargeFaile("充值失败");
+                        LogHelper.i(TAG, "充值失败");
+                    }
+
+                }
+                Intent intent = new Intent(mActivity, PersonActivity.class);
+                intent.putExtra(PersonActivity.INTENT_TYPE,
+                PersonActivity.INTENT_SQ);
+                mActivity.startActivity(intent);
+                finish();
             }
         });
 

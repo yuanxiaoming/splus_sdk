@@ -1,29 +1,21 @@
-/**
- * @Title: FloatWindow.java
- * @Package: com.example.floatview
- * @Description: (悬浮按钮)
- * Copyright: Copyright (c) 2013
- * Company: 上海三七玩网络科技有限公司
- * @author xiaoming.yuan
- * @date 2013年10月25日 上午11:24:17
- * @version 1.0
- */
 
 package com.android.splus.sdk.ui;
 
 import com.android.splus.sdk.ui.FloatToolBar.FloatToolBarAlign;
 import com.android.splus.sdk.utils.r.KR;
+import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -42,8 +34,7 @@ import android.widget.TextView;
 
 /**
  * @ClassName:FloatWindow
- * @author xiaoming.yuan
- * @date 2013年10月25日 上午11:24:17
+ * @author
  */
 
 public class FloatWindow extends ImageView {
@@ -102,7 +93,9 @@ public class FloatWindow extends ImageView {
     /**
      * 按钮背景
      */
-    private Drawable mIconNormal, miconPress;
+    private Drawable mIconNormal, mIconExpanded;
+
+    private BitmapDrawable mBitmapRightDrawable, mBitmapLiftDrawable;
 
     private FloatMenu mFloatMenu;
 
@@ -127,13 +120,6 @@ public class FloatWindow extends ImageView {
 
     /**
      * 创建一个新的实例 FloatWindow.
-     * <p>
-     * Title:
-     * </p>
-     * <p>
-     * Description:
-     * </p>
-     *
      * @param context
      * @param attrs
      * @param defStyle
@@ -162,13 +148,6 @@ public class FloatWindow extends ImageView {
 
     /**
      * 创建一个新的实例 FloatWindow.
-     * <p>
-     * Title:
-     * </p>
-     * <p>
-     * Description:
-     * </p>
-     *
      * @param context
      */
 
@@ -198,6 +177,11 @@ public class FloatWindow extends ImageView {
             } else {
                 this.mFloatToolBarAlign = FloatToolBarAlign.Right;
             }
+
+            Editor sharedPreferencesEdit = activity.getSharedPreferences(PREFS_FILE,
+                    Context.MODE_PRIVATE).edit();
+            sharedPreferencesEdit.putFloat(POSITION, this.mPosition);
+            sharedPreferencesEdit.commit();
             this.mPosition = mSharedPreferences.getFloat(POSITION, 0);
         } else {
             Editor sharedPreferencesEdit = activity.getSharedPreferences(PREFS_FILE,
@@ -220,8 +204,7 @@ public class FloatWindow extends ImageView {
     /**
      * 初始化变量
      *
-     * @author xiaoming.yuan
-     * @date 2013年10月29日 下午1:28:27
+     * @author
      */
     private void initVariables() {
         mScreenHeight = getResources().getDisplayMetrics().heightPixels;
@@ -229,30 +212,29 @@ public class FloatWindow extends ImageView {
         mDensity = getResources().getDisplayMetrics().density;
         // 获取的是WindowManagerImpl.CompatModeWrapper
         mWindowManager = (WindowManager) mActivity.getSystemService(Context.WINDOW_SERVICE);
-//        mIconNormal = getResources().getDrawable(
-//                ResourceUtil.getDrawableId(mActivity, KR.drawable.ch_float_icon_normal));
-//        miconPress = getResources().getDrawable(
-//                ResourceUtil.getDrawableId(mActivity, KR.drawable.ch_float_icon_expanded));
+        mIconNormal = getResources().getDrawable(
+                ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_icon_normal));
+        mIconExpanded = getResources().getDrawable(
+                ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_icon_press));
     }
 
     /**
      * 初始化视图
      *
-     * @author xiaoming.yuan
-     * @date 2013年10月25日 下午2:12:35
+     * @author
      */
     private void initViews() {
         setImageDrawable(mIconNormal);
         setClickable(true);
         setId(android.R.id.toggle);
         mFloatMenu = new FloatMenu(mActivity);
+
     }
 
     /**
      * 初始化WindowManager
      *
-     * @author xiaoming.yuan
-     * @date 2013年10月25日 下午5:53:51
+     * @author
      */
     private void initButtonWindow() {
         mButtonWmParams = new WindowManager.LayoutParams();
@@ -270,8 +252,10 @@ public class FloatWindow extends ImageView {
         }
 
         // 设置悬浮窗口长宽数据
-        mButtonWmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        mButtonWmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        mButtonWmParams.width = (int) dpTopx(40);
+        mButtonWmParams.height = (int) dpTopx(40);
+        // buttonWmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        // buttonWmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         setVisibility(View.GONE);
         mWindowManager.addView(this, mButtonWmParams);
     }
@@ -286,10 +270,7 @@ public class FloatWindow extends ImageView {
         mMenuWmParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
         // 设置窗口展示动画
         mMenuWmParams.windowAnimations = android.R.style.Animation_Dialog;
-
-        // 设置悬浮窗口长宽数据
-        mMenuWmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        mMenuWmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        setFloatMenubackground(mFloatToolBarAlign);
         mFloatMenu.setVisibility(View.GONE);
         mWindowManager.addView(mFloatMenu, mMenuWmParams);
     }
@@ -297,23 +278,22 @@ public class FloatWindow extends ImageView {
     /**
      * 设置位置
      *
-     * @author xiaoming.yuan
-     * @date 2013年10月25日 下午5:56:38
+     * @author
      * @param tempX
      * @param tempY
      */
+
     private void setPosition(double tempX, double tempY) {
         mButtonWmParams.x = (int) tempX;
         mButtonWmParams.y = (int) (tempY - getStatusBarHeight());
         // 刷新
-        mHandler.sendEmptyMessage(UPDATEVIEW_TYPE_BUTTON);
+        handler.sendEmptyMessage(UPDATEVIEW_TYPE_BUTTON);
     }
 
     /**
      * 两边靠
      *
-     * @author xiaoming.yuan
-     * @date Oct 28, 2013 8:01:05 PM
+     * @author
      * @param side
      */
     private void alongSides(final FloatToolBarAlign side) {
@@ -330,7 +310,7 @@ public class FloatWindow extends ImageView {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        mHandler.sendEmptyMessage(UPDATEVIEW_TYPE_BUTTON);
+                        handler.sendEmptyMessage(UPDATEVIEW_TYPE_BUTTON);
                     }
 
                 } else {
@@ -343,7 +323,7 @@ public class FloatWindow extends ImageView {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        mHandler.sendEmptyMessage(UPDATEVIEW_TYPE_BUTTON);
+                        handler.sendEmptyMessage(UPDATEVIEW_TYPE_BUTTON);
                     }
                 }
                 mFloatToolBarAlign = side;
@@ -355,14 +335,14 @@ public class FloatWindow extends ImageView {
                     mButtonWmParams.gravity = Gravity.LEFT | Gravity.TOP;
                 }
                 mButtonWmParams.x = 0;
-                mHandler.sendEmptyMessage(UPDATEVIEW_TYPE_BUTTON);
+                handler.sendEmptyMessage(UPDATEVIEW_TYPE_BUTTON);
                 mMoving = false;
             };
         }.start();
 
     }
 
-    private Handler mHandler = new Handler() {
+    private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case UPDATEVIEW_TYPE_BUTTON:
@@ -381,8 +361,7 @@ public class FloatWindow extends ImageView {
     /**
      * 保存位置
      *
-     * @author xiaoming.yuan
-     * @date 2013年10月28日 下午9:11:48
+     * @author
      * @param align
      * @param position
      */
@@ -445,6 +424,8 @@ public class FloatWindow extends ImageView {
     }
 
     private GestureDetector detector = new GestureDetector(mActivity, new SimpleOnGestureListener() {
+
+        // 触发触摸事件
         public boolean onSingleTapConfirmed(MotionEvent e) {
             int location[] = new int[2];
             getLocationOnScreen(location);
@@ -468,11 +449,10 @@ public class FloatWindow extends ImageView {
     /**
      * 显示菜单
      *
-     * @author xiaoming.yuan
-     * @date 2013年10月29日 上午10:08:28
+     * @author
      */
     private void showMenu(int x, int y) {
-        setImageDrawable(miconPress);
+        setImageDrawable(mIconExpanded);
         if (mWindowManager == null || mMenuWmParams == null || mFloatMenu == null) {
             return;
         }
@@ -481,29 +461,41 @@ public class FloatWindow extends ImageView {
             return;
         }
         mMenuWmParams.y = y;
-        mMenuWmParams.x = x;
-        if (mFloatToolBarAlign == FloatToolBarAlign.Right) {
-//            mFloatMenu.setBackgroundResource(ResourceUtil.getDrawableId(mActivity,
-//                    KR.drawable.ch_float_menuright_bg));
-        } else {
-//            mFloatMenu.setBackgroundResource(ResourceUtil.getDrawableId(mActivity,
-//                    KR.drawable.ch_float_menuleft_bg));
-        }
-        mFloatMenu.setPadding(mFloatMenu.getPaddingLeft(), 0, mFloatMenu.getPaddingRight(), 0);
+        mMenuWmParams.x = x - 15;
+        setFloatMenubackground(mFloatToolBarAlign);
         mMenuWmParams.gravity = mButtonWmParams.gravity;
-        mMenuWmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        mMenuWmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         mFloatMenu.startAnimation(floatMenuInScaleAnimation());
         mFloatMenu.setVisibility(View.VISIBLE);
-        mHandler.sendEmptyMessage(UPDATEVIEW_TYPE_MENU);
+        handler.sendEmptyMessage(UPDATEVIEW_TYPE_MENU);
 
+    }
+
+    private void setFloatMenubackground(FloatToolBarAlign align){
+        if (align == FloatToolBarAlign.Right) {
+            mBitmapRightDrawable = (BitmapDrawable) getResources().getDrawable(
+                    ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_menuright_bg));
+            mBitmapRightDrawable.setAntiAlias(true);
+            mFloatMenu.setBackgroundDrawable(mBitmapRightDrawable);
+
+            mFloatMenu.setPadding(20, 10, 50, 10);
+        } else {
+            mBitmapLiftDrawable = (BitmapDrawable) getResources().getDrawable(
+                    ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_menuleft_bg));
+            mBitmapLiftDrawable.setAntiAlias(true);
+            mFloatMenu.setBackgroundDrawable(mBitmapLiftDrawable);
+            mFloatMenu.setPadding(50, 10, 20, 10);
+        }
+        // mFloatMenu.setPadding(mFloatMenu.getPaddingLeft(), 0, mFloatMenu.getPaddingRight(), 0);
+        // 设置悬浮窗口长宽数据
+        mMenuWmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        // menuWmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        mMenuWmParams.height = (int) dpTopx(45);
     }
 
     /**
      * 隐藏菜单
      *
-     * @author xiaoming.yuan
-     * @date 2013年10月29日 上午10:09:27
+     * @author
      */
     private void hideMenu() {
         setImageDrawable(mIconNormal);
@@ -512,14 +504,12 @@ public class FloatWindow extends ImageView {
         }
         mFloatMenu.startAnimation(floatMenuOutScaleAnimation());
         mFloatMenu.setVisibility(View.GONE);
-
     }
 
     /**
      * 获取状态栏高度
      *
-     * @author xiaoming.yuan
-     * @date 2013年10月25日 下午2:49:00
+     * @author
      * @return
      */
     private int getStatusBarHeight() {
@@ -531,8 +521,7 @@ public class FloatWindow extends ImageView {
     /**
      * 隐藏
      *
-     * @author xiaoming.yuan
-     * @date 2013年10月25日 上午11:32:53
+     * @author
      */
     public void hide() {
         if (!isShowing()) {
@@ -548,8 +537,7 @@ public class FloatWindow extends ImageView {
     /**
      * 显示
      *
-     * @author xiaoming.yuan
-     * @date 2013年10月25日 上午11:33:07
+     * @author
      */
     public void show() {
         if (mWindowManager == null || mButtonWmParams == null) {
@@ -563,12 +551,11 @@ public class FloatWindow extends ImageView {
         mButtonWmParams.y = (int) ((mScreenHeight - getStatusBarHeight()) * mPosition - mIconNormal
                 .getIntrinsicHeight() / 2);
         setVisibility(View.VISIBLE);
-        mHandler.sendEmptyMessage(UPDATEVIEW_TYPE_BUTTON);
+        handler.sendEmptyMessage(UPDATEVIEW_TYPE_BUTTON);
     }
 
     /**
-     * @author xiaoming.yuan
-     * @date 2013年10月25日 上午11:38:42
+     * @author
      */
     public void recycle() {
         // 移除悬浮窗口
@@ -603,36 +590,20 @@ public class FloatWindow extends ImageView {
             super(context);
             setGravity(Gravity.CENTER);
             setOrientation(LinearLayout.HORIZONTAL);
-            account = new Item(mActivity);
-            forum = new Item(mActivity);
-            help = new Item(mActivity);
-            announcements = new Item(mActivity);
-
-
-            account.setWidth((int)dpTopx(60));
-            forum.setWidth((int)dpTopx(60));
-            help.setWidth((int)dpTopx(60));
-            announcements.setWidth((int)dpTopx(60));
-
-
-            account.setText(KR.string.splus_person_center_text);
-            forum.setText(KR.string.splus_person_center_forum_btn_text);
-            help.setText(KR.string.splus_person_center_sq_btn_text);
-            announcements.setText(KR.string.splus_person_center_announcementspage_btn_text);
-
-//            account.setIcon(getResources().getDrawable(
-//                    ResourceUtil.getDrawableId(mActivity, KR.drawable.ch_float_account)));
-//            forum.setIcon(getResources().getDrawable(
-//                    ResourceUtil.getDrawableId(mActivity, KR.drawable.ch_float_forum)));
-//            help.setIcon(getResources().getDrawable(
-//                    ResourceUtil.getDrawableId(mActivity, KR.drawable.ch_float_help)));
-//            announcements.setIcon(getResources().getDrawable(
-//                    ResourceUtil.getDrawableId(mActivity, KR.drawable.ch_float_help)));
-
-
-            addView(account);
-            addView(forum);
+            account = new Item(mActivity, ResourceUtil.getDrawableId(mActivity,
+                    KR.drawable.splus_float_account_selector));
+            forum = new Item(mActivity, ResourceUtil.getDrawableId(mActivity,
+                    KR.drawable.splus_float_forum_selector));
+            help = new Item(mActivity, ResourceUtil.getDrawableId(mActivity,
+                    KR.drawable.splus_float_help_selector));
+            announcements = new Item(mActivity, ResourceUtil.getDrawableId(mActivity,
+                    KR.drawable.splus_float_announcement_selector));
+            LayoutParams params = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(20, 0, 20, 0);
             addView(help);
+            addView(account, params);
+            addView(forum, params);
             addView(announcements);
 
             account.setOnClickListener(new View.OnClickListener() {
@@ -643,6 +614,7 @@ public class FloatWindow extends ImageView {
                     hideMenu();
                     if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity,
                             SplusPayManager.getInstance().getAppkey())) {
+                        hideMenu();
                         return;
                     } else {
                         SplusPayManager.getInstance().enterUserCenter(mActivity,SplusPayManager.getInstance().getLogoutCallBack());
@@ -650,69 +622,63 @@ public class FloatWindow extends ImageView {
                 }
 
             });
-
             forum.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
+
                     hideMenu();
                     if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity,
                             SplusPayManager.getInstance().getAppkey())) {
+                        hideMenu();
                         return;
                     } else {
                         SplusPayManager.getInstance().enterBBS(mActivity);
                     }
-
                 }
-            });
 
+            });
             help.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    // 密码找回界面
+
                     hideMenu();
-                    if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity,SplusPayManager.getInstance().getAppkey())) {
+                    if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity,
+                            SplusPayManager.getInstance().getAppkey())) {
+                        hideMenu();
                         return;
                     } else {
-//                        Intent intent = new Intent(mActivity, PersonActivity.class);
-//                        intent.putExtra(PersonActivity.INTENT_TYPE, PersonActivity.INTENT_SQ);
-//                        UserModel mUserData = SplusPayManager.getInstance().getUserModel();
-//                        if (mUserData != null) {
-//                            intent.putExtra(Constant.LOGIN_INTENT_USERNAME, mUserData.getPassport());
-//                            intent.putExtra(Constant.LOGIN_INTENT_USERID, mUserData.getUid());
-//                        }
-//                        mActivity.startActivity(intent);
+                        //密码找回界面
+                        Intent intent = new Intent(mActivity, PersonActivity.class);
+                        intent.putExtra(PersonActivity.INTENT_TYPE,
+                                PersonActivity.INTENT_SQ);
+                        mActivity.startActivity(intent);
+
                     }
-
                 }
-            });
 
+            });
             announcements.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
+
                     hideMenu();
                     if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity,
                             SplusPayManager.getInstance().getAppkey())) {
                         return;
-//                    } else {
-//
-//                        Intent intent = new Intent(mActivity, PersonActivity.class);
-//                        intent.putExtra(PersonActivity.INTENT_TYPE,
-//                                PersonActivity.INTENT_ANNOUNCEMENTS);
-//                        UserModel mUserData = CHPayManager.getInstance().getUserModel();
-//                        if (mUserData != null) {
-//                            intent.putExtra(Constant.LOGIN_INTENT_USERNAME, mUserData.getPassport());
-//                            intent.putExtra(Constant.LOGIN_INTENT_USERID, mUserData.getUid());
-//                        }
-//
-//                        mActivity.startActivity(intent);
-//
-                        }
-                }
-            });
+                    } else {
+                        //论坛
+                        Intent intent = new Intent(mActivity, PersonActivity.class);
+                        intent.putExtra(PersonActivity.INTENT_TYPE,
+                                PersonActivity.INTENT_FORUM);
+                        mActivity.startActivity(intent);
 
+                    }
+                }
+
+            });
 
         }
 
@@ -723,26 +689,26 @@ public class FloatWindow extends ImageView {
      */
     private class Item extends TextView {
 
-        public Item(Context context) {
+        public Item(Context context, int background) {
             super(context);
-            setTextColor(0xffffffff);
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+            // setTextColor(0x525252);
+            // setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
             setGravity(Gravity.CENTER);
             float left = dpTopx(12);
             float top = dpTopx(5);
             float right = dpTopx(12);
             float bottom = dpTopx(3);
-
+            Drawable drawable = (Drawable) getResources().getDrawable(background);
             if (android.os.Build.VERSION.SDK_INT >= 16) {
-                setBackground(getFloatButtonDrawable());
+                setBackground(drawable);
             } else {
-                setBackgroundDrawable(getFloatButtonDrawable());
+                setBackgroundDrawable(drawable);
             }
-
             setPadding((int) left, (int) top, (int) right, (int) bottom);
         }
 
-        public void setIcon(Drawable drawable) {
+        public void setIcon(BitmapDrawable drawable) {
+            drawable.setAntiAlias(true);
             setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
         }
 
@@ -756,42 +722,15 @@ public class FloatWindow extends ImageView {
 
     /**
      * dp转px
-     *
-     * @author xiaoming.yuan
-     * @date 2013年10月9日 下午10:45:10
+     * @author
      * @param dp
      * @return
      */
     private float dpTopx(float dp) {
-        float size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+        float size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources()
+                .getDisplayMetrics());
         return size;
 
-    }
-
-    /**
-     * 获取按钮背景
-     *
-     * @author xiaoming.yuan
-     * @date 2013年10月25日 下午5:55:27
-     * @return
-     */
-    private StateListDrawable getFloatButtonDrawable() {
-        StateListDrawable sd = new StateListDrawable();
-//        Drawable normal = getResources().getDrawable(
-//                ResourceUtil.getDrawableId(mActivity, KR.drawable.ch_transparent));
-//        Drawable press = getResources().getDrawable(
-//                ResourceUtil.getDrawableId(mActivity, KR.drawable.ch_float_item_bg));
-//        sd.addState(new int[] {
-//            android.R.attr.state_focused
-//        }, press);
-//        sd.addState(new int[] {
-//            android.R.attr.state_pressed
-//        }, press);
-//        sd.addState(new int[] {
-//            android.R.attr.state_selected
-//        }, press);
-//        sd.addState(new int[] {}, normal);
-        return sd;
     }
 
     /**

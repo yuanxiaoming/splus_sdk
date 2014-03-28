@@ -341,18 +341,6 @@ public final class KR {
         public static final String splus_recharge_by_unc_selector = "splus_recharge_by_unc_selector";
         public static final String splus_recharge_by_sd_selector = "splus_recharge_by_sd_selector";
         public static final String splus_recharge_by_person_selector = "splus_recharge_by_person_selector";
-
-
-
-
-
-
-
-
-
-
-
-
         public static final String  splus_recharge_money_item_press = "splus_recharge_money_item_press";
         public static final String  splus_recharge_money_item_normal = "splus_recharge_money_item_normal";
         public static final String  splus_recharge_money_item_selector = "splus_recharge_money_item_selector";
@@ -369,6 +357,15 @@ public final class KR {
         public static final String  splus_person_center_announcementspage_icon_selector = "splus_person_center_announcementspage_icon_selector";
         public static final String  splus_person_account_modify_pwd_selector = "splus_person_account_modify_pwd_selector";
         public static final String  splus_person_account_binding_phone_selector = "splus_person_account_binding_phone_selector";
+
+        public static final String  splus_float_icon_normal = "splus_float_icon_normal";
+        public static final String  splus_float_icon_press = "splus_float_icon_press";
+        public static final String  splus_float_menuleft_bg = "splus_float_menuleft_bg";
+        public static final String  splus_float_menuright_bg = "splus_float_menuright_bg";
+        public static final String  splus_float_account_selector = "splus_float_account_selector";
+        public static final String  splus_float_forum_selector = "splus_float_forum_selector";
+        public static final String  splus_float_help_selector = "splus_float_help_selector";
+        public static final String  splus_float_announcement_selector = "splus_float_announcement_selector";
 
 
 

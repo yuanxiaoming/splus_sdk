@@ -1,6 +1,9 @@
 
 package com.android.splus.sdk.apiinterface;
 
+import com.android.splus.sdk.ui.FloatToolBar;
+import com.android.splus.sdk.ui.FloatToolBar.FloatToolBarAlign;
+
 import android.app.Activity;
 import android.content.Context;
 
@@ -85,12 +88,12 @@ public interface IPayManager {
     public void enterBBS(Activity activity);
 
 
-//   /**
-//    * 悬浮按钮
-//    */
-//
-//   public FloatToolBar creatFloatButton(Activity mActivity, boolean showlasttime,
-//           FloatToolBarAlign align, float position, LogoutCallBack mLogoutCallBack);
+   /**
+    * 悬浮按钮
+    */
+
+   public FloatToolBar creatFloatButton(Activity mActivity, boolean showlasttime,
+           FloatToolBarAlign align, float position);
 
    /**
     * 在线时长统计开始

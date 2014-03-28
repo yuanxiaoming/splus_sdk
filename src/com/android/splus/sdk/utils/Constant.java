@@ -158,6 +158,11 @@ public class Constant {
     public static final String TEST_PASSPROT = "splus123";
 
 
+    public static final String LOGIN_INTENT_USERNAME = "login_intent_username";
+
+    public static final String LOGIN_INTENT_USERID = "login_intent_userid";
+
+    public static final String LOGIN_INTENT_USERPWD = "login_intent_userpwd";
 
 
 

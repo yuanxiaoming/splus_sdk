@@ -155,7 +155,11 @@ public class RechargeSelectActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                // TODO 客服
+                //密码找回界面
+                Intent intent = new Intent(mActivity, PersonActivity.class);
+                intent.putExtra(PersonActivity.INTENT_TYPE,
+                PersonActivity.INTENT_SQ);
+                mActivity.startActivity(intent);
             }
         });
 

@@ -14,6 +14,7 @@ import com.android.splus.sdk.ui.personview.PersonCenterPage;
 import com.android.splus.sdk.ui.personview.PhoneBindPage;
 import com.android.splus.sdk.ui.personview.SQPage;
 import com.android.splus.sdk.ui.personview.UserInformationPage;
+import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.file.AppUtil;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
@@ -22,6 +23,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,9 +38,18 @@ public class PersonActivity extends BaseActivity {
 
     private static final String TAG = "PersonActivity";
     private Activity mActivity;
+
     private SplusPayManager mSplusPayManager;
+
     private LogoutCallBack mLogoutCallBack;
 
+    public static final String INTENT_TYPE = "intent_type";
+
+    public static final String INTENT_SQ = "intent_sq";
+
+    public static final String INTENT_ANNOUNCEMENTS = "intent_announcements";
+
+    public static final String INTENT_FORUM = "intent_forum";
 
     public static final int PASSWORDPAGE = 0;
 
@@ -124,18 +135,77 @@ public class PersonActivity extends BaseActivity {
 
     @Override
     protected void findViewById() {
+        Intent intent = getIntent();
+        String type = intent.getStringExtra(INTENT_TYPE);
 
         ibtn_back = (ImageButton) findViewById(KR.id.splus_person_title_bar_left_button);
         ibtn_submit = (ImageButton) findViewById(KR.id.splus_person_title_bar_right_button);
         mTvTitleBarCenter = (TextView) findViewById(KR.id.splus_person_title_bar_middle_title);
         vf_person_center = (ViewFlipper) findViewById(KR.id.splus_person_center_views);
 
+        if (INTENT_SQ.equals(type)) {
+            String passport = intent.getStringExtra(Constant.LOGIN_INTENT_USERNAME);
+            Integer uid = intent.getIntExtra(Constant.LOGIN_INTENT_USERID, 0);
+            String password = intent.getStringExtra(Constant.LOGIN_INTENT_USERNAME);
 
-        mPersonCenterPage = new PersonCenterPage(this, getPassport());
-        mTvTitleBarCenter.setText(KR.string.splus_person_center_text);
-        addView(mPersonCenterPage, PersonCenterPage.class.getName());
+            if (TextUtils.isEmpty(passport)) {
+                passport = getPassport();
+                uid = getUid();
+                password = getPassword();
+            }
+
+            // 进入客服中心页面
+            if (mSqPage == null) {
+                mSqPage = new SQPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
+                        uid, passport,password, mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
+            }
+            mTvTitleBarCenter.setText(KR.string.splus_person_center_sq_btn_text);
+            addView(mSqPage, SQPage.class.getName());
+
+        } else if (INTENT_ANNOUNCEMENTS.equals(type)) {
+            String passport = intent.getStringExtra(Constant.LOGIN_INTENT_USERNAME);
+            Integer uid = intent.getIntExtra(Constant.LOGIN_INTENT_USERID, 0);
+            String password = intent.getStringExtra(Constant.LOGIN_INTENT_USERNAME);
+            if (TextUtils.isEmpty(passport)) {
+                passport = getPassport();
+                uid = getUid();
+                password = getPassword();
+            }
+            // 进入活动页面
+            if (mAnnouncementsPage == null) {
+                mAnnouncementsPage = new AnnouncementsPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
+                        uid, passport,password, mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
+            }
+            mTvTitleBarCenter.setText(KR.string.splus_person_center_announcementspage_btn_text);
+            // 把活动页面显示在前台
+            addView(mAnnouncementsPage, AnnouncementsPage.class.getName());
 
 
+        } else if (INTENT_FORUM.equals(type)) {
+            String passport = intent.getStringExtra(Constant.LOGIN_INTENT_USERNAME);
+            Integer uid = intent.getIntExtra(Constant.LOGIN_INTENT_USERID, 0);
+            String password = intent.getStringExtra(Constant.LOGIN_INTENT_USERNAME);
+
+            if (TextUtils.isEmpty(passport)) {
+                passport = getPassport();
+                uid = getUid();
+                password = getPassword();
+            }
+            // 进入论坛页面看
+            if (mForumPage == null) {
+                mForumPage = new ForumPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
+                        uid, passport,password, mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
+            }
+            mTvTitleBarCenter.setText(KR.string.splus_person_center_forum_btn_text);
+            // 把论坛页面显示在前台
+            addView(mForumPage, ForumPage.class.getName());
+
+
+        } else {
+            mPersonCenterPage = new PersonCenterPage(this, getPassport());
+            mTvTitleBarCenter.setText(KR.string.splus_person_center_text);
+            addView(mPersonCenterPage, PersonCenterPage.class.getName());
+        }
 
         anim_in_into = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1,
                 Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
@@ -215,10 +285,10 @@ public class PersonActivity extends BaseActivity {
             if (mForumPage == null) {
                 mForumPage = new ForumPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
                         getUid(), getPassport(), getPassword(), mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
-                mTvTitleBarCenter.setText(KR.string.splus_person_center_forum_btn_text);
-                // 把论坛页面显示在前台
-                addView(mForumPage, ForumPage.class.getName());
             }
+            mTvTitleBarCenter.setText(KR.string.splus_person_center_forum_btn_text);
+            // 把论坛页面显示在前台
+            addView(mForumPage, ForumPage.class.getName());
         }
 
         @Override
