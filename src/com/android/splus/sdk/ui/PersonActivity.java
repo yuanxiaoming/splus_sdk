@@ -128,7 +128,7 @@ public class PersonActivity extends BaseActivity {
 
     @Override
     protected void loadViewLayout() {
-        setContentView(KR.layout.splus_person_center);
+        setContentView(KR.layout.splus_person_center_activity);
         this.mActivity = this;
         mSplusPayManager = SplusPayManager.getInstance();
         mLogoutCallBack = mSplusPayManager.getLogoutCallBack();

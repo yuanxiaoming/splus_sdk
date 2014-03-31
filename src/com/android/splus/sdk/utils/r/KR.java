@@ -272,7 +272,7 @@ public final class KR {
 
        //个人中心
 
-       public static final String splus_person_center = "splus_person_center";
+       public static final String splus_person_center_activity = "splus_person_center_activity";
 
        public static final String splus_person_center_welcome = "splus_person_center_welcome";
 

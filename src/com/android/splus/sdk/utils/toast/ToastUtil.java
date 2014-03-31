@@ -11,6 +11,7 @@
 
 package com.android.splus.sdk.utils.toast;
 
+import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
@@ -22,6 +23,7 @@ import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,13 +61,13 @@ public class ToastUtil {
     public static void showPassportToast(Activity context, String userName) {
         Toast toast = new Toast(context);
         FrameLayout view = new FrameLayout(context);
-        FrameLayout.LayoutParams framParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT);
+        FrameLayout.LayoutParams framParams = new LayoutParams(LayoutParams.MATCH_PARENT,
+               CommonUtil.dip2px(context,45));
         view.setLayoutParams(framParams);
         view.setBackgroundResource(ResourceUtil
                 .getDrawableId(context, KR.drawable.splus_login_success_toast_background));
-        LayoutParams ivParam = new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT);
+        LayoutParams ivParam = new LayoutParams(CommonUtil.dip2px(context,80),
+                CommonUtil.dip2px(context,45));
         ivParam.gravity = Gravity.CENTER_VERTICAL;
         ivParam.bottomMargin = 10;
         ivParam.topMargin = 10;
@@ -74,6 +76,7 @@ public class ToastUtil {
         ImageView iv = new ImageView(context);
         iv.setBackgroundResource(ResourceUtil.getDrawableId(context,
                 KR.drawable.splus_login_success_toast_logo));
+        iv.setScaleType(ScaleType.FIT_XY);
         view.addView(iv, ivParam);
         TextView tv = new TextView(context);
         tv.setSingleLine();

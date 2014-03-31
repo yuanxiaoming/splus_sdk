@@ -461,7 +461,7 @@ public class FloatWindow extends ImageView {
             return;
         }
         mMenuWmParams.y = y;
-        mMenuWmParams.x = x - 15;
+        mMenuWmParams.x = x;
         setFloatMenubackground(mFloatToolBarAlign);
         mMenuWmParams.gravity = mButtonWmParams.gravity;
         mFloatMenu.startAnimation(floatMenuInScaleAnimation());
@@ -476,14 +476,16 @@ public class FloatWindow extends ImageView {
                     ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_menuright_bg));
             mFloatMenu.setBackgroundDrawable(mBitmapRightDrawable);
 
-            mFloatMenu.setPadding(20, 10, 50, 10);
+            // mFloatMenu.setPadding(20, 10, 20, 10);
         } else {
             mBitmapLiftDrawable =  getResources().getDrawable(
                     ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_menuleft_bg));
             mFloatMenu.setBackgroundDrawable(mBitmapLiftDrawable);
-            mFloatMenu.setPadding(50, 10, 20, 10);
+            //   mFloatMenu.setPadding(20, 10, 20, 10);
         }
-        // mFloatMenu.setPadding(mFloatMenu.getPaddingLeft(), 0, mFloatMenu.getPaddingRight(), 0);
+        mFloatMenu.setPadding(10, 5, 10, 5);
+
+        //    mFloatMenu.setPadding(mFloatMenu.getPaddingLeft(), 5, mFloatMenu.getPaddingRight(), 5);
         // 设置悬浮窗口长宽数据
         mMenuWmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         // menuWmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -596,15 +598,15 @@ public class FloatWindow extends ImageView {
                     KR.drawable.splus_float_help_selector));
             announcements = new Item(mActivity, ResourceUtil.getDrawableId(mActivity,
                     KR.drawable.splus_float_announcement_selector));
-            LayoutParams params = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(20, 0, 20, 0);
-            LayoutParams params1 = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            params1.setMargins(0, 0, 20, 0);
+            //            LayoutParams params = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+            //                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            //            params.setMargins(20, 0, 20, 0);
+            //            LayoutParams params1 = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+            //                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            //            params1.setMargins(0, 0, 20, 0);
             addView(help);
-            addView(account, params);
-            addView(forum, params1);
+            addView(account );
+            addView(forum);
             addView(announcements);
 
             account.setOnClickListener(new View.OnClickListener() {

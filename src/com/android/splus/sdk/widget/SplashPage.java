@@ -13,10 +13,12 @@ import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 /**
@@ -25,7 +27,7 @@ import android.widget.LinearLayout;
  * @date 2013年10月9日 下午10:03:07
  */
 public class SplashPage extends LinearLayout {
- //   private ImageView iv_logo;
+    private ImageView iv_logo;
 
     private CustomProgressBar mBar;
 
@@ -36,16 +38,17 @@ public class SplashPage extends LinearLayout {
         this.activity = activity;
         init();
         mBar = new CustomProgressBar(activity);
- //       iv_logo = new ImageView(activity);
-//        iv_logo.setImageResource(getDrawableId(KR.drawable.splus_splash_background));
-//        iv_logo.setPadding(0, 0, 0, (int) dpTopx(10));
-//        addView(iv_logo);
+        iv_logo = new ImageView(activity);
+        iv_logo.setImageResource(getDrawableId(KR.drawable.splus_login_success_toast_logo));
+        iv_logo.setPadding(0, 0, 0, (int) dpTopx(10));
+        addView(iv_logo);
         addView(mBar);
 
     }
 
     private void init() {
-        setBackgroundResource(getDrawableId(KR.drawable.splus_splash_background));
+        setBackgroundColor(Color.parseColor("#FFF2F2F2"));
+       // setBackgroundResource(getDrawableId(KR.drawable.splus_splash_background));
         setOrientation(LinearLayout.VERTICAL);
         setGravity(Gravity.CENTER);
         setFocusable(true);

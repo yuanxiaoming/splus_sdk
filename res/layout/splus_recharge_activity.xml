@@ -3,7 +3,7 @@
     style="@android:style/Theme.Black.NoTitleBar.Fullscreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffe8eceb"
+    android:background="#FFF2F2F2"
     android:orientation="vertical" >
 
     <include layout="@layout/splus_recharge_title_bar_layout" />
