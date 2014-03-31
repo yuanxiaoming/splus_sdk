@@ -95,7 +95,7 @@ public class FloatWindow extends ImageView {
      */
     private Drawable mIconNormal, mIconExpanded;
 
-    private BitmapDrawable mBitmapRightDrawable, mBitmapLiftDrawable;
+    private Drawable mBitmapRightDrawable, mBitmapLiftDrawable;
 
     private FloatMenu mFloatMenu;
 
@@ -472,16 +472,14 @@ public class FloatWindow extends ImageView {
 
     private void setFloatMenubackground(FloatToolBarAlign align){
         if (align == FloatToolBarAlign.Right) {
-            mBitmapRightDrawable = (BitmapDrawable) getResources().getDrawable(
+            mBitmapRightDrawable =  getResources().getDrawable(
                     ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_menuright_bg));
-            mBitmapRightDrawable.setAntiAlias(true);
             mFloatMenu.setBackgroundDrawable(mBitmapRightDrawable);
 
             mFloatMenu.setPadding(20, 10, 50, 10);
         } else {
-            mBitmapLiftDrawable = (BitmapDrawable) getResources().getDrawable(
+            mBitmapLiftDrawable =  getResources().getDrawable(
                     ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_menuleft_bg));
-            mBitmapLiftDrawable.setAntiAlias(true);
             mFloatMenu.setBackgroundDrawable(mBitmapLiftDrawable);
             mFloatMenu.setPadding(50, 10, 20, 10);
         }
@@ -601,9 +599,12 @@ public class FloatWindow extends ImageView {
             LayoutParams params = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(20, 0, 20, 0);
+            LayoutParams params1 = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params1.setMargins(0, 0, 20, 0);
             addView(help);
             addView(account, params);
-            addView(forum, params);
+            addView(forum, params1);
             addView(announcements);
 
             account.setOnClickListener(new View.OnClickListener() {

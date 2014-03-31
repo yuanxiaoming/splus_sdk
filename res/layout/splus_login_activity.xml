@@ -4,9 +4,7 @@
     android:layout_height="fill_parent"
     android:layout_gravity="center"
     android:gravity="center"
-    android:orientation="vertical"
-    android:paddingLeft="25dp"
-    android:paddingRight="25dp" >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="fill_parent"

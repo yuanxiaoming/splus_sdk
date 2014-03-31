@@ -119,8 +119,11 @@ public class PersonCenterPage extends ScrollView {
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             params2.setMargins(50, 0, 50, 50);
 
-            addView(mWelcomeView, new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
+            LayoutParams mWelcomeViewParams = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            mWelcomeViewParams.setMargins(0, 10, 0, 10);
+
+            addView(mWelcomeView, mWelcomeViewParams);
 
             mLine1 = new ImageView(activity);
             mLine1.setBackgroundColor(0xfff7f7f7);
@@ -142,7 +145,7 @@ public class PersonCenterPage extends ScrollView {
             mLine4.setScaleType(ScaleType.FIT_XY);
             mLine4.setImageResource(ResourceUtil.getDrawableId(activity,
                     KR.drawable.splus_login_bg_devider));
-            int padding = 0;
+            int padding = 20;
             if (isLandscape) {
                 padding = 20;
             } else {

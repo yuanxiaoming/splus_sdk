@@ -243,9 +243,11 @@ public class AccountManagerPage extends ScrollView {
             LayoutParams params2 = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             params2.setMargins(50, 0, 50, 50);
+            LayoutParams mWelcomeViewParams = new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            mWelcomeViewParams.setMargins(0, 10, 0, 10);
 
-            addView(mWelcomeView, new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
+            addView(mWelcomeView,mWelcomeViewParams);
 
             mLine1 = new ImageView(activity);
             mLine1.setBackgroundColor(0xfff7f7f7);

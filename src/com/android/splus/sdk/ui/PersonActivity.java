@@ -19,6 +19,7 @@ import com.android.splus.sdk.utils.file.AppUtil;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
@@ -518,8 +519,8 @@ public class PersonActivity extends BaseActivity {
     /**
      * 网络请求成功回调
      */
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
-        @SuppressWarnings("unchecked")
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case PASSWORDPAGE:
@@ -598,7 +599,6 @@ public class PersonActivity extends BaseActivity {
     public void finish() {
         super.finish();
         ExitAppUtils.getInstance().exit();
-
     }
 
 

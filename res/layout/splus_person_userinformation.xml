@@ -18,8 +18,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -32,15 +32,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1.0"
+                    android:layout_weight="1.2"
                     android:gravity="right"
+                    android:singleLine="true"
                     android:textColor="#ff747474"
                     android:textSize="18dp" />
 
                 <LinearLayout
                     android:layout_width="0.0dp"
                     android:layout_height="46dp"
-                    android:layout_weight="5.0"
+                    android:layout_weight="3.0"
                     android:addStatesFromChildren="true"
                     android:background="@drawable/splus_recharge_money_edit_selector"
                     android:clickable="true"
@@ -72,7 +73,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1.0"
+                    android:layout_weight="1.2"
+                    android:singleLine="true"
                     android:gravity="right"
                     android:textColor="#ff747474"
                     android:textSize="18dp" />
@@ -81,7 +83,7 @@
                     android:id="@+id/splus_person_center_userinformation_sex_rg"
                     android:layout_width="0.0dp"
                     android:layout_height="46dp"
-                    android:layout_weight="5.0"
+                    android:layout_weight="3.0"
                     android:gravity="left|center_vertical"
                     android:orientation="horizontal"
                     android:paddingRight="0dp" >
@@ -131,7 +133,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1.0"
+                    android:layout_weight="1.2"
+                    android:singleLine="true"
                     android:gravity="right"
                     android:textColor="#ff747474"
                     android:textSize="18dp" />
@@ -139,7 +142,7 @@
                 <LinearLayout
                     android:layout_width="0.0dp"
                     android:layout_height="46dp"
-                    android:layout_weight="5.0"
+                    android:layout_weight="3.0"
                     android:addStatesFromChildren="true"
                     android:background="@drawable/splus_recharge_money_edit_selector"
                     android:clickable="true"
@@ -172,7 +175,8 @@
                     android:layout_width="0.0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1.0"
+                    android:layout_weight="1.2"
+                    android:singleLine="true"
                     android:gravity="right"
                     android:textColor="#ff747474"
                     android:textSize="18dp" />
@@ -180,7 +184,7 @@
                 <LinearLayout
                     android:layout_width="0.0dp"
                     android:layout_height="46dp"
-                    android:layout_weight="5.0"
+                    android:layout_weight="3.0"
                     android:addStatesFromChildren="true"
                     android:background="@drawable/splus_recharge_money_edit_selector"
                     android:clickable="true"
@@ -209,8 +213,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="30dp"
             android:textSize="18dp"
             android:background="@drawable/splus_login_btn_login_bg_selector"
@@ -221,7 +225,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp"
             android:textColor="#fe5f2e"

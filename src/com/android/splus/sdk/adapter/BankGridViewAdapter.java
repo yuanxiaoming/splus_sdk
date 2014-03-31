@@ -80,11 +80,12 @@ public class BankGridViewAdapter extends BaseAdapter {
         TextView textView = null;
         if (convertView == null) {
             textView = new TextView(mContext);
-            textView.setBackground(mContext.getResources().getDrawable(
+            textView.setBackgroundDrawable(mContext.getResources().getDrawable(
                     ResourceUtil.getDrawableId(mContext,
                             KR.drawable.splus_recharge_money_item_selector)));
             textView.setMaxWidth(75);
             textView.setMinHeight(75);
+            textView.setSingleLine();
             textView.setGravity(Gravity.CENTER);
             convertView = textView;
         } else {

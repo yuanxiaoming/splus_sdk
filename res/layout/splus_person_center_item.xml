@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/splus_person_center_item_layout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@drawable/splus_person_center_item_bg_selector"
-    android:orientation="vertical" >
+    android:gravity="center"
+    android:orientation="horizontal" >
 
     <ImageView
         android:id="@+id/splus_person_center_item_ic_left"
-        android:layout_width="wrap_content"
+        android:layout_width="34dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="100dp" />
+        android:layout_marginLeft="15dp" />
 
     <TextView
         android:id="@+id/splus_person_center_item_tv"
         android:layout_width="wrap_content"
         android:layout_height="58dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="174dp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
         android:gravity="center_vertical"
         android:textColor="#ff414030"
         android:textSize="18dp" />
@@ -29,8 +28,6 @@
         android:id="@+id/splus_person_center_item_ic_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="75dp" />
+        android:layout_marginRight="15dp" />
 
-</RelativeLayout>
+</LinearLayout>

@@ -93,7 +93,9 @@ public class SplusPayManager implements IPayManager {
 
     private int mWidth;
 
-    private int mScreenOrientation;
+    private int mOrientation;
+
+    //    private int mScreenOrientation;
 
     private String mAppkey;
 
@@ -217,7 +219,7 @@ public class SplusPayManager implements IPayManager {
      */
     @Override
     public void init(Activity activity, String appkey, InitCallBack initCallBack,
-            boolean useUpdate, int screenType) {
+            boolean useUpdate) {
         mStartTime = DateUtil.getCurrentTimestamp();
         if (initCallBack == null) {
             LogHelper.i(TAG, "InitCallBack参数不能为空");
@@ -248,20 +250,21 @@ public class SplusPayManager implements IPayManager {
         // 初始化获取屏幕高度和宽度
         mHeight = Phoneuitl.getHpixels(activity);
         mWidth = Phoneuitl.getWpixels(activity);
-        if (screenType != Configuration.ORIENTATION_LANDSCAPE
-                && screenType != Configuration.ORIENTATION_PORTRAIT) {
-            LogHelper.i(TAG, "屏幕方向参数非法");
-            return;
-        }
-        this.mScreenOrientation = screenType;
-        if (this.mScreenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+        //        if (screenType != Configuration.ORIENTATION_LANDSCAPE
+        //                && screenType != Configuration.ORIENTATION_PORTRAIT) {
+        //            LogHelper.i(TAG, "屏幕方向参数非法");
+        //            return;
+        //        }
+        //        this.mScreenOrientation = screenType;
+        mOrientation=Phoneuitl.getOrientation(activity) ;
+        if (mOrientation== Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏方向，高<宽
             if (mHeight > mWidth) {
                 int temp = mWidth;
                 mWidth = mHeight;
                 mHeight = temp;
             }
-        } else if (this.mScreenOrientation == Configuration.ORIENTATION_PORTRAIT) {
+        } else{
             // 竖屏方向 高>宽
             if (mHeight < mWidth) {
                 int temp = mWidth;
@@ -361,6 +364,25 @@ public class SplusPayManager implements IPayManager {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case INIT_SUCCESS:
+                    mHeight = Phoneuitl.getHpixels(mActivity);
+                    mWidth = Phoneuitl.getWpixels(mActivity);
+                    mOrientation=Phoneuitl.getOrientation(mActivity) ;
+                    if (mOrientation== Configuration.ORIENTATION_LANDSCAPE) {
+                        // 横屏方向，高<宽
+                        if (mHeight > mWidth) {
+                            int temp = mWidth;
+                            mWidth = mHeight;
+                            mHeight = temp;
+                        }
+                    } else  {
+                        // 竖屏方向 高>宽
+                        if (mHeight < mWidth) {
+                            int temp = mWidth;
+                            mWidth = mHeight;
+                            mHeight = temp;
+                        }
+                    }
+
                     removeInitView();
                     if (mInitCallBack != null) {
                         mInitCallBack.initSuccess("初始化成功！", mUpdateInfo);
@@ -396,13 +418,13 @@ public class SplusPayManager implements IPayManager {
             ProgressDialogUtil.showInfoDialog(getContext(), "提示", "当前网络不稳定,请检查您的网络设置！", 0,
                     new OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                            repeatInit();
+                    repeatInit();
 
-                        }
-                    }, "确定", null, null, false);
+                }
+            }, "确定", null, null, false);
 
         } else {
             requestInit();
@@ -819,7 +841,7 @@ public class SplusPayManager implements IPayManager {
 
         if (mLogoutCallBack == null) {
             LogHelper.i(TAG, "LogoutCallBack参数不能为空");
-//            return;
+            //            return;
         }
         if (activity == null) {
             LogHelper.i(TAG, "Activity参数不能为空");
@@ -945,7 +967,7 @@ public class SplusPayManager implements IPayManager {
         }
         this.mActivity = activity;
         Intent intent = new Intent(getContext(), PersonActivity.class);
-   //     intent.putExtra(PersonActivity.INTENT_TYPE, PersonActivity.INTENT_FORUM);
+        intent.putExtra(PersonActivity.INTENT_TYPE, PersonActivity.INTENT_FORUM);
         activity.startActivity(intent);
     }
 
@@ -1093,7 +1115,7 @@ public class SplusPayManager implements IPayManager {
      * @return the mHeight
      */
 
-    int getmHeight() {
+    int getHeight() {
         return this.mHeight;
     }
 
@@ -1103,8 +1125,20 @@ public class SplusPayManager implements IPayManager {
      * @return the mWidth
      */
 
-    int getmWidth() {
+    int getWidth() {
         return this.mWidth;
+    }
+
+    /**
+     *
+     * @Title: getOrientation(这里用一句话描述这个方法的作用)
+     * @author xiaoming.yuan
+     * @data 2014-3-31 下午12:13:02
+     * @return
+     * int 返回类型
+     */
+    int getOrientation() {
+        return this.mOrientation;
     }
 
     /**

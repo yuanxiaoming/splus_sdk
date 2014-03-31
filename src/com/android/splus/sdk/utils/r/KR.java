@@ -596,7 +596,7 @@ public final class KR {
 
         public static final String splus_person_account_phone_unrelated_getcode_btn = "免费获取验证码";
 
-        public static final String splus_person_account_phone_unrelated_code = "请输入您收到的验证号";
+        public static final String splus_person_account_phone_unrelated_code = "请输入手机验证码";
 
 
     }

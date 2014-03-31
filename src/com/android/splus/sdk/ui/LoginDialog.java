@@ -7,11 +7,13 @@
 
 package com.android.splus.sdk.ui;
 
+import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.log.LogHelper;
-import com.android.splus.sdk.utils.toast.ToastUtil;
+import com.android.splus.sdk.utils.phone.Phoneuitl;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -23,7 +25,7 @@ import android.view.WindowManager;
  *
  * @version 1.0.0
  */
-public class LoginDialog extends AlertDialog{
+public class LoginDialog extends AlertDialog {
     private Activity mActivity;
 
     private LoginView mLoginView;
@@ -44,7 +46,8 @@ public class LoginDialog extends AlertDialog{
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         if (mCurrentView != null) {
-            setContentView(mCurrentView);
+            setContentView(mCurrentView,
+                    CommonUtil.getFrameLayoutParams(mActivity, 120, 120, 25, 25, Gravity.CENTER));
         } else {
             LogHelper.e("loginDialog", "mCurrentView is null");
         }
@@ -54,9 +57,12 @@ public class LoginDialog extends AlertDialog{
      * 调整视图
      */
     public void onWindowFocusChanged(boolean hasFocus) {
-        if (!hasFocus) {
-            initWindow();
-        }
+//        if (!hasFocus) {
+//            initWindow();
+//        }
+        initWindow();
+        setContentView(mCurrentView,
+                CommonUtil.getFrameLayoutParams(mActivity, 120, 120, 25, 25, Gravity.CENTER));
         super.onWindowFocusChanged(hasFocus);
 
     }
@@ -70,7 +76,8 @@ public class LoginDialog extends AlertDialog{
      */
     public void changeView(String tag) {
         createCurrentView(tag);
-        setContentView(mCurrentView);
+        setContentView(mCurrentView,
+                CommonUtil.getFrameLayoutParams(mActivity, 120, 120, 25, 25, Gravity.CENTER));
     }
 
     private void createCurrentView(String tag) {
@@ -98,11 +105,34 @@ public class LoginDialog extends AlertDialog{
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         lp.dimAmount = 0.0f;
-        lp.width = SplusPayManager.getInstance().getmWidth();
-        lp.height = SplusPayManager.getInstance().getmHeight();
+        if (SplusPayManager.getInstance().getOrientation() == Phoneuitl.getOrientation(mActivity)) {
+            lp.width = SplusPayManager.getInstance().getWidth();
+            lp.height = SplusPayManager.getInstance().getHeight();
+        } else {
+            int height = Phoneuitl.getHpixels(mActivity);
+            int width = Phoneuitl.getWpixels(mActivity);
+            if (Phoneuitl.getOrientation(mActivity) == Configuration.ORIENTATION_LANDSCAPE) {
+                // 横屏方向，高<宽
+                if (height > width) {
+                    int temp = width;
+                    width = height;
+                    height = temp;
+                }
+            } else {
+                // 竖屏方向 高>宽
+                if (height < width) {
+                    int temp = width;
+                    width = height;
+                    height = temp;
+                }
+            }
+            lp.height = height;
+            lp.width =  width;
+        }
         lp.gravity = Gravity.CENTER;
         lp.windowAnimations = android.R.style.Animation;
         window.setAttributes(lp);
+
     }
 
     @Override
@@ -119,7 +149,7 @@ public class LoginDialog extends AlertDialog{
     public void onBackPressed() {
         super.onBackPressed();
         if (SplusPayManager.getInstance().getLoginCallBack() != null) {
-            SplusPayManager.getInstance().getLoginCallBack() .loginFaile("取消登录操作");
+            SplusPayManager.getInstance().getLoginCallBack().loginFaile("取消登录操作");
         }
 
     }
