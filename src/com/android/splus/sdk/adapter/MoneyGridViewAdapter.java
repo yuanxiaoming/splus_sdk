@@ -80,7 +80,7 @@ public class MoneyGridViewAdapter extends BaseAdapter {
         TextView textView = null;
         if (convertView == null) {
             textView = new TextView(mContext);
-            textView.setBackground(mContext.getResources().getDrawable(
+            textView.setBackgroundDrawable(mContext.getResources().getDrawable(
                     ResourceUtil.getDrawableId(mContext,
                             KR.drawable.splus_recharge_money_item_selector)));
             textView.setMaxWidth(75);

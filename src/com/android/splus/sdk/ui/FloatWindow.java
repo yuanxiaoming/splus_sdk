@@ -6,7 +6,6 @@ import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -675,7 +674,7 @@ public class FloatWindow extends ImageView {
                         //论坛
                         Intent intent = new Intent(mActivity, PersonActivity.class);
                         intent.putExtra(PersonActivity.INTENT_TYPE,
-                                PersonActivity.INTENT_FORUM);
+                                PersonActivity.INTENT_ANNOUNCEMENTS);
                         mActivity.startActivity(intent);
 
                     }
@@ -702,23 +701,13 @@ public class FloatWindow extends ImageView {
             float right = dpTopx(12);
             float bottom = dpTopx(3);
             Drawable drawable = (Drawable) getResources().getDrawable(background);
-            if (android.os.Build.VERSION.SDK_INT >= 16) {
-                setBackground(drawable);
-            } else {
-                setBackgroundDrawable(drawable);
-            }
+            setBackgroundDrawable(drawable);
             setPadding((int) left, (int) top, (int) right, (int) bottom);
         }
 
         public void setIcon(BitmapDrawable drawable) {
             drawable.setAntiAlias(true);
             setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
-        }
-
-        @SuppressLint("NewApi")
-        @Override
-        public void setBackground(Drawable background) {
-            super.setBackground(background);
         }
 
     }

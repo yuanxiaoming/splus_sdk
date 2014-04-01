@@ -29,7 +29,6 @@ import com.android.splus.sdk.ui.rechargeview.RechargeUnionQuotaPayPage;
 import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.r.KR;
-import com.android.splus.sdk.utils.toast.ToastUtil;
 
 import android.app.Activity;
 import android.content.Intent;

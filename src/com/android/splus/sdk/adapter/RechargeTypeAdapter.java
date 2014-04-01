@@ -90,7 +90,7 @@ public class RechargeTypeAdapter extends BaseAdapter {
         } else {
             mImageView = (ImageView) convertView;
         }
-        mImageView.setBackground(mContext.getResources().getDrawable(ResourceUtil.getDrawableId(mContext,mRechargeTypeArrayList.get(position).getImgIcon())));
+        mImageView.setBackgroundDrawable(mContext.getResources().getDrawable(ResourceUtil.getDrawableId(mContext,mRechargeTypeArrayList.get(position).getImgIcon())));
 
         return convertView;
 

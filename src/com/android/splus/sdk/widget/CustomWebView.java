@@ -11,6 +11,7 @@ package com.android.splus.sdk.widget;
 
 import com.android.splus.sdk.utils.log.LogHelper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -45,6 +46,7 @@ import java.util.Map;
  * @date 2013-11-6 上午10:50:23
  */
 
+@SuppressLint("NewApi")
 public class CustomWebView extends WebView {
     private static final String TAG = "CustomWebView";
 
@@ -796,18 +798,18 @@ public class CustomWebView extends WebView {
 
     }
 
-    /**
-     * Title: setFindListener Description:
-     *
-     * @param listener
-     * @see android.webkit.WebView#setFindListener(android.webkit.WebView.FindListener)
-     */
-    @Override
-    public void setFindListener(FindListener listener) {
-        LogHelper.i(TAG, "setFindListener");
-        super.setFindListener(listener);
-
-    }
+//    /**
+//     * Title: setFindListener Description:
+//     *
+//     * @param listener
+//     * @see android.webkit.WebView#setFindListener(android.webkit.WebView.FindListener)
+//     */
+//    @Override
+//    public void setFindListener(FindListener listener) {
+//        LogHelper.i(TAG, "setFindListener");
+//        super.setFindListener(listener);
+//
+//    }
 
     /**
      * Title: findNext Description:
@@ -837,18 +839,18 @@ public class CustomWebView extends WebView {
 
     }
 
-    /**
-     * Title: findAllAsync Description:
-     *
-     * @param find
-     * @see android.webkit.WebView#findAllAsync(java.lang.String)
-     */
-    @Override
-    public void findAllAsync(String find) {
-        LogHelper.i(TAG, "findAllAsync");
-        super.findAllAsync(find);
-
-    }
+//    /**
+//     * Title: findAllAsync Description:
+//     *
+//     * @param find
+//     * @see android.webkit.WebView#findAllAsync(java.lang.String)
+//     */
+//    @Override
+//    public void findAllAsync(String find) {
+//        LogHelper.i(TAG, "findAllAsync");
+//        super.findAllAsync(find);
+//
+//    }
 
     /**
      * Title: showFindDialog Description:
@@ -1377,6 +1379,7 @@ public class CustomWebView extends WebView {
      * @param info
      * @see android.webkit.WebView#onInitializeAccessibilityNodeInfo(android.view.accessibility.AccessibilityNodeInfo)
      */
+    @SuppressLint("NewApi")
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         LogHelper.i(TAG, "onInitializeAccessibilityNodeInfo");
@@ -1397,21 +1400,21 @@ public class CustomWebView extends WebView {
 
     }
 
-    /**
-     * Title: performAccessibilityAction Description:
-     *
-     * @param action
-     * @param arguments
-     * @return
-     * @see android.webkit.WebView#performAccessibilityAction(int,
-     *      android.os.Bundle)
-     */
-    @Override
-    public boolean performAccessibilityAction(int action, Bundle arguments) {
-        LogHelper.i(TAG, "performAccessibilityAction");
-        return super.performAccessibilityAction(action, arguments);
-
-    }
+//    /**
+//     * Title: performAccessibilityAction Description:
+//     *
+//     * @param action
+//     * @param arguments
+//     * @return
+//     * @see android.webkit.WebView#performAccessibilityAction(int,
+//     *      android.os.Bundle)
+//     */
+//    @Override
+//    public boolean performAccessibilityAction(int action, Bundle arguments) {
+//        LogHelper.i(TAG, "performAccessibilityAction");
+//        return super.performAccessibilityAction(action, arguments);
+//
+//    }
 
     /**
      * Title: onOverScrolled Description:
