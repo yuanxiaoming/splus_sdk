@@ -52,9 +52,9 @@ public class NetHttpUtil {
 
     public final static int SUCCESS = 2;
 
-    private final static int TIMEOUT_CONNECTION = 10000;
+    private final static int TIMEOUT_CONNECTION = 20000;
 
-    private final static int TIMEOUT_SOCKET = 20000;
+    private final static int TIMEOUT_SOCKET = 30000;
 
     private final static  boolean REQUEST_GET=false;
 
@@ -147,6 +147,8 @@ public class NetHttpUtil {
                 setCookie(httpResponse);
                 String result = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
                 obj = requestModel.mBaseParser.parseJSON(result);
+            }else{
+                LogHelper.d(TAG, "StatusCode---"+httpResponse.getStatusLine().getStatusCode());
             }
             //结束连接
             httpResponse.getEntity().consumeContent();
@@ -202,6 +204,8 @@ public class NetHttpUtil {
                 setCookie(httpResponse);
                 String result = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
                 obj = requestModel.mBaseParser.parseJSON(result);
+            }else{
+                LogHelper.d(TAG, "StatusCode---"+httpResponse.getStatusLine().getStatusCode());
             }
             //结束连接
             httpResponse.getEntity().consumeContent();

@@ -354,6 +354,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         }
         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                 SplusPayManager.getInstance().getAppkey(), false);
+        LogHelper.i(TAG,"url---"+ NetHttpUtil.hashMapTOgetParams(mRegisterModel, Constant.REGISTER_URL));
         // 一键注册 时注册接口
         getDataFromServer(new RequestModel(Constant.REGISTER_URL, mActivity, mRegisterModel,
                 new LoginParser()), onRegisterCallBack);
@@ -364,6 +365,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             try {
+                LogHelper.i(TAG,"paramObject---"+paramObject.toString());
                 SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                         SplusPayManager.getInstance().getAppkey(), false);
                 closeProgressDialog();
@@ -405,9 +407,9 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                         }
                     } else {
                         if (mRegisterCallBack != null) {
-                            mRegisterCallBack.loginFaile(msg);
+                            mRegisterCallBack.loginFaile("数据异常");
                         }
-                        LogHelper.i(TAG, msg);
+                        LogHelper.i(TAG, "数据异常");
                         ToastUtil.showToast(mActivity, "注册失败");
                     }
                 } else if (paramObject != null && paramObject.getInt("code") == 18) {
@@ -452,7 +454,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                         mRegisterCallBack.loginFaile(msg);
                     }
                     LogHelper.i(TAG, msg);
-                    ToastUtil.showToast(mActivity, "注册失败");
+                    ToastUtil.showToast(mActivity, msg);
 
                 }
 

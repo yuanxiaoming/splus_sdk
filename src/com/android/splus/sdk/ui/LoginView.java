@@ -77,7 +77,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
 
     private CheckBox cb_remember_pwd;
 
-    private LoginModel mLoginData;
+    private LoginModel mLoginModel;
 
     private LoginCallBack mLoginCallBack;
 
@@ -365,14 +365,14 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                 + SplusPayManager.getInstance().getReferer()
                 + SplusPayManager.getInstance().getPartner() + mPassport + mPassword + time;
 
-        mLoginData = new LoginModel(SplusPayManager.getInstance().getGameid(), deviceno,
+        mLoginModel = new LoginModel(SplusPayManager.getInstance().getGameid(), deviceno,
                 SplusPayManager.getInstance().getPartner(), SplusPayManager.getInstance()
                 .getReferer(), mPassport, mPassword, time,
                 MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()));
         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                 SplusPayManager.getInstance().getAppkey(), false);
-        System.out.println( NetHttpUtil.hashMapTOgetParams(mLoginData));
-        getDataFromServer(new RequestModel(Constant.LOGIN_URL, mActivity, mLoginData,
+        LogHelper.i(TAG, "url---"+ NetHttpUtil.hashMapTOgetParams(mLoginModel, Constant.LOGIN_URL));
+        getDataFromServer(new RequestModel(Constant.LOGIN_URL, mActivity, mLoginModel,
                 new LoginParser()), onLoginCallBack);
     }
 
@@ -391,9 +391,12 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             try {
-                String msg = paramObject.optString("msg");
+                LogHelper.i(TAG,"paramObject---"+paramObject.toString());
+                SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
+                        SplusPayManager.getInstance().getAppkey(), false);
                 closeProgressDialog();
                 clickActionedEnableCompons();
+                String msg = paramObject.optString("msg");
                 if (paramObject != null && paramObject.optInt("code") == 1) {
                     JSONObject jsonObject = paramObject.optJSONObject("data");
                     String sessionid = jsonObject.optString("sessionid");
@@ -421,8 +424,11 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                         // BindPhoneDialog.getInstance(mActivity).getBindStatusFromServer(
                         // mProgressDialog, mAlertDialog);
                     } else {
-                        LogHelper.i(TAG, msg);
+                        LogHelper.i(TAG, "数据异常");
                         ToastUtil.showToast(mActivity, "登录失败");
+                        if (mLoginCallBack != null) {
+                            mLoginCallBack.loginFaile("登录失败");
+                        }
                     }
                 } else if (paramObject.getInt("code") == 17) {
                     LogHelper.i(TAG, msg);
@@ -446,8 +452,8 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                     }
 
                 } else {
-                    ToastUtil.showToast(mActivity, "登录失败");
                     LogHelper.i(TAG, msg);
+                    ToastUtil.showToast(mActivity, msg);
                     if (mLoginCallBack != null) {
                         mLoginCallBack.loginFaile(msg);
                     }

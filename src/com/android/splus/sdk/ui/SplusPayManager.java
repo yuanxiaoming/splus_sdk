@@ -442,16 +442,12 @@ public class SplusPayManager implements IPayManager {
         String mac = Phoneuitl.getLocalMacAddress(getContext());
         String imei = Phoneuitl.getIMEI(getContext());
 
-        // String keyString = mGameid + mReferer + mPartner + mac +imei+ time;
-        String keyString = mGameid + mReferer + mPartner + mac + time;
+         String keyString = mGameid + mReferer + mPartner + mac +imei+ time;
+       // String keyString = mGameid + mReferer + mPartner + mac + time;
         String sign = MD5Util.getMd5toLowerCase(keyString + mAppkey);
-        System.out.println("sign-------------" + sign);
         ActiveModel mActiveMode = new ActiveModel(mGameid, mPartner, mReferer, mac, imei, mWidth,
                 mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time, sign);
-
-        System.out.println("url-------------"
-                + NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
-
+        LogHelper.i(TAG, "url---"+ NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
         NetHttpUtil.getDataFromServerPOST(getContext(), new RequestModel(Constant.ACTIVE_URL,
                 getContext(), mActiveMode, new ActiveParser()), onActiveCallBack);
 

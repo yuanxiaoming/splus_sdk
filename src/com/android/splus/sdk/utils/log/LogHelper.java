@@ -13,7 +13,7 @@ public final class LogHelper {
     public  static boolean LOGDBUG = false;
 
     /** 日志级别 显示级别参考 android.util.Log的级别 配置0全部显示，配置大于7全不显示 */
-    public static final int LEVLE = 2;
+    public static final int LEVLE = 0;
 
     public static void v(String tag, String msg) {
         if (LOGDBUG) {
@@ -35,7 +35,7 @@ public final class LogHelper {
     public static void d(String tag, String msg) {
         if (LOGDBUG) {
             if (LEVLE <= Log.VERBOSE) {
-                Log.v(tag, msg);
+                Log.d(tag, msg);
             }
 
         }
@@ -52,7 +52,7 @@ public final class LogHelper {
     public static void i(String tag, String msg) {
         if (LOGDBUG) {
             if (LEVLE <= Log.INFO) {
-                LogHelper.d(tag, msg);
+                Log.i(tag, msg);
             }
         }
     }
@@ -60,7 +60,7 @@ public final class LogHelper {
     public static void i(String tag, String msg, Throwable tr) {
         if (LOGDBUG) {
             if (LEVLE <= Log.INFO) {
-                LogHelper.d(tag, msg, tr);
+                Log.i(tag, msg, tr);
             }
         }
     }

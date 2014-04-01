@@ -9,24 +9,24 @@ public class Constant {
      * url
      */
 
-    //    public static final String URL="http://api.splusgame.com/sdk/";
-    //
-    //    public static final String ACTIVE_URL = URL+"active.php";
-    //
-    //    public static final String LOGIN_URL = URL+"login.php";
-    //
-    //    public static final String REGISTER_URL = URL+"reg.php";
+        public static final String URL="http://api.splusgame.com/sdk/";
+
+        public static final String ACTIVE_URL = URL+"active.php";
+
+        public static final String LOGIN_URL = URL+"login.php";
+
+        public static final String REGISTER_URL = URL+"reg.php";
     //
     //    public static final String HTMLWAPPAY_URL = "http://sy.api.37wan.cn/htmlWapPay_test/payIndex.php";
     //
     //    public static final String RATIO_URL = "http://sy.api.37wan.cn/sdk/ext/pay_way_ratio.php";
     //
 
-    public static final String ACTIVE_URL = "http://sy.api.37wan.cn/sdk/active/active.php";
-
-    public static final String LOGIN_URL = "http://sy.api.37wan.cn/sdk/login/";
-
-    public static final String REGISTER_URL = "http://sy.api.37wan.cn/sdk/reg/reg.php";
+//    public static final String ACTIVE_URL = "http://sy.api.37wan.cn/sdk/active/active.php";
+//
+//    public static final String LOGIN_URL = "http://sy.api.37wan.cn/sdk/login/";
+//
+//    public static final String REGISTER_URL = "http://sy.api.37wan.cn/sdk/reg/reg.php";
 
     public static final String HTMLWAPPAY_URL = "http://sy.api.37wan.cn/htmlWapPay_test/payIndex.php";
 

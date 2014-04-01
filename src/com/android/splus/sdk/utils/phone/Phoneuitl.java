@@ -148,9 +148,6 @@ public class Phoneuitl {
         } catch (Exception e) {
             return screen_w + "*" + screen_h;
         }
-
-        LogHelper.i(TAG, "Run2 Calibration  resolution:" + screen_w + "*" + screen_h);
-
         return screen_w + "*" + screen_h;
     }
 
