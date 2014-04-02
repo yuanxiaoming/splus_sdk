@@ -16,6 +16,9 @@ public class Constant {
         public static final String LOGIN_URL = URL+"login.php";
 
         public static final String REGISTER_URL = URL+"reg.php";
+
+        public static final String PAY_URL = "http://api.splusgame.com/pay/";
+
     //
     //    public static final String HTMLWAPPAY_URL = "http://sy.api.37wan.cn/htmlWapPay_test/payIndex.php";
     //

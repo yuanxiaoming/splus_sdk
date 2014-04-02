@@ -10,7 +10,6 @@
 
 package com.android.splus.sdk.ui.rechargeview;
 
-import com.android.splus.sdk.adapter.MoneyGridViewAdapter;
 import com.android.splus.sdk.alipay.NetworkManager;
 import com.android.splus.sdk.model.RatioModel;
 import com.android.splus.sdk.model.RechargeModel;
@@ -24,12 +23,10 @@ import com.android.splus.sdk.utils.http.NetHttpUtil.DataCallback;
 import com.android.splus.sdk.utils.http.RequestModel;
 import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.md5.MD5Util;
-import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.utils.toast.ToastUtil;
-import com.android.splus.sdk.widget.CustomGridView;
 import com.android.splus.sdk.widget.CustomProgressDialog;
 import com.unionpay.UPPayAssistEx;
 
@@ -40,23 +37,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Editable;
 import android.text.Html;
-import android.text.InputFilter;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -111,8 +98,6 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
     private Integer mType;
 
     protected CustomProgressDialog mProgressDialog;
-
-    private String mMode = "00";// 测试
 
     public RechargeUnionQuotaPayPage(UserModel userModel, Activity activity, String deviceno,
             String appKey, Integer gameid, String partner, String referer, String roleName,
@@ -260,12 +245,8 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
         if (mProgressDialog == null || !mProgressDialog.isShowing()) {
             showProgressDialog();
         }
-        // NetHttpUtil.getDataFromServerPOST(mActivity, new
-        // RequestModel(Constant.HTMLWAPPAY_URL,
-        // mActivity, rechargeModel, new LoginParser()), onRechargeCallBack);
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(
-                "http://121.201.96.82/upmp/examples/purchase.php", mActivity, rechargeModel,
-                new LoginParser()), onRechargeCallBack);
+        LogHelper.i(TAG,"url---"+ NetHttpUtil.hashMapTOgetParams(rechargeModel, Constant.PAY_URL));
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.PAY_URL, mActivity, rechargeModel,new LoginParser()), onRechargeCallBack);
 
     }
 
@@ -274,14 +255,13 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             closeProgressDialog();
-            if (paramObject != null
-                    && (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
+            if (paramObject != null&& (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
                 String orderid = paramObject.optJSONObject("data").optString("orderid");
                 int time = paramObject.optJSONObject("data").optInt("time");
                 String orderinfo = paramObject.optJSONObject("data").optString("orderinfo");
                 String sign = paramObject.optJSONObject("data").optString("sign");
-//                if (sign.equals(MD5Util.getMd5toLowerCase(orderid + time + mAppKey))) {
-                    int startPay = UPPayAssistEx.startPay(mActivity, null, null, orderinfo, mMode);
+                if (sign.equals(MD5Util.getMd5toLowerCase(orderid + time + mAppKey))) {
+                    int startPay = UPPayAssistEx.startPay(mActivity, null, null, orderinfo, RechargeUnionPayPage.RECHARGEUNIONPAYPAGE_MODE);
                     if (startPay == UPPayAssistEx.PLUGIN_NOT_FOUND) {
                         // 需要重新安装控件
                         Log.e(TAG, " plugin not found or need upgrade!!!");
@@ -301,7 +281,7 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
                                                             cachePath);
                                                     // 发送结果
                                                     Message msg = new Message();
-                                                    msg.what = 1;
+                                                    msg.what = RechargeUnionPayPage.UNIONPAY_INSTALL;
                                                     msg.obj = cachePath;
                                                     mHandler.sendMessage(msg);
                                                 }
@@ -317,12 +297,12 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
                                 }, true);
                     }
 
-//                } else {
-//                    result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
-//                    String msg = paramObject.optString("msg");
-//                    LogHelper.d(TAG, msg);
-//                    ToastUtil.showToast(mActivity, msg);
-//                }
+                } else {
+                    result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+                    String msg = "返回数据异常";
+                    LogHelper.d(TAG, msg);
+                    ToastUtil.showToast(mActivity, msg);
+                }
 
             } else {
                 result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
@@ -407,7 +387,7 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
         public void handleMessage(Message msg) {
 
             switch (msg.what) {
-                case 1: {
+                case RechargeUnionPayPage.UNIONPAY_INSTALL: {
                     closeProgressDialog();
                     String cachePath = (String) msg.obj;
                     showInstallAPK(mActivity, cachePath);

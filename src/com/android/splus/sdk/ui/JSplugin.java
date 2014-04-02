@@ -23,6 +23,7 @@ import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.toast.ToastUtil;
 import com.unionpay.UPPayAssistEx;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -45,6 +46,7 @@ import java.util.Map;
  * @date 2013-10-9 上午11:20:57
  */
 
+@SuppressLint("HandlerLeak")
 public class JSplugin {
 
     private static final String TAG = "JSplugin";
@@ -102,7 +104,7 @@ public class JSplugin {
 
             @Override
             public void run() {
-                mJSHandler.sendEmptyMessage(JSplugin.SUCCESS_BACK_RECHARGE);
+                mRechageJSHandler.sendEmptyMessage(JSplugin.SUCCESS_BACK_RECHARGE);
 
             }
         }).start();
@@ -133,7 +135,7 @@ public class JSplugin {
 
             @Override
             public void run() {
-                mJSHandler.sendEmptyMessage(JSplugin.ERROR_BACK_RECHARGE);
+                mRechageJSHandler.sendEmptyMessage(JSplugin.ERROR_BACK_RECHARGE);
 
             }
         }).start();
@@ -151,7 +153,7 @@ public class JSplugin {
                 Message message = new Message();
                 message.what = JSplugin.ALIPAY_RECHARGE;
                 message.obj = orderinfo;
-                mJSHandler.sendMessage(message);
+                mRechageJSHandler.sendMessage(message);
             }
         }).start();
     }
@@ -170,7 +172,7 @@ public class JSplugin {
                 hashMap.put("orderinfo", orderinfo);
                 hashMap.put("money", money);
                 message.obj = hashMap;
-                mJSHandler.sendMessage(message);
+                mRechageJSHandler.sendMessage(message);
             }
         }).start();
     }
@@ -178,6 +180,7 @@ public class JSplugin {
     /**
      * wap页面拨打电话号码
      */
+    @SuppressLint("HandlerLeak")
     @JavascriptInterface
     public void callphone(final String phoneNumber) {
         new Thread(new Runnable() {
@@ -186,13 +189,13 @@ public class JSplugin {
                 Message message = new Message();
                 message.what = JSplugin.CALL_PHONE;
                 message.obj = phoneNumber;
-                mJSHandler.sendMessage(message);
+                mRechageJSHandler.sendMessage(message);
             }
         }).start();
 
     }
 
-    private Handler mJSHandler = new Handler() {
+    private Handler mRechageJSHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case JSplugin.SUCCESS_BACK_RECHARGE:
@@ -284,7 +287,7 @@ public class JSplugin {
         // 支付
         try {
             MobileSecurePayer msp = new MobileSecurePayer();
-            boolean bRet = msp.pay(orderinfo, mHandler, AlixId.RQF_PAY, mActivity);
+            boolean bRet = msp.pay(orderinfo, mAlipayHandler, AlixId.RQF_PAY, mActivity);
             if (bRet) {
                 // 显示“正在支付”进度条
                 mProgress = ProgressDialogUtil.showProgress(mActivity, null, "正在支付", false, true);
@@ -297,7 +300,7 @@ public class JSplugin {
 
     // the handler use to receive the pay result.
     // 这里接收支付结果，支付宝手机端同步通知
-    private Handler mHandler = new Handler() {
+    private Handler mAlipayHandler = new Handler() {
         public void handleMessage(Message msg) {
             closeProgress();
             try {
@@ -344,7 +347,8 @@ public class JSplugin {
             LogHelper.d(TAG, "支付的mActivity为空");
             return;
         }
-        int startPay = UPPayAssistEx.startPay(mActivity, null, null, orderinfo, "00");
+       // 生产环境00，测试01
+        int startPay = UPPayAssistEx.startPay(mActivity, null, null, orderinfo, "01");
         if (startPay == UPPayAssistEx.PLUGIN_NOT_FOUND) {
             // 需要重新安装控件
             Log.e(TAG, " plugin not found or need upgrade!!!");

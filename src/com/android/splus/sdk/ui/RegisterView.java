@@ -407,10 +407,10 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                         }
                     } else {
                         if (mRegisterCallBack != null) {
-                            mRegisterCallBack.loginFaile("数据异常");
+                            mRegisterCallBack.loginFaile("返回数据异常");
                         }
-                        LogHelper.i(TAG, "数据异常");
-                        ToastUtil.showToast(mActivity, "注册失败");
+                        LogHelper.i(TAG, "返回数据异常");
+                        ToastUtil.showToast(mActivity, "返回数据异常");
                     }
                 } else if (paramObject != null && paramObject.getInt("code") == 18) {
                     ToastUtil.showToast(mActivity, msg);

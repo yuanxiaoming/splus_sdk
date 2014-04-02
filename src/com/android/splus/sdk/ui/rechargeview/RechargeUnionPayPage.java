@@ -118,7 +118,9 @@ public class RechargeUnionPayPage extends LinearLayout {
 
     protected CustomProgressDialog mProgressDialog;
 
-    private String mMode = "00";// 测试
+    public final static String RECHARGEUNIONPAYPAGE_MODE = "01";// 生产环境00，测试01
+
+    public final static int UNIONPAY_INSTALL=1;
 
     public RechargeUnionPayPage(UserModel userModel, Activity activity, String deviceno,
             String appKey, Integer gameid, String partner, String referer, String roleName,
@@ -295,7 +297,7 @@ public class RechargeUnionPayPage extends LinearLayout {
      */
 
     private void processLogic() {
-        // getRatio();
+         getRatio();
     }
 
     /**
@@ -308,6 +310,7 @@ public class RechargeUnionPayPage extends LinearLayout {
         String keyString = mGameid + mPayway + time + mAppKey;
         RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time,
                 MD5Util.getMd5toLowerCase(keyString));
+        LogHelper.i(TAG,"url---"+ NetHttpUtil.hashMapTOgetParams(mRatioModel, Constant.RATIO_URL));
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.RATIO_URL,
                 mActivity, mRatioModel, new LoginParser()), onRatioebyCardCallBack);
     }
@@ -388,12 +391,8 @@ public class RechargeUnionPayPage extends LinearLayout {
         if (mProgressDialog == null || !mProgressDialog.isShowing()) {
             showProgressDialog();
         }
-        // NetHttpUtil.getDataFromServerPOST(mActivity, new
-        // RequestModel(Constant.HTMLWAPPAY_URL,
-        // mActivity, rechargeModel, new LoginParser()), onRechargeCallBack);
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(
-                "http://121.201.96.82/upmp/examples/purchase.php", mActivity, rechargeModel,
-                new LoginParser()), onRechargeCallBack);
+        LogHelper.i(TAG,"url---"+ NetHttpUtil.hashMapTOgetParams(rechargeModel, Constant.PAY_URL));
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.PAY_URL, mActivity, rechargeModel,new LoginParser()), onRechargeCallBack);
 
     }
 
@@ -402,14 +401,13 @@ public class RechargeUnionPayPage extends LinearLayout {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             closeProgressDialog();
-            if (paramObject != null
-                    && (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
+            if (paramObject != null&& (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
                 String orderid = paramObject.optJSONObject("data").optString("orderid");
                 int time = paramObject.optJSONObject("data").optInt("time");
                 String orderinfo = paramObject.optJSONObject("data").optString("orderinfo");
                 String sign = paramObject.optJSONObject("data").optString("sign");
-//                if (sign.equals(MD5Util.getMd5toLowerCase(orderid + time + mAppKey))) {
-                    int startPay = UPPayAssistEx.startPay(mActivity, null, null, orderinfo, mMode);
+                if (sign.equals(MD5Util.getMd5toLowerCase(orderid + time + mAppKey))) {
+                    int startPay = UPPayAssistEx.startPay(mActivity, null, null, orderinfo, RECHARGEUNIONPAYPAGE_MODE);
                     if (startPay == UPPayAssistEx.PLUGIN_NOT_FOUND) {
                         // 需要重新安装控件
                         Log.e(TAG, " plugin not found or need upgrade!!!");
@@ -420,6 +418,7 @@ public class RechargeUnionPayPage extends LinearLayout {
                                         if (!UPPayAssistEx.installUPPayPlugin(mActivity)) {
                                             showProgressDialog();
                                             new Thread(new Runnable() {
+
                                                 public void run() {
                                                     String cachePath = mActivity.getCacheDir().getAbsolutePath() + "/UPPayPluginEx.apk";
                                                     // 动态下载
@@ -429,7 +428,7 @@ public class RechargeUnionPayPage extends LinearLayout {
                                                             cachePath);
                                                     // 发送结果
                                                     Message msg = new Message();
-                                                    msg.what = 1;
+                                                    msg.what = UNIONPAY_INSTALL;
                                                     msg.obj = cachePath;
                                                     mHandler.sendMessage(msg);
                                                 }
@@ -445,12 +444,12 @@ public class RechargeUnionPayPage extends LinearLayout {
                                 }, true);
                     }
 
-//                } else {
-//                    result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
-//                    String msg = paramObject.optString("msg");
-//                    LogHelper.d(TAG, msg);
-//                    ToastUtil.showToast(mActivity, msg);
-//                }
+                } else {
+                    result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+                    String msg = "返回数据异常";
+                    LogHelper.d(TAG, msg);
+                    ToastUtil.showToast(mActivity, msg);
+                }
 
             } else {
                 result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
@@ -535,7 +534,7 @@ public class RechargeUnionPayPage extends LinearLayout {
         public void handleMessage(Message msg) {
 
             switch (msg.what) {
-                case 1: {
+                case UNIONPAY_INSTALL: {
                     closeProgressDialog();
                     String cachePath = (String) msg.obj;
                     showInstallAPK(mActivity, cachePath);

@@ -424,10 +424,10 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                         // BindPhoneDialog.getInstance(mActivity).getBindStatusFromServer(
                         // mProgressDialog, mAlertDialog);
                     } else {
-                        LogHelper.i(TAG, "数据异常");
-                        ToastUtil.showToast(mActivity, "登录失败");
+                        LogHelper.i(TAG, "返回数据异常");
+                        ToastUtil.showToast(mActivity, "返回数据异常");
                         if (mLoginCallBack != null) {
-                            mLoginCallBack.loginFaile("登录失败");
+                            mLoginCallBack.loginFaile("返回数据异常");
                         }
                     }
                 } else if (paramObject.getInt("code") == 17) {

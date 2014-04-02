@@ -906,7 +906,7 @@ public class SplusPayManager implements IPayManager {
         }
         long time = DateUtil.getUnixTime();
         String deviceno = SharedPreferencesHelper.getInstance().getdevicenoPreferences(activity);
-        String keyString = getGameid()+ deviceno + getReferer() + getPartner()+ uid + passport + roleName + level + time;
+        String keyString = getGameid()+ deviceno + getReferer() + getPartner()+ uid + passport + serverName+roleName + level + time;
         GameStatisticsModel mGameStatisticsModel = new GameStatisticsModel(getGameid(),
                 deviceno,getPartner(),getReferer(), uid, passport, roleName, level, serverName, time,MD5Util.getMd5toLowerCase(keyString));
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(

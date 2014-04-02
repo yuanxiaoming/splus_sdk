@@ -154,10 +154,9 @@ public class RechargeSelectActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                //密码找回界面
+                // 密码找回界面
                 Intent intent = new Intent(mActivity, PersonActivity.class);
-                intent.putExtra(PersonActivity.INTENT_TYPE,
-                PersonActivity.INTENT_SQ);
+                intent.putExtra(PersonActivity.INTENT_TYPE, PersonActivity.INTENT_SQ);
                 mActivity.startActivity(intent);
             }
         });
@@ -259,7 +258,8 @@ public class RechargeSelectActivity extends BaseActivity {
             }
         }
 
-        if ((RechargeCardPage.class.getName().equals(mCurrentPage) && mRechargeCardPage != null)||(RechargeCardQuotaPage.class.getName().equals(mCurrentPage) && mRechargeCardQuotaPage != null)) {
+        if ((RechargeCardPage.class.getName().equals(mCurrentPage) && mRechargeCardPage != null)
+                || (RechargeCardQuotaPage.class.getName().equals(mCurrentPage) && mRechargeCardQuotaPage != null)) {
 
             switch (mRechargeTypeModel.getRechargeType()) {
                 case Constant.CHAIN_CMM:
@@ -284,7 +284,8 @@ public class RechargeSelectActivity extends BaseActivity {
             recharge_titlr_middle_text.setText("人工充值");
         }
 
-        if ((RechargeUnionPayPage.class.getName().equals(mCurrentPage)&& mRechargeUnionPayPage != null)||(RechargeUnionQuotaPayPage.class.getName().equals(mCurrentPage)&& mRechargeUnionQuotaPayPage != null)) {
+        if ((RechargeUnionPayPage.class.getName().equals(mCurrentPage) && mRechargeUnionPayPage != null)
+                || (RechargeUnionQuotaPayPage.class.getName().equals(mCurrentPage) && mRechargeUnionQuotaPayPage != null)) {
 
             recharge_titlr_middle_text.setText("银联");
         }
@@ -626,16 +627,42 @@ public class RechargeSelectActivity extends BaseActivity {
              * 处理银联手机支付控件返回的支付结果 支付控件返回字符串:success、fail、cancel
              * 分别代表支付成功，支付失败，支付取消
              ************************************************/
-            if (mRechargeUnionPayPage == null) {
+            if (mRechargeUnionPayPage == null && mRechargeUnionQuotaPayPage == null) {
                 return;
             }
             String str = data.getExtras().getString("pay_result");
             if (str.equalsIgnoreCase("success")) {
-                mRechargeUnionPayPage.result_intent(Constant.RECHARGE_RESULT_SUCCESS_TIPS);
+                if (mType == Constant.RECHARGE_BY_NO_QUATO) {
+                    if (mRechargeUnionPayPage != null) {
+                        mRechargeUnionPayPage.result_intent(Constant.RECHARGE_RESULT_SUCCESS_TIPS);
+                    }
+                } else if (mType == Constant.RECHARGE_BY_QUATO) {
+                    if (mRechargeUnionQuotaPayPage != null) {
+                        mRechargeUnionQuotaPayPage.result_intent(Constant.RECHARGE_RESULT_SUCCESS_TIPS);
+                    }
+                }
+
             } else if (str.equalsIgnoreCase("fail")) {
-                mRechargeUnionPayPage.result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+                if (mType == Constant.RECHARGE_BY_NO_QUATO) {
+                    if (mRechargeUnionPayPage != null) {
+                        mRechargeUnionPayPage.result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+                    }
+                } else if (mType == Constant.RECHARGE_BY_QUATO) {
+                    if (mRechargeUnionQuotaPayPage != null) {
+                        mRechargeUnionQuotaPayPage.result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+                    }
+                }
+
             } else if (str.equalsIgnoreCase("cancel")) {
-                mRechargeUnionPayPage.result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+                if (mType == Constant.RECHARGE_BY_NO_QUATO) {
+                    if (mRechargeUnionPayPage != null) {
+                        mRechargeUnionPayPage.result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+                    }
+                } else if (mType == Constant.RECHARGE_BY_QUATO) {
+                    if (mRechargeUnionQuotaPayPage != null) {
+                        mRechargeUnionQuotaPayPage.result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+                    }
+                }
             }
         }
 
