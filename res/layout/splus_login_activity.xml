@@ -62,14 +62,20 @@
                         android:textColor="#9a9a9a"
                         android:textSize="15dp" />
 
-                    <TextView
+                    <com.android.splus.sdk.widget.ScrollForeverTextView
                         android:id="@+id/splus_login_tv_forgetpassword"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:gravity="center_vertical"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
                         android:textColor="#9a9a9a"
                         android:textSize="15dp" />
                 </RelativeLayout>

@@ -29,6 +29,7 @@ import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 import com.android.splus.sdk.utils.toast.ToastUtil;
 import com.android.splus.sdk.widget.CustomProgressDialog;
+import com.android.splus.sdk.widget.ScrollForeverTextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,7 +74,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
 
     private Button btn_register, btn_login;
 
-    private TextView tv_fortgetPwd;
+    private ScrollForeverTextView tv_fortgetPwd;
 
     private CheckBox cb_remember_pwd;
 
@@ -135,7 +136,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                 .getId(mActivity, KR.id.splus_login_btn_login));
 
         btn_login.setText(KR.string.splus_login_btn_text);
-        tv_fortgetPwd = (TextView) findViewById(ResourceUtil.getId(mActivity,
+        tv_fortgetPwd = (ScrollForeverTextView) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_login_tv_forgetpassword));
         tv_fortgetPwd.setText((Html.fromHtml("<u>" + "忘记密码" + "</u>")));
         cb_remember_pwd = (CheckBox) findViewById(ResourceUtil.getId(mActivity,
