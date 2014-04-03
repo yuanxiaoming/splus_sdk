@@ -87,11 +87,11 @@ public final class KR {
         /**
          * 登录绑定手机
          */
-        public static final String slpus_login_bindphone_num = "slpus_login_bindphone_num";
-        public static final String slpus_login_bindphone_later = "slpus_login_bindphone_later";
-        public static final String slpus_login_bindphone_get_code = "slpus_login_bindphone_get_code";
-        public static final String slpus_login_bindphone_tv_firstline = "slpus_login_bindphone_tv_firstline";
-        public static final String slpus_login_bindphone_tv_secondline = "slpus_login_bindphone_tv_secondline";
+        public static final String splus_login_bindphone_num = "splus_login_bindphone_num";
+        public static final String splus_login_bindphone_later = "splus_login_bindphone_later";
+        public static final String splus_login_bindphone_get_code = "splus_login_bindphone_get_code";
+        public static final String splus_login_bindphone_tv_firstline = "splus_login_bindphone_tv_firstline";
+        public static final String splus_login_bindphone_tv_secondline = "splus_login_bindphone_tv_secondline";
 
 
         /**

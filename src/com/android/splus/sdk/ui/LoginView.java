@@ -199,88 +199,91 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                     return;
                 }
                 //密码找回界面
-                 Intent intent = new Intent(mActivity, PersonActivity.class);
-                 intent.putExtra(PersonActivity.INTENT_TYPE,
-                 PersonActivity.INTENT_SQ);
-                 intent.putExtra(Constant.LOGIN_INTENT_USERNAME,
-                 et_userName.getText().toString());
-                 intent.putExtra(Constant.LOGIN_INTENT_USERPWD,
-                         et_password.getText().toString());
-                 if(et_userName.getText().toString().equals(SplusPayManager.getInstance().getUserModel().getPassport())){
-                 intent.putExtra(Constant.LOGIN_INTENT_USERID,
-                         SplusPayManager.getInstance().getUserModel().getUid());
-                 }
-                 mActivity.startActivity(intent);
-
-            }
-        });
-        et_userName.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                et_password.setText(null);
-                CommonUtil.setEditTextInputTypeAndMaxlength(s, 20);
-            }
-        });
-        et_password.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                CommonUtil.setEditTextInputTypeAndMaxlength(s, 20);
-
-            }
-        });
-        iv_more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isQuickClick()) {
-                    return;
-                }else if (popView != null) {
-                    if (!popView.isShowing() && (mAllUsers != null && mAllUsers.size() > 0)) {
-                        // 如果有已经登录过账号
-                        initPopView();
-                        popView.showAsDropDown(et_userName, 0, 1);
-                    } else {
-                        popView.dismiss();
+                Intent intent = new Intent(mActivity, PersonActivity.class);
+                intent.putExtra(PersonActivity.INTENT_TYPE,
+                        PersonActivity.INTENT_SQ);
+                intent.putExtra(Constant.LOGIN_INTENT_USERNAME,et_userName.getText().toString());
+                intent.putExtra(Constant.LOGIN_INTENT_USERPWD,et_password.getText().toString());
+                UserModel userModel = SplusPayManager.getInstance().getUserModel();
+                if (userModel == null) {
+                    userModel = AppUtil.getUserData();
+                }
+                if(userModel != null){
+                    if(et_userName.getText().toString().equals(userModel.getPassport())){
+                        intent.putExtra(Constant.LOGIN_INTENT_USERID,userModel.getUid());
                     }
                 }
-            }
-        });
-        iv_close.setOnClickListener(new OnClickListener() {
+                mActivity.startActivity(intent);
 
-            @Override
-            public void onClick(View v) {
-                if (isQuickClick()) {
-                    return;
-                }
-                clickDisableCompons();
-                closeDialog(mAlertDialog);
-                clickActionedEnableCompons();
-                if (mLoginCallBack != null) {
-                    mLoginCallBack.loginFaile("取消登录操作");
-                }
             }
         });
+                et_userName.addTextChangedListener(new TextWatcher() {
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        et_password.setText(null);
+                        CommonUtil.setEditTextInputTypeAndMaxlength(s, 20);
+                    }
+                });
+                et_password.addTextChangedListener(new TextWatcher() {
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        CommonUtil.setEditTextInputTypeAndMaxlength(s, 20);
+
+                    }
+                });
+                iv_more.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (isQuickClick()) {
+                            return;
+                        }else if (popView != null) {
+                            if (!popView.isShowing() && (mAllUsers != null && mAllUsers.size() > 0)) {
+                                // 如果有已经登录过账号
+                                initPopView();
+                                popView.showAsDropDown(et_userName, 0, 1);
+                            } else {
+                                popView.dismiss();
+                            }
+                        }
+                    }
+                });
+                iv_close.setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        if (isQuickClick()) {
+                            return;
+                        }
+                        clickDisableCompons();
+                        closeDialog(mAlertDialog);
+                        clickActionedEnableCompons();
+                        if (mLoginCallBack != null) {
+                            mLoginCallBack.loginFaile("取消登录操作");
+                        }
+                    }
+                });
 
     }
 

@@ -230,10 +230,10 @@ public class BindPhoneDialog extends AlertDialog {
 
     private void initViews() {
         mPhone_et = (EditText) findViewById(ResourceUtil
-                .getId(mActivity, KR.id.slpus_login_bindphone_num));
-        mBtnCode = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.slpus_login_bindphone_get_code));
+                .getId(mActivity, KR.id.splus_login_bindphone_num));
+        mBtnCode = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_bindphone_get_code));
         mBtnCode.setTextColor(Color.WHITE);
-        mBtnLater = (Button) findViewById(ResourceUtil.getId(mActivity,KR.id.slpus_login_bindphone_later));
+        mBtnLater = (Button) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_login_bindphone_later));
         mBtnLater.setTextColor(Color.WHITE);
         mCloseWindow = (ImageView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_login_iv_close));
 
@@ -241,11 +241,11 @@ public class BindPhoneDialog extends AlertDialog {
         mBtnCode.setText(KR.string.splus_person_account_phone_unrelated_getcode_btn);
         mBtnLater.setText(KR.string.splus_login_bindphone_submit);
 
-        bind_phone_tv_firstline = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.slpus_login_bindphone_tv_firstline));
+        bind_phone_tv_firstline = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_bindphone_tv_firstline));
         bind_phone_tv_firstline.setText("您的账号很危险!");
         bind_phone_tv_firstline.setTextColor(Color.parseColor("#fe792e"));
         bind_phone_tv_firstline.setSingleLine();
-        bind_phone_tv_secondline = (TextView) findViewById(ResourceUtil.getId(mActivity,KR.id.slpus_login_bindphone_tv_secondline));
+        bind_phone_tv_secondline = (TextView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_login_bindphone_tv_secondline));
         bind_phone_tv_secondline.setText("请尽快绑定手机,忘记密码后可及时通过手机找回");
         ImageView iv_title = (ImageView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_login_iv_title));
         iv_title.setImageResource(ResourceUtil.getDrawableId(mActivity,KR.drawable.splus_login_bindphone_safe));

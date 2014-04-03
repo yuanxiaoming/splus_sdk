@@ -61,11 +61,11 @@ public class BindPhoneSuccessView extends LinearLayout {
 
     private void initView() {
         TextView bind_phone_tv_firstline = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.slpus_login_bindphone_tv_firstline));
+                KR.id.splus_login_bindphone_tv_firstline));
         bind_phone_tv_firstline.setTextColor(Color.parseColor("#9a9a9a"));
         bind_phone_tv_firstline.setText("37wan账号:" + account);
         TextView bind_phone_tv_secondline = (TextView) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.slpus_login_bindphone_tv_secondline));
+                mActivity, KR.id.splus_login_bindphone_tv_secondline));
         bind_phone_tv_secondline.setTextColor(Color.parseColor("#9a9a9a"));
         bind_phone_tv_secondline.setText("手机号:" + phone);
         ImageView ch_login_iv_close = (ImageView) findViewById(ResourceUtil.getId(mActivity,
@@ -83,7 +83,7 @@ public class BindPhoneSuccessView extends LinearLayout {
         });
 
         Button ch_bindphone_finish = (Button) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.slpus_login_bindphone_later));
+                KR.id.splus_login_bindphone_later));
         ch_bindphone_finish.setText(KR.string.splus_login_bindphone_success_finished);
         ch_bindphone_finish.setOnClickListener(new OnClickListener() {
 

@@ -120,7 +120,7 @@ public class RechargeUnionPayPage extends LinearLayout {
 
     public final static String RECHARGEUNIONPAYPAGE_MODE = "01";// 生产环境00，测试01
 
-    public final static int UNIONPAY_INSTALL=1;
+    public final static int UNIONPAY_INSTALL = 1;
 
     public RechargeUnionPayPage(UserModel userModel, Activity activity, String deviceno,
             String appKey, Integer gameid, String partner, String referer, String roleName,
@@ -197,15 +197,13 @@ public class RechargeUnionPayPage extends LinearLayout {
 
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             // 竖屏
-             recharge_money_gridview_select.setNumColumns(3);
-             recharge_money_gridview_select.setLayoutParams(new
-             LinearLayout.LayoutParams(
-             FrameLayout.LayoutParams.MATCH_PARENT,
-             FrameLayout.LayoutParams.MATCH_PARENT,
-             Gravity.CENTER));
-             recharge_money_gridview_select.setPadding(5, 20, 5, 20);
-             recharge_money_gridview_select.setVerticalSpacing(40);
-             recharge_money_gridview_select.setHorizontalSpacing(20);
+            recharge_money_gridview_select.setNumColumns(3);
+            recharge_money_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
+                    Gravity.CENTER));
+            recharge_money_gridview_select.setPadding(5, 20, 5, 20);
+            recharge_money_gridview_select.setVerticalSpacing(40);
+            recharge_money_gridview_select.setHorizontalSpacing(20);
 
         }
         recharge_money_gridview_select.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -297,7 +295,7 @@ public class RechargeUnionPayPage extends LinearLayout {
      */
 
     private void processLogic() {
-         getRatio();
+        getRatio();
     }
 
     /**
@@ -310,7 +308,8 @@ public class RechargeUnionPayPage extends LinearLayout {
         String keyString = mGameid + mPayway + time + mAppKey;
         RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time,
                 MD5Util.getMd5toLowerCase(keyString));
-        LogHelper.i(TAG,"url---"+ NetHttpUtil.hashMapTOgetParams(mRatioModel, Constant.RATIO_URL));
+        LogHelper
+                .i(TAG, "url---" + NetHttpUtil.hashMapTOgetParams(mRatioModel, Constant.RATIO_URL));
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.RATIO_URL,
                 mActivity, mRatioModel, new LoginParser()), onRatioebyCardCallBack);
     }
@@ -320,13 +319,17 @@ public class RechargeUnionPayPage extends LinearLayout {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             if (paramObject != null && paramObject.optInt("code") == 1) {
-                mCoin_name = paramObject.optJSONObject("data").optString("coin_name");
-                mRatio = paramObject.optJSONObject("data").optInt("ratio");
-                setGetMoneyTextPure(mRenminbi);
+                JSONObject optJSONObject = paramObject.optJSONObject("data");
+                if (optJSONObject != null) {
+                    mCoin_name = optJSONObject.optString("coin_name");
+                    mRatio = optJSONObject.optInt("ratio");
+                    setGetMoneyTextPure(mRenminbi);
+                }
             } else {
-                String msg = paramObject.optJSONObject("data").optString("msg");
+                String msg = paramObject.optString("msg");
                 LogHelper.d(TAG, msg);
             }
+
         }
 
         @Override
@@ -354,33 +357,31 @@ public class RechargeUnionPayPage extends LinearLayout {
     /**
      * 核查充值金额
      */
-     private boolean checkInputMoney(Float userMoney) {
-         if (mUserModel.getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
-             if (userMoney < 0.01) {
-                 ToastUtil.showToast(mActivity,"单次充值最低0.01元起，请重新输入金额");
-                 return false;
-             }
-         } else {
-             if (userMoney < 10) {
-                 ToastUtil.showToast(mActivity,"单次充值最低10元起，请重新输入金额");
-                 return false;
-             }
-         }
-         return true;
+    private boolean checkInputMoney(Float userMoney) {
+        if (mUserModel.getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
+            if (userMoney < 0.01) {
+                ToastUtil.showToast(mActivity, "单次充值最低0.01元起，请重新输入金额");
+                return false;
+            }
+        } else {
+            if (userMoney < 10) {
+                ToastUtil.showToast(mActivity, "单次充值最低10元起，请重新输入金额");
+                return false;
+            }
+        }
+        return true;
 
-     }
+    }
 
     /**
-     *
      * @Title: payQuest(发起充值请求)
      * @author xiaoming.yuan
-     * @data 2014-3-18 上午10:21:38
-     * void 返回类型
+     * @data 2014-3-18 上午10:21:38 void 返回类型
      */
     private void payQuest() {
-        if(!checkInputMoney(mRenminbi)){
+        if (!checkInputMoney(mRenminbi)) {
             return;
-         }
+        }
 
         long time = DateUtil.getUnixTime();
         String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner
@@ -391,8 +392,10 @@ public class RechargeUnionPayPage extends LinearLayout {
         if (mProgressDialog == null || !mProgressDialog.isShowing()) {
             showProgressDialog();
         }
-        LogHelper.i(TAG,"url---"+ NetHttpUtil.hashMapTOgetParams(rechargeModel, Constant.PAY_URL));
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.PAY_URL, mActivity, rechargeModel,new LoginParser()), onRechargeCallBack);
+        LogHelper
+                .i(TAG, "url---" + NetHttpUtil.hashMapTOgetParams(rechargeModel, Constant.PAY_URL));
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.PAY_URL, mActivity,
+                rechargeModel, new LoginParser()), onRechargeCallBack);
 
     }
 
@@ -401,54 +404,63 @@ public class RechargeUnionPayPage extends LinearLayout {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             closeProgressDialog();
-            if (paramObject != null&& (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
-                String orderid = paramObject.optJSONObject("data").optString("orderid");
-                int time = paramObject.optJSONObject("data").optInt("time");
-                String orderinfo = paramObject.optJSONObject("data").optString("orderinfo");
-                String sign = paramObject.optJSONObject("data").optString("sign");
-                if (sign.equals(MD5Util.getMd5toLowerCase(orderid + time + mAppKey))) {
-                    int startPay = UPPayAssistEx.startPay(mActivity, null, null, orderinfo, RECHARGEUNIONPAYPAGE_MODE);
-                    if (startPay == UPPayAssistEx.PLUGIN_NOT_FOUND) {
-                        // 需要重新安装控件
-                        Log.e(TAG, " plugin not found or need upgrade!!!");
-                        ProgressDialogUtil.showInfoDialog(mActivity, "提示", "完成购买需要安装银联支付控件，是否安装？",
-                                0, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (!UPPayAssistEx.installUPPayPlugin(mActivity)) {
-                                            showProgressDialog();
-                                            new Thread(new Runnable() {
+            if (paramObject != null
+                    && (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
+                JSONObject optJSONObject = paramObject.optJSONObject("data");
+                if (optJSONObject != null) {
+                    String orderid = optJSONObject.optString("orderid");
+                    int time = optJSONObject.optInt("time");
+                    String orderinfo = optJSONObject.optString("orderinfo");
+                    String sign = optJSONObject.optString("sign");
+                    if (sign.equals(MD5Util.getMd5toLowerCase(orderid + time + mAppKey))) {
+                        int startPay = UPPayAssistEx.startPay(mActivity, null, null, orderinfo,
+                                RECHARGEUNIONPAYPAGE_MODE);
+                        if (startPay == UPPayAssistEx.PLUGIN_NOT_FOUND) {
+                            // 需要重新安装控件
+                            Log.e(TAG, " plugin not found or need upgrade!!!");
+                            ProgressDialogUtil.showInfoDialog(mActivity, "提示",
+                                    "完成购买需要安装银联支付控件，是否安装？", 0,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (!UPPayAssistEx.installUPPayPlugin(mActivity)) {
+                                                showProgressDialog();
+                                                new Thread(new Runnable() {
 
-                                                public void run() {
-                                                    String cachePath = mActivity.getCacheDir().getAbsolutePath() + "/UPPayPluginEx.apk";
-                                                    // 动态下载
-                                                    retrieveApkFromNet(
-                                                            mActivity,
-                                                            "http://mobile.unionpay.com/getclient?platform=android&type=securepayplugin",
-                                                            cachePath);
-                                                    // 发送结果
-                                                    Message msg = new Message();
-                                                    msg.what = UNIONPAY_INSTALL;
-                                                    msg.obj = cachePath;
-                                                    mHandler.sendMessage(msg);
-                                                }
-                                            }).start();
+                                                    public void run() {
+                                                        String cachePath = mActivity.getCacheDir()
+                                                                .getAbsolutePath()
+                                                                + "/UPPayPluginEx.apk";
+                                                        // 动态下载
+                                                        retrieveApkFromNet(
+                                                                mActivity,
+                                                                "http://mobile.unionpay.com/getclient?platform=android&type=securepayplugin",
+                                                                cachePath);
+                                                        // 发送结果
+                                                        Message msg = new Message();
+                                                        msg.what = UNIONPAY_INSTALL;
+                                                        msg.obj = cachePath;
+                                                        mHandler.sendMessage(msg);
+                                                    }
+                                                }).start();
+                                            }
                                         }
-                                    }
-                                }, new DialogInterface.OnClickListener() {
+                                    }, new DialogInterface.OnClickListener() {
 
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }, true);
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    }, true);
+                        }
+
+                    } else {
+                        result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
+                        String msg = "返回数据异常";
+                        LogHelper.d(TAG, msg);
+                        ToastUtil.showToast(mActivity, msg);
                     }
 
-                } else {
-                    result_intent(Constant.RECHARGE_RESULT_FAIL_TIPS);
-                    String msg = "返回数据异常";
-                    LogHelper.d(TAG, msg);
-                    ToastUtil.showToast(mActivity, msg);
                 }
 
             } else {
@@ -471,12 +483,10 @@ public class RechargeUnionPayPage extends LinearLayout {
     };
 
     /**
-     *
      * @Title: result_intent(跳转到支付界面)
      * @author xiaoming.yuan
      * @data 2014-3-17 上午11:06:05
-     * @param rechage_type
-     * void 返回类型
+     * @param rechage_type void 返回类型
      */
     public void result_intent(String rechage_type) {
         Intent intent = new Intent();
@@ -552,21 +562,21 @@ public class RechargeUnionPayPage extends LinearLayout {
      */
     public void showInstallAPK(final Context context, final String cachePath) {
 
-                // 修改apk权限
-                try {
-                    String command = "chmod " + "777" + " " + cachePath;
-                    Runtime runtime = Runtime.getRuntime();
-                    runtime.exec(command);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    ToastUtil.showToast(context, "安装失败");
-                }
-                // 安装安全支付服务APK
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setDataAndType(Uri.parse("file://" + cachePath),
-                        "application/vnd.android.package-archive");
-                context.startActivity(intent);
+        // 修改apk权限
+        try {
+            String command = "chmod " + "777" + " " + cachePath;
+            Runtime runtime = Runtime.getRuntime();
+            runtime.exec(command);
+        } catch (IOException e) {
+            e.printStackTrace();
+            ToastUtil.showToast(context, "安装失败");
+        }
+        // 安装安全支付服务APK
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setDataAndType(Uri.parse("file://" + cachePath),
+                "application/vnd.android.package-archive");
+        context.startActivity(intent);
 
     }
 

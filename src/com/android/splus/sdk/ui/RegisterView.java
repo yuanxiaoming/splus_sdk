@@ -71,7 +71,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
 
     private EditText et_userName, et_password;
 
-    private ImageView iv_close, iv_more, iv_title;
+    private ImageView iv_close, iv_more, iv_title,iv_login_back;
 
     private Button btn_login;
 
@@ -153,6 +153,10 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                 KR.id.splus_login_iv_title));
         iv_title.setImageResource(ResourceUtil.getDrawableId(mActivity,
                 KR.drawable.splus_register_title));
+
+        iv_login_back=(ImageView) findViewById(ResourceUtil.getId(mActivity,
+                KR.id.splus_login_back));
+        iv_login_back.setVisibility(View.VISIBLE);
         // 输入框
         TextView splus_login_account_title = (TextView) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_login_account_title));
@@ -265,6 +269,14 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
                         et_password.setText(text.subSequence(0, lenght - 1));
                     }
                 }
+            }
+        });
+        iv_login_back.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mAlertDialog.changeView(LoginView.class.getSimpleName());
+
             }
         });
     }
