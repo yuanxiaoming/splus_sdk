@@ -27,13 +27,13 @@ import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.utils.toast.ToastUtil;
-import com.android.splus.sdk.widget.CustomProgressDialog;
 import com.android.splus.sdk.widget.CustomTextWatcher;
 import com.android.splus.sdk.widget.SmsReceiver;
 import com.android.splus.sdk.widget.SmsReceiver.SmsListener;
 
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -72,7 +72,7 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
     /**
      * 平台号码
      */
-    public static final String Phone = "106550200589133839";
+    public static final String PHONE = "106550200589133839";
 
     private Activity mActivity;
 
@@ -161,7 +161,7 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
             mLandscape = false;
         }
 
-        mSmsReceiver = new SmsReceiver(Phone, mSmsListener);
+        mSmsReceiver = new SmsReceiver(PHONE, mSmsListener);
         init();
     }
 
@@ -491,7 +491,8 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
     /**
      * 倒计时Handler
      */
-    private Handler clockHandler = new Handler() {
+    @SuppressLint("HandlerLeak")
+    private Handler mClockHandler = new Handler() {
         public void handleMessage(Message msg) {
             // 显示倒数秒数
             if (mSecond <= 0) {
@@ -531,7 +532,7 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
         mTaskClock = new TimerTask() {
             @Override
             public void run() {
-                clockHandler.sendEmptyMessage(0);
+                mClockHandler.sendEmptyMessage(0);
             }
         };
         mTimerClock = new Timer();

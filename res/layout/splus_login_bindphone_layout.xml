@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/splus_login_bg_shape"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0.0dp"
+            android:layout_weight="1.0"
+            android:scrollbars="@null" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <include
+                    android:id="@+id/slpus_login_bindphone_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    layout="@layout/splus_login_title" />
+
+                <TextView
+                    android:id="@+id/slpus_login_bindphone_tv_firstline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:textColor="#fe692e"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/slpus_login_bindphone_tv_secondline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:textColor="#9a9a9a"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/slpus_login_bindphone_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/splus_login_et_bg_selector"
+                    android:bufferType="editable"
+                    android:digits="0123456789"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    android:paddingLeft="6dp"
+                    android:singleLine="true"
+                    android:textColor="#9a9a9a"
+                    android:textColorHint="#c1c1c1"
+                    android:textSize="18dip" />
+
+                <Button
+                    android:id="@+id/slpus_login_bindphone_get_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/splus_login_btn_register_bg_selector"
+                    android:gravity="center"
+                    android:minWidth="180dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/splus_login_bg_devider" />
+
+                <Button
+                    android:id="@+id/slpus_login_bindphone_later"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/splus_login_bind_phone_btn_selector"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:textColor="#ffffff"
+                    android:textSize="18dip" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

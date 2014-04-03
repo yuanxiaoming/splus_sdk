@@ -85,6 +85,16 @@ public final class KR {
 
 
         /**
+         * 登录绑定手机
+         */
+        public static final String slpus_login_bindphone_num = "slpus_login_bindphone_num";
+        public static final String slpus_login_bindphone_later = "slpus_login_bindphone_later";
+        public static final String slpus_login_bindphone_get_code = "slpus_login_bindphone_get_code";
+        public static final String slpus_login_bindphone_tv_firstline = "slpus_login_bindphone_tv_firstline";
+        public static final String slpus_login_bindphone_tv_secondline = "slpus_login_bindphone_tv_secondline";
+
+
+        /**
          * 充值模块
          */
         public static final String splus_recharge_title_bar_left_button = "splus_recharge_title_bar_left_button";
@@ -261,6 +271,15 @@ public final class KR {
 
         public static final String splus_register_clause_dialog = "splus_register_clause_dialog";
 
+
+        /**
+         * 登陆模块手机绑定
+         */
+
+        public static final String splus_login_bindphone_layout = "splus_login_bindphone_layout";
+
+        public static final String splus_login_bindphone_success = "splus_login_bindphone_success";
+
         /**
          * 选择充值模块
          */
@@ -324,6 +343,10 @@ public final class KR {
         public static final String splus_login_success_toast_logo = "splus_login_success_toast_logo";
 
         public static final String splus_login_bg_devider= "splus_login_bg_devider";
+
+        public static final String splus_login_bindphone_safe= "splus_login_bindphone_safe";
+
+        public static final String splus_login_bindphone_success= "splus_login_bindphone_success";
 
         public static final String splus_splash_loading = "splus_splash_loading";
 
@@ -395,6 +418,14 @@ public final class KR {
         public static final String splus_login_account_title = "账号 : ";
 
         public static final String splus_login_password_title = "密码 : ";
+
+        public static final String splus_login_bindphone_submit = "下次再说";
+
+        public static final String splus_login_bindphone_resend = "重新发送验证码";
+
+        public static final String splus_login_bindphone_success_finished = "完成";
+
+
 
         /**
          * 注册文字
