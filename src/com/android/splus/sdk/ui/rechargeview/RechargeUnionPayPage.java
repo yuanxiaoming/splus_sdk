@@ -188,22 +188,18 @@ public class RechargeUnionPayPage extends LinearLayout {
             // 横屏
             recharge_money_gridview_select.setNumColumns(6);
             recharge_money_gridview_select.setColumnWidth(40);
-            recharge_money_gridview_select.setGravity(Gravity.CENTER);
-            recharge_money_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
-                    Gravity.CENTER));
-            recharge_money_gridview_select.setVerticalSpacing(30);
+            recharge_money_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER));
+         //   recharge_money_gridview_select.setPadding(5, 20, 5, 20);
+            recharge_money_gridview_select.setVerticalSpacing(20);
             recharge_money_gridview_select.setHorizontalSpacing(20);
 
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             // 竖屏
             recharge_money_gridview_select.setNumColumns(3);
-            recharge_money_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
-                    Gravity.CENTER));
+            recharge_money_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,Gravity.CENTER));
             recharge_money_gridview_select.setPadding(5, 20, 5, 20);
-            recharge_money_gridview_select.setVerticalSpacing(40);
-            recharge_money_gridview_select.setHorizontalSpacing(20);
+            recharge_money_gridview_select.setVerticalSpacing(30);
+            recharge_money_gridview_select.setHorizontalSpacing(30);
 
         }
         recharge_money_gridview_select.setGravity(Gravity.CENTER_HORIZONTAL);

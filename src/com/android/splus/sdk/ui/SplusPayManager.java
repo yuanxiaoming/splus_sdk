@@ -683,7 +683,6 @@ public class SplusPayManager implements IPayManager {
         this.mMoney = null;
         Intent intent = new Intent(activity, RechargeSelectActivity.class);
         intent.putExtra(RechargeSelectActivity.class.getName(), Constant.RECHARGE_BY_NO_QUATO);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
 
     }
@@ -765,7 +764,6 @@ public class SplusPayManager implements IPayManager {
         this.mMoney = money;
         Intent intent = new Intent(activity, RechargeSelectActivity.class);
         intent.putExtra(RechargeSelectActivity.class.getName(), Constant.RECHARGE_BY_QUATO);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
 
     }

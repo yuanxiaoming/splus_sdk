@@ -509,8 +509,7 @@ public class PersonActivity extends BaseActivity {
         if (mLogoutCallBack != null) {
             mLogoutCallBack.logoutCallBack();
         }else{
-            Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(
-                    getBaseContext().getPackageName());
+            Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
         }

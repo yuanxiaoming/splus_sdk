@@ -170,8 +170,7 @@ public class RechargeResultActivity extends BaseActivity {
 
                 }
                 Intent intent = new Intent(mActivity, PersonActivity.class);
-                intent.putExtra(PersonActivity.INTENT_TYPE,
-                PersonActivity.INTENT_SQ);
+                intent.putExtra(PersonActivity.INTENT_TYPE,PersonActivity.INTENT_SQ);
                 mActivity.startActivity(intent);
                 finish();
             }

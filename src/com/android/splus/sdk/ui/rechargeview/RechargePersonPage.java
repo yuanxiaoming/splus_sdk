@@ -190,10 +190,7 @@ public class RechargePersonPage extends LinearLayout {
             // 横屏
             recharge_person_gridview_select.setNumColumns(4);
             recharge_person_gridview_select.setColumnWidth(40);
-            recharge_person_gridview_select.setGravity(Gravity.CENTER);
-            recharge_person_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
-                    Gravity.CENTER));
+            recharge_person_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,Gravity.CENTER));
             recharge_person_gridview_select.setVerticalSpacing(10);
             recharge_person_gridview_select.setHorizontalSpacing(2);
 
@@ -201,11 +198,8 @@ public class RechargePersonPage extends LinearLayout {
             // 竖屏
              recharge_person_gridview_select.setNumColumns(4);
              recharge_person_gridview_select.setLayoutParams(new
-             LinearLayout.LayoutParams(
-             FrameLayout.LayoutParams.MATCH_PARENT,
-             FrameLayout.LayoutParams.MATCH_PARENT,
-             Gravity.CENTER));
-             recharge_person_gridview_select.setPadding(5, 20, 5, 20);
+             LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT,Gravity.CENTER));
+           //  recharge_person_gridview_select.setPadding(5, 20, 5, 20);
              recharge_person_gridview_select.setVerticalSpacing(10);
              recharge_person_gridview_select.setHorizontalSpacing(10);
         }

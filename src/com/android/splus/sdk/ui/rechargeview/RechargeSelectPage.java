@@ -129,13 +129,13 @@ public class RechargeSelectPage extends LinearLayout {
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             recharge_type_gv.setNumColumns(4);
-            recharge_type_gv.setColumnWidth(40);
-            recharge_type_gv.setGravity(Gravity.CENTER);
+            recharge_type_gv.setColumnWidth(30);
+        //    recharge_type_gv.setPadding(5, 20, 5, 20);
             recharge_type_gv.setLayoutParams(new LinearLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER));
-            recharge_type_gv.setVerticalSpacing(40);
-            recharge_type_gv.setHorizontalSpacing(20);
+            recharge_type_gv.setVerticalSpacing(25);
+            recharge_type_gv.setHorizontalSpacing(30);
 
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             // 竖屏
@@ -145,7 +145,7 @@ public class RechargeSelectPage extends LinearLayout {
                     FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER));
             recharge_type_gv.setPadding(5, 20, 5, 20);
-            recharge_type_gv.setVerticalSpacing(40);
+            recharge_type_gv.setVerticalSpacing(30);
             recharge_type_gv.setHorizontalSpacing(30);
 
         }

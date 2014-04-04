@@ -164,10 +164,9 @@ public class UpdateActivity extends BaseActivity {
         public void onClick(DialogInterface dialog, int which) {
             finish(false);
             DownLoadActivity.CALLINSTALL = false;
-            Intent intent = new Intent(mBaseActivity, DownLoadActivity.class);
+            Intent intent = new Intent(UpdateActivity.this, DownLoadActivity.class);
             intent.putExtra(UPTYPE, mUptype);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mBaseActivity.startActivity(intent);
+            startActivity(intent);
         }
     };
 
