@@ -211,11 +211,11 @@
         <Button
             android:id="@+id/splus_person_center_userinformation_complete_btn"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:textSize="18dp"
             android:background="@drawable/splus_login_btn_login_bg_selector"
             android:gravity="center" />
@@ -225,7 +225,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp"
             android:textColor="#fe5f2e"

@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ff41403e"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
 
         <EditText
             android:id="@+id/splus_person_pwd_old_et"
@@ -44,7 +44,7 @@
             android:textColor="#ff41403e"
             android:textColorHint="#ff9ea4a6"
             android:textCursorDrawable="@null"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
     </LinearLayout>
 
     <View
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ff41403e"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
 
         <EditText
             android:id="@+id/splus_person_pwd_new_et"
@@ -93,7 +93,7 @@
             android:textColor="#ff41403e"
             android:textColorHint="#ff9ea4a6"
             android:textCursorDrawable="@null"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
     </LinearLayout>
 
     <View
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ff41403e"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
 
         <EditText
             android:id="@+id/splus_person_pwd_new_repeat_et"
@@ -142,13 +142,13 @@
             android:textColor="#ff41403e"
             android:textColorHint="#ff9ea4a6"
             android:textCursorDrawable="@null"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
     </LinearLayout>
 
     <Button
         android:id="@+id/splus_person_pwd_submit_btn"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_gravity="center"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"

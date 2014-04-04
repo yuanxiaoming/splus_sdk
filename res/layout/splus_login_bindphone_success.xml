@@ -39,7 +39,7 @@
     <Button
         android:id="@+id/splus_login_bindphone_later"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_gravity="left"
         android:layout_marginBottom="25dp"
         android:layout_marginLeft="12dp"

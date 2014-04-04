@@ -53,7 +53,7 @@
                 <EditText
                     android:id="@+id/splus_login_bindphone_num"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="45dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:layout_marginTop="12dp"
@@ -72,7 +72,7 @@
                 <Button
                     android:id="@+id/splus_login_bindphone_get_code"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_gravity="left"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
@@ -97,7 +97,7 @@
                 <Button
                     android:id="@+id/splus_login_bindphone_later"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_gravity="left"
                     android:layout_marginBottom="25dp"
                     android:layout_marginLeft="12dp"
