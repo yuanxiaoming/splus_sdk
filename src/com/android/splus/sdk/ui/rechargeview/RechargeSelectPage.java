@@ -130,7 +130,7 @@ public class RechargeSelectPage extends LinearLayout {
             // 横屏
             recharge_type_gv.setNumColumns(4);
             recharge_type_gv.setColumnWidth(30);
-        //    recharge_type_gv.setPadding(5, 20, 5, 20);
+            recharge_type_gv.setPadding(5, 0, 5, 20);
             recharge_type_gv.setLayoutParams(new LinearLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER));

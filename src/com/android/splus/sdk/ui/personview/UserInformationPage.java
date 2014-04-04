@@ -138,6 +138,7 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
 
         mBtnComplete = (Button) findViewById(ResourceUtil.getId(
                 mActivity, KR.id.splus_person_center_userinformation_complete_btn));
+        mBtnComplete.setTextColor(Color.WHITE);
         mTvTips = (TextView) findViewById(ResourceUtil.getId(
                 mActivity, KR.id.splus_person_center_userinformation_tips_tv));
 

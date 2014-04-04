@@ -92,6 +92,7 @@ public class LogoutPage extends ScrollView {
                 KR.id.splus_person_logout_game_version_text));
         btn_logout = (Button) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_person_logout_btn));
+        btn_logout.setTextColor(Color.WHITE);
         img_gameicon = (ImageView) findViewById(ResourceUtil.getId(mActivity,
                 KR.id.splus_person_logout_game_ic));
     }

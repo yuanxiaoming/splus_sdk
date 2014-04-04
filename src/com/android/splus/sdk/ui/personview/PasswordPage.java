@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -143,6 +144,7 @@ public class PasswordPage extends ScrollView implements View.OnFocusChangeListen
 
         mBtnSubmit = (Button) findViewById(ResourceUtil
                 .getId(mActivity, KR.id.splus_person_pwd_submit_btn));
+        mBtnSubmit.setTextColor(Color.WHITE);
 
     }
 
