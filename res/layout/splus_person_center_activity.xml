@@ -5,10 +5,7 @@
     android:background="#FFF2F2F2"
     android:orientation="vertical" >
 
-    <include
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/splus_person_title_bar" />
+    <include layout="@layout/splus_person_title_bar_layout" />
 
     <ViewFlipper
         android:id="@+id/splus_person_center_views"

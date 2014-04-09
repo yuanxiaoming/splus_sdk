@@ -96,7 +96,7 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
             mLandscape = false;
         }
         init();
-        getUserInfoFromServer();
+
     }
 
     private void init(){
@@ -150,24 +150,22 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
     private void initViews(){
         mTvRealName.setText(KR.string.splus_person_center_userinformation_realname_text);
         mTvSex.setText(KR.string.splus_person_center_userinformation_sex_text);
-        mRgSex.setOnCheckedChangeListener(this);
         mRbSecret.setText(KR.string.splus_person_center_userinformation_sex_rb_secret_text);
         mRbSecret.setChecked(true);
         mRbBoy.setText(KR.string.splus_person_center_userinformation_sex_rb_boy_text);
         mRbGirl.setText(KR.string.splus_person_center_userinformation_sex_rb_girl_text);
-
         mTvIdCard.setText(KR.string.splus_person_center_userinformation_idcard_text);
-
         mTvQQ.setText(KR.string.splus_person_center_userinformation_qq_text);
-
-        mBtnComplete.setText(KR.string.splus_person_center_userinformation_complete_text);
-        mBtnComplete.setOnClickListener(this);
-
+        mBtnComplete.setText(KR.string.splus_person_center_userinformation_edit_text);
         mTvTips.setText(KR.string.splus_person_center_userinformation_tips_text);
+        getUserInfoFromServer();
 
+        mBtnComplete.setOnClickListener(this);
         mLlayout_realname.setOnFocusChangeListener(this);
         mLlayout_idcard.setOnFocusChangeListener(this);
         mLlayout_qq.setOnFocusChangeListener(this);
+        mRgSex.setOnCheckedChangeListener(this);
+        setEnabledCompons(false);
     }
 
     private void setUserName() {
@@ -183,6 +181,57 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
         (new ForegroundColorSpan(Color.parseColor(COLORFE5F2E)), replace.indexOf(mPassport),
                 replace.indexOf(mPassport) + mPassport.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         mTvWelcome.setText(spannableStringBuilder);
+    }
+
+
+    /**
+     * @Title: setEnabledCompons(点击动作完成，恢复控件功能)
+     * @author xiaoming.yuan
+     * @data 2014-3-3 下午3:51:19 void 返回类型
+     */
+    private void setEnabledCompons(boolean flag) {
+        if (mEtRealName != null) {
+            mEtRealName.setEnabled(flag);
+            mEtRealName.setClickable(flag);
+            mEtRealName.setFocusable(flag);
+            mEtRealName.setFocusableInTouchMode(flag);
+        }
+        if (mEtIdCard != null) {
+            mEtIdCard.setEnabled(flag);
+            mEtIdCard.setClickable(flag);
+            mEtIdCard.setFocusable(flag);
+            mEtIdCard.setFocusableInTouchMode(flag);
+        }
+        if (mEtQQ != null) {
+            mEtQQ.setEnabled(flag);
+            mEtQQ.setClickable(flag);
+            mEtQQ.setFocusable(flag);
+            mEtQQ.setFocusableInTouchMode(flag);
+        }
+        if (mRgSex != null) {
+            mRgSex.setEnabled(flag);
+            mRgSex.setClickable(flag);
+            mRgSex.setFocusable(flag);
+            mRgSex.setFocusableInTouchMode(flag);
+        }
+        if (mRbSecret != null) {
+            mRbSecret.setEnabled(flag);
+            mRbSecret.setClickable(flag);
+            mRbSecret.setFocusable(flag);
+            mRbSecret.setFocusableInTouchMode(flag);
+        }
+        if (mRbBoy != null) {
+            mRbBoy.setEnabled(flag);
+            mRbBoy.setClickable(flag);
+            mRbBoy.setFocusable(flag);
+            mRbBoy.setFocusableInTouchMode(flag);
+        }
+        if (mRbGirl != null) {
+            mRbGirl.setEnabled(flag);
+            mRbGirl.setClickable(flag);
+            mRbGirl.setFocusable(flag);
+            mRbGirl.setFocusableInTouchMode(flag);
+        }
     }
 
     /**
@@ -259,28 +308,28 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
     @Override
     public void onClick(View v) {
         if (v.equals(mBtnComplete)) {
-            String text = mEtIdCard.getText().toString().trim();
-            if (TextUtils.isEmpty(text)) {
-
-            } else {
-                String msg = IdcardUtil.IDCardValidate(text);
-                if (TextUtils.isEmpty(msg)) {
-
-                } else {
-                    mEtIdCard.requestFocus();
-                    mEtIdCard.setError("该身份证号码不正确，请重新输入");
-                    return;
+            if (mBtnComplete.getText().toString().equals(KR.string.splus_person_center_userinformation_complete_text)) {
+                String text = mEtIdCard.getText().toString().trim();
+                if (!TextUtils.isEmpty(text)) {
+                    String msg = IdcardUtil.IDCardValidate(text);
+                    if (!TextUtils.isEmpty(msg)) {
+                        mEtIdCard.requestFocus();
+                        mEtIdCard.setError("该身份证号码不正确，请重新输入");
+                        return;
+                    }
                 }
+
+                ToastUtil.showToast(mActivity, "提交的数据为：" + "\n真实姓名："
+                        + mEtRealName.getText().toString().trim() + "\n性别：" + mGenderType
+                        + "\n身份证号：" + mEtIdCard.getText().toString().trim() + "\nQQ："
+                        + mEtQQ.getText().toString().trim());
+
+                sendUserInfoToServer(mEtRealName.getText().toString().trim(), mGenderType,
+                        mEtIdCard.getText().toString().trim(), mEtQQ.getText().toString().trim());
+            } else {
+                mBtnComplete.setText(KR.string.splus_person_center_userinformation_complete_text);
+                setEnabledCompons(true);
             }
-
-            ToastUtil.showToast(mActivity, "提交的数据为："
-                    + "\n真实姓名：" + mEtRealName.getText().toString().trim()
-                    + "\n性别：" + mGenderType
-                    + "\n身份证号：" + mEtIdCard.getText().toString().trim()
-                    + "\nQQ：" + mEtQQ.getText().toString().trim());
-
-            sendUserInfoToServer(mEtRealName.getText().toString().trim(), mGenderType,
-                    mEtIdCard.getText().toString().trim(), mEtQQ.getText().toString().trim());
         }
     }
 
@@ -308,11 +357,17 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
         @Override
         public void callbackSuccess(UserInfoData userInfoData) {
             //做一些成功后的操作
+            mBtnComplete.setText(KR.string.splus_person_center_userinformation_edit_text);
+            setEnabledCompons(false);
+
         }
 
         @Override
         public void callbackError(String error) {
             //发送数据失败
+            mBtnComplete.setText(KR.string.splus_person_center_userinformation_edit_text);
+            setEnabledCompons(false);
+
         }
 
     };

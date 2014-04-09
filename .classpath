@@ -5,8 +5,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="libs/UPPayPluginEx.jar"/>
 	<classpathentry kind="lib" path="libs/UPPayAssistEx.jar"/>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="E:/work/android-sdk-windows/platforms/android-17/android.jar" sourcepath="E:/work/android-sdk-windows/sources/android-2.2-froyo-src.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/E:/work/android-sdk-windows/docs/reference"/>
@@ -15,5 +13,7 @@
 			<accessrule kind="nonaccessible" pattern="com/android/internal/**"/>
 		</accessrules>
 	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

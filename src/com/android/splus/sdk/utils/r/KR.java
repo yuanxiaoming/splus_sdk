@@ -354,7 +354,6 @@ public final class KR {
 
         //本地充值
 
-        public static final String splus_recharge_type_textcolor_selector = "splus_recharge_type_textcolor_selector";
 
         public static final String splus_recharge_by_alipay_fast_selector = "splus_recharge_by_alipay_fast_selector";
         public static final String splus_recharge_by_alipay_wap_selector = "splus_recharge_by_alipay_wap_selector";
@@ -594,6 +593,7 @@ public final class KR {
         public static final String splus_person_center_userinformation_idcard_text = "身份证号：";
         public static final String splus_person_center_userinformation_qq_text = "QQ：";
         public static final String splus_person_center_userinformation_complete_text = "完成";
+        public static final String splus_person_center_userinformation_edit_text = "编辑";
         public static final String splus_person_center_userinformation_tips_text = "*我们将保证您填写的资料不会外泄";
 
 
