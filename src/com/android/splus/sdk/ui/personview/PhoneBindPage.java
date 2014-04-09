@@ -138,7 +138,7 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
 
     public PhoneBindPage(Activity activity, String passport, Integer uid, String dsid,
             String deviceno, String partner, String referer, Integer gameid,
-            String appkey, boolean bindstatus, Handler handler) {
+            String appkey, boolean bindstatus, Handler handler,int orientation) {
         super(activity);
         this.mActivity = activity;
         this.mUid = uid;
@@ -151,7 +151,6 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
         this.mAppkey = appkey;
         this.mHasBinded = bindstatus;
         this.mHandler = handler;
-        int orientation = Phoneuitl.getOrientation(mActivity);
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             mLandscape = true;

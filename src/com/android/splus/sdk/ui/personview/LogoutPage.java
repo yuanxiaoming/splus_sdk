@@ -44,23 +44,10 @@ public class LogoutPage extends ScrollView {
 
     private String mPassport;
 
-//    private boolean mLandscape;
-
     public LogoutPage(Activity activity, String passport) {
         super(activity);
-        // TODO Auto-generated constructor stub
         this.mActivity = activity;
         this.mPassport = passport;
-
-//        int orientation = Phoneuitl.getOrientation(activity);
-//        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            // 横屏
-//            mLandscape = true;
-//
-//        } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            // 竖屏
-//            mLandscape = false;
-//        }
 
         mApplicationInfo = activity.getApplicationInfo();
         try {

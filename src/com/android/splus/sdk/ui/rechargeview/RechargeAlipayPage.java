@@ -117,9 +117,11 @@ public class RechargeAlipayPage extends LinearLayout {
 
     private AlipayHtmlClick mAlipayHtmlClick;
 
+    private int mOrientation ;
+
     public RechargeAlipayPage(UserModel userModel, Activity activity, String deviceno,
             String appKey, Integer gameid, String partner, String referer, String roleName,
-            String serverName, String outOrderid, String pext, Integer type, String payway) {
+            String serverName, String outOrderid, String pext, Integer type, String payway,int orientation) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -134,6 +136,7 @@ public class RechargeAlipayPage extends LinearLayout {
         this.mPext = pext;
         this.mType = type;
         this.mPayway = payway;
+        this.mOrientation=orientation;
         inflate(activity,
                 ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_layout), this);
         findViews();
@@ -178,7 +181,7 @@ public class RechargeAlipayPage extends LinearLayout {
 
     private void initViews() {
 
-        int orientation = Phoneuitl.getOrientation(mActivity);
+        int orientation =mOrientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             recharge_money_gridview_select.setNumColumns(6);
@@ -287,7 +290,7 @@ public class RechargeAlipayPage extends LinearLayout {
      */
 
     private void processLogic() {
-        // getRatio();
+         getRatio();
     }
 
     /**
@@ -300,6 +303,7 @@ public class RechargeAlipayPage extends LinearLayout {
         String keyString = mGameid + mPayway + time + mAppKey;
         RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time,
                 MD5Util.getMd5toLowerCase(keyString));
+
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.RATIO_URL,
                 mActivity, mRatioModel, new LoginParser()), onRatioebyCardCallBack);
     }
@@ -308,10 +312,14 @@ public class RechargeAlipayPage extends LinearLayout {
 
         @Override
         public void callbackSuccess(JSONObject paramObject) {
+
             if (paramObject != null && paramObject.optInt("code") == 1) {
-                mCoin_name = paramObject.optJSONObject("data").optString("coin_name");
-                mRatio = paramObject.optJSONObject("data").optInt("ratio");
-                setGetMoneyTextPure(mRenminbi);
+                JSONObject optJSONObject = paramObject.optJSONObject("data");
+                if (optJSONObject != null) {
+                    mCoin_name = optJSONObject.optString("coin_name");
+                    mRatio = optJSONObject.optInt("ratio");
+                    setGetMoneyTextPure(mRenminbi);
+                }
             } else {
                 String msg = paramObject.optJSONObject("data").optString("msg");
                 LogHelper.d(TAG, msg);

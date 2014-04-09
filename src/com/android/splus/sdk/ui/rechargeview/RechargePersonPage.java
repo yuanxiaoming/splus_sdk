@@ -99,12 +99,12 @@ public class RechargePersonPage extends LinearLayout {
 
     private Integer mType;
 
-
+    private int mOrientation;
 
 
     public RechargePersonPage(UserModel userModel, Activity activity, String deviceno, String appKey,
             Integer gameid, String partner, String referer, String roleName, String serverName,
-            String outOrderid, String pext, Integer type, String payway) {
+            String outOrderid, String pext, Integer type, String payway,int orientation) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -119,6 +119,7 @@ public class RechargePersonPage extends LinearLayout {
         this.mPext = pext;
         this.mType = type;
         this.mPayway = payway;
+        this.mOrientation=orientation;
         inflate(activity,
                 ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_person_layout), this);
         findViews();
@@ -185,7 +186,7 @@ public class RechargePersonPage extends LinearLayout {
 
     private void initViews() {
 
-        int orientation = Phoneuitl.getOrientation(mActivity);
+        int orientation = mOrientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             recharge_person_gridview_select.setNumColumns(4);
@@ -196,12 +197,12 @@ public class RechargePersonPage extends LinearLayout {
 
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             // 竖屏
-             recharge_person_gridview_select.setNumColumns(4);
-             recharge_person_gridview_select.setLayoutParams(new
-             LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT,Gravity.CENTER));
-           //  recharge_person_gridview_select.setPadding(5, 20, 5, 20);
-             recharge_person_gridview_select.setVerticalSpacing(10);
-             recharge_person_gridview_select.setHorizontalSpacing(10);
+            recharge_person_gridview_select.setNumColumns(4);
+            recharge_person_gridview_select.setLayoutParams(new
+                    LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT,Gravity.CENTER));
+            //  recharge_person_gridview_select.setPadding(5, 20, 5, 20);
+            recharge_person_gridview_select.setVerticalSpacing(10);
+            recharge_person_gridview_select.setHorizontalSpacing(10);
         }
         recharge_person_gridview_select.setGravity(Gravity.CENTER_HORIZONTAL);
         recharge_person_gridview_select.setSelector(android.R.color.transparent);

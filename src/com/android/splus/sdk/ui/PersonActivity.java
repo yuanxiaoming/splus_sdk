@@ -16,6 +16,7 @@ import com.android.splus.sdk.ui.personview.SQPage;
 import com.android.splus.sdk.ui.personview.UserInformationPage;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.file.AppUtil;
+import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 
@@ -203,7 +204,7 @@ public class PersonActivity extends BaseActivity {
 
 
         } else {
-            mPersonCenterPage = new PersonCenterPage(this, getPassport());
+            mPersonCenterPage = new PersonCenterPage(this, getPassport(),mOrientation);
             mTvTitleBarCenter.setText(KR.string.splus_person_center_text);
             addView(mPersonCenterPage, PersonCenterPage.class.getName());
         }
@@ -260,7 +261,7 @@ public class PersonActivity extends BaseActivity {
             // 进入账号安全页面
             if (mAccountManagerPage == null) {
                 mAccountManagerPage = new AccountManagerPage(mActivity, getPassport(),
-                        getUid(), mSplusPayManager.getServerName(), getDeviceno(), mSplusPayManager.getPartner(),mSplusPayManager.getReferer(), mSplusPayManager.getGameid(), mSplusPayManager.getAppkey());
+                        getUid(), mSplusPayManager.getServerName(), getDeviceno(), mSplusPayManager.getPartner(),mSplusPayManager.getReferer(), mSplusPayManager.getGameid(), mSplusPayManager.getAppkey(),mOrientation);
                 mAccountManagerPage.setOnAccountClickListener(mAccountClickListener);
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_idcard_btn_text);
@@ -336,7 +337,7 @@ public class PersonActivity extends BaseActivity {
             // 进入个人资料页面
             if (mUserInformationPage == null) {
                 mUserInformationPage = new UserInformationPage(PersonActivity.this, getPassport(),getUid(), mSplusPayManager.getServerName(), getDeviceno(), mSplusPayManager.getPartner(),
-                        mSplusPayManager.getReferer(),mSplusPayManager.getGameid(), mSplusPayManager.getAppkey());
+                        mSplusPayManager.getReferer(),mSplusPayManager.getGameid(), mSplusPayManager.getAppkey(),mOrientation);
             }
             // 把个人资料页面显示在前台
             mTvTitleBarCenter.setText(KR.string.splus_person_account_user_information);
@@ -349,7 +350,7 @@ public class PersonActivity extends BaseActivity {
             // 进入修改密码页面
             if (mPasswordPage == null) {
                 mPasswordPage = new PasswordPage(PersonActivity.this, getPassport(), getUid(),mSplusPayManager.getServerName(),
-                        getDeviceno(),mSplusPayManager.getPartner(),mSplusPayManager.getReferer(),mSplusPayManager.getGameid(),mSplusPayManager.getAppkey(), mHandler);
+                        getDeviceno(),mSplusPayManager.getPartner(),mSplusPayManager.getReferer(),mSplusPayManager.getGameid(),mSplusPayManager.getAppkey(), mHandler,mOrientation);
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_account_modify_pwd);
             // 把修改密码页面显示在前台
@@ -364,7 +365,7 @@ public class PersonActivity extends BaseActivity {
             if (mPhoneBindPage == null) {
                 mPhoneBindPage = new PhoneBindPage(PersonActivity.this, getPassport(), getUid(),
                         mSplusPayManager.getServerName(), getDeviceno(), mSplusPayManager.getPartner(),mSplusPayManager.getReferer(),mSplusPayManager.getGameid(),
-                        mSplusPayManager.getAppkey(), mAccountManagerPage.isBinded(), mHandler);
+                        mSplusPayManager.getAppkey(), mAccountManagerPage.isBinded(), mHandler,mOrientation);
             }
             mPhoneBindPage.setBindedStatus();
             mTvTitleBarCenter.setText(KR.string.splus_person_account_binding_phone);
@@ -534,7 +535,7 @@ public class PersonActivity extends BaseActivity {
                     goBack();
                     break;
                 case LOGOUT:
-                    mSplusPayManager.destroy();
+                    logout_in_person();
                     break;
                 default:
                     break;

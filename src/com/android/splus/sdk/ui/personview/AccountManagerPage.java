@@ -18,6 +18,7 @@ import com.android.splus.sdk.utils.toast.ToastUtil;
 
 import org.json.JSONObject;
 
+import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -66,7 +67,7 @@ public class AccountManagerPage extends ScrollView {
     private boolean mHasBindPhone = false;
 
     public AccountManagerPage(Activity activity, String passport, Integer uid, String serverName,
-            String deviceno, String partner, String referer, Integer gameid, String appkey) {
+            String deviceno, String partner, String referer, Integer gameid, String appkey,int orientation) {
         super(activity);
         this.mActivity = activity;
         this.mDeviceno = deviceno;
@@ -77,8 +78,6 @@ public class AccountManagerPage extends ScrollView {
         this.mPassport = passport;
         this.mServerName = serverName;
         this.mAppkey = appkey;
-
-        int orientation = Phoneuitl.getOrientation(mActivity);
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             mLandscape = true;

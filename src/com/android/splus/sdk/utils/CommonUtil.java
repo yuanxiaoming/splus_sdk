@@ -14,6 +14,7 @@ import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -146,7 +147,7 @@ public class CommonUtil {
      * @exception
      * @since 1.0.0 xiaoming.yuan
      */
-    public static FrameLayout.LayoutParams getFrameLayoutParams(Context context,
+    public static FrameLayout.LayoutParams getFrameLayoutParams(Activity context,
             int widthLandPadding, int widthPortPadding, int heightLandPadding,
             int heightPortPadding, int gravity)  {
         int width = (Phoneuitl.getWpixels(context));
@@ -178,7 +179,7 @@ public class CommonUtil {
      * @exception
      * @since 1.0.0 xiaoming.yuan
      */
-    public static FrameLayout.LayoutParams getFrameLayoutParams(Context context,
+    public static FrameLayout.LayoutParams getFrameLayoutParams(Activity context,
             double widthLandScapeScale, double widthPortScapeScale, double heightLandScapeScale,
             double heightPortScapeScale, int gravity) {
         int width = (Phoneuitl.getWpixels(context));

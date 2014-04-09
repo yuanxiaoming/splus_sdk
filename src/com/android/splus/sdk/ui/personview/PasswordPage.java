@@ -92,7 +92,7 @@ public class PasswordPage extends ScrollView implements View.OnFocusChangeListen
     private boolean mLandscape = true;
 
     public PasswordPage(Activity activity, String passport, Integer uid, String serverName,
-            String deviceno, String partner, String referer, Integer gameid,String appkey, Handler handler ) {
+            String deviceno, String partner, String referer, Integer gameid,String appkey, Handler handler,int orientation ) {
         super(activity);
         this.mActivity = activity;
         this.mPassport = passport;
@@ -104,7 +104,6 @@ public class PasswordPage extends ScrollView implements View.OnFocusChangeListen
         this.mReferer = referer;
         this.mAppkey = appkey;
         this.mHandler = handler;
-        int orientation = Phoneuitl.getOrientation(mActivity);
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             mLandscape = true;

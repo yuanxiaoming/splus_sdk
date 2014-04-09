@@ -75,7 +75,7 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
     private static final String COLORFE5F2E = "#fe5f2e";
 
     public UserInformationPage(Activity activity, String passport, Integer uid, String serverName,
-            String deviceno, String partner, String referer, Integer gameid, String appkey ) {
+            String deviceno, String partner, String referer, Integer gameid, String appkey,int orientation ) {
         super(activity);
         this.mActivity = activity;
         this.mPassport = passport;
@@ -86,7 +86,6 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
         this.mReferer = referer;
         this.mGameid = gameid;
         this.mAppkey = appkey;
-        int orientation = Phoneuitl.getOrientation(mActivity);
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             mLandscape = true;

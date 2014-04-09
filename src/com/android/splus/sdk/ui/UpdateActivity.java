@@ -15,6 +15,7 @@ import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
+import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 
 import org.json.JSONObject;
 
@@ -75,7 +76,8 @@ public class UpdateActivity extends BaseActivity {
         if (SplusPayManager.INTENT_LOGOUT.equals(type)) {
             finish();
             ExitAppUtils.getInstance().exit();
-            SplusPayManager.getInstance().destroy();
+            SharedPreferencesHelper.getInstance().setLoginStatusPreferences(UpdateActivity.this,
+                    SplusPayManager.getInstance().getAppkey(), false);
             intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

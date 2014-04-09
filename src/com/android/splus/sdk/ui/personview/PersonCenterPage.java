@@ -37,12 +37,11 @@ public class PersonCenterPage extends ScrollView {
 
     private Body mBody;
 
-    public PersonCenterPage(Activity activity, String passport) {
+    public PersonCenterPage(Activity activity, String passport,int orientation) {
         super(activity);
         this.mActivity = activity;
         this.mPassport = passport;
 
-        int orientation = Phoneuitl.getOrientation(mActivity);
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             mLandscape = true;

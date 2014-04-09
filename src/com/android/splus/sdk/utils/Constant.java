@@ -19,21 +19,10 @@ public class Constant {
 
         public static final String PAY_URL = "http://api.splusgame.com/pay/";
 
-    //
-    //    public static final String HTMLWAPPAY_URL = "http://sy.api.37wan.cn/htmlWapPay_test/payIndex.php";
-    //
-    //    public static final String RATIO_URL = "http://sy.api.37wan.cn/sdk/ext/pay_way_ratio.php";
-    //
-
-//    public static final String ACTIVE_URL = "http://sy.api.37wan.cn/sdk/active/active.php";
-//
-//    public static final String LOGIN_URL = "http://sy.api.37wan.cn/sdk/login/";
-//
-//    public static final String REGISTER_URL = "http://sy.api.37wan.cn/sdk/reg/reg.php";
 
     public static final String HTMLWAPPAY_URL = "http://sy.api.37wan.cn/htmlWapPay_test/payIndex.php";
 
-    public static final String RATIO_URL = "http://sy.api.37wan.cn/sdk/ext/pay_way_ratio.php";
+    public static final String RATIO_URL = "http://api.splusgame.com/sdk/pay_way_ratio.php";
 
     public static final String BINDMOBILE_URL = "http://sy.api.37wan.cn/action/activebindmobile.php?";
 
@@ -44,9 +33,9 @@ public class Constant {
     /**
      * 修该密码
      */
-    public static final String PASSWORD_URL = "http://sy.api.37wan.cn/action/changepasswd.php";
+    public static final String PASSWORD_URL = "http://api.splusgame.com/sdk/changepasswd.php";
 
-    public static final String STATISTICS_GAME_URL = "http://sy.api.37wan.cn/action/changepasswd.php";
+    public static final String STATISTICS_GAME_URL = "http://api.splusgame.com/sdk/enter_server.php";
 
     public static final String STATISTICS_ONLINETIME_URL = "http://sy.api.37wan.cn/action/changepasswd.php";
 

@@ -375,7 +375,7 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
                 MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()));
         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                 SplusPayManager.getInstance().getAppkey(), false);
-        LogHelper.i(TAG, "url---"+ NetHttpUtil.hashMapTOgetParams(mLoginModel, Constant.LOGIN_URL));
+       
         getDataFromServer(new RequestModel(Constant.LOGIN_URL, mActivity, mLoginModel,
                 new LoginParser()), onLoginCallBack);
     }
@@ -395,7 +395,6 @@ public class LoginView extends LinearLayout implements ViewRecoveryState, Observ
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             try {
-                LogHelper.i(TAG,"paramObject---"+paramObject.toString());
                 SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                         SplusPayManager.getInstance().getAppkey(), false);
                 closeProgressDialog();

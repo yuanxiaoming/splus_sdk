@@ -63,6 +63,8 @@ public class RechargeSelectPage extends LinearLayout {
 
     private RechargeItemClick mRechargeItemClick;
 
+    private int mOrientation;
+
     /**
      * @Title: RechargeSelect
      * @Description:(这里用一句话描述这个方法的作用)
@@ -70,12 +72,13 @@ public class RechargeSelectPage extends LinearLayout {
      * @throws
      */
 
-    public RechargeSelectPage(Activity activity, String passport,Integer type,Float money) {
+    public RechargeSelectPage(Activity activity, String passport,Integer type,Float money,int orientation) {
         super(activity);
         this.mActivity = activity;
         this.mPassport = passport;
         this.mRenminbi=money;
         this.mType=type;
+        this.mOrientation=orientation;
         inflate(activity,ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_select_layout), this);
         findViews();
         initViews();
@@ -122,7 +125,7 @@ public class RechargeSelectPage extends LinearLayout {
             }
         }
 
-        int orientation = Phoneuitl.getOrientation(mActivity);
+        int orientation =mOrientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             recharge_type_gv.setNumColumns(4);

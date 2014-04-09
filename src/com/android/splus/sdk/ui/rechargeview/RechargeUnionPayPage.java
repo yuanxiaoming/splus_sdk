@@ -122,9 +122,11 @@ public class RechargeUnionPayPage extends LinearLayout {
 
     public final static int UNIONPAY_INSTALL = 1;
 
+    private int mOrientation;
+
     public RechargeUnionPayPage(UserModel userModel, Activity activity, String deviceno,
             String appKey, Integer gameid, String partner, String referer, String roleName,
-            String serverName, String outOrderid, String pext, Integer type, String payway) {
+            String serverName, String outOrderid, String pext, Integer type, String payway,int orientation) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -139,6 +141,7 @@ public class RechargeUnionPayPage extends LinearLayout {
         this.mPext = pext;
         this.mType = type;
         this.mPayway = payway;
+        this.mOrientation=orientation;
         inflate(activity,
                 ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_layout), this);
         findViews();
@@ -183,7 +186,7 @@ public class RechargeUnionPayPage extends LinearLayout {
 
     private void initViews() {
 
-        int orientation = Phoneuitl.getOrientation(mActivity);
+        int orientation =mOrientation;;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             recharge_money_gridview_select.setNumColumns(6);

@@ -10,8 +10,7 @@
 
 package com.android.splus.sdk.utils.phone;
 
-import com.android.splus.sdk.utils.log.LogHelper;
-
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.net.wifi.WifiInfo;
@@ -188,7 +187,7 @@ public class Phoneuitl {
      * @exception
      * @since 1.0.0 xiaoming.yuan
      */
-    public static int getOrientation(Context context) {
+    public static int getOrientation(Activity context) {
         Configuration config = context.getResources().getConfiguration();
         // if (config.orientation == Configuration.ORIENTATION_LANDSCAPE){
         // //横屏，比如 480x320

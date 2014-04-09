@@ -221,7 +221,7 @@ public class RechargeCardQuotaPage extends LinearLayout {
      */
 
     private void processLogic() {
-        // getRatio();
+         getRatio();
     }
 
     /**
@@ -243,9 +243,13 @@ public class RechargeCardQuotaPage extends LinearLayout {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             if (paramObject != null && paramObject.optInt("code") == 1) {
-                mCoin_name = paramObject.optJSONObject("data").optString("coin_name");
-                mRatio = paramObject.optJSONObject("data").optInt("ratio");
-                setGetMoneyTextPure(mRenminbi);
+                JSONObject optJSONObject = paramObject.optJSONObject("data");
+                if (optJSONObject != null) {
+                    mCoin_name = optJSONObject.optString("coin_name");
+                    mRatio = optJSONObject.optInt("ratio");
+                    setGetMoneyTextPure(mRenminbi);
+                }
+
             } else {
                 String msg = paramObject.optJSONObject("data").optString("msg");
                 LogHelper.d(TAG, msg);

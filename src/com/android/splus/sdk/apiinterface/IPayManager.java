@@ -58,7 +58,7 @@ public interface IPayManager {
      * @author xiaoming.yuan
      * @date 2013年10月12日 上午11:38:34
      */
-    public void logout(LogoutCallBack logoutCallBack);
+    public void logout(Activity activity,LogoutCallBack logoutCallBack);
 
 
     /**

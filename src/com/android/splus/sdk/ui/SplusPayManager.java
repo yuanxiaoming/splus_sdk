@@ -441,13 +441,10 @@ public class SplusPayManager implements IPayManager {
         long time = DateUtil.getUnixTime();
         String mac = Phoneuitl.getLocalMacAddress(getContext());
         String imei = Phoneuitl.getIMEI(getContext());
-
-         String keyString = mGameid + mReferer + mPartner + mac +imei+ time;
-       // String keyString = mGameid + mReferer + mPartner + mac + time;
+        String keyString = mGameid + mReferer + mPartner + mac +imei+ time;
         String sign = MD5Util.getMd5toLowerCase(keyString + mAppkey);
         ActiveModel mActiveMode = new ActiveModel(mGameid, mPartner, mReferer, mac, imei, mWidth,
                 mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time, sign);
-        LogHelper.i(TAG, "url---"+ NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
         NetHttpUtil.getDataFromServerPOST(getContext(), new RequestModel(Constant.ACTIVE_URL,
                 getContext(), mActiveMode, new ActiveParser()), onActiveCallBack);
 
@@ -801,13 +798,25 @@ public class SplusPayManager implements IPayManager {
      * @see com.android.splus.sdk.apiinterface.IPayManager#logout(com.android.splus.sdk.apiinterface.LogoutCallBack)
      */
     @Override
-    public void logout(LogoutCallBack logoutCallBack) {
+    public void logout(Activity activity,LogoutCallBack logoutCallBack) {
         if (logoutCallBack == null) {
             LogHelper.i(TAG, "LogoutCallBack参数不能为空");
         }
         this.mLogoutCallBack = logoutCallBack;
+        if (activity == null) {
+            LogHelper.i(TAG, "Activity参数不能为空");
+            return;
+        } else {
+            if (!(activity instanceof Activity)) {
+                LogHelper.i(TAG, "参数Activity不是一个Activity的实例");
+                return;
+            }
+        }
+        this.mActivity = activity;
+        SharedPreferencesHelper.getInstance().setLoginStatusPreferences(activity,
+                SplusPayManager.getInstance().getAppkey(), false);
+
         ExitAppUtils.getInstance().exit();
-        destroy();
         mLogoutCallBack.logoutCallBack();
     }
 
@@ -904,15 +913,16 @@ public class SplusPayManager implements IPayManager {
         }
         long time = DateUtil.getUnixTime();
         String deviceno = SharedPreferencesHelper.getInstance().getdevicenoPreferences(activity);
-        String keyString = getGameid()+ deviceno + getReferer() + getPartner()+ uid + passport + serverName+roleName + level + time;
+        String keyString = getGameid()+ deviceno + getReferer() + getPartner()+ uid + passport + serverName+roleName + level + time+getAppkey();
         GameStatisticsModel mGameStatisticsModel = new GameStatisticsModel(getGameid(),
                 deviceno,getPartner(),getReferer(), uid, passport, roleName, level, serverName, time,MD5Util.getMd5toLowerCase(keyString));
+        LogHelper.i(TAG, "url---"+ NetHttpUtil.hashMapTOgetParams(mGameStatisticsModel, Constant.STATISTICS_GAME_URL));
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(
                 Constant.STATISTICS_GAME_URL, mActivity, mGameStatisticsModel,
                 new LoginParser()), new DataCallback<JSONObject>() {
             @Override
             public void callbackSuccess(JSONObject paramObject) {
-
+                LogHelper.i(TAG,"paramObject---"+paramObject.toString());
                 try {
                     if (paramObject != null && paramObject.getInt("code") == 1) {
                         LogHelper.i(TAG, paramObject.toString());
@@ -1058,19 +1068,6 @@ public class SplusPayManager implements IPayManager {
             }
         });
 
-    }
-
-
-    /**
-     * 摧毁实例 改变登录状态
-     *
-     * @author xiaoming.yuan
-     * @date 2013年10月28日 上午11:01:31
-     */
-    void destroy() {
-        SharedPreferencesHelper.getInstance().setLoginStatusPreferences(getContext(),
-                SplusPayManager.getInstance().getAppkey(), false);
-        this.mActivity = null;
     }
 
     /**

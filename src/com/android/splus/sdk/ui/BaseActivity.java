@@ -39,15 +39,19 @@ public abstract class BaseActivity extends Activity {
 
     protected CustomProgressDialog mProgressDialog;
 
+    protected int mOrientation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (SplusPayManager.getInstance().getOrientation()== Configuration.ORIENTATION_LANDSCAPE) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            mOrientation=Configuration.ORIENTATION_LANDSCAPE;
         } else{
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            mOrientation=Configuration.ORIENTATION_PORTRAIT;
         }
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mBaseActivity = this;
@@ -178,12 +182,13 @@ public abstract class BaseActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        SplusPayManager.getInstance().onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        SplusPayManager.getInstance().onPause(this);
         hideSoftInput(this);
     }
 
@@ -239,6 +244,7 @@ public abstract class BaseActivity extends Activity {
         if (this.mProgressDialog != null && this.mProgressDialog.isShowing())
             this.mProgressDialog.dismiss();
     }
+
 
 
     /**

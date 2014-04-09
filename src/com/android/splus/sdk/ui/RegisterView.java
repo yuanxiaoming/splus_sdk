@@ -366,7 +366,6 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         }
         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                 SplusPayManager.getInstance().getAppkey(), false);
-        LogHelper.i(TAG,"url---"+ NetHttpUtil.hashMapTOgetParams(mRegisterModel, Constant.REGISTER_URL));
         // 一键注册 时注册接口
         getDataFromServer(new RequestModel(Constant.REGISTER_URL, mActivity, mRegisterModel,
                 new LoginParser()), onRegisterCallBack);
@@ -377,7 +376,6 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             try {
-                LogHelper.i(TAG,"paramObject---"+paramObject.toString());
                 SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                         SplusPayManager.getInstance().getAppkey(), false);
                 closeProgressDialog();

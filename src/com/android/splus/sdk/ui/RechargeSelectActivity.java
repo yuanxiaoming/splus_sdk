@@ -28,6 +28,7 @@ import com.android.splus.sdk.ui.rechargeview.RechargeUnionPayPage;
 import com.android.splus.sdk.ui.rechargeview.RechargeUnionQuotaPayPage;
 import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.Constant;
+import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.r.KR;
 
 import android.app.Activity;
@@ -175,7 +176,7 @@ public class RechargeSelectActivity extends BaseActivity {
         if (mMoney == 0) {
             mType = Constant.RECHARGE_BY_NO_QUATO;
         }
-        mRechargeSelectPage = new RechargeSelectPage(this, getPassport(), mType, mMoney);
+        mRechargeSelectPage = new RechargeSelectPage(mActivity, getPassport(), mType, mMoney,mOrientation);
         addView(mRechargeSelectPage, RechargeSelectPage.class.getName());
         mRechargeSelectPage.setOnRechargeItemClick(mRechargeItemClick);
 
@@ -355,7 +356,7 @@ public class RechargeSelectActivity extends BaseActivity {
                                 mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
                                 mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
                                 mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                                mSplusPayManager.getPext(), mType, mPayway);
+                                mSplusPayManager.getPext(), mType, mPayway,mOrientation);
                         addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
                         mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
                     } else if (mType == Constant.RECHARGE_BY_QUATO) {
@@ -378,7 +379,7 @@ public class RechargeSelectActivity extends BaseActivity {
                                 mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
                                 mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
                                 mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                                mSplusPayManager.getPext(), mType, mPayway);
+                                mSplusPayManager.getPext(), mType, mPayway,mOrientation);
                         addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
                         mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
                     } else if (mType == Constant.RECHARGE_BY_QUATO) {
@@ -401,7 +402,7 @@ public class RechargeSelectActivity extends BaseActivity {
                                 mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
                                 mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
                                 mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                                mSplusPayManager.getPext(), mType, mPayway);
+                                mSplusPayManager.getPext(), mType, mPayway,mOrientation);
                         addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
                         mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
                     } else if (mType == Constant.RECHARGE_BY_QUATO) {
@@ -424,7 +425,7 @@ public class RechargeSelectActivity extends BaseActivity {
                                 mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
                                 mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
                                 mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                                mSplusPayManager.getPext(), mType, mPayway);
+                                mSplusPayManager.getPext(), mType, mPayway,mOrientation);
                         addView(mRechargeAlipayPage, RechargeAlipayPage.class.getName());
                         mRechargeAlipayPage.setOnAlipayHtmlClick(mAlipayHtmlClick);
                     } else if (mType == Constant.RECHARGE_BY_QUATO) {
@@ -447,7 +448,7 @@ public class RechargeSelectActivity extends BaseActivity {
                                 mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
                                 mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
                                 mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                                mSplusPayManager.getPext(), mType, mPayway);
+                                mSplusPayManager.getPext(), mType, mPayway,mOrientation);
                         addView(mRechargeUnionPayPage, RechargeUnionPayPage.class.getName());
                     } else if (mType == Constant.RECHARGE_BY_QUATO) {
                         mRechargeUnionQuotaPayPage = new RechargeUnionQuotaPayPage(getUserData(),
@@ -469,7 +470,7 @@ public class RechargeSelectActivity extends BaseActivity {
                                 mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
                                 mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
                                 mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                                mSplusPayManager.getPext(), mType, mPayway);
+                                mSplusPayManager.getPext(), mType, mPayway,mOrientation);
                         addView(mRechargeCardPage, RechargeCardPage.class.getName());
                     } else if (mType == Constant.RECHARGE_BY_QUATO) {
                         mRechargeCardQuotaPage = new RechargeCardQuotaPage(getUserData(),
@@ -490,7 +491,7 @@ public class RechargeSelectActivity extends BaseActivity {
                                 mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
                                 mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
                                 mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                                mSplusPayManager.getPext(), mType, mPayway);
+                                mSplusPayManager.getPext(), mType, mPayway,mOrientation);
                         addView(mRechargeCardPage, RechargeCardPage.class.getName());
                     } else if (mType == Constant.RECHARGE_BY_QUATO) {
                         mRechargeCardQuotaPage = new RechargeCardQuotaPage(getUserData(),
@@ -511,7 +512,7 @@ public class RechargeSelectActivity extends BaseActivity {
                                 mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
                                 mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
                                 mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                                mSplusPayManager.getPext(), mType, mPayway);
+                                mSplusPayManager.getPext(), mType, mPayway,mOrientation);
                         addView(mRechargeCardPage, RechargeCardPage.class.getName());
                     } else if (mType == Constant.RECHARGE_BY_QUATO) {
                         mRechargeCardQuotaPage = new RechargeCardQuotaPage(getUserData(),
@@ -531,7 +532,7 @@ public class RechargeSelectActivity extends BaseActivity {
                             mSplusPayManager.getGameid(), mSplusPayManager.getPartner(),
                             mSplusPayManager.getReferer(), mSplusPayManager.getRoleName(),
                             mSplusPayManager.getServerName(), mSplusPayManager.getOutorderid(),
-                            mSplusPayManager.getPext(), mType, mPayway);
+                            mSplusPayManager.getPext(), mType, mPayway,mOrientation);
                     addView(mRechargePersonPage, RechargePersonPage.class.getName());
                     break;
             }

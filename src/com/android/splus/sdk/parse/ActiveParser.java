@@ -26,8 +26,6 @@ public class ActiveParser extends BaseParser<HashMap<String, Object>> {
 
     @Override
     public HashMap<String, Object> parseJSON(String paramString) throws JSONException {
-
-        LogHelper.i(TAG, "paramString---"+paramString);
         JSONObject paramObject = new JSONObject(paramString);
         mHashMap = new HashMap<String, Object>();
         if (paramObject != null && paramObject.optInt(CODE) == SUCCESS) {
