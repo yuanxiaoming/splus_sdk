@@ -95,8 +95,6 @@ public class SplusPayManager implements IPayManager {
 
     private int mOrientation;
 
-    //    private int mScreenOrientation;
-
     private String mAppkey;
 
     private boolean mUseUpdate = false;
@@ -219,7 +217,7 @@ public class SplusPayManager implements IPayManager {
      */
     @Override
     public void init(Activity activity, String appkey, InitCallBack initCallBack,
-            boolean useUpdate) {
+            boolean useUpdate,int orientation) {
         mStartTime = DateUtil.getCurrentTimestamp();
         if (initCallBack == null) {
             LogHelper.i(TAG, "InitCallBack参数不能为空");
@@ -250,13 +248,7 @@ public class SplusPayManager implements IPayManager {
         // 初始化获取屏幕高度和宽度
         mHeight = Phoneuitl.getHpixels(activity);
         mWidth = Phoneuitl.getWpixels(activity);
-        //        if (screenType != Configuration.ORIENTATION_LANDSCAPE
-        //                && screenType != Configuration.ORIENTATION_PORTRAIT) {
-        //            LogHelper.i(TAG, "屏幕方向参数非法");
-        //            return;
-        //        }
-        //        this.mScreenOrientation = screenType;
-        mOrientation=Phoneuitl.getOrientation(activity) ;
+        mOrientation=orientation ;
         if (mOrientation== Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏方向，高<宽
             if (mHeight > mWidth) {
@@ -364,25 +356,6 @@ public class SplusPayManager implements IPayManager {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case INIT_SUCCESS:
-                    mHeight = Phoneuitl.getHpixels(mActivity);
-                    mWidth = Phoneuitl.getWpixels(mActivity);
-                    mOrientation=Phoneuitl.getOrientation(mActivity) ;
-                    if (mOrientation== Configuration.ORIENTATION_LANDSCAPE) {
-                        // 横屏方向，高<宽
-                        if (mHeight > mWidth) {
-                            int temp = mWidth;
-                            mWidth = mHeight;
-                            mHeight = temp;
-                        }
-                    } else  {
-                        // 竖屏方向 高>宽
-                        if (mHeight < mWidth) {
-                            int temp = mWidth;
-                            mWidth = mHeight;
-                            mHeight = temp;
-                        }
-                    }
-
                     removeInitView();
                     if (mInitCallBack != null) {
                         mInitCallBack.initSuccess("初始化成功！", mUpdateInfo);

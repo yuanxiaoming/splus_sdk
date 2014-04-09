@@ -23,7 +23,7 @@ public interface IPayManager {
      * @param useupdate 是否使用SDK平台的更新机制
      */
 
-    public void init(Activity activity, String appkey, InitCallBack initCallBack, boolean useUpdate);
+    public void init(Activity activity, String appkey, InitCallBack initCallBack, boolean useUpdate,int orientation);
 
     /**
      * 进入SDK登录
