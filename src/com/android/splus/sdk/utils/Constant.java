@@ -26,7 +26,7 @@ public class Constant {
 
     public static final String BINDMOBILE_URL = "http://sy.api.37wan.cn/action/activebindmobile.php?";
 
-    public static final String USERINFO_URL = "http://sy.api.37wan.cn/sdk/ext/userInfo.php";
+    public static final String USERINFO_URL = "http://api.splusgame.com/sdk/userInfo.php";
 
     public static final String GAME_INFO_URL = "http://sy.api.37wan.cn/sdk/ext/getInfo.php";
 
@@ -37,7 +37,7 @@ public class Constant {
 
     public static final String STATISTICS_GAME_URL = "http://api.splusgame.com/sdk/enter_server.php";
 
-    public static final String STATISTICS_ONLINETIME_URL = "http://sy.api.37wan.cn/action/changepasswd.php";
+    public static final String STATISTICS_ONLINETIME_URL = "http://api.splusgame.com/sdk/onlinetime.php";
 
 
     //充值：

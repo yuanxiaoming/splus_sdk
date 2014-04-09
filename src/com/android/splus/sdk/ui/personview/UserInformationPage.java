@@ -10,6 +10,7 @@ import com.android.splus.sdk.utils.date.DateUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil.DataCallback;
 import com.android.splus.sdk.utils.http.RequestModel;
+import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.md5.MD5Util;
 import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.r.KR;
@@ -238,11 +239,11 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
      */
     private void getUserInfoFromServer() {
         Long time = DateUtil.getUnixTime();
-        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid + mPassport + time+mAppkey;
+        String keyString = mGameid + mDeviceno + mReferer + mPartner + mUid + mPassport + time+mAppkey;
         UserRequestInfoModel mCheckUserRequestInfoData = new UserRequestInfoModel(mUid, mServerName,
                 mGameid, MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner, mReferer,mPassport);
-        String hashMapToGetPrrams = NetHttpUtil.hashMapTOgetParams(mCheckUserRequestInfoData, Constant.USERINFO_URL);
-        System.out.println("hashMapToGetPrrams-->" + hashMapToGetPrrams);
+
+        LogHelper.i("UserInformationPage", "url---"+ NetHttpUtil.hashMapTOgetParams(mCheckUserRequestInfoData, Constant.USERINFO_URL));
 
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.USERINFO_URL, mActivity,
                 mCheckUserRequestInfoData, new UserInfoParser()), userInfoCallBack);
@@ -254,12 +255,12 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
         public void callbackSuccess(UserInfoData userInfoData) {
             mEtRealName.setText(userInfoData.getRealname());
             if (userInfoData.getGendertype().equals("")) {
-
+                mRbSecret.setChecked(true);
             } else if (userInfoData.getGendertype().equals("0")) {
                 mRbSecret.setChecked(true);
             } else if (userInfoData.getGendertype().equals("1")) {
                 mRbBoy.setChecked(true);
-            } else if (mLandscape) {
+            } else if (userInfoData.getGendertype().equals("2")) {
                 mRbGirl.setChecked(true);
             }
             mEtIdCard.setText(userInfoData.getIdcard());
@@ -339,14 +340,12 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
         Long time = DateUtil.getUnixTime();
 
 
-        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid + mPassport + time+mAppkey;
+        String keyString = mGameid  + mDeviceno + mReferer + mPartner + mUid + mPassport + time+mAppkey;
         UserRequestInfoModel mSendUserRequestInfoData = new UserRequestInfoModel(mUid, mServerName,
                 mGameid, MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner,
                 mReferer, mPassport, realName, genderType, idCard, qq);
 
-        String hashMapToGetPrrams = NetHttpUtil.hashMapTOgetParams(mSendUserRequestInfoData, Constant.GAME_INFO_URL);
-        System.out.println("hashMapToGetPrrams-->" + hashMapToGetPrrams);
-
+        LogHelper.i("UserInformationPage", "url---"+ NetHttpUtil.hashMapTOgetParams(mSendUserRequestInfoData, Constant.USERINFO_URL));
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.USERINFO_URL, mActivity,
                 mSendUserRequestInfoData, new UserInfoParser()), sendUserInfoCallBack);
     }

@@ -889,13 +889,12 @@ public class SplusPayManager implements IPayManager {
         String keyString = getGameid()+ deviceno + getReferer() + getPartner()+ uid + passport + serverName+roleName + level + time+getAppkey();
         GameStatisticsModel mGameStatisticsModel = new GameStatisticsModel(getGameid(),
                 deviceno,getPartner(),getReferer(), uid, passport, roleName, level, serverName, time,MD5Util.getMd5toLowerCase(keyString));
-        LogHelper.i(TAG, "url---"+ NetHttpUtil.hashMapTOgetParams(mGameStatisticsModel, Constant.STATISTICS_GAME_URL));
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(
                 Constant.STATISTICS_GAME_URL, mActivity, mGameStatisticsModel,
                 new LoginParser()), new DataCallback<JSONObject>() {
             @Override
             public void callbackSuccess(JSONObject paramObject) {
-                LogHelper.i(TAG,"paramObject---"+paramObject.toString());
+
                 try {
                     if (paramObject != null && paramObject.getInt("code") == 1) {
                         LogHelper.i(TAG, paramObject.toString());
@@ -1011,16 +1010,17 @@ public class SplusPayManager implements IPayManager {
                 mActivity);
         long onLineTime = onLineTimeEnd - onLineTimeStart;
         String deviceno = SharedPreferencesHelper.getInstance().getdevicenoPreferences(mActivity);
-        String keyString = getGameid() + deviceno+getReferer() + getPartner()+ uid + passport + time;
+        String keyString = getGameid() + deviceno+getReferer() + getPartner()+ uid + passport + time+getAppkey();
         GameStatisticsModel mGameStatisticsModel= new GameStatisticsModel(getGameid(),deviceno,getPartner(),getReferer(),
                 uid, passport, roleName, level, serverName, onLineTimeStart,onLineTimeEnd, onLineTime, time, MD5Util.getMd5toLowerCase(keyString ));
+        LogHelper.i(TAG, "url---"+ NetHttpUtil.hashMapTOgetParams(mGameStatisticsModel, Constant.STATISTICS_ONLINETIME_URL));
 
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.STATISTICS_ONLINETIME_URL,
                 mActivity, mGameStatisticsModel, new LoginParser()),
                 new DataCallback<JSONObject>() {
             @Override
             public void callbackSuccess(JSONObject paramObject) {
-
+                LogHelper.i(TAG,"paramObject---"+paramObject.toString());
                 try {
                     if (paramObject != null && paramObject.getInt("code") == 1) {
                         LogHelper.i(TAG, paramObject.toString());
