@@ -132,6 +132,8 @@ public class Constant {
 
     public static final String ONTIMELINE_START = "onlinetime_start";
 
+    public static final String ONTIMELINE_END = "onlinetime_end";
+
     /** ******************************************************************************************/
     public static String RECHARGE_RESULT_TIPS = "recharge_result_tips";
 

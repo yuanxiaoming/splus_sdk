@@ -420,7 +420,7 @@ public class SplusPayManager implements IPayManager {
                 mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time, sign);
         NetHttpUtil.getDataFromServerPOST(getContext(), new RequestModel(Constant.ACTIVE_URL,
                 getContext(), mActiveMode, new ActiveParser()), onActiveCallBack);
-    //    LogHelper.i("requestInit", NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
+        //    LogHelper.i("requestInit", NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
 
     }
 
@@ -896,7 +896,7 @@ public class SplusPayManager implements IPayManager {
 
                 try {
                     if (paramObject != null && paramObject.getInt("code") == 1) {
-                      //  LogHelper.i(TAG, paramObject.toString());
+                        //  LogHelper.i(TAG, paramObject.toString());
                         LogHelper.i(TAG, "统计区服角色等级成功");
                     } else {
                         LogHelper.i(TAG, "统计区服角色等级失败");
@@ -954,10 +954,13 @@ public class SplusPayManager implements IPayManager {
      */
     @Override
     public void onResume(Activity activity) {
-
+        if(SharedPreferencesHelper.getInstance().getOnlineTimeEedPreferences(mActivity)!=0){
+            sendOnLineTimeStatics(activity, getRoleName(), getLevel(), getServerName());
+        }
+        LogHelper.i(TAG, "统计在线时长开始------ " + "onResume");
         SharedPreferencesHelper.getInstance().setOnlineTimeStartPreferences(mActivity,
                 DateUtil.getUnixTime());
-        LogHelper.i(TAG, "统计在线时长开始------ " + "onResume");
+
     }
 
     /**
@@ -1003,7 +1006,7 @@ public class SplusPayManager implements IPayManager {
             passport = mUserModel.getUserName();
             uid = mUserModel.getUid().toString();
         }
-        long time = DateUtil.getUnixTime();
+        final long time = DateUtil.getUnixTime();
         long onLineTimeEnd = time;
         long onLineTimeStart = SharedPreferencesHelper.getInstance().getOnlineTimeStartPreferences(
                 mActivity);
@@ -1012,21 +1015,23 @@ public class SplusPayManager implements IPayManager {
         String keyString = getGameid() + deviceno+getReferer() + getPartner()+ uid + passport + time+getAppkey();
         GameStatisticsModel mGameStatisticsModel= new GameStatisticsModel(getGameid(),deviceno,getPartner(),getReferer(),
                 uid, passport, roleName, level, serverName, onLineTimeStart,onLineTimeEnd, onLineTime, time, MD5Util.getMd5toLowerCase(keyString ));
-    //    LogHelper.i(TAG,  NetHttpUtil.hashMapTOgetParams(mGameStatisticsModel, Constant.STATISTICS_ONLINETIME_URL));
+        //    LogHelper.i(TAG,  NetHttpUtil.hashMapTOgetParams(mGameStatisticsModel, Constant.STATISTICS_ONLINETIME_URL));
 
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.STATISTICS_ONLINETIME_URL,
                 mActivity, mGameStatisticsModel, new LoginParser()),
                 new DataCallback<JSONObject>() {
             @Override
             public void callbackSuccess(JSONObject paramObject) {
-         //       LogHelper.i(TAG,"paramObject---"+paramObject.toString());
+                //       LogHelper.i(TAG,"paramObject---"+paramObject.toString());
                 try {
                     if (paramObject != null && paramObject.getInt("code") == 1) {
+                        SharedPreferencesHelper.getInstance().setOnlineTimeEndPreferences(mActivity,0L);
                         LogHelper.i(TAG, "统计在线时长成功");
                     } else {
                         LogHelper.i(TAG, "统计在线时失败");
                     }
                 } catch (JSONException e) {
+                    SharedPreferencesHelper.getInstance().setOnlineTimeEndPreferences(mActivity,time);
                     LogHelper.i(TAG, e.getLocalizedMessage());
                     LogHelper.i(TAG, "统计在线时失败");
                 }
@@ -1034,6 +1039,7 @@ public class SplusPayManager implements IPayManager {
 
             @Override
             public void callbackError(String error) {
+                SharedPreferencesHelper.getInstance().setOnlineTimeEndPreferences(mActivity,time);
                 LogHelper.i(TAG, error);
                 LogHelper.i(TAG, "统计在线时失败");
             }

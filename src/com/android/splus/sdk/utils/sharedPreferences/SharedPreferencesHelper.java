@@ -211,4 +211,41 @@ public class SharedPreferencesHelper {
         return sharedPreferences.getLong(Constant.ONTIMELINE_START, 0);
     }
 
+
+    /**
+     * @Title: setOnlineTimeEndPreferences(保存在线时长结束值)
+     * @author xiaoming.yuan
+     * @data 2013-12-16 下午4:44:18
+     * @param context
+     * @param key
+     * @param value
+     * @return boolean 返回类型
+     */
+    public boolean setOnlineTimeEndPreferences(Context context, Long value) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                Constant.ONTIMELINE_FILE, Context.MODE_PRIVATE);
+        Editor edit = sharedPreferences.edit();
+        edit.putLong(Constant.ONTIMELINE_END, value);
+        boolean commit = edit.commit();
+        return commit;
+    }
+
+    /**
+     * @Title: getOnlineTimeEedPreferences(获取保存在线时长开始值)
+     * @author xiaoming.yuan
+     * @data 2013-12-16 下午4:44:47
+     * @param context
+     * @param MODE
+     * @param fileName
+     * @param key
+     * @param defValue
+     * @return String 返回类型
+     */
+    public Long getOnlineTimeEedPreferences(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                Constant.ONTIMELINE_FILE, Context.MODE_PRIVATE);
+        return sharedPreferences.getLong(Constant.ONTIMELINE_END, 0);
+    }
+
+
 }
