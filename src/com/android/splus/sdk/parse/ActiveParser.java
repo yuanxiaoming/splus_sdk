@@ -30,16 +30,18 @@ public class ActiveParser extends BaseParser<HashMap<String, Object>> {
         mHashMap = new HashMap<String, Object>();
         if (paramObject != null && paramObject.optInt(CODE) == SUCCESS) {
             JSONObject jsonObject = paramObject.optJSONObject(DATA);
-            String deviceno = jsonObject.optString(ActiveData.DEVICENO);
-            int updatetype = jsonObject.optInt(ActiveData.UPDATETYPE);
-            String sdkVersion = jsonObject.optString(ActiveData.SDKVER);
-            String gameVersion = jsonObject.optString(ActiveData.GAMEVER);
-            String updateurl = jsonObject.optString(ActiveData.UPDATEURL);
-            String updatecontent = jsonObject.optString(ActiveData.UPDATECONTENT);
-            String easyRegisterPassport = jsonObject.optString(ActiveData.PASSPORT);
-            String relationships = jsonObject.optString(ActiveData.RELATIONSHIPS);
-            mActiveData = new ActiveData(deviceno, updatetype, sdkVersion, gameVersion, updateurl,
-                    updatecontent, easyRegisterPassport, relationships);
+            if(jsonObject!=null){
+                String deviceno = jsonObject.optString(ActiveData.DEVICENO);
+                int updatetype = jsonObject.optInt(ActiveData.UPDATETYPE);
+                String sdkVersion = jsonObject.optString(ActiveData.SDKVER);
+                String gameVersion = jsonObject.optString(ActiveData.GAMEVER);
+                String updateurl = jsonObject.optString(ActiveData.UPDATEURL);
+                String updatecontent = jsonObject.optString(ActiveData.UPDATECONTENT);
+                String easyRegisterPassport = jsonObject.optString(ActiveData.PASSPORT);
+                String relationships = jsonObject.optString(ActiveData.RELATIONSHIPS);
+                mActiveData = new ActiveData(deviceno, updatetype, sdkVersion, gameVersion, updateurl,
+                        updatecontent, easyRegisterPassport, relationships);
+            }
         } else {
             msg = paramObject.getString(MSG);
             LogHelper.i(TAG, msg);

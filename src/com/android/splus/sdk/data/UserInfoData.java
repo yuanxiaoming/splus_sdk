@@ -1,5 +1,7 @@
 package com.android.splus.sdk.data;
 
+import android.text.TextUtils;
+
 import java.util.HashMap;
 
 /**
@@ -29,10 +31,10 @@ public class UserInfoData extends HashMap<String, Object> {
     private String qq;
 
     public UserInfoData(String realname, String gendertype, String idcard, String qq) {
-        this.put(REALNAME, realname == null ? "" : realname);
-        this.put(GENDERTYPE, gendertype == null ? "" : gendertype);
-        this.put(IDCARD, idcard == null ? "" : idcard);
-        this.put(QQ, qq == null ? "" : qq);
+        this.put(REALNAME, TextUtils.isEmpty(realname) == true ? "" : realname);
+        this.put(GENDERTYPE,  TextUtils.isEmpty(gendertype) == true ? "" : gendertype);
+        this.put(IDCARD, TextUtils.isEmpty(idcard) == true ? "" : idcard);
+        this.put(QQ, TextUtils.isEmpty(qq) == true ? "" : qq);
     }
 
 

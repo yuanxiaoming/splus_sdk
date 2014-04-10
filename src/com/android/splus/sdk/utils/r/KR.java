@@ -545,7 +545,7 @@ public final class KR {
         /**
          * 个人中心
          */
-        public static final String splus_person_center_welcome_text = "尊敬的：%s，欢迎来到个人中心";
+        public static final String splus_person_center_welcome_text = "尊敬的：%s 欢迎来到个人中心";
 
         public static final String splus_person_center_welcome_text_portrait = "尊敬的：%s\n欢迎来到个人中心";
 
@@ -577,13 +577,13 @@ public final class KR {
 
         public static final String splus_person_account_binding_phone = "绑定手机";
 
-        public static final String splus_person_account_welcome_text = "尊敬的：%s欢迎来到个人中心";
+        public static final String splus_person_account_welcome_text = "尊敬的：%s 欢迎来到个人中心";
 
         public static final String splus_person_account_welcome_text_portrait = "尊敬的：%s\n为保障您的账号安全，请尽快完善您的资料";
 
 
         /**个人中心  ---- 个人资料菜单*/
-        public static final String splus_person_center_userinformation_welcone_text_user = "尊敬的：%s为保障您的账号安全，请尽快完善您的资料";
+        public static final String splus_person_center_userinformation_welcone_text_user = "尊敬的：%s 为保障您的账号安全，请尽快完善您的资料";
         public static final String splus_person_center_userinformation_welcone_text_user_portrait = "尊敬的：%s\n为保障您的账号安全，请尽快完善您的资料";
         public static final String splus_person_center_userinformation_realname_text = "真实姓名：";
         public static final String splus_person_center_userinformation_sex_text = "性别：";

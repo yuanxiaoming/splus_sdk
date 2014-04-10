@@ -11,37 +11,50 @@
 
 package com.android.splus.sdk.parse;
 
-
 import com.android.splus.sdk.data.UserInfoData;
 import com.android.splus.sdk.utils.http.BaseParser;
+import com.android.splus.sdk.utils.log.LogHelper;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 /**
  * CheckUserInfoParser
- * @author 0794
  *
+ * @author 0794
  */
-public class UserInfoParser extends BaseParser<UserInfoData> {
+public class UserInfoParser extends BaseParser<HashMap<String, Object>> {
+    private static final String TAG = "ActiveParser";
+
+    private HashMap<String, Object> mHashMap;
+
+    private UserInfoData userInfoData = null;
+
+    private String msg;
 
     @Override
-    public UserInfoData parseJSON(String paramString) throws JSONException {
-        UserInfoData userInfoData=null;
+    public HashMap<String, Object> parseJSON(String paramString) throws JSONException {
         JSONObject paramObject = new JSONObject(paramString);
-        if (paramObject != null && paramObject.optInt("code") == 1) {
-            JSONArray GameInfoArray = paramObject.optJSONArray("data");
-            for (int i = 0; i < GameInfoArray.length(); i++) {
-                JSONObject jsonObject = (JSONObject) GameInfoArray.get(i);
+        mHashMap = new HashMap<String, Object>();
+        if (paramObject != null && paramObject.optInt(CODE) == SUCCESS) {
+            JSONObject jsonObject = paramObject.optJSONObject(DATA);
+            if (jsonObject != null) {
                 String realname = jsonObject.optString(UserInfoData.REALNAME);
                 String gendertype = jsonObject.optString(UserInfoData.GENDERTYPE);
                 String idcard = jsonObject.optString(UserInfoData.IDCARD);
                 String qq = jsonObject.optString(UserInfoData.QQ);
                 userInfoData = new UserInfoData(realname, gendertype, idcard, qq);
             }
+        } else {
+            msg = paramObject.getString(MSG);
+            LogHelper.i(TAG, msg);
+
         }
-        return userInfoData;
+        mHashMap.put(DATA, userInfoData);
+        mHashMap.put(MSG, msg);
+        return mHashMap;
     }
 
 }

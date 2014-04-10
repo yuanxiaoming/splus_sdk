@@ -420,6 +420,7 @@ public class SplusPayManager implements IPayManager {
                 mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time, sign);
         NetHttpUtil.getDataFromServerPOST(getContext(), new RequestModel(Constant.ACTIVE_URL,
                 getContext(), mActiveMode, new ActiveParser()), onActiveCallBack);
+    //    LogHelper.i("requestInit", NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
 
     }
 
@@ -889,15 +890,13 @@ public class SplusPayManager implements IPayManager {
         String keyString = getGameid()+ deviceno + getReferer() + getPartner()+ uid + passport + serverName+roleName + level + time+getAppkey();
         GameStatisticsModel mGameStatisticsModel = new GameStatisticsModel(getGameid(),
                 deviceno,getPartner(),getReferer(), uid, passport, roleName, level, serverName, time,MD5Util.getMd5toLowerCase(keyString));
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(
-                Constant.STATISTICS_GAME_URL, mActivity, mGameStatisticsModel,
-                new LoginParser()), new DataCallback<JSONObject>() {
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.STATISTICS_GAME_URL, mActivity, mGameStatisticsModel,new LoginParser()), new DataCallback<JSONObject>() {
             @Override
             public void callbackSuccess(JSONObject paramObject) {
 
                 try {
                     if (paramObject != null && paramObject.getInt("code") == 1) {
-                        LogHelper.i(TAG, paramObject.toString());
+                      //  LogHelper.i(TAG, paramObject.toString());
                         LogHelper.i(TAG, "统计区服角色等级成功");
                     } else {
                         LogHelper.i(TAG, "统计区服角色等级失败");
@@ -969,7 +968,7 @@ public class SplusPayManager implements IPayManager {
      */
     @Override
     public void onPause(Activity activity) {
-        LogHelper.i(TAG, "统计在线时长结束------ " + "onResume");
+        LogHelper.i(TAG, "统计在线时长结束------ " + "onPause");
         sendOnLineTimeStatics(activity, getRoleName(), getLevel(), getServerName());
     }
 
@@ -1013,14 +1012,14 @@ public class SplusPayManager implements IPayManager {
         String keyString = getGameid() + deviceno+getReferer() + getPartner()+ uid + passport + time+getAppkey();
         GameStatisticsModel mGameStatisticsModel= new GameStatisticsModel(getGameid(),deviceno,getPartner(),getReferer(),
                 uid, passport, roleName, level, serverName, onLineTimeStart,onLineTimeEnd, onLineTime, time, MD5Util.getMd5toLowerCase(keyString ));
-        LogHelper.i(TAG, "url---"+ NetHttpUtil.hashMapTOgetParams(mGameStatisticsModel, Constant.STATISTICS_ONLINETIME_URL));
+    //    LogHelper.i(TAG,  NetHttpUtil.hashMapTOgetParams(mGameStatisticsModel, Constant.STATISTICS_ONLINETIME_URL));
 
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.STATISTICS_ONLINETIME_URL,
                 mActivity, mGameStatisticsModel, new LoginParser()),
                 new DataCallback<JSONObject>() {
             @Override
             public void callbackSuccess(JSONObject paramObject) {
-                LogHelper.i(TAG,"paramObject---"+paramObject.toString());
+         //       LogHelper.i(TAG,"paramObject---"+paramObject.toString());
                 try {
                     if (paramObject != null && paramObject.getInt("code") == 1) {
                         LogHelper.i(TAG, paramObject.toString());
