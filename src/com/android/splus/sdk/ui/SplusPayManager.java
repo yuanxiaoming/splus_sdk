@@ -1022,7 +1022,6 @@ public class SplusPayManager implements IPayManager {
          //       LogHelper.i(TAG,"paramObject---"+paramObject.toString());
                 try {
                     if (paramObject != null && paramObject.getInt("code") == 1) {
-                        LogHelper.i(TAG, paramObject.toString());
                         LogHelper.i(TAG, "统计在线时长成功");
                     } else {
                         LogHelper.i(TAG, "统计在线时失败");
