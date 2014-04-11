@@ -2,6 +2,14 @@
 package com.android.splus.sdk.model;
 public class SQModel extends BaseModel {
 
+
+    /**
+     * @Fields serialVersionUID
+     */
+
+    private static final long serialVersionUID = 1L;
+
+
     private static final String TAG = "SQModel";
 
 

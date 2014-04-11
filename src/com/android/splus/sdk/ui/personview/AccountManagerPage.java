@@ -106,8 +106,7 @@ public class AccountManagerPage extends ScrollView {
                 + mPassport + time + mAppkey;
         CheckPhoneModel checkPhoneModel = new CheckPhoneModel(mGameid, mDeviceno, mPartner,
                 mReferer, mUid, mServerName, mPassport, time, MD5Util.getMd5toLowerCase(keyString));
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,
-                mActivity, checkPhoneModel, new LoginParser()), mCheckCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,checkPhoneModel, new LoginParser()), mCheckCallBack);
     }
 
     /**

@@ -11,7 +11,6 @@
 
 package com.android.splus.sdk.model;
 
-import org.json.JSONObject;
 
 /**
  * @ClassName:GetCodeData

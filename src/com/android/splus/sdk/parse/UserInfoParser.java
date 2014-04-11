@@ -23,7 +23,7 @@ import java.util.HashMap;
 /**
  * CheckUserInfoParser
  *
- * @author 0794
+ * @author yuanxiaoming
  */
 public class UserInfoParser extends BaseParser<HashMap<String, Object>> {
     private static final String TAG = "ActiveParser";

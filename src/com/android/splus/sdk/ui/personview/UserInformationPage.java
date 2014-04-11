@@ -248,8 +248,7 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
 
    //     LogHelper.i("UserInformationPage", "url---"+ NetHttpUtil.hashMapTOgetParams(mCheckUserRequestInfoData, Constant.USERINFO_URL));
 
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.USERINFO_URL, mActivity,
-                mCheckUserRequestInfoData, new UserInfoParser()), userInfoCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.USERINFO_URL,mCheckUserRequestInfoData, new UserInfoParser()), userInfoCallBack);
     }
 
     private DataCallback<HashMap<String, Object>> userInfoCallBack = new DataCallback<HashMap<String, Object>>() {
@@ -353,8 +352,7 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
                 mReferer, mPassport, realName, genderType, idCard, qq);
 
     //    LogHelper.i("UserInformationPage", "url---"+ NetHttpUtil.hashMapTOgetParams(mSendUserRequestInfoData, Constant.USERINFO_URL));
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.USERINFO_URL, mActivity,
-                mSendUserRequestInfoData, new UserInfoParser()), sendUserInfoCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.USERINFO_URL,mSendUserRequestInfoData, new UserInfoParser()), sendUserInfoCallBack);
     }
 
     private DataCallback<HashMap<String, Object>> sendUserInfoCallBack = new DataCallback<HashMap<String, Object>>() {

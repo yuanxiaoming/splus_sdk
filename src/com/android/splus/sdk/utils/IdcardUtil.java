@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -129,7 +130,7 @@ public class IdcardUtil {
             return errorInfo;
         }
         GregorianCalendar gc = new GregorianCalendar();
-        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
         try {
             if ((gc.get(Calendar.YEAR) - Integer.parseInt(strYear)) > 150
                     || (gc.getTime().getTime() - s.parse(strYear + "-" + strMonth + "-" + strDay)
@@ -138,12 +139,10 @@ public class IdcardUtil {
                 return errorInfo;
             }
         } catch (NumberFormatException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             errorInfo = "身份证生日格式有误。";
             return errorInfo;
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             errorInfo = "身份证生日格式有误。";
             return errorInfo;

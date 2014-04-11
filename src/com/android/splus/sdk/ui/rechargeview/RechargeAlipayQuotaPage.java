@@ -194,8 +194,7 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
         String keyString = mGameid + mPayway + time + mAppKey;
         RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time,
                 MD5Util.getMd5toLowerCase(keyString));
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.RATIO_URL,
-                mActivity, mRatioModel, new LoginParser()), onRatioebyCardCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.RATIO_URL, mRatioModel, new LoginParser()), onRatioebyCardCallBack);
     }
 
     private DataCallback<JSONObject> onRatioebyCardCallBack = new DataCallback<JSONObject>() {
@@ -257,8 +256,7 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
             if (mProgressDialog == null || !mProgressDialog.isShowing()) {
                 showProgressDialog();
             }
-            NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.HTMLWAPPAY_URL,
-                    mActivity, rechargeModel, new LoginParser()), onRechargeCallBack);
+            NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.HTMLWAPPAY_URL, rechargeModel, new LoginParser()), onRechargeCallBack);
 
         } else {
             String str = "充值金额：" + mRenminbi

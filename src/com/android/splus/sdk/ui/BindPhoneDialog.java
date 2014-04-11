@@ -342,8 +342,7 @@ public class BindPhoneDialog extends AlertDialog {
                 + mPassport + time + mAppkey;
         CheckPhoneModel checkPhoneModel = new CheckPhoneModel(mGameid, mDeviceno, mPartner,
                 mReferer, mUid, mServerName, mPassport, time, MD5Util.getMd5toLowerCase(keyString));
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,
-                mActivity, checkPhoneModel, new LoginParser()), mCheckCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL, checkPhoneModel, new LoginParser()), mCheckCallBack);
     }
 
     /**
@@ -405,8 +404,7 @@ public class BindPhoneDialog extends AlertDialog {
                 mPassport, mPhoneNumber);
         mDialog = ProgressDialogUtil.showProgress(mActivity, "加载中...", null, false, false);
         registerReceiver();
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,
-                mActivity, getCodeModel, new LoginParser()), mCodeCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,getCodeModel, new LoginParser()), mCodeCallBack);
     }
 
 
@@ -534,8 +532,7 @@ public class BindPhoneDialog extends AlertDialog {
                 mPassport, mPhoneCode, mPhoneNumber);
 
         mDialog = ProgressDialogUtil.showProgress(mActivity, "加载中...", null, false, false);
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,
-                mActivity, bindPhoneModel, new LoginParser()), mBindCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,bindPhoneModel, new LoginParser()), mBindCallBack);
     }
 
     /**

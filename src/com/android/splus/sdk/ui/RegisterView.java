@@ -367,7 +367,7 @@ public class RegisterView extends LinearLayout implements ViewRecoveryState {
         SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
                 SplusPayManager.getInstance().getAppkey(), false);
         // 一键注册 时注册接口
-        getDataFromServer(new RequestModel(Constant.REGISTER_URL, mActivity, mRegisterModel,
+        getDataFromServer(new RequestModel(Constant.REGISTER_URL, mRegisterModel,
                 new LoginParser()), onRegisterCallBack);
     }
 

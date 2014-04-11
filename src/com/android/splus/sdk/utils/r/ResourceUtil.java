@@ -79,14 +79,4 @@ public class ResourceUtil {
         return context.getResources().getIdentifier(resName, "color", context.getPackageName());
     }
 
-    /**
-     * 获取getStyle
-     *
-     * @param context
-     * @param resName
-     * @return
-     */
-    public static int getValuesId(Context context, String resName) {
-        return context.getResources().getIdentifier(resName, "style", context.getPackageName());
-    }
 }

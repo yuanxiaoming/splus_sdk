@@ -418,8 +418,7 @@ public class SplusPayManager implements IPayManager {
         String sign = MD5Util.getMd5toLowerCase(keyString + mAppkey);
         ActiveModel mActiveMode = new ActiveModel(mGameid, mPartner, mReferer, mac, imei, mWidth,
                 mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time, sign);
-        NetHttpUtil.getDataFromServerPOST(getContext(), new RequestModel(Constant.ACTIVE_URL,
-                getContext(), mActiveMode, new ActiveParser()), onActiveCallBack);
+        NetHttpUtil.getDataFromServerPOST(getContext(), new RequestModel(Constant.ACTIVE_URL,mActiveMode, new ActiveParser()), onActiveCallBack);
         //    LogHelper.i("requestInit", NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
 
     }
@@ -890,7 +889,7 @@ public class SplusPayManager implements IPayManager {
         String keyString = getGameid()+ deviceno + getReferer() + getPartner()+ uid + passport + serverName+roleName + level + time+getAppkey();
         GameStatisticsModel mGameStatisticsModel = new GameStatisticsModel(getGameid(),
                 deviceno,getPartner(),getReferer(), uid, passport, roleName, level, serverName, time,MD5Util.getMd5toLowerCase(keyString));
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.STATISTICS_GAME_URL, mActivity, mGameStatisticsModel,new LoginParser()), new DataCallback<JSONObject>() {
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.STATISTICS_GAME_URL, mGameStatisticsModel,new LoginParser()), new DataCallback<JSONObject>() {
             @Override
             public void callbackSuccess(JSONObject paramObject) {
 
@@ -1017,8 +1016,7 @@ public class SplusPayManager implements IPayManager {
                 uid, passport, roleName, level, serverName, onLineTimeStart,onLineTimeEnd, onLineTime, time, MD5Util.getMd5toLowerCase(keyString ));
         //    LogHelper.i(TAG,  NetHttpUtil.hashMapTOgetParams(mGameStatisticsModel, Constant.STATISTICS_ONLINETIME_URL));
 
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.STATISTICS_ONLINETIME_URL,
-                mActivity, mGameStatisticsModel, new LoginParser()),
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.STATISTICS_ONLINETIME_URL,mGameStatisticsModel, new LoginParser()),
                 new DataCallback<JSONObject>() {
             @Override
             public void callbackSuccess(JSONObject paramObject) {

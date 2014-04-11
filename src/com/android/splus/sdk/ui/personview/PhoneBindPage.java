@@ -326,8 +326,7 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
                 mPassport, mPhoneNumber);
         mDialog = ProgressDialogUtil.showProgress(mActivity, "加载中...", null, false, false);
         registerReceiver();
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,
-                mActivity, getCodeModel, new LoginParser()), mCodeCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,getCodeModel, new LoginParser()), mCodeCallBack);
     }
 
     /**
@@ -360,8 +359,7 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
                 mPassport, getCodeString(), mPhoneNumber);
 
         mDialog = ProgressDialogUtil.showProgress(mActivity, "加载中...", null, false, false);
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,
-                mActivity, bindPhoneModel, new LoginParser()), mBindCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL, bindPhoneModel, new LoginParser()), mBindCallBack);
     }
 
     /**

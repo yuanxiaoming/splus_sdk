@@ -238,8 +238,7 @@ public class PasswordPage extends ScrollView implements View.OnFocusChangeListen
 
         mDialog = ProgressDialogUtil.showProgress(mActivity, "加载中...", null, false, false);
 
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.PASSWORD_URL, mActivity,
-                passwordModel, new LoginParser()), mPwdDataCallback);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.PASSWORD_URL,passwordModel, new LoginParser()), mPwdDataCallback);
 
     }
 

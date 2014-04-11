@@ -5,7 +5,7 @@ import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA. Copyright: Copyright (c) 2013 User: xiaoming.yuan
- * Email: lijianfeng@37wan.com Date: 13-9-17 Time: 上午11:02 To change this
+ * Date: 13-9-17 Time: 上午11:02 To change this
  * template use File | Settings | File Templates.
  */
 public class ActiveModel extends BaseModel {

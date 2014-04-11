@@ -307,10 +307,8 @@ public class RechargeUnionPayPage extends LinearLayout {
         String keyString = mGameid + mPayway + time + mAppKey;
         RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time,
                 MD5Util.getMd5toLowerCase(keyString));
-        LogHelper
-                .i(TAG, "url---" + NetHttpUtil.hashMapTOgetParams(mRatioModel, Constant.RATIO_URL));
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.RATIO_URL,
-                mActivity, mRatioModel, new LoginParser()), onRatioebyCardCallBack);
+   //     LogHelper.i(TAG, "url---" + NetHttpUtil.hashMapTOgetParams(mRatioModel, Constant.RATIO_URL));
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.RATIO_URL,mRatioModel, new LoginParser()), onRatioebyCardCallBack);
     }
 
     private DataCallback<JSONObject> onRatioebyCardCallBack = new DataCallback<JSONObject>() {
@@ -391,10 +389,8 @@ public class RechargeUnionPayPage extends LinearLayout {
         if (mProgressDialog == null || !mProgressDialog.isShowing()) {
             showProgressDialog();
         }
-        LogHelper
-                .i(TAG, "url---" + NetHttpUtil.hashMapTOgetParams(rechargeModel, Constant.PAY_URL));
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.PAY_URL, mActivity,
-                rechargeModel, new LoginParser()), onRechargeCallBack);
+      //  LogHelper.i(TAG, "url---" + NetHttpUtil.hashMapTOgetParams(rechargeModel, Constant.PAY_URL));
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.PAY_URL,rechargeModel, new LoginParser()), onRechargeCallBack);
 
     }
 

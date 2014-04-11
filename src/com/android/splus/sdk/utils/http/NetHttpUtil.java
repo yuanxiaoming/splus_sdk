@@ -78,31 +78,6 @@ public class NetHttpUtil {
 
     }
 
-    /**
-     *
-     * @Title: getDataFromServer(获取网络数据对外接口)
-     * @author xiaoming.yuan
-     * @data 2014-1-16 上午10:16:09
-     * @param context
-     * @param requestModel
-     * @param dataCallBack
-     * void 返回类型
-     */
-    public static <T> void getDataFromServerPOST(Context context, RequestModel requestModel,
-            DataCallback<T> dataCallBack) {
-        REQUEST_MODE=REQUEST_POST;
-        BaseHandler handler = new BaseHandler(dataCallBack);
-        BaseTask taskThread = new BaseTask(context, requestModel, handler);
-        ThreadPoolManager.getInstance().addTask(taskThread);
-    }
-
-    public static <T> void getDataFromServerGET(Context context, RequestModel requestModel,
-            DataCallback<T> dataCallBack) {
-        REQUEST_MODE=REQUEST_GET;
-        BaseHandler handler = new BaseHandler(dataCallBack);
-        BaseTask taskThread = new BaseTask(context, requestModel, handler);
-        ThreadPoolManager.getInstance().addTask(taskThread);
-    }
 
     /**
      * @return Object 返回类型
@@ -360,22 +335,63 @@ public class NetHttpUtil {
         return strAllParam;
     }
 
+
+   /**
+    *
+    * @Title: getDataFromServer(POST获取网络数据对外接口)
+    * @author xiaoming.yuan
+    * @data 2014-1-16 上午10:16:09
+    * @param context
+    * @param requestModel
+    * @param dataCallBack
+    * void 返回类型
+    */
+   public static <T> void getDataFromServerPOST(Context context, RequestModel requestModel,
+           DataCallback<T> dataCallBack) {
+       REQUEST_MODE=REQUEST_POST;
+       BaseHandler handler = new BaseHandler(dataCallBack);
+       BaseTask taskThread = new BaseTask(context, requestModel, handler);
+       ThreadPoolManager.getInstance().addTask(taskThread);
+   }
+
+   /**
+    *
+    * @Title: getDataFromServerGET（GET获取网络数据对外接口)
+    * @author xiaoming.yuan
+    * @data 2014-4-11 下午5:07:49
+    * @param context
+    * @param requestModel
+    * @param dataCallBack
+    * void 返回类型
+    */
+   public static <T> void getDataFromServerGET(Context context, RequestModel requestModel,
+           DataCallback<T> dataCallBack) {
+       REQUEST_MODE=REQUEST_GET;
+       BaseHandler handler = new BaseHandler(dataCallBack);
+       BaseTask taskThread = new BaseTask(context, requestModel, handler);
+       ThreadPoolManager.getInstance().addTask(taskThread);
+   }
+
+
+
     /**
      * @ClassName: BaseHandler
      * @author xiaoming.yuan
      * @date 2014-1-2 下午4:42:36
      */
     private static class BaseHandler extends Handler {
+        @SuppressWarnings("rawtypes")
         private DataCallback mDataCallBack;
 
+        @SuppressWarnings("rawtypes")
         public BaseHandler(DataCallback dataCallback) {
             this.mDataCallBack = dataCallback;
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public void handleMessage(Message msg) {
-            super.handleMessage(msg); // To change body of overridden methods
-            // use File | Settings | File Templates.
+            super.handleMessage(msg);
             if (msg.what == NetHttpUtil.SUCCESS) {
                 if (msg.obj == null) {
                     if (mDataCallBack != null) {
@@ -419,25 +435,21 @@ public class NetHttpUtil {
 
         @Override
         public void run() {
-            // To change body of implemented methods use File | Settings | File
-            // Templates.
-            Object obj = null;
             Message msg = Message.obtain();
             try {
                 if (NetWorkUtil.isNetworkAvailable(mContext)) {
                     if(REQUEST_MODE==REQUEST_GET){
-                        obj = NetHttpUtil.get(mRequestModel,mContext);
+                        msg.obj = NetHttpUtil.get(mRequestModel,mContext);
                     }
                     if(REQUEST_MODE==REQUEST_POST){
-                        obj = NetHttpUtil.post(mRequestModel,mContext);
+                        msg.obj = NetHttpUtil.post(mRequestModel,mContext);
 
                     }
                     msg.what = NetHttpUtil.SUCCESS;
-                    msg.obj = obj;
                     mHandler.sendMessage(msg);
                 } else {
                     msg.what = NetHttpUtil.FAILED;
-                    msg.obj = obj;
+                    msg.obj = null;
                     mHandler.sendMessage(msg);
                 }
             } catch (Exception e) {
@@ -454,12 +466,7 @@ public class NetHttpUtil {
      * @param <T>
      */
     public abstract interface DataCallback<T> {
-        /**
-         * 回调
-         *
-         * @param paramObject
-         * @param paramBoolean 请求是否成功
-         */
+
         public abstract void callbackSuccess(T paramObject);
 
         public abstract void callbackError(String error);
