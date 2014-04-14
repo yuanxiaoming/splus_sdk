@@ -1,6 +1,7 @@
 
 package com.android.splus.sdk.apiinterface;
 
+import com.android.splus.sdk.api.InitBean;
 import com.android.splus.sdk.ui.FloatToolBar;
 import com.android.splus.sdk.ui.FloatToolBar.FloatToolBarAlign;
 
@@ -15,6 +16,20 @@ import android.content.Context;
  * @date 2013-8-9 下午1:03:54
  */
 public interface IPayManager {
+
+
+
+
+    /**
+     *
+     * @Title: setInitBean(初始化bean)
+     * @author xiaoming.yuan
+     * @data 2014-1-15 上午9:47:20
+     * @param bean
+     * void 返回类型
+     */
+    public void setInitBean(InitBean bean);
+
 
     /**
      * @param context
