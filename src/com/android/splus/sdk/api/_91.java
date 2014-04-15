@@ -12,11 +12,17 @@ import com.android.splus.sdk.ui.FloatToolBar.FloatToolBarAlign;
 import android.app.Activity;
 import android.content.Context;
 
+import java.util.Properties;
+
 public class _91 implements IPayManager {
     private static final String TAG = "_91";
     private static _91 m_91;
     private static byte[] lock = new byte[0];
-
+    // 平台参数
+    private Properties mProperties;
+    private String mAppId;
+    private String mAppKey;
+    private InitBean mInitBean;
 
 
     /**
@@ -48,11 +54,14 @@ public class _91 implements IPayManager {
 
     @Override
     public void setInitBean(InitBean bean) {
+        this.mInitBean=bean;
+        this.mProperties=mInitBean.getProperties();
     }
 
     @Override
     public void init(Activity activity, String appkey, InitCallBack initCallBack,
             boolean useUpdate, int orientation) {
+        mInitBean.initSplus(activity, initCallBack);
     }
 
     @Override

@@ -20,26 +20,6 @@ import java.util.Properties;
 public class PayManager {
     private static final String TAG = "PayManager";
 
-    public static final int SPLUS = 1;
-
-    public static final int SPLUS_91 = 2;
-
-    public static final int SPLUS_UC = 3;
-
-    public static final int SPLUS_XIAOMI = 4;
-
-    public static final int SPLUS_JIFENG = 5;
-
-    public static final int SPLUS_DCN = 6;
-
-    public static final int SPLUS_DUOKU = 7;
-
-    public static final int SPLUS_OPPO = 8;
-
-    public static final int SPLUS__91DJ = 9;
-
-    public static final int SPLUS__360 = 10;
-
     private Activity mActivity;
 
     private InitBean mInitBean;
@@ -50,7 +30,7 @@ public class PayManager {
 
     private static byte[] lock = new byte[0];
 
-    public static final String version = "1.0";
+    public static final String SDK_VERSION = "1.0";
 
     /**
      * @Title: PayManager
@@ -95,42 +75,39 @@ public class PayManager {
             boolean useUpdate, int orientation) {
 
         this.mActivity = activity;
-        if (mInitBean == null || mInitBean.getUsesdk() == 0) {
-            Properties prop = readPropertites(activity, "multiconfig");
+        if (mInitBean == null || mInitBean.getUsesdk() != 1) {
+            Properties prop = readPropertites(activity, APIConstants.CONFIG_FILENAME);
             mInitBean = InitBean.inflactBean(activity, prop, appkey);
-            if (mInitBean == null) {
-                mInitBean = new InitBean();
-            }
         }
         switch (mInitBean.getUsesdk()) {
-            case SPLUS:
+            case APIConstants.SPLUS:
                 mIPayManager = SplusPayManager.getInstance();
                 break;
-            case SPLUS_91:
+            case APIConstants.SPLUS_91:
                 mIPayManager = _91.getInstance();
                 break;
-            case SPLUS_UC:
+            case APIConstants.SPLUS_UC:
 
                 break;
-            case SPLUS_XIAOMI:
+            case APIConstants.SPLUS_XIAOMI:
 
                 break;
-            case SPLUS_JIFENG:
+            case APIConstants.SPLUS_JIFENG:
 
                 break;
-            case SPLUS_DCN:
+            case APIConstants.SPLUS_DCN:
 
                 break;
-            case SPLUS_DUOKU:
+            case APIConstants.SPLUS_DUOKU:
 
                 break;
-            case SPLUS_OPPO:
+            case APIConstants.SPLUS_OPPO:
 
                 break;
-            case SPLUS__91DJ:
+            case APIConstants.SPLUS__91DJ:
 
                 break;
-            case SPLUS__360:
+            case APIConstants.SPLUS__360:
 
                 break;
         }

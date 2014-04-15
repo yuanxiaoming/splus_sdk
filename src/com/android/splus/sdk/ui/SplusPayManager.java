@@ -44,8 +44,6 @@ import com.android.splus.sdk.widget.SplashPage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.app.Activity;
 import android.content.Context;
@@ -59,9 +57,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Properties;
 
 /**
  * @ClassName: SplusPayManager
@@ -71,6 +71,8 @@ import java.util.HashMap;
 
 public class SplusPayManager implements IPayManager {
     private static final String TAG = "SplusPayManager";
+
+    private static final String CONFIG_FILENAME="splusconfig";
 
     public static final String SDK_VERSION = "1.0";
 
@@ -222,7 +224,7 @@ public class SplusPayManager implements IPayManager {
      */
     @Override
     public void init(Activity activity, String appkey, InitCallBack initCallBack,
-            boolean useUpdate,int orientation) {
+            boolean useUpdate, int orientation) {
         mStartTime = DateUtil.getCurrentTimestamp();
         if (initCallBack == null) {
             LogHelper.i(TAG, "InitCallBack参数不能为空");
@@ -253,15 +255,15 @@ public class SplusPayManager implements IPayManager {
         // 初始化获取屏幕高度和宽度
         mHeight = Phoneuitl.getHpixels(activity);
         mWidth = Phoneuitl.getWpixels(activity);
-        mOrientation=orientation ;
-        if (mOrientation== Configuration.ORIENTATION_LANDSCAPE) {
+        mOrientation = orientation;
+        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏方向，高<宽
             if (mHeight > mWidth) {
                 int temp = mWidth;
                 mWidth = mHeight;
                 mHeight = temp;
             }
-        } else{
+        } else {
             // 竖屏方向 高>宽
             if (mHeight < mWidth) {
                 int temp = mWidth;
@@ -294,8 +296,7 @@ public class SplusPayManager implements IPayManager {
      * @data 2013-12-16 上午10:43:58 void 返回类型
      */
     private void getGameConfig(Activity activity, InitCallBack initCallBack) {
-        // 从资产中读取XMl文件
-        // 获取资产管理器
+
         AssetManager assetManager = activity.getAssets();
         if (assetManager == null) {
             LogHelper.i(TAG, "Activity参数不能为空");
@@ -306,51 +307,19 @@ public class SplusPayManager implements IPayManager {
         }
         try {
             // 获取文件输入流
-            InputStream is = assetManager.open("splus_config.xml");
-            if (is == null) {
-                LogHelper.i(TAG, "splus_config.xml文件不存在");
-                if (initCallBack != null) {
-                    initCallBack.initFaile("splus_config.xml文件不存在");
-                }
-                return;
-            }
-            // 创建构建XMLPull分析器工厂
-            XmlPullParserFactory xppf = XmlPullParserFactory.newInstance();
-            // 创建XMLPull分析器
-            XmlPullParser xpp = xppf.newPullParser();
-            // 设置分析器的输入流
-            xpp.setInput(is, "utf-8");
-            // 得到下一个事件
-            int eventType;
-            // 得到当前的事件
-            eventType = xpp.getEventType();
-            // 循环事件
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                switch (eventType) {
-                    case XmlPullParser.START_TAG:
-                        if (xpp.getName().equals("gameid")) {
-                            mGameid = Integer.parseInt(xpp.nextText());
-                        }
-                        if (xpp.getName().equals("partner")) {
-                            mPartner = xpp.nextText().trim();
-                        }
-                        if (xpp.getName().equals("referer")) {
-                            mReferer = xpp.nextText().trim();
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                // 获取下一个事件
-                eventType = xpp.next();
-            }
-
-        } catch (Exception e) {
+            InputStream in = assetManager.open(CONFIG_FILENAME);
+            Properties prop = new Properties();
+            prop.load(in);
+            mGameid = Integer.parseInt(prop.getProperty("gameid"));
+            mPartner = prop.getProperty("partner");
+            mReferer = prop.getProperty("referer");
+        } catch (IOException e) {
             LogHelper.i(TAG, e.getLocalizedMessage(), e);
-            LogHelper.i(TAG, "splus_config.xml文件配置错误");
-            initCallBack.initFaile("splus_config.xml文件配置错误");
-            return;
+            LogHelper.i(TAG, CONFIG_FILENAME+"文件配置错误");
+            initCallBack.initFaile(CONFIG_FILENAME+"文件配置错误");
+
         }
+
     }
 
     /**
@@ -396,13 +365,13 @@ public class SplusPayManager implements IPayManager {
             ProgressDialogUtil.showInfoDialog(getContext(), "提示", "当前网络不稳定,请检查您的网络设置！", 0,
                     new OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    repeatInit();
+                            repeatInit();
 
-                }
-            }, "确定", null, null, false);
+                        }
+                    }, "确定", null, null, false);
 
         } else {
             requestInit();
@@ -419,12 +388,14 @@ public class SplusPayManager implements IPayManager {
         long time = DateUtil.getUnixTime();
         String mac = Phoneuitl.getLocalMacAddress(getContext());
         String imei = Phoneuitl.getIMEI(getContext());
-        String keyString = mGameid + mReferer + mPartner + mac +imei+ time;
+        String keyString = mGameid + mReferer + mPartner + mac + imei + time;
         String sign = MD5Util.getMd5toLowerCase(keyString + mAppkey);
         ActiveModel mActiveMode = new ActiveModel(mGameid, mPartner, mReferer, mac, imei, mWidth,
                 mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time, sign);
-        NetHttpUtil.getDataFromServerPOST(getContext(), new RequestModel(Constant.ACTIVE_URL,mActiveMode, new ActiveParser()), onActiveCallBack);
-        //    LogHelper.i("requestInit", NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
+        NetHttpUtil.getDataFromServerPOST(getContext(), new RequestModel(Constant.ACTIVE_URL,
+                mActiveMode, new ActiveParser()), onActiveCallBack);
+        // LogHelper.i("requestInit",
+        // NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
 
     }
 
@@ -776,7 +747,7 @@ public class SplusPayManager implements IPayManager {
      * @see com.android.splus.sdk.apiinterface.IPayManager#logout(com.android.splus.sdk.apiinterface.LogoutCallBack)
      */
     @Override
-    public void logout(Activity activity,LogoutCallBack logoutCallBack) {
+    public void logout(Activity activity, LogoutCallBack logoutCallBack) {
         if (logoutCallBack == null) {
             LogHelper.i(TAG, "LogoutCallBack参数不能为空");
         }
@@ -822,7 +793,7 @@ public class SplusPayManager implements IPayManager {
 
         if (mLogoutCallBack == null) {
             LogHelper.i(TAG, "LogoutCallBack参数不能为空");
-            //            return;
+            // return;
         }
         if (activity == null) {
             LogHelper.i(TAG, "Activity参数不能为空");
@@ -862,7 +833,8 @@ public class SplusPayManager implements IPayManager {
             LogHelper.i(TAG, "Activity参数不能为空");
             return;
         }
-        if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, getAppkey())) {
+        if (!SharedPreferencesHelper.getInstance()
+                .getLoginStatusPreferences(mActivity, getAppkey())) {
             String msg = "您还没有登录或者登陆失效，请重新登陆。";
             LogHelper.i(TAG, "统计区服角色等级失败" + msg);
             return;
@@ -891,16 +863,19 @@ public class SplusPayManager implements IPayManager {
         }
         long time = DateUtil.getUnixTime();
         String deviceno = SharedPreferencesHelper.getInstance().getdevicenoPreferences(activity);
-        String keyString = getGameid()+ deviceno + getReferer() + getPartner()+ uid + passport + serverName+roleName + level + time+getAppkey();
-        GameStatisticsModel mGameStatisticsModel = new GameStatisticsModel(getGameid(),
-                deviceno,getPartner(),getReferer(), uid, passport, roleName, level, serverName, time,MD5Util.getMd5toLowerCase(keyString));
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.STATISTICS_GAME_URL, mGameStatisticsModel,new LoginParser()), new DataCallback<JSONObject>() {
+        String keyString = getGameid() + deviceno + getReferer() + getPartner() + uid + passport
+                + serverName + roleName + level + time + getAppkey();
+        GameStatisticsModel mGameStatisticsModel = new GameStatisticsModel(getGameid(), deviceno,
+                getPartner(), getReferer(), uid, passport, roleName, level, serverName, time,
+                MD5Util.getMd5toLowerCase(keyString));
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.STATISTICS_GAME_URL,
+                mGameStatisticsModel, new LoginParser()), new DataCallback<JSONObject>() {
             @Override
             public void callbackSuccess(JSONObject paramObject) {
 
                 try {
                     if (paramObject != null && paramObject.getInt("code") == 1) {
-                        //  LogHelper.i(TAG, paramObject.toString());
+                        // LogHelper.i(TAG, paramObject.toString());
                         LogHelper.i(TAG, "统计区服角色等级成功");
                     } else {
                         LogHelper.i(TAG, "统计区服角色等级失败");
@@ -938,7 +913,8 @@ public class SplusPayManager implements IPayManager {
                 return;
             }
         }
-        if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, getAppkey())) {
+        if (!SharedPreferencesHelper.getInstance()
+                .getLoginStatusPreferences(mActivity, getAppkey())) {
             String msg = "您还没有登录或者登陆失效，不能进行论坛，请重新登陆。";
             LogHelper.i(TAG, msg);
             ToastUtil.showToast(activity, msg);
@@ -958,7 +934,7 @@ public class SplusPayManager implements IPayManager {
      */
     @Override
     public void onResume(Activity activity) {
-        if(SharedPreferencesHelper.getInstance().getOnlineTimeEedPreferences(mActivity)!=0){
+        if (SharedPreferencesHelper.getInstance().getOnlineTimeEedPreferences(mActivity) != 0) {
             sendOnLineTimeStatics(activity, getRoleName(), getLevel(), getServerName());
         }
         LogHelper.i(TAG, "统计在线时长开始------ " + "onResume");
@@ -979,7 +955,6 @@ public class SplusPayManager implements IPayManager {
         sendOnLineTimeStatics(activity, getRoleName(), getLevel(), getServerName());
     }
 
-
     /**
      * Title: sendOnLineTimeStatics 统计在线时长 Description:
      *
@@ -991,12 +966,14 @@ public class SplusPayManager implements IPayManager {
      *      java.lang.String, java.lang.String, java.lang.String)
      */
 
-    void sendOnLineTimeStatics(final Activity activity, String roleName, String level,String serverName) {
+    void sendOnLineTimeStatics(final Activity activity, String roleName, String level,
+            String serverName) {
         if (activity == null) {
             LogHelper.i(TAG, "Activity参数不能为空");
             return;
         }
-        if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, getAppkey())) {
+        if (!SharedPreferencesHelper.getInstance()
+                .getLoginStatusPreferences(mActivity, getAppkey())) {
             String msg = "您还没有登录或者登陆失效，请重新登陆。";
             LogHelper.i(TAG, "统计在线时长失败------ " + msg);
             return;
@@ -1016,37 +993,45 @@ public class SplusPayManager implements IPayManager {
                 mActivity);
         long onLineTime = onLineTimeEnd - onLineTimeStart;
         String deviceno = SharedPreferencesHelper.getInstance().getdevicenoPreferences(mActivity);
-        String keyString = getGameid() + deviceno+getReferer() + getPartner()+ uid + passport + time+getAppkey();
-        GameStatisticsModel mGameStatisticsModel= new GameStatisticsModel(getGameid(),deviceno,getPartner(),getReferer(),
-                uid, passport, roleName, level, serverName, onLineTimeStart,onLineTimeEnd, onLineTime, time, MD5Util.getMd5toLowerCase(keyString ));
-        //    LogHelper.i(TAG,  NetHttpUtil.hashMapTOgetParams(mGameStatisticsModel, Constant.STATISTICS_ONLINETIME_URL));
+        String keyString = getGameid() + deviceno + getReferer() + getPartner() + uid + passport
+                + time + getAppkey();
+        GameStatisticsModel mGameStatisticsModel = new GameStatisticsModel(getGameid(), deviceno,
+                getPartner(), getReferer(), uid, passport, roleName, level, serverName,
+                onLineTimeStart, onLineTimeEnd, onLineTime, time,
+                MD5Util.getMd5toLowerCase(keyString));
+        // LogHelper.i(TAG, NetHttpUtil.hashMapTOgetParams(mGameStatisticsModel,
+        // Constant.STATISTICS_ONLINETIME_URL));
 
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.STATISTICS_ONLINETIME_URL,mGameStatisticsModel, new LoginParser()),
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(
+                Constant.STATISTICS_ONLINETIME_URL, mGameStatisticsModel, new LoginParser()),
                 new DataCallback<JSONObject>() {
-            @Override
-            public void callbackSuccess(JSONObject paramObject) {
-                //       LogHelper.i(TAG,"paramObject---"+paramObject.toString());
-                try {
-                    if (paramObject != null && paramObject.getInt("code") == 1) {
-                        SharedPreferencesHelper.getInstance().setOnlineTimeEndPreferences(mActivity,0L);
-                        LogHelper.i(TAG, "统计在线时长成功");
-                    } else {
+                    @Override
+                    public void callbackSuccess(JSONObject paramObject) {
+                        // LogHelper.i(TAG,"paramObject---"+paramObject.toString());
+                        try {
+                            if (paramObject != null && paramObject.getInt("code") == 1) {
+                                SharedPreferencesHelper.getInstance().setOnlineTimeEndPreferences(
+                                        mActivity, 0L);
+                                LogHelper.i(TAG, "统计在线时长成功");
+                            } else {
+                                LogHelper.i(TAG, "统计在线时失败");
+                            }
+                        } catch (JSONException e) {
+                            SharedPreferencesHelper.getInstance().setOnlineTimeEndPreferences(
+                                    mActivity, time);
+                            LogHelper.i(TAG, e.getLocalizedMessage());
+                            LogHelper.i(TAG, "统计在线时失败");
+                        }
+                    }
+
+                    @Override
+                    public void callbackError(String error) {
+                        SharedPreferencesHelper.getInstance().setOnlineTimeEndPreferences(
+                                mActivity, time);
+                        LogHelper.i(TAG, error);
                         LogHelper.i(TAG, "统计在线时失败");
                     }
-                } catch (JSONException e) {
-                    SharedPreferencesHelper.getInstance().setOnlineTimeEndPreferences(mActivity,time);
-                    LogHelper.i(TAG, e.getLocalizedMessage());
-                    LogHelper.i(TAG, "统计在线时失败");
-                }
-            }
-
-            @Override
-            public void callbackError(String error) {
-                SharedPreferencesHelper.getInstance().setOnlineTimeEndPreferences(mActivity,time);
-                LogHelper.i(TAG, error);
-                LogHelper.i(TAG, "统计在线时失败");
-            }
-        });
+                });
 
     }
 
@@ -1101,12 +1086,10 @@ public class SplusPayManager implements IPayManager {
     }
 
     /**
-     *
      * @Title: getOrientation(这里用一句话描述这个方法的作用)
      * @author xiaoming.yuan
      * @data 2014-3-31 下午12:13:02
-     * @return
-     * int 返回类型
+     * @return int 返回类型
      */
     int getOrientation() {
         return this.mOrientation;
@@ -1229,6 +1212,5 @@ public class SplusPayManager implements IPayManager {
         return FloatToolBar.getFloatToolBar(mActivity, showlasttime, align, position);
 
     }
-
 
 }
