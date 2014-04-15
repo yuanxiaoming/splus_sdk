@@ -28,6 +28,8 @@ public class PayManager {
 
     private static PayManager mPayManager;
 
+    private boolean  mLogDbug;
+
     private static byte[] lock = new byte[0];
 
     public static final String SDK_VERSION = "1.0";
@@ -111,7 +113,9 @@ public class PayManager {
 
                 break;
         }
-
+        if (mIPayManager != null) {
+            mIPayManager.setDBUG(mLogDbug);
+        }
         mIPayManager.setInitBean(mInitBean);
         mIPayManager.init(mActivity, appkey, initCallBack, useUpdate, orientation);
     }
@@ -183,8 +187,9 @@ public class PayManager {
      * 控制日志DUBG
      */
     public void setDBUG(boolean logDbug) {
+         mLogDbug=logDbug;
         if (mIPayManager != null) {
-            mIPayManager.setDBUG(logDbug);
+            mIPayManager.setDBUG(mLogDbug);
         }
     }
 
