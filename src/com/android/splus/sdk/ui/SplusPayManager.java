@@ -310,9 +310,9 @@ public class SplusPayManager implements IPayManager {
             InputStream in = assetManager.open(CONFIG_FILENAME);
             Properties prop = new Properties();
             prop.load(in);
-            mGameid = Integer.parseInt(prop.getProperty("gameid"));
-            mPartner = prop.getProperty("partner");
-            mReferer = prop.getProperty("referer");
+            mGameid = Integer.parseInt(prop.getProperty("gameid").trim());
+            mPartner = prop.getProperty("partner").trim();
+            mReferer = prop.getProperty("referer").trim();
         } catch (IOException e) {
             LogHelper.i(TAG, e.getLocalizedMessage(), e);
             LogHelper.i(TAG, CONFIG_FILENAME+"文件配置错误");

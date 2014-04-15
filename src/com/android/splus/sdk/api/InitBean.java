@@ -62,10 +62,10 @@ public class InitBean {
         if (prop != null && !TextUtils.isEmpty(appkey)) {
             bean.setProperties(prop);
             bean.getGameConfig(activity, null);
-            bean.setOrientation(Integer.parseInt(prop.getProperty("orientation") == null ? "1"
-                    : prop.getProperty("orientation")));
-            bean.setFixed(Integer.parseInt(prop.getProperty("quota") == null ? "1" : prop
-                    .getProperty("quota"))); // 默认是1-定额
+            bean.setOrientation(Integer.parseInt(prop.getProperty("orientation").trim() == null ? "1"
+                    : prop.getProperty("orientation").trim()));
+            bean.setFixed(Integer.parseInt(prop.getProperty("quota").trim() == null ? "1" : prop
+                    .getProperty("quota").trim())); // 默认是1-定额
             bean.mAppkey = appkey;
         }
         return bean;
@@ -278,9 +278,9 @@ public class InitBean {
             InputStream in = assetManager.open(APIConstants.CONFIG_FILENAME);
             Properties prop = new Properties();
             prop.load(in);
-            mGameid = Integer.parseInt(prop.getProperty("gameid"));
-            mPartner = prop.getProperty("partner");
-            mReferer = prop.getProperty("referer");
+            mGameid = Integer.parseInt(prop.getProperty("gameid").trim());
+            mPartner = prop.getProperty("partner").trim();
+            mReferer = prop.getProperty("referer").trim();
         } catch (IOException e) {
             LogHelper.i(TAG, e.getLocalizedMessage(), e);
             LogHelper.i(TAG, APIConstants.CONFIG_FILENAME + "文件配置错误");
