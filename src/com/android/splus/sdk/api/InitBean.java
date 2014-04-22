@@ -3,7 +3,7 @@ package com.android.splus.sdk.api;
 
 import com.android.splus.sdk.apiinterface.InitCallBack;
 import com.android.splus.sdk.model.ActiveModel;
-import com.android.splus.sdk.parse.ActiveParser;
+import com.android.splus.sdk.parse.LoginParser;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.date.DateUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil;
@@ -35,7 +35,7 @@ public class InitBean {
 
     public int mUseSDK = 1;
 
-    public int mOrientation; // 是否横屏显示 1-横屏；
+    public int mOrientation; // 1是竖屏，2-横屏 ；
 
     public int mFixed; // 是否定额，1-定额
 
@@ -57,15 +57,17 @@ public class InitBean {
 
     private int mWidth;
 
-    public static InitBean inflactBean(Activity activity, Properties prop, String appkey) {
+    public static InitBean inflactBean(Activity activity, Properties prop, String appkey,Integer orientation) {
         InitBean bean = new InitBean();
         if (prop != null && !TextUtils.isEmpty(appkey)) {
             bean.setProperties(prop);
             bean.getGameConfig(activity, null);
-            bean.setOrientation(Integer.parseInt(prop.getProperty("orientation").trim() == null ? "1"
-                    : prop.getProperty("orientation").trim()));
-            bean.setFixed(Integer.parseInt(prop.getProperty("quota").trim() == null ? "1" : prop
-                    .getProperty("quota").trim())); // 默认是1-定额
+            if (orientation == null) {
+                bean.setOrientation(Integer.parseInt(prop.getProperty("orientation").trim() == null ? "1" : prop.getProperty("orientation").trim()));
+            } else {
+                bean.setOrientation(orientation);
+            }
+            bean.setFixed(Integer.parseInt(prop.getProperty("quota").trim() == null ? "1" : prop.getProperty("quota").trim())); // 默认是1-定额
             bean.mAppkey = appkey;
         }
         return bean;
@@ -74,7 +76,7 @@ public class InitBean {
     public void initSplus(final Activity activity, final InitCallBack initCallBack) {
         this.mActivity = activity;
         if (mUseSDK != APIConstants.SPLUS) {
-            init(activity, mAppkey, initCallBack,mOrientation == 1 ? Configuration.ORIENTATION_LANDSCAPE: Configuration.ORIENTATION_PORTRAIT);
+            init(activity, mAppkey, initCallBack,mOrientation == 1 ? Configuration.ORIENTATION_PORTRAIT: Configuration.ORIENTATION_LANDSCAPE);
         }
     }
 
@@ -133,7 +135,7 @@ public class InitBean {
         ActiveModel mActiveMode = new ActiveModel(mGameid, mPartner, mReferer, mac, imei, mWidth,
                 mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time, sign);
         NetHttpUtil.getDataFromServerPOST(activity, new RequestModel(Constant.ACTIVE_URL,
-                mActiveMode, new ActiveParser()), onActiveCallBack);
+                mActiveMode, new LoginParser()), onActiveCallBack);
         // LogHelper.i("requestInit",
         // NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
 
@@ -173,7 +175,10 @@ public class InitBean {
         public void callbackSuccess(JSONObject paramObject) {
             try {
                 if (paramObject != null && paramObject.optInt("code") == 1) {
-                    mDeviceNo = paramObject.optJSONObject("data").optString("deviceno");
+                    JSONObject dataObject = paramObject.optJSONObject("data");
+                    if (mDeviceNo != null) {
+                        mDeviceNo = dataObject.optString("deviceno");
+                    }
                 } else {
                     String msg = paramObject.getString("msg");
                     LogHelper.d(TAG, msg);
@@ -198,72 +203,6 @@ public class InitBean {
      * @data 2013-12-16 上午10:43:58 void 返回类型
      */
     private void getGameConfig(Activity activity, InitCallBack initCallBack) {
-        // // 从资产中读取XMl文件
-        // // 获取资产管理器
-        // AssetManager assetManager = activity.getAssets();
-        // if (assetManager == null) {
-        // LogHelper.i(TAG, "Activity参数不能为空");
-        // if (initCallBack != null) {
-        // initCallBack.initFaile("Activity参数不能为空");
-        // }
-        // return;
-        // }
-        // try {
-        // // 获取文件输入流
-        // InputStream is = assetManager.open("splus_config.xml");
-        // if (is == null) {
-        // LogHelper.i(TAG, "splus_config.xml文件不存在");
-        // if (initCallBack != null) {
-        // initCallBack.initFaile("splus_config.xml文件不存在");
-        // }
-        // return;
-        // }
-        // // 创建构建XMLPull分析器工厂
-        // XmlPullParserFactory xppf = XmlPullParserFactory.newInstance();
-        // // 创建XMLPull分析器
-        // XmlPullParser xpp = xppf.newPullParser();
-        // // 设置分析器的输入流
-        // xpp.setInput(is, "utf-8");
-        // // 得到下一个事件
-        // int eventType;
-        // // 得到当前的事件
-        // eventType = xpp.getEventType();
-        // // 循环事件
-        // while (eventType != XmlPullParser.END_DOCUMENT) {
-        // switch (eventType) {
-        // case XmlPullParser.START_TAG:
-        // if (xpp.getName().equals("gameid")) {
-        // mGameid = Integer.parseInt(xpp.nextText());
-        // }
-        // if (xpp.getName().equals("partner")) {
-        // mPartner = xpp.nextText().trim();
-        // }
-        // if (xpp.getName().equals("referer")) {
-        // mReferer = xpp.nextText().trim();
-        // }
-        // break;
-        // default:
-        // break;
-        // }
-        // // 获取下一个事件
-        // eventType = xpp.next();
-        // }
-        //
-        // } catch (Exception e) {
-        // LogHelper.i(TAG, e.getLocalizedMessage(), e);
-        // LogHelper.i(TAG, "splus_config.xml文件配置错误");
-        // if (initCallBack != null) {
-        // initCallBack.initFaile("splus_config.xml文件配置错误");
-        // }
-        // return;
-        // }
-        // mUseSDK = PayManager.SPLUS;
-        // try {
-        // mUseSDK = Integer.parseInt(mPartner);
-        // } catch (NumberFormatException e) {
-        // e.printStackTrace();
-        //
-        // }
 
         AssetManager assetManager = activity.getAssets();
         if (assetManager == null) {

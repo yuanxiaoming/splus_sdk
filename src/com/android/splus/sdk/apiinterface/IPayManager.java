@@ -38,7 +38,7 @@ public interface IPayManager {
      * @param useupdate 是否使用SDK平台的更新机制
      */
 
-    public void init(Activity activity, String appkey, InitCallBack initCallBack, boolean useUpdate,int orientation);
+    public void init(Activity activity, String appkey, InitCallBack initCallBack, boolean useUpdate,Integer orientation);
 
     /**
      * 进入SDK登录
@@ -106,7 +106,7 @@ public interface IPayManager {
     * 悬浮按钮
     */
 
-   public FloatToolBar creatFloatButton(Activity mActivity, boolean showlasttime,
+   public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime,
            FloatToolBarAlign align, float position);
 
    /**
@@ -119,6 +119,9 @@ public interface IPayManager {
     * 在线时长统计结束
     */
    public void onPause(Activity activity);
+
+
+   public void onStop(Activity activity);
 
 
 }

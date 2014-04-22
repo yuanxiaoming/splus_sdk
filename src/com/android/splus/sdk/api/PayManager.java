@@ -74,12 +74,13 @@ public class PayManager {
      *      boolean, int)
      */
     public synchronized void init(Activity activity, String appkey, InitCallBack initCallBack,
-            boolean useUpdate, int orientation) {
+            boolean useUpdate, Integer orientation) {
 
         this.mActivity = activity;
-        if (mInitBean == null || mInitBean.getUsesdk() != 1) {
+
+        if (mInitBean == null || mInitBean.getUsesdk() != APIConstants.SPLUS) {
             Properties prop = readPropertites(activity, APIConstants.CONFIG_FILENAME);
-            mInitBean = InitBean.inflactBean(activity, prop, appkey);
+            mInitBean = InitBean.inflactBean(activity, prop, appkey,orientation);
         }
         switch (mInitBean.getUsesdk()) {
             case APIConstants.SPLUS:
@@ -252,6 +253,14 @@ public class PayManager {
         if (mIPayManager != null) {
             mIPayManager.onPause(activity);
         }
+    }
+
+
+    public void onStop(Activity activity){
+        if (mIPayManager != null) {
+            mIPayManager.onStop(activity);
+        }
+
     }
 
     /**

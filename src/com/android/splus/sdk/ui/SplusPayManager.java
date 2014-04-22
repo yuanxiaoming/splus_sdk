@@ -224,7 +224,7 @@ public class SplusPayManager implements IPayManager {
      */
     @Override
     public void init(Activity activity, String appkey, InitCallBack initCallBack,
-            boolean useUpdate, int orientation) {
+            boolean useUpdate, Integer orientation) {
         mStartTime = DateUtil.getCurrentTimestamp();
         if (initCallBack == null) {
             LogHelper.i(TAG, "InitCallBack参数不能为空");
@@ -954,6 +954,14 @@ public class SplusPayManager implements IPayManager {
         LogHelper.i(TAG, "统计在线时长结束------ " + "onPause");
         sendOnLineTimeStatics(activity, getRoleName(), getLevel(), getServerName());
     }
+
+
+
+    @Override
+    public void onStop(Activity activity) {
+        LogHelper.i(TAG, "------onStop");
+    }
+
 
     /**
      * Title: sendOnLineTimeStatics 统计在线时长 Description:
