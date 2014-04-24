@@ -106,7 +106,7 @@ public class _91 implements IPayManager {
     }
 
     @Override
-    public void init(Activity activity, String appkey, InitCallBack initCallBack,
+    public void init(Activity activity,Integer gameid, String appkey, InitCallBack initCallBack,
             boolean useUpdate, Integer orientation) {
         mInitBean.initSplus(activity, initCallBack);
         this.mInitCallBack = initCallBack;
@@ -252,8 +252,8 @@ public class _91 implements IPayManager {
             Toast.makeText(mActivity, "未登录状态,请重新登录游戏", Toast.LENGTH_SHORT).show();
         }
         String cooOrderSerial = UUID.randomUUID().toString();
-        int needPayCoins = 20;
-        int ndUniPayForCoin = NdCommplatform.getInstance().ndUniPayForCoin(cooOrderSerial,needPayCoins, null, activity);
+        int needPayCoins = 50;
+        int ndUniPayForCoin = NdCommplatform.getInstance().ndUniPayForCoin(cooOrderSerial,needPayCoins, outOrderid, activity);
 
 
         // HashMap<String, Object> params = new HashMap<String, Object>();

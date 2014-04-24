@@ -73,14 +73,14 @@ public class PayManager {
      *      java.lang.String, com.android.splus.sdk.apiinterface.InitCallBack,
      *      boolean, int)
      */
-    public synchronized void init(Activity activity, String appkey, InitCallBack initCallBack,
+    public synchronized void init(Activity activity,Integer gameid, String appkey, InitCallBack initCallBack,
             boolean useUpdate, Integer orientation) {
 
         this.mActivity = activity;
 
         if (mInitBean == null || mInitBean.getUsesdk() != APIConstants.SPLUS) {
             Properties prop = readPropertites(activity, APIConstants.CONFIG_FILENAME);
-            mInitBean = InitBean.inflactBean(activity, prop, appkey,orientation);
+            mInitBean = InitBean.inflactBean(activity, prop,gameid, appkey,orientation);
         }
         switch (mInitBean.getUsesdk()) {
             case APIConstants.SPLUS:
@@ -118,7 +118,7 @@ public class PayManager {
             mIPayManager.setDBUG(mLogDbug);
         }
         mIPayManager.setInitBean(mInitBean);
-        mIPayManager.init(mActivity, appkey, initCallBack, useUpdate, orientation);
+        mIPayManager.init(mActivity,gameid, appkey, initCallBack, useUpdate, orientation);
     }
 
     /**

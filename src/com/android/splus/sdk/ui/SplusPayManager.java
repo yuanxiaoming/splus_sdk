@@ -223,7 +223,7 @@ public class SplusPayManager implements IPayManager {
      *      boolean, int)
      */
     @Override
-    public void init(Activity activity, String appkey, InitCallBack initCallBack,
+    public void init(Activity activity, Integer gameid,String appkey, InitCallBack initCallBack,
             boolean useUpdate, Integer orientation) {
         mStartTime = DateUtil.getCurrentTimestamp();
         if (initCallBack == null) {
@@ -252,6 +252,13 @@ public class SplusPayManager implements IPayManager {
             initCallBack.initFaile("appkey参数不能为空");
             return;
         }
+
+        if (gameid==null) {
+            LogHelper.i(TAG, "gameid参数不能为空");
+            initCallBack.initFaile("gameid参数不能为空");
+            return;
+        }
+        this.mGameid=gameid;
         // 初始化获取屏幕高度和宽度
         mHeight = Phoneuitl.getHpixels(activity);
         mWidth = Phoneuitl.getWpixels(activity);
@@ -310,7 +317,7 @@ public class SplusPayManager implements IPayManager {
             InputStream in = assetManager.open(CONFIG_FILENAME);
             Properties prop = new Properties();
             prop.load(in);
-            mGameid = Integer.parseInt(prop.getProperty("gameid").trim());
+       //     mGameid = Integer.parseInt(prop.getProperty("gameid").trim());
             mPartner = prop.getProperty("partner").trim();
             mReferer = prop.getProperty("referer").trim();
         } catch (IOException e) {
