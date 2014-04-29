@@ -102,26 +102,43 @@ public interface IPayManager {
     public void enterBBS(Activity activity);
 
 
-   /**
-    * 悬浮按钮
-    */
+    /**
+     * 悬浮按钮
+     */
 
-   public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime,
-           FloatToolBarAlign align, float position);
+    public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime,
+            FloatToolBarAlign align, float position);
 
-   /**
-    * 在线时长统计开始
-    */
+    /**
+     * 在线时长统计开始
+     */
 
-   public void onResume(Activity activity);
+    public void onResume(Activity activity);
 
-   /**
-    * 在线时长统计结束
-    */
-   public void onPause(Activity activity);
+    /**
+     * 在线时长统计结束
+     */
+    public void onPause(Activity activity);
 
+    /**
+     *
+     * @Title: onStop(activity不可见时)
+     * @author xiaoming.yuan
+     * @data 2014-4-29 下午12:33:01
+     * @param activity
+     * void 返回类型
+     */
+    public void onStop(Activity activity);
 
-   public void onStop(Activity activity);
+    /**
+     *
+     * @Title: onDestroy(activity 销毁时)
+     * @author xiaoming.yuan
+     * @data 2014-4-29 下午12:34:09
+     * @param activity
+     * void 返回类型
+     */
+    public void onDestroy(Activity activity);
 
 
 }

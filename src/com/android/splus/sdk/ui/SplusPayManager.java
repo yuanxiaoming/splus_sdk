@@ -1228,4 +1228,8 @@ public class SplusPayManager implements IPayManager {
 
     }
 
+    @Override
+    public void onDestroy(Activity activity) {
+    }
+
 }

@@ -60,6 +60,8 @@ public class _360 implements IPayManager  {
 
     private RechargeCallBack mRechargeCallBack;
 
+    private LogoutCallBack  mLogoutCallBack;
+
     // 下面参数仅在测试时用
     private  UserModel userModel;
 
@@ -116,9 +118,19 @@ public class _360 implements IPayManager  {
         mInitBean.initSplus(activity, initCallBack);
         this.mInitCallBack = initCallBack;
         this.mActivity = activity;
+        Matrix.init(activity, false, mIinitCallback);
 
     }
 
+    IDispatcherCallback mIinitCallback=new  IDispatcherCallback(){
+
+        @Override
+        public void onFinished(String data) {
+            Log.d(TAG, "matrix startup callback,result is " + data);
+            mInitCallBack.initSuccess("初始化完成", null);
+        }
+
+    };
     @Override
     public void login(Activity activity, LoginCallBack loginCallBack) {
         this.mActivity = activity;
@@ -146,12 +158,12 @@ public class _360 implements IPayManager  {
         Intent intent = new Intent(activity, ContainerActivity.class);
         intent.putExtras(bundle);
 
-        Matrix.invokeActivity(activity, intent, mIDispatcherCallback);
+        Matrix.invokeActivity(activity, intent, mILoginCallback);
 
     }
 
 
-    IDispatcherCallback mIDispatcherCallback =new IDispatcherCallback() {
+    IDispatcherCallback mILoginCallback =new IDispatcherCallback() {
 
         @Override
         public void onFinished(String data) {
@@ -266,11 +278,82 @@ public class _360 implements IPayManager  {
     @Override
     public void recharge(Activity activity, String serverName, String roleName, String outOrderid,
             String pext, RechargeCallBack rechargeCallBack) {
+        rechargeByQuota( activity, serverName,  roleName, outOrderid,  pext,  0f, rechargeCallBack);
     }
 
     @Override
     public void rechargeByQuota(Activity activity, String serverName, String roleName,
             String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
+        this.mActivity = activity;
+        this.mRechargeCallBack=rechargeCallBack;
+        boolean  isLandScape=false;
+        if( mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT){
+            isLandScape=false;
+        }else{
+            isLandScape=true;
+        }
+
+        Bundle bundle = new Bundle();
+
+
+        // 界面相关参数，360SDK界面是否以横屏显示。
+        bundle.putBoolean(ProtocolKeys.IS_SCREEN_ORIENTATION_LANDSCAPE, isLandScape);
+
+        // *** 以下非界面相关参数 ***//
+
+        // 设置PayRechargeBean中的参数。
+
+         PayRechargeBean payRechargeBean = new PayRechargeBean("");
+        // 必需参数，用户access token，要使用注意过期和刷新问题，最大64字符。
+        bundle.putString(ProtocolKeys.ACCESS_TOKEN, payRechargeBean.getAccessToken());
+
+        // 必需参数，360账号id，整数。
+        bundle.putString(ProtocolKeys.QIHOO_USER_ID, payRechargeBean.getQihooUserId());
+
+        // 必需参数，所购买商品金额, 以分为单位。金额大于等于100分，360SDK运行定额支付流程； 金额数为0，360SDK运行不定额支付流程。
+        bundle.putString(ProtocolKeys.AMOUNT, payRechargeBean.getMoneyAmount());
+
+        // 必需参数，人民币与游戏充值币的默认比例，例如2，代表1元人民币可以兑换2个游戏币，整数。
+        bundle.putString(ProtocolKeys.RATE, payRechargeBean.getExchangeRate());
+
+        // 必需参数，所购买商品名称，应用指定，建议中文，最大10个中文字。
+        bundle.putString(ProtocolKeys.PRODUCT_NAME, payRechargeBean.getProductName());
+
+        // 必需参数，购买商品的商品id，应用指定，最大16字符。
+        bundle.putString(ProtocolKeys.PRODUCT_ID, payRechargeBean.getProductId());
+
+        // 必需参数，应用方提供的支付结果通知uri，最大255字符。360服务器将把支付接口回调给该uri，具体协议请查看文档中，支付结果通知接口–应用服务器提供接口。
+        bundle.putString(ProtocolKeys.NOTIFY_URI, payRechargeBean.getNotifyUrl());
+
+        // 必需参数，游戏或应用名称，最大16中文字。
+        bundle.putString(ProtocolKeys.APP_NAME, payRechargeBean.getAppName());
+
+        // 必需参数，应用内的用户名，如游戏角色名。 若应用内绑定360账号和应用账号，则可用360用户名，最大16中文字。（充值不分区服，
+        // 充到统一的用户账户，各区服角色均可使用）。
+        bundle.putString(ProtocolKeys.APP_USER_NAME, payRechargeBean.getAppUserName());
+
+        // 必需参数，应用内的用户id。
+        // 若应用内绑定360账号和应用账号，充值不分区服，充到统一的用户账户，各区服角色均可使用，则可用360用户ID最大32字符。
+        bundle.putString(ProtocolKeys.APP_USER_ID, payRechargeBean.getAppUserId());
+
+        // 可选参数，应用扩展信息1，原样返回，最大255字符。
+        bundle.putString(ProtocolKeys.APP_EXT_1, payRechargeBean.getAppExt1());
+
+        // 可选参数，应用扩展信息2，原样返回，最大255字符。
+        bundle.putString(ProtocolKeys.APP_EXT_2, payRechargeBean.getAppExt2());
+
+        // 可选参数，应用订单号，应用内必须唯一，最大32字符。
+        bundle.putString(ProtocolKeys.APP_ORDER_ID, payRechargeBean.getAppOrderId());
+
+        Intent intent = new Intent(activity, ContainerActivity.class);
+
+        // 必需参数，使用360SDK的支付模块。
+        intent.putExtra(ProtocolKeys.FUNCTION_CODE, ProtocolConfigs.FUNC_CODE_PAY);
+        // 界面相关参数，360SDK登录界面背景是否透明。
+        intent.putExtra(ProtocolKeys.IS_LOGIN_BG_TRANSPARENT, true);
+        intent.putExtras(bundle);
+
+
     }
 
     @Override
@@ -283,7 +366,35 @@ public class _360 implements IPayManager  {
 
     @Override
     public void logout(Activity activity, LogoutCallBack logoutCallBack) {
+        this.mActivity = activity;
+        this.mLogoutCallBack=logoutCallBack;
+        boolean  isLandScape=false;
+        if( mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT){
+            isLandScape=false;
+        }else{
+            isLandScape=true;
+        }
+        Bundle bundle = new Bundle();
+        // 界面相关参数，360SDK界面是否以横屏显示。
+        bundle.putBoolean(ProtocolKeys.IS_SCREEN_ORIENTATION_LANDSCAPE, isLandScape);
+        // 必需参数，使用360SDK的退出模块。
+        bundle.putInt(ProtocolKeys.FUNCTION_CODE, ProtocolConfigs.FUNC_CODE_QUIT);
+        Intent intent = new Intent(activity, ContainerActivity.class);
+        intent.putExtras(bundle);
+        Matrix.invokeActivity(activity, intent, mQuitCallback);
+
     }
+
+    // 退出的回调
+    private IDispatcherCallback mQuitCallback = new IDispatcherCallback() {
+        @Override
+        public void onFinished(String data) {
+            Log.d(TAG, "mQuitCallback, data is " + data);
+            mLogoutCallBack.logoutCallBack();
+        }
+
+    };
+
 
     @Override
     public void setDBUG(boolean logDbug) {
@@ -295,16 +406,54 @@ public class _360 implements IPayManager  {
 
     @Override
     public void sendGameStatics(Activity activity, String roleName, String level, String serverName) {
+
+
     }
 
     @Override
     public void enterBBS(Activity activity) {
+        this.mActivity = activity;
+        boolean  isLandScape=false;
+        if( mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT){
+            isLandScape=false;
+        }else{
+            isLandScape=true;
+        }
+        Bundle bundle = new Bundle();
+        // 界面相关参数，360SDK界面是否以横屏显示。
+        bundle.putBoolean(ProtocolKeys.IS_SCREEN_ORIENTATION_LANDSCAPE, isLandScape);
+        // 必需参数，使用360SDK的论坛模块。
+        bundle.putInt(ProtocolKeys.FUNCTION_CODE, ProtocolConfigs.FUNC_CODE_BBS);
+        Intent intent = new Intent(activity, ContainerActivity.class);
+        intent.putExtras(bundle);
+        Matrix.invokeActivity(mActivity, intent, null);
+
+
     }
 
     @Override
     public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime,
             FloatToolBarAlign align, float position) {
+        this.mActivity = activity;
+        boolean  isLandScape=false;
+        if( mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT){
+            isLandScape=false;
+        }else{
+            isLandScape=true;
+        }
+        Bundle bundle = new Bundle();
+        // 界面相关参数，360SDK界面是否以横屏显示。
+        bundle.putBoolean(ProtocolKeys.IS_SCREEN_ORIENTATION_LANDSCAPE, isLandScape);
+        bundle.putInt(ProtocolKeys.FUNCTION_CODE, ProtocolConfigs.FUNC_CODE_SETTINGS);
+        Intent intent = new Intent(activity, ContainerActivity.class);
+        intent.putExtras(bundle);
+        Matrix.execute(activity, intent,new IDispatcherCallback() {
+            @Override public void onFinished(String data) {
+                Log.d(TAG, data);
 
+            }
+
+        });
         return null;
 
     }
@@ -333,6 +482,12 @@ public class _360 implements IPayManager  {
     private String getToken(Context context) {
         SharedPreferences uiState = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
         return uiState.getString(TOKEN, "");
+    }
+
+    @Override
+    public void onDestroy(Activity activity) {
+
+        Matrix.destroy(activity);
     }
 
 

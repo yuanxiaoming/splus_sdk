@@ -263,6 +263,15 @@ public class PayManager {
 
     }
 
+
+    public void onDestroy(Activity activity) {
+
+        if (mIPayManager != null) {
+            mIPayManager.onDestroy(activity);
+        }
+    }
+
+
     /**
      * 取assets下的配置参数
      *

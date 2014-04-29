@@ -461,4 +461,8 @@ public class _91 implements IPayManager {
         }
     }
 
+    @Override
+    public void onDestroy(Activity activity) {
+    }
+
 }
