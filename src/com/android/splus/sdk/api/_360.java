@@ -24,11 +24,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -358,10 +360,35 @@ public class _360 implements IPayManager  {
 
     @Override
     public void exitSDK() {
+
     }
 
     @Override
-    public void exitGame(Context context) {
+    public void exitGame(final Context context) {
+        // 如果上面没关闭好自己，或者没填写任何东西，就我们sdk来关闭进程。
+        new Thread(new Runnable() {
+            public void run() {
+
+                int currentVersion = Build.VERSION.SDK_INT;
+                try {
+                    Thread.sleep(1000);
+                    if (currentVersion > Build.VERSION_CODES.ECLAIR_MR1) {
+                        Intent startMain = new Intent(Intent.ACTION_MAIN);
+                        startMain.addCategory(Intent.CATEGORY_HOME);
+                        startMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(startMain);
+                        System.exit(0);
+                    } else {
+                        // android2.1
+                        ActivityManager am = (ActivityManager) context
+                                .getSystemService(Context.ACTIVITY_SERVICE);
+                        am.restartPackage(context.getPackageName());
+                    }
+                } catch (Exception e) {
+                }
+            };
+        }).start();
+
     }
 
     @Override

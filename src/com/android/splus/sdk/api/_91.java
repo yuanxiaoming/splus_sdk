@@ -9,7 +9,6 @@ import com.android.splus.sdk.apiinterface.RechargeCallBack;
 import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.ui.FloatToolBar;
 import com.android.splus.sdk.ui.FloatToolBar.FloatToolBarAlign;
-import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.http.NetHttpUtil.DataCallback;
 import com.nd.commplatform.NdCommplatform;
 import com.nd.commplatform.NdErrorCode;
@@ -28,7 +27,9 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -340,10 +341,32 @@ public class _91 implements IPayManager {
     }
 
     @Override
-    public void exitGame(Context context) {
+    public void exitGame(final Context context) {
         NdCommplatform.getInstance().destory();
         // 如果上面没关闭好自己，或者没填写任何东西，就我们sdk来关闭进程。
-        CommonUtil.killSDK(context);
+        // 如果上面没关闭好自己，或者没填写任何东西，就我们sdk来关闭进程。
+        new Thread(new Runnable() {
+            public void run() {
+
+                int currentVersion = Build.VERSION.SDK_INT;
+                try {
+                    Thread.sleep(1000);
+                    if (currentVersion > Build.VERSION_CODES.ECLAIR_MR1) {
+                        Intent startMain = new Intent(Intent.ACTION_MAIN);
+                        startMain.addCategory(Intent.CATEGORY_HOME);
+                        startMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(startMain);
+                        System.exit(0);
+                    } else {
+                        // android2.1
+                        ActivityManager am = (ActivityManager) context
+                                .getSystemService(Context.ACTIVITY_SERVICE);
+                        am.restartPackage(context.getPackageName());
+                    }
+                } catch (Exception e) {
+                }
+            };
+        }).start();
 
     }
 
@@ -395,11 +418,6 @@ public class _91 implements IPayManager {
             place=NdToolBarPlace.NdToolBarTopRight;
         } else if(align==FloatToolBarAlign.Right&&position<0.5f){
             place=NdToolBarPlace.NdToolBarBottomRight;
-        }
-
-        if(mToolBar != null) {
-            mToolBar.recycle();
-            mToolBar = null;
         }
         mToolBar = NdToolBar.create(activity, place);
         mToolBar.show();
@@ -463,6 +481,10 @@ public class _91 implements IPayManager {
 
     @Override
     public void onDestroy(Activity activity) {
+        if(mToolBar != null) {
+            mToolBar.recycle();
+            mToolBar = null;
+        }
     }
 
 }
