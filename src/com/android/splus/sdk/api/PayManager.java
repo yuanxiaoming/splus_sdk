@@ -73,7 +73,7 @@ public class PayManager {
      *      java.lang.String, com.android.splus.sdk.apiinterface.InitCallBack,
      *      boolean, int)
      */
-    public synchronized void init(Activity activity,Integer gameid, String appkey, InitCallBack initCallBack,
+    public  void init(Activity activity,Integer gameid, String appkey, InitCallBack initCallBack,
             boolean useUpdate, Integer orientation) {
 
         this.mActivity = activity;
@@ -111,6 +111,7 @@ public class PayManager {
 
                 break;
             case APIConstants.SPLUS__360:
+                mIPayManager = _360.getInstance();
 
                 break;
         }
