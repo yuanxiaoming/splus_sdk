@@ -30,8 +30,6 @@ public class PayManager {
 
     private boolean  mLogDbug;
 
-    private static byte[] lock = new byte[0];
-
     public static final String SDK_VERSION = "1.0";
 
     /**
@@ -52,7 +50,7 @@ public class PayManager {
     public static PayManager getInstance() {
 
         if (mPayManager == null) {
-            synchronized (lock) {
+            synchronized (PayManager.class) {
                 if (mPayManager == null) {
                     mPayManager = new PayManager();
                 }
@@ -134,10 +132,10 @@ public class PayManager {
     /**
      * 充值
      */
-    public void recharge(Activity activity, String serverName, String roleName, String outOrderid,
+    public void recharge(Activity activity,Integer serverId,String serverName, Integer roleId,String roleName, String outOrderid,
             String pext, RechargeCallBack rechargeCallBack) {
         if (mIPayManager != null) {
-            mIPayManager.recharge(activity, serverName, roleName, outOrderid, pext,
+            mIPayManager.recharge(activity,serverId, serverName,roleId, roleName, outOrderid, pext,
                     rechargeCallBack);
         }
     }
@@ -145,10 +143,10 @@ public class PayManager {
     /**
      * 定额充值
      */
-    public void rechargeByQuota(Activity activity, String serverName, String roleName,
+    public void rechargeByQuota(Activity activity, Integer serverId,String serverName,Integer roleId,String roleName,
             String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
         if (mIPayManager != null) {
-            mIPayManager.rechargeByQuota(activity, serverName, roleName, outOrderid, pext, money,
+            mIPayManager.rechargeByQuota(activity, serverId, serverName,roleId, roleName, outOrderid, pext, money,
                     rechargeCallBack);
         }
     }
@@ -210,9 +208,9 @@ public class PayManager {
     /**
      * 統計区服角色等级接口
      */
-    public void sendGameStatics(Activity activity, String roleName, String level, String serverName) {
+    public void sendGameStatics(Activity activity, Integer serverId,String serverName, Integer roleId,String roleName, String level) {
         if (mIPayManager != null) {
-            mIPayManager.sendGameStatics(activity, roleName, level, serverName);
+            mIPayManager.sendGameStatics(activity, serverId, serverName,roleId, roleName,level);
         }
     }
 

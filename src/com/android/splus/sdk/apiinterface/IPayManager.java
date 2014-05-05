@@ -48,14 +48,14 @@ public interface IPayManager {
     /**
      * 充值
      */
-    public void recharge(Activity activity, String serverName, String roleName, String outOrderid,
+    public void recharge(Activity activity,  Integer serverId,String serverName,  Integer roleId,String roleName, String outOrderid,
             String pext, RechargeCallBack rechargeCallBack);
 
     /**
      * 定额充值
      */
-    public void rechargeByQuota(Activity activity, String serverName, String roleName,
-            String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack);
+    public void rechargeByQuota(Activity activity, Integer serverId,String serverName, Integer roleId,String roleName,String outOrderid,
+            String pext, Float money, RechargeCallBack rechargeCallBack);
 
     /**
      * 退出sdk
@@ -93,7 +93,7 @@ public interface IPayManager {
     /**
      * 統計区服角色等级接口
      */
-    public void sendGameStatics(Activity activity, String roleName, String level,String serverName);
+    public void sendGameStatics(Activity activity,Integer serverId,String serverName, Integer roleId,String roleName, String level);
 
 
     /**
@@ -106,8 +106,7 @@ public interface IPayManager {
      * 悬浮按钮
      */
 
-    public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime,
-            FloatToolBarAlign align, float position);
+    public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime,FloatToolBarAlign align, float position);
 
     /**
      * 在线时长统计开始

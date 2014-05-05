@@ -16,7 +16,6 @@ import com.android.splus.sdk.ui.personview.SQPage;
 import com.android.splus.sdk.ui.personview.UserInformationPage;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.file.AppUtil;
-import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 

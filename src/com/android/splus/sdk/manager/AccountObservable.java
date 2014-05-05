@@ -16,7 +16,6 @@ public class AccountObservable extends Observable {
     private static final int FIRST_POSITION = 0;
 
     private static AccountObservable mObservable = null;
-    private static final byte[] lock = new byte[0];
     private ArrayList<UserModel> mUsers = new ArrayList<UserModel>();
 
     private AccountObservable() {
@@ -24,7 +23,7 @@ public class AccountObservable extends Observable {
 
     public static AccountObservable getInstance() {
         if (mObservable == null) {
-            synchronized (lock) {
+            synchronized (AccountObservable.class) {
                 if (mObservable == null) {
                     mObservable = new AccountObservable();
                 }

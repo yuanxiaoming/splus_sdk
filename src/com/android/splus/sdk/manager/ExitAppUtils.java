@@ -22,8 +22,6 @@ public class ExitAppUtils {
 
     private static ExitAppUtils instance;
 
-    private static byte[] lock = new byte[0];
-
     /**
      * 将构造函数私有化
      */
@@ -38,7 +36,7 @@ public class ExitAppUtils {
      */
     public static ExitAppUtils getInstance() {
         if (instance == null) {
-            synchronized (lock) {
+            synchronized (ExitAppUtils.class) {
                 if (instance == null) {
                     instance = new ExitAppUtils();
                 }

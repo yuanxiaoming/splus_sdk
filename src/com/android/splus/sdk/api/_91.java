@@ -42,8 +42,6 @@ public class _91 implements IPayManager {
 
     private static _91 m_91;
 
-    private static byte[] lock = new byte[0];
-
     // 平台参数
     private Properties mProperties;
 
@@ -91,7 +89,7 @@ public class _91 implements IPayManager {
     public static _91 getInstance() {
 
         if (m_91 == null) {
-            synchronized (lock) {
+            synchronized (_91.class) {
                 if (m_91 == null) {
                     m_91 = new _91();
                 }
@@ -234,13 +232,13 @@ public class _91 implements IPayManager {
     };
 
     @Override
-    public void recharge(Activity activity, String serverName, String roleName, String outOrderid,
+    public void recharge(Activity activity, Integer serverId,String serverName, Integer roleId,String roleName, String outOrderid,
             String pext, RechargeCallBack rechargeCallBack) {
-        rechargeByQuota( activity, serverName,  roleName, outOrderid,  pext,  0f, rechargeCallBack);
+        rechargeByQuota( activity, serverId,serverName,  roleId,roleName, outOrderid,  pext,  0f, rechargeCallBack);
     }
 
     @Override
-    public void rechargeByQuota(Activity activity, String serverName, String roleName,
+    public void rechargeByQuota(Activity activity, Integer serverId,String serverName, Integer roleId,String roleName,
             String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
         this.mActivity=activity;
         this.mRechargeCallBack=rechargeCallBack;
@@ -392,7 +390,7 @@ public class _91 implements IPayManager {
     }
 
     @Override
-    public void sendGameStatics(Activity activity, String roleName, String level, String serverName) {
+    public void sendGameStatics(Activity activity,Integer serverId,String serverName, Integer roleId,String roleName, String level) {
     }
 
     @Override

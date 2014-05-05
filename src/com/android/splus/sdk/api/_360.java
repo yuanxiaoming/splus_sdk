@@ -43,7 +43,6 @@ public class _360 implements IPayManager  {
 
     private static final String TAG = "_360";
     private static _360 m_360;
-    private static byte[] lock = new byte[0];
 
     // 平台参数
     private Properties mProperties;
@@ -97,7 +96,7 @@ public class _360 implements IPayManager  {
     public static _360 getInstance() {
 
         if (m_360 == null) {
-            synchronized (lock) {
+            synchronized (_360.class) {
                 if (m_360 == null) {
                     m_360 = new _360();
                 }
@@ -278,13 +277,13 @@ public class _360 implements IPayManager  {
     };
 
     @Override
-    public void recharge(Activity activity, String serverName, String roleName, String outOrderid,
+    public void recharge(Activity activity, Integer serverId,String serverName, Integer roleId,String roleName,  String outOrderid,
             String pext, RechargeCallBack rechargeCallBack) {
-        rechargeByQuota( activity, serverName,  roleName, outOrderid,  pext,  0f, rechargeCallBack);
+        rechargeByQuota( activity, serverId,serverName, roleId, roleName, outOrderid,  pext,  0f, rechargeCallBack);
     }
 
     @Override
-    public void rechargeByQuota(Activity activity, String serverName, String roleName,
+    public void rechargeByQuota(Activity activity,Integer serverId,String serverName, Integer roleId,String roleName,
             String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
         this.mActivity = activity;
         this.mRechargeCallBack=rechargeCallBack;
@@ -432,7 +431,7 @@ public class _360 implements IPayManager  {
     }
 
     @Override
-    public void sendGameStatics(Activity activity, String roleName, String level, String serverName) {
+    public void sendGameStatics(Activity activity,Integer serverId,String serverName, Integer roleId,String roleName, String level) {
 
 
     }
