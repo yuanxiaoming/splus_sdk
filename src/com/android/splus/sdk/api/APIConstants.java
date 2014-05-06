@@ -7,11 +7,11 @@ public class APIConstants {
 
     public static final String CONFIG_FILENAME = "splusconfig";
 
-    public final static int SPLUS = 10;
+    public final static int SPLUS = 3;
 
     public static final int SPLUS_91 = 2;
 
-    public static final int SPLUS_UC = 3;
+    public static final int SPLUS_UC = 1;
 
     public static final int SPLUS_XIAOMI = 4;
 
@@ -25,7 +25,7 @@ public class APIConstants {
 
     public static final int SPLUS__91DJ = 9;
 
-    public static final int SPLUS__360 = 1;
+    public static final int SPLUS__360 = 10;
 
     public static final String TS_VERIFY = "http://sy.api.37wan.cn/sdk/partner/verify.php";
 

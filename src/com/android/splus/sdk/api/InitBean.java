@@ -57,6 +57,10 @@ public class InitBean {
 
     private int mWidth;
 
+    private InitCallBack mInitCallBack;
+
+    private InitBeanSuccess mInitBeanSuccess;
+
     public static InitBean inflactBean(Activity activity, Properties prop, Integer gameid, String appkey, Integer orientation) {
         InitBean bean = new InitBean();
         if (prop != null && !TextUtils.isEmpty(appkey) && gameid != null) {
@@ -74,8 +78,10 @@ public class InitBean {
         return bean;
     }
 
-    public void initSplus(final Activity activity, final InitCallBack initCallBack) {
+    public void initSplus(final Activity activity, final InitCallBack initCallBack,InitBeanSuccess initBeanSuccess) {
         this.mActivity = activity;
+        this.mInitCallBack=initCallBack;
+        this.mInitBeanSuccess=initBeanSuccess;
         if (mUseSDK != APIConstants.SPLUS) {
             init(activity, mGameid, mAppkey, initCallBack, mOrientation == 1 ? Configuration.ORIENTATION_PORTRAIT : Configuration.ORIENTATION_LANDSCAPE);
         }
@@ -139,8 +145,7 @@ public class InitBean {
         String sign = MD5Util.getMd5toLowerCase(keyString + mAppkey);
         ActiveModel mActiveMode = new ActiveModel(mGameid, mPartner, mReferer, mac, imei, mWidth, mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time, sign);
         NetHttpUtil.getDataFromServerPOST(activity, new RequestModel(Constant.ACTIVE_URL, mActiveMode, new LoginParser()), onActiveCallBack);
-        // LogHelper.i("requestInit",
-        // NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
+        // LogHelper.i("requestInit",NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
 
     }
 
@@ -178,8 +183,11 @@ public class InitBean {
             try {
                 if (paramObject != null && paramObject.optInt("code") == 1) {
                     JSONObject dataObject = paramObject.optJSONObject("data");
-                    if (mDeviceNo != null) {
+                    if (dataObject != null) {
                         mDeviceNo = dataObject.optString("deviceno");
+                        mInitBeanSuccess.initBeaned(true);
+                    }else{
+                        mInitCallBack.initFaile("初始化失败");
                     }
                 } else {
                     String msg = paramObject.getString("msg");
@@ -285,4 +293,9 @@ public class InitBean {
         this.mFixed = fixed;
     }
 
+   interface InitBeanSuccess{
+
+        public void initBeaned(boolean initBeanSuccess);
+
+    }
 }

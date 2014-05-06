@@ -790,7 +790,7 @@ public class SplusPayManager implements IPayManager {
      *      com.android.splus.sdk.apiinterface.LogoutCallBack)
      */
     @Override
-    public void enterUserCenter(Activity activity, LogoutCallBack mLogoutCallBack) {
+    public void enterUserCenter(Activity activity, LogoutCallBack logoutCallBack) {
 
         if (mLogoutCallBack == null) {
             LogHelper.i(TAG, "LogoutCallBack参数不能为空");
@@ -811,7 +811,7 @@ public class SplusPayManager implements IPayManager {
             ToastUtil.showToast(activity, msg);
             return;
         }
-        this.mLogoutCallBack = mLogoutCallBack;
+        this.mLogoutCallBack = logoutCallBack;
         this.mActivity = activity;
         activity.startActivity(new Intent(activity, PersonActivity.class));
 

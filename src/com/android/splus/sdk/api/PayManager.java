@@ -61,7 +61,7 @@ public class PayManager {
 
     /**
      * Title: init Description:
-     * 
+     *
      * @param mBaseActivity
      * @param appkey
      * @param callBack
@@ -87,7 +87,7 @@ public class PayManager {
                 mIPayManager = _91.getInstance();
                 break;
             case APIConstants.SPLUS_UC:
-
+                mIPayManager=_UC.getInstance();
                 break;
             case APIConstants.SPLUS_XIAOMI:
 
@@ -167,7 +167,7 @@ public class PayManager {
 
     /**
      * 注销游戏接口
-     * 
+     *
      * @author xiaoming.yuan
      * @date 2013年10月12日 上午11:38:34
      */
@@ -190,13 +190,13 @@ public class PayManager {
 
     /**
      * 进入个人中心
-     * 
+     *
      * @author xiaoming.yuan
      * @date 2013年10月14日 上午10:27:05
      */
-    public void enterUserCenter(Activity activity, LogoutCallBack mLogoutCallBack) {
+    public void enterUserCenter(Activity activity, LogoutCallBack logoutCallBack) {
         if (mIPayManager != null) {
-            mIPayManager.enterUserCenter(activity, mLogoutCallBack);
+            mIPayManager.enterUserCenter(activity, logoutCallBack);
         }
     }
 
@@ -264,7 +264,7 @@ public class PayManager {
 
     /**
      * 取assets下的配置参数
-     * 
+     *
      * @param context
      * @param file
      * @return

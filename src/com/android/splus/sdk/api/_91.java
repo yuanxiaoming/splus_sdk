@@ -1,6 +1,7 @@
 
 package com.android.splus.sdk.api;
 
+import com.android.splus.sdk.api.InitBean.InitBeanSuccess;
 import com.android.splus.sdk.apiinterface.IPayManager;
 import com.android.splus.sdk.apiinterface.InitCallBack;
 import com.android.splus.sdk.apiinterface.LoginCallBack;
@@ -84,7 +85,7 @@ public class _91 implements IPayManager {
      * @Title: getInstance(获取实例)
      * @author xiaoming.yuan
      * @data 2014-2-26 下午2:30:02
-     * @return CHPayManager 返回类型
+     * @return _91 返回类型
      */
     public static _91 getInstance() {
 
@@ -106,33 +107,38 @@ public class _91 implements IPayManager {
 
     @Override
     public void init(Activity activity, Integer gameid, String appkey, InitCallBack initCallBack, boolean useUpdate, Integer orientation) {
-        mInitBean.initSplus(activity, initCallBack);
         this.mInitCallBack = initCallBack;
         this.mActivity = activity;
         this.mAppForeground = true;
-        if (mInitBean.getOrientation() == Configuration.ORIENTATION_LANDSCAPE) {
-            NdCommplatform.getInstance().ndSetScreenOrientation(NdCommplatform.SCREEN_ORIENTATION_LANDSCAPE);
-        } else if (mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
-            NdCommplatform.getInstance().ndSetScreenOrientation(NdCommplatform.SCREEN_ORIENTATION_PORTRAIT);
-        } else {
-            NdCommplatform.getInstance().ndSetScreenOrientation(NdCommplatform.SCREEN_ORIENTATION_AUTO);
-        }
+        mInitBean.initSplus(activity, initCallBack, new InitBeanSuccess(){
+            @Override
+            public void initBeaned(boolean initBeanSuccess) {
+                if (mInitBean.getOrientation() == Configuration.ORIENTATION_LANDSCAPE) {
+                    NdCommplatform.getInstance().ndSetScreenOrientation(NdCommplatform.SCREEN_ORIENTATION_LANDSCAPE);
+                } else if (mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
+                    NdCommplatform.getInstance().ndSetScreenOrientation(NdCommplatform.SCREEN_ORIENTATION_PORTRAIT);
+                } else {
+                    NdCommplatform.getInstance().ndSetScreenOrientation(NdCommplatform.SCREEN_ORIENTATION_AUTO);
+                }
 
-        if (mProperties != null) {
-            mAppId = mProperties.getProperty("91_appid") == null ? "0" : mProperties.getProperty("91_appid");
-            mAppKey = mProperties.getProperty("91_appkey") == null ? "" : mProperties.getProperty("91_appkey");
-        }
-        NdAppInfo appInfo = new NdAppInfo();
-        appInfo.setCtx(activity);
-        appInfo.setAppId(Integer.parseInt(mAppId));// 应用ID
-        appInfo.setAppKey(mAppKey);// 应用Key
-        /*
-         * NdVersionCheckLevelNormal 版本检查失败可以继续进行游戏 NdVersionCheckLevelStrict
-         * 版本检查失败则不能进入游戏 默认取值为NdVersionCheckLevelStrict
-         */
-        appInfo.setNdVersionCheckStatus(NdAppInfo.ND_VERSION_CHECK_LEVEL_STRICT);
-        // 初始化91SDK
-        NdCommplatform.getInstance().ndInit(activity, appInfo, mOnInitCompleteListener);
+                if (mProperties != null) {
+                    mAppId = mProperties.getProperty("91_appid") == null ? "0" : mProperties.getProperty("91_appid");
+                    mAppKey = mProperties.getProperty("91_appkey") == null ? "" : mProperties.getProperty("91_appkey");
+                }
+                NdAppInfo appInfo = new NdAppInfo();
+                appInfo.setCtx(mActivity);
+                appInfo.setAppId(Integer.parseInt(mAppId));// 应用ID
+                appInfo.setAppKey(mAppKey);// 应用Key
+                /*
+                 * NdVersionCheckLevelNormal 版本检查失败可以继续进行游戏 NdVersionCheckLevelStrict
+                 * 版本检查失败则不能进入游戏 默认取值为NdVersionCheckLevelStrict
+                 */
+                appInfo.setNdVersionCheckStatus(NdAppInfo.ND_VERSION_CHECK_LEVEL_STRICT);
+                // 初始化91SDK
+                NdCommplatform.getInstance().ndInit(mActivity, appInfo, mOnInitCompleteListener);
+
+            }
+        } );
 
     }
 
@@ -376,7 +382,7 @@ public class _91 implements IPayManager {
     }
 
     @Override
-    public void enterUserCenter(Activity activity, LogoutCallBack mLogoutCallBack) {
+    public void enterUserCenter(Activity activity, LogoutCallBack logoutCallBack) {
 
         NdCommplatform.getInstance().ndEnterPlatform(0, activity);
     }
@@ -435,7 +441,7 @@ public class _91 implements IPayManager {
 
     /**
      * 判断App是否在前台运行
-     * 
+     *
      * @return
      */
     public boolean isAppOnForeground(Activity activity) {

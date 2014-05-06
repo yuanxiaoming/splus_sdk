@@ -1,6 +1,7 @@
 
 package com.android.splus.sdk.api;
 
+import com.android.splus.sdk.api.InitBean.InitBeanSuccess;
 import com.android.splus.sdk.apiinterface.IPayManager;
 import com.android.splus.sdk.apiinterface.InitCallBack;
 import com.android.splus.sdk.apiinterface.LoginCallBack;
@@ -92,7 +93,7 @@ public class _360 implements IPayManager {
      * @Title: getInstance(获取实例)
      * @author xiaoming.yuan
      * @data 2014-2-26 下午2:30:02
-     * @return CHPayManager 返回类型
+     * @return _360 返回类型
      */
     public static _360 getInstance() {
 
@@ -115,11 +116,16 @@ public class _360 implements IPayManager {
 
     @Override
     public void init(Activity activity, Integer gameid, String appkey, InitCallBack initCallBack, boolean useUpdate, Integer orientation) {
-
-        mInitBean.initSplus(activity, initCallBack);
         this.mInitCallBack = initCallBack;
         this.mActivity = activity;
-        Matrix.init(activity, false, mIinitCallback);
+        mInitBean.initSplus(activity, initCallBack,new InitBeanSuccess() {
+            @Override
+            public void initBeaned(boolean initBeanSuccess) {
+                Matrix.init(mActivity, false, mIinitCallback);
+            }
+        });
+
+
 
     }
 
@@ -178,7 +184,7 @@ public class _360 implements IPayManager {
 
     /**
      * 从Json字符中获取授权码
-     * 
+     *
      * @param data Json字符串
      * @return 授权码
      */
@@ -421,7 +427,7 @@ public class _360 implements IPayManager {
     }
 
     @Override
-    public void enterUserCenter(Activity activity, LogoutCallBack mLogoutCallBack) {
+    public void enterUserCenter(Activity activity, LogoutCallBack logoutCallBack) {
     }
 
     @Override

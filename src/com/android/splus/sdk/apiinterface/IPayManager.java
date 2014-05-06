@@ -10,7 +10,7 @@ import android.content.Context;
 
 /**
  * 游戏充值管理接口（对外api接口）
- * 
+ *
  * @author xiaoming.yuan
  * @ClassName: IPayManager
  * @date 2013-8-9 下午1:03:54
@@ -61,7 +61,7 @@ public interface IPayManager {
 
     /**
      * 注销游戏接口
-     * 
+     *
      * @author xiaoming.yuan
      * @date 2013年10月12日 上午11:38:34
      */
@@ -74,11 +74,11 @@ public interface IPayManager {
 
     /**
      * 进入个人中心
-     * 
+     *
      * @author xiaoming.yuan
      * @date 2013年10月14日 上午10:27:05
      */
-    public void enterUserCenter(Activity activity, LogoutCallBack mLogoutCallBack);
+    public void enterUserCenter(Activity activity, LogoutCallBack logoutCallBack);
 
     /**
      * 統計区服角色等级接口
