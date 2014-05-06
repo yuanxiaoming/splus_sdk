@@ -122,7 +122,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 创建一个新的实例 FloatWindow.
-     *
+     * 
      * @param context
      * @param attrs
      * @param defStyle
@@ -134,7 +134,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 创建一个新的实例 FloatWindow.
-     *
+     * 
      * @param context
      * @param attrs
      */
@@ -145,7 +145,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 创建一个新的实例 FloatWindow.
-     *
+     * 
      * @param context
      */
 
@@ -159,8 +159,7 @@ public class FloatWindow extends ImageView {
      * @param align 对齐方式
      * @param position 位置，相对于屏幕高百分比
      */
-    public FloatWindow(Activity activity, boolean showlasttime, FloatToolBarAlign align,
-            float position) {
+    public FloatWindow(Activity activity, boolean showlasttime, FloatToolBarAlign align, float position) {
         super(activity);
         this.mActivity = activity;
         this.mFloatToolBarAlign = align;
@@ -177,8 +176,7 @@ public class FloatWindow extends ImageView {
             }
             this.mPosition = mSharedPreferences.getFloat(POSITION, 0);
         } else {
-            Editor sharedPreferencesEdit = activity.getSharedPreferences(PREFS_FILE,
-                    Context.MODE_PRIVATE).edit();
+            Editor sharedPreferencesEdit = activity.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE).edit();
             sharedPreferencesEdit.putFloat(POSITION, position);
             if (align == FloatToolBarAlign.Right) {
                 sharedPreferencesEdit.putBoolean(ALIGN, false);
@@ -196,7 +194,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 初始化变量
-     *
+     * 
      * @author
      */
     private void initVariables() {
@@ -205,15 +203,13 @@ public class FloatWindow extends ImageView {
         mDensity = getResources().getDisplayMetrics().density;
         // 获取的是WindowManagerImpl.CompatModeWrapper
         mWindowManager = (WindowManager) mActivity.getSystemService(Context.WINDOW_SERVICE);
-        mIconNormal = getResources().getDrawable(
-                ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_icon_normal));
-        mIconExpanded = getResources().getDrawable(
-                ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_icon_press));
+        mIconNormal = getResources().getDrawable(ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_icon_normal));
+        mIconExpanded = getResources().getDrawable(ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_icon_press));
     }
 
     /**
      * 初始化视图
-     *
+     * 
      * @author
      */
     private void initViews() {
@@ -226,7 +222,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 初始化WindowManager
-     *
+     * 
      * @author
      */
     private void initButtonWindow() {
@@ -270,7 +266,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 设置位置
-     *
+     * 
      * @author
      * @param tempX
      * @param tempY
@@ -280,14 +276,14 @@ public class FloatWindow extends ImageView {
         mButtonWmParams.x = (int) tempX;
         mButtonWmParams.y = (int) (tempY - getStatusBarHeight());
 
-        LogHelper.d(TAG+ "setPosition---mButtonWmParams.y" ,  ""+mButtonWmParams.y );
+        LogHelper.d(TAG + "setPosition---mButtonWmParams.y", "" + mButtonWmParams.y);
         // 刷新
         handler.sendEmptyMessage(UPDATEVIEW_TYPE_BUTTON);
     }
 
     /**
      * 两边靠
-     *
+     * 
      * @author
      * @param side
      */
@@ -311,8 +307,7 @@ public class FloatWindow extends ImageView {
                 } else {
                     while (mButtonWmParams.x < mScreenWidth) {
                         mButtonWmParams.x = mButtonWmParams.x + mSpeed;
-                        mButtonWmParams.x = mButtonWmParams.x > mScreenWidth ? mScreenWidth
-                                : mButtonWmParams.x;
+                        mButtonWmParams.x = mButtonWmParams.x > mScreenWidth ? mScreenWidth : mButtonWmParams.x;
                         try {
                             sleep(TIME);
                         } catch (InterruptedException e) {
@@ -355,15 +350,14 @@ public class FloatWindow extends ImageView {
 
     /**
      * 保存位置
-     *
+     * 
      * @author
      * @param align
      * @param position
      */
     private void savePosition(boolean align, float position) {
         position = position / mScreenHeight * 1.0f;
-        Editor sharedPreferencesEdit = mActivity.getSharedPreferences(PREFS_FILE,
-                Context.MODE_PRIVATE).edit();
+        Editor sharedPreferencesEdit = mActivity.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE).edit();
         sharedPreferencesEdit.putBoolean(ALIGN, align);
         sharedPreferencesEdit.putFloat(POSITION, position);
         sharedPreferencesEdit.commit();
@@ -418,33 +412,30 @@ public class FloatWindow extends ImageView {
         return detector.onTouchEvent(event);
     }
 
-    private GestureDetector detector = new GestureDetector(mActivity,
-            new SimpleOnGestureListener() {
+    private GestureDetector detector = new GestureDetector(mActivity, new SimpleOnGestureListener() {
 
-                // 触发触摸事件
-                public boolean onSingleTapConfirmed(MotionEvent e) {
-                    int location[] = new int[2];
-                    getLocationOnScreen(location);
-                    int y = (int) (location[1] + getMeasuredHeight() / 2.0f - mFloatMenu
-                            .getMeasuredHeight() / 2);
-                    int x = getMeasuredWidth();
-                    showMenu(x, y);
-                    return false;
-                };
+        // 触发触摸事件
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            int location[] = new int[2];
+            getLocationOnScreen(location);
+            int y = (int) (location[1] + getMeasuredHeight() / 2.0f - mFloatMenu.getMeasuredHeight() / 2);
+            int x = getMeasuredWidth();
+            showMenu(x, y);
+            return false;
+        };
 
-                public void onLongPress(MotionEvent e) {
-                    int location[] = new int[2];
-                    getLocationOnScreen(location);
-                    int y = (int) (location[1] + getMeasuredHeight() / 2.0f - mFloatMenu
-                            .getMeasuredHeight() / 2);
-                    int x = getMeasuredWidth();
-                    showMenu(x, y);
-                };
-            });
+        public void onLongPress(MotionEvent e) {
+            int location[] = new int[2];
+            getLocationOnScreen(location);
+            int y = (int) (location[1] + getMeasuredHeight() / 2.0f - mFloatMenu.getMeasuredHeight() / 2);
+            int x = getMeasuredWidth();
+            showMenu(x, y);
+        };
+    });
 
     /**
      * 显示菜单
-     *
+     * 
      * @author
      */
     private void showMenu(int x, int y) {
@@ -456,7 +447,7 @@ public class FloatWindow extends ImageView {
             hideMenu();
             return;
         }
-        mMenuWmParams.y = y-getStatusBarHeight();
+        mMenuWmParams.y = y - getStatusBarHeight();
         mMenuWmParams.x = x;
         setFloatMenubackground(mFloatToolBarAlign);
         mMenuWmParams.gravity = mButtonWmParams.gravity;
@@ -468,14 +459,12 @@ public class FloatWindow extends ImageView {
 
     private void setFloatMenubackground(FloatToolBarAlign align) {
         if (align == FloatToolBarAlign.Right) {
-            mBitmapRightDrawable = getResources().getDrawable(
-                    ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_menuright_bg));
+            mBitmapRightDrawable = getResources().getDrawable(ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_menuright_bg));
             mFloatMenu.setBackgroundDrawable(mBitmapRightDrawable);
 
             // mFloatMenu.setPadding(20, 10, 20, 10);
         } else {
-            mBitmapLiftDrawable = getResources().getDrawable(
-                    ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_menuleft_bg));
+            mBitmapLiftDrawable = getResources().getDrawable(ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_menuleft_bg));
             mFloatMenu.setBackgroundDrawable(mBitmapLiftDrawable);
             // mFloatMenu.setPadding(20, 10, 20, 10);
         }
@@ -491,7 +480,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 隐藏菜单
-     *
+     * 
      * @author
      */
     private void hideMenu() {
@@ -505,19 +494,19 @@ public class FloatWindow extends ImageView {
 
     /**
      * 获取状态栏高度
-     *
+     * 
      * @author
      * @return
      */
     private int getStatusBarHeight() {
         Rect frame = new Rect();
         mActivity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-         return frame.top;
+        return frame.top;
     }
 
     /**
      * 隐藏
-     *
+     * 
      * @author
      */
     public void hide() {
@@ -533,7 +522,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 显示
-     *
+     * 
      * @author
      */
     public void show() {
@@ -545,9 +534,8 @@ public class FloatWindow extends ImageView {
         mButtonWmParams.x = 0;
         mPosition = mPosition < 0 ? 0 : mPosition;
         mPosition = mPosition > 1 ? 1 : mPosition;
-        mButtonWmParams.y = (int) ((mScreenHeight - getStatusBarHeight()) * mPosition - mIconNormal
-                .getIntrinsicHeight() / 2);
-        LogHelper.d(TAG+  "mButtonWmParams.y" ,  ""+mButtonWmParams.y );
+        mButtonWmParams.y = (int) ((mScreenHeight - getStatusBarHeight()) * mPosition - mIconNormal.getIntrinsicHeight() / 2);
+        LogHelper.d(TAG + "mButtonWmParams.y", "" + mButtonWmParams.y);
         setVisibility(View.VISIBLE);
         handler.sendEmptyMessage(UPDATEVIEW_TYPE_BUTTON);
     }
@@ -588,14 +576,10 @@ public class FloatWindow extends ImageView {
             super(context);
             setGravity(Gravity.CENTER);
             setOrientation(LinearLayout.HORIZONTAL);
-            account = new Item(mActivity, ResourceUtil.getDrawableId(mActivity,
-                    KR.drawable.splus_float_account_selector));
-            forum = new Item(mActivity, ResourceUtil.getDrawableId(mActivity,
-                    KR.drawable.splus_float_forum_selector));
-            help = new Item(mActivity, ResourceUtil.getDrawableId(mActivity,
-                    KR.drawable.splus_float_help_selector));
-            announcements = new Item(mActivity, ResourceUtil.getDrawableId(mActivity,
-                    KR.drawable.splus_float_announcement_selector));
+            account = new Item(mActivity, ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_account_selector));
+            forum = new Item(mActivity, ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_forum_selector));
+            help = new Item(mActivity, ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_help_selector));
+            announcements = new Item(mActivity, ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_announcement_selector));
             // LayoutParams params = new
             // LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
             // LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -615,13 +599,11 @@ public class FloatWindow extends ImageView {
                 public void onClick(View v) {
 
                     hideMenu();
-                    if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity,
-                            SplusPayManager.getInstance().getAppkey())) {
+                    if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, SplusPayManager.getInstance().getAppkey())) {
                         hideMenu();
                         return;
                     } else {
-                        SplusPayManager.getInstance().enterUserCenter(mActivity,
-                                SplusPayManager.getInstance().getLogoutCallBack());
+                        SplusPayManager.getInstance().enterUserCenter(mActivity, SplusPayManager.getInstance().getLogoutCallBack());
                     }
                 }
 
@@ -632,8 +614,7 @@ public class FloatWindow extends ImageView {
                 public void onClick(View v) {
 
                     hideMenu();
-                    if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity,
-                            SplusPayManager.getInstance().getAppkey())) {
+                    if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, SplusPayManager.getInstance().getAppkey())) {
                         hideMenu();
                         return;
                     } else {
@@ -648,8 +629,7 @@ public class FloatWindow extends ImageView {
                 public void onClick(View v) {
 
                     hideMenu();
-                    if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity,
-                            SplusPayManager.getInstance().getAppkey())) {
+                    if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, SplusPayManager.getInstance().getAppkey())) {
                         hideMenu();
                         return;
                     } else {
@@ -668,14 +648,12 @@ public class FloatWindow extends ImageView {
                 public void onClick(View v) {
 
                     hideMenu();
-                    if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity,
-                            SplusPayManager.getInstance().getAppkey())) {
+                    if (!SharedPreferencesHelper.getInstance().getLoginStatusPreferences(mActivity, SplusPayManager.getInstance().getAppkey())) {
                         return;
                     } else {
                         // 论坛
                         Intent intent = new Intent(mActivity, PersonActivity.class);
-                        intent.putExtra(PersonActivity.INTENT_TYPE,
-                                PersonActivity.INTENT_ANNOUNCEMENTS);
+                        intent.putExtra(PersonActivity.INTENT_TYPE, PersonActivity.INTENT_ANNOUNCEMENTS);
                         mActivity.startActivity(intent);
 
                     }
@@ -715,14 +693,13 @@ public class FloatWindow extends ImageView {
 
     /**
      * dp转px
-     *
+     * 
      * @author
      * @param dp
      * @return
      */
     private float dpTopx(float dp) {
-        float size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources()
-                .getDisplayMetrics());
+        float size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
         return size;
 
     }
@@ -731,8 +708,7 @@ public class FloatWindow extends ImageView {
      * Menu菜单显示时的动画
      */
     private ScaleAnimation floatMenuInScaleAnimation() {
-        ScaleAnimation scaleAnimation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scaleAnimation.setFillAfter(false);
         scaleAnimation.setDuration(500);
         return scaleAnimation;
@@ -742,8 +718,7 @@ public class FloatWindow extends ImageView {
      * Menu菜单隐藏时的动画
      */
     private ScaleAnimation floatMenuOutScaleAnimation() {
-        ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f, 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scaleAnimation.setFillAfter(false);
         scaleAnimation.setDuration(500);
         return scaleAnimation;

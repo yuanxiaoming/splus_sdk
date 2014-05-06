@@ -58,9 +58,7 @@ public class LoginModel extends BaseModel {
 
     private String sign;
 
-
-    public LoginModel(Integer gameid, String deviceno, String partner, String referer,
-            String passport, String password, Long time, String sign) {
+    public LoginModel(Integer gameid, String deviceno, String partner, String referer, String passport, String password, Long time, String sign) {
         super("");
 
         this.put(GAMEID, gameid == null ? 0 : gameid);
@@ -75,7 +73,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the gameid
      */
 
@@ -85,7 +83,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param gameid the gameid to set
      */
 
@@ -96,7 +94,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the deviceno
      */
 
@@ -106,7 +104,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param deviceno the deviceno to set
      */
 
@@ -117,7 +115,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the partner
      */
 
@@ -127,7 +125,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param otta the partner to set
      */
 
@@ -138,7 +136,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the partner
      */
 
@@ -149,7 +147,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param partner the partner to set
      */
 
@@ -160,7 +158,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the passport
      */
 
@@ -171,7 +169,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param passport the passport to set
      */
 
@@ -182,7 +180,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the password
      */
 
@@ -192,7 +190,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param password the password to set
      */
 
@@ -203,7 +201,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the time
      */
 
@@ -213,7 +211,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param time the time to set
      */
 
@@ -224,7 +222,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the sign
      */
 
@@ -234,7 +232,7 @@ public class LoginModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param sign the sign to set
      */
 
@@ -244,12 +242,11 @@ public class LoginModel extends BaseModel {
 
     /**
      * Title: initMap Description:
-     *
+     * 
      * @see com.canhe.android.sdk.model.BaseData#initMap()
      */
     @Override
     protected void initMap() {
-
 
     }
 

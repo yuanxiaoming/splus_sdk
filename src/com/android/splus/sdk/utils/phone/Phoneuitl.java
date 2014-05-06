@@ -27,6 +27,7 @@ import android.text.TextUtils;
 
 public class Phoneuitl {
     private static final String TAG = "Phoneuitls";
+
     // 手机常量
     public static final String MODE = android.os.Build.MODEL;
 
@@ -36,7 +37,7 @@ public class Phoneuitl {
 
     /**
      * getNumber(获取手机号。注：有些手机卡获取不到手机号) (这里描述这个方法适用条件 – 可选)
-     *
+     * 
      * @param context
      * @return String
      * @exception
@@ -44,8 +45,7 @@ public class Phoneuitl {
      */
     public static String getNumber(Context context) {
         String number = "";
-        TelephonyManager tm = (TelephonyManager) context
-                .getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         number = tm.getLine1Number();
         if (!TextUtils.isEmpty(number) && number.startsWith("+86")) {
             number = number.substring(3);
@@ -58,12 +58,11 @@ public class Phoneuitl {
      * 需要加入权限<uses-permission
      * android:name="android.permission.READ_PHONE_STATE"/> <BR>
      * Date:2012-3-12 <BR>
-     *
+     * 
      * @author CODYY)yuanxiaoming
      */
     public String getProvidersName(Context context) {
-        TelephonyManager telephonyManager = (TelephonyManager) context
-                .getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String ProvidersName = null;
         // 返回唯一的用户ID;就是这张卡的编号神马的
         String IMSI = telephonyManager.getSubscriberId();
@@ -80,7 +79,7 @@ public class Phoneuitl {
 
     /**
      * getManufacture(获取制造厂商) (这里描述这个方法适用条件 – 可选)
-     *
+     * 
      * @return String
      * @exception
      * @since 1.0.0 xiaoming.yuan
@@ -115,8 +114,7 @@ public class Phoneuitl {
      */
     public static String getIMEI(Context mContext) {
         try {
-            TelephonyManager telephonyManager = (TelephonyManager) mContext
-                    .getSystemService(Context.TELEPHONY_SERVICE);
+            TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
             String imei = telephonyManager.getDeviceId();
             if (TextUtils.isEmpty(imei)) {
                 imei = telephonyManager.getSubscriberId();
@@ -181,7 +179,7 @@ public class Phoneuitl {
 
     /**
      * getOrientation(获取屏幕方向) (这里描述这个方法适用条件 – 可选)
-     *
+     * 
      * @param context
      * @return int
      * @exception

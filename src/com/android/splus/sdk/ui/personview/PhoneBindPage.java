@@ -22,7 +22,6 @@ import com.android.splus.sdk.utils.http.NetHttpUtil.DataCallback;
 import com.android.splus.sdk.utils.http.RequestModel;
 import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.md5.MD5Util;
-import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
@@ -65,8 +64,7 @@ import java.util.TimerTask;
  * @author xiaoming.yuan
  * @date 2013年9月29日 下午5:23:29
  */
-public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListener,
-        View.OnClickListener {
+public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListener, View.OnClickListener {
     public static String TAG = "PhoneBind";
 
     /**
@@ -104,6 +102,12 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
 
     private String mServerName;
 
+    private Integer mServerId;
+
+    private Integer mRoleId;
+
+    private String mRoleName;
+
     private String mDeviceno;
 
     private String mPartner;
@@ -136,13 +140,15 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
      */
     private static final String COLORFE5F2E = "#fe5f2e";
 
-    public PhoneBindPage(Activity activity, String passport, Integer uid, String dsid,
-            String deviceno, String partner, String referer, Integer gameid,
-            String appkey, boolean bindstatus, Handler handler,int orientation) {
+    public PhoneBindPage(Activity activity, String passport, Integer uid,Integer serverId, Integer roleId,String serverName,String roleName, String deviceno, String partner, String referer, Integer gameid, String appkey, boolean bindstatus, Handler handler, int orientation) {
         super(activity);
         this.mActivity = activity;
         this.mUid = uid;
-        this.mServerName = dsid;
+        this.mServerName = serverName;
+        this.mServerName = serverName;
+        this.mServerId=serverId;
+        this.mRoleId=roleId;
+        this.mRoleName=roleName;
         this.mGameid = gameid;
         this.mDeviceno = deviceno;
         this.mPartner = partner;
@@ -180,8 +186,6 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
         }
     };
 
-
-
     /**
      * 接收验证码
      *
@@ -205,9 +209,7 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
     }
 
     private void init() {
-        inflate(mActivity,
-                ResourceUtil.getLayoutId(mActivity, KR.layout.splus_person_account_phone_manager),
-                this);
+        inflate(mActivity, ResourceUtil.getLayoutId(mActivity, KR.layout.splus_person_account_phone_manager), this);
         findViews();
         initViews();
         setUserName();
@@ -219,14 +221,10 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
      * @param name
      */
     private void setUserName() {
-        String replaceWelcome = KR.string.splus_person_account_phone_welcome.replace("%s",
-                mPassport);
+        String replaceWelcome = KR.string.splus_person_account_phone_welcome.replace("%s", mPassport);
         tv_welcome.setText(replaceWelcome);
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(
-                tv_welcome.getText());
-        spannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor(COLORFE5F2E)),
-                replaceWelcome.indexOf(mPassport), replaceWelcome.length(),
-                Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(tv_welcome.getText());
+        spannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor(COLORFE5F2E)), replaceWelcome.indexOf(mPassport), replaceWelcome.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         tv_welcome.setText(spannableStringBuilder);
     }
 
@@ -235,31 +233,21 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
      * @date 2013年9月29日 下午5:24:58
      */
     private void findViews() {
-        llayout_related = (LinearLayout) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_account_phone_related));
-        llayout_unrelated = (LinearLayout) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_account_phone_unrelated));
+        llayout_related = (LinearLayout) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_account_phone_related));
+        llayout_unrelated = (LinearLayout) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_account_phone_unrelated));
 
-        tv_welcome = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_account_phone_welcome));
-        tv_relatedText = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_account_phone_related_text));
-        tv_hint = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_account_phone_hint));
+        tv_welcome = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_account_phone_welcome));
+        tv_relatedText = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_account_phone_related_text));
+        tv_hint = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_account_phone_hint));
 
-        tv_unrelatedText = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_account_phone_unrelated_text));
-        et_phone = (EditText) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_account_phone_unrelated_num));
-        et_code = (EditText) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_account_phone_unrelated_code));
+        tv_unrelatedText = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_account_phone_unrelated_text));
+        et_phone = (EditText) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_account_phone_unrelated_num));
+        et_code = (EditText) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_account_phone_unrelated_code));
 
-        btn_code = (Button) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_account_phone_unrelated_getcode_btn));
+        btn_code = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_account_phone_unrelated_getcode_btn));
         btn_code.setTextColor(Color.WHITE);
 
-        btn_submit = (Button) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_account_phone_unrelated_submit_btn));
+        btn_submit = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_account_phone_unrelated_submit_btn));
         btn_submit.setTextColor(Color.WHITE);
 
         llayout_phone = (LinearLayout) et_phone.getParent();
@@ -319,14 +307,11 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
         doTimerTask();
         long time = DateUtil.getUnixTime();
         mPhoneNumber = et_phone.getText().toString();
-        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid
-                + mPassport + time + mAppkey;
-        GetCodeModel getCodeModel = new GetCodeModel(mUid, mServerName, mGameid,
-                MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mReferer, mReferer,
-                mPassport, mPhoneNumber);
+        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid + mPassport + time + mAppkey;
+        GetCodeModel getCodeModel = new GetCodeModel(mUid,  mServerId,mRoleId,mServerName,mRoleName, mGameid, MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mReferer, mReferer, mPassport, mPhoneNumber);
         mDialog = ProgressDialogUtil.showProgress(mActivity, "加载中...", null, false, false);
         registerReceiver();
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,getCodeModel, new LoginParser()), mCodeCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL, getCodeModel, new LoginParser()), mCodeCallBack);
     }
 
     /**
@@ -352,11 +337,8 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
             }
         }
         long time = DateUtil.getUnixTime();
-        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid
-                + mPassport + time + mAppkey;
-        BindPhoneModel bindPhoneModel = new BindPhoneModel(mUid, mServerName, mGameid,
-                MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner, mReferer,
-                mPassport, getCodeString(), mPhoneNumber);
+        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid + mPassport + time + mAppkey;
+        BindPhoneModel bindPhoneModel = new BindPhoneModel(mUid,  mServerId,mRoleId,mServerName,mRoleName, mGameid, MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner, mReferer, mPassport, getCodeString(), mPhoneNumber);
 
         mDialog = ProgressDialogUtil.showProgress(mActivity, "加载中...", null, false, false);
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL, bindPhoneModel, new LoginParser()), mBindCallBack);
@@ -503,11 +485,9 @@ public class PhoneBindPage extends ScrollView implements View.OnFocusChangeListe
                 }
             } else {
                 if (mLandscape) {
-                    btn_code.setText(KR.string.splus_person_account_phone_unrelated_getcode_btn
-                            + "\n(" + mSecond + "秒)");
+                    btn_code.setText(KR.string.splus_person_account_phone_unrelated_getcode_btn + "\n(" + mSecond + "秒)");
                 } else {
-                    btn_code.setText(KR.string.splus_person_account_phone_unrelated_getcode_btn
-                            + "(" + mSecond + "秒)");
+                    btn_code.setText(KR.string.splus_person_account_phone_unrelated_getcode_btn + "(" + mSecond + "秒)");
                 }
             }
             mSecond--;

@@ -60,15 +60,14 @@ public class ActiveData {
 
     public JSONObject updateInfo;
 
-    public ActiveData(String deviceno, Integer updatetype, String sdkver, String gamever,
-            String updateurl, String updatecontent, String passport, String relationships) {
+    public ActiveData(String deviceno, Integer updatetype, String sdkver, String gamever, String updateurl, String updatecontent, String passport, String relationships) {
         super();
-        this.deviceno = deviceno==null?"": deviceno;
-        this.updatetype = updatetype==null?0:updatetype;
-        this.sdkver = sdkver==null?"":sdkver;
-        this.gamever = gamever==null?"":gamever;
-        this.updateurl = updateurl==null?"":updateurl;
-        this.updatecontent = updatecontent==null?"":updatecontent;
+        this.deviceno = deviceno == null ? "" : deviceno;
+        this.updatetype = updatetype == null ? 0 : updatetype;
+        this.sdkver = sdkver == null ? "" : sdkver;
+        this.gamever = gamever == null ? "" : gamever;
+        this.updateurl = updateurl == null ? "" : updateurl;
+        this.updatecontent = updatecontent == null ? "" : updatecontent;
         this.passport = passport;
         this.relationships = relationships;
         updateInfo = new JSONObject();
@@ -86,7 +85,7 @@ public class ActiveData {
 
     /**
      * getter method
-     *
+     * 
      * @return the deviceno
      */
 
@@ -96,7 +95,7 @@ public class ActiveData {
 
     /**
      * setter method
-     *
+     * 
      * @param deviceno the deviceno to set
      */
 
@@ -106,7 +105,7 @@ public class ActiveData {
 
     /**
      * getter method
-     *
+     * 
      * @return the updatetype
      */
 
@@ -116,7 +115,7 @@ public class ActiveData {
 
     /**
      * setter method
-     *
+     * 
      * @param updatetype the updatetype to set
      */
 
@@ -126,7 +125,7 @@ public class ActiveData {
 
     /**
      * getter method
-     *
+     * 
      * @return the sdkver
      */
 
@@ -136,7 +135,7 @@ public class ActiveData {
 
     /**
      * setter method
-     *
+     * 
      * @param sdkver the sdkver to set
      */
 
@@ -146,7 +145,7 @@ public class ActiveData {
 
     /**
      * getter method
-     *
+     * 
      * @return the gamever
      */
 
@@ -156,7 +155,7 @@ public class ActiveData {
 
     /**
      * setter method
-     *
+     * 
      * @param gamever the gamever to set
      */
 
@@ -166,7 +165,7 @@ public class ActiveData {
 
     /**
      * getter method
-     *
+     * 
      * @return the updateurl
      */
 
@@ -176,7 +175,7 @@ public class ActiveData {
 
     /**
      * setter method
-     *
+     * 
      * @param updateurl the updateurl to set
      */
 
@@ -186,7 +185,7 @@ public class ActiveData {
 
     /**
      * getter method
-     *
+     * 
      * @return the updatecontent
      */
 
@@ -196,7 +195,7 @@ public class ActiveData {
 
     /**
      * setter method
-     *
+     * 
      * @param updatecontent the updatecontent to set
      */
 
@@ -206,7 +205,7 @@ public class ActiveData {
 
     /**
      * getter method
-     *
+     * 
      * @return the passport
      */
 
@@ -216,7 +215,7 @@ public class ActiveData {
 
     /**
      * setter method
-     *
+     * 
      * @param passport the passport to set
      */
 
@@ -226,7 +225,7 @@ public class ActiveData {
 
     /**
      * getter method
-     *
+     * 
      * @return the relationships
      */
 
@@ -236,7 +235,7 @@ public class ActiveData {
 
     /**
      * setter method
-     *
+     * 
      * @param relationships the relationships to set
      */
 
@@ -246,7 +245,7 @@ public class ActiveData {
 
     /**
      * getter method
-     *
+     * 
      * @return the mJSONObject
      */
 
@@ -256,7 +255,7 @@ public class ActiveData {
 
     /**
      * setter method
-     *
+     * 
      * @param mJSONObject the mJSONObject to set
      */
 

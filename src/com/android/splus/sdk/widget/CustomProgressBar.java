@@ -45,8 +45,7 @@ public class CustomProgressBar extends ImageView {
         setFocusable(true);
         setFocusableInTouchMode(true);
 
-        loadingBitmap = BitmapFactory.decodeResource(getResources(),
-                getDrawableId(KR.drawable.splus_splash_loading));
+        loadingBitmap = BitmapFactory.decodeResource(getResources(), getDrawableId(KR.drawable.splus_splash_loading));
 
         loadingAnimationDrawable = new AnimationDrawable();
         int orientationDegree = 0;
@@ -68,13 +67,10 @@ public class CustomProgressBar extends ImageView {
      */
     private Drawable adjustDrawableRotation(int orientationDegree) {
         // Canvas抗锯齿
-        PaintFlagsDrawFilter pfd = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG
-                | Paint.FILTER_BITMAP_FLAG);
+        PaintFlagsDrawFilter pfd = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
         Matrix matrix = new Matrix();
-        matrix.setRotate(orientationDegree, (float) loadingBitmap.getWidth() / 2,
-                (float) loadingBitmap.getHeight() / 2);
-        Bitmap bitmap = Bitmap.createBitmap(loadingBitmap.getHeight(), loadingBitmap.getWidth(),
-                Bitmap.Config.ARGB_8888);
+        matrix.setRotate(orientationDegree, (float) loadingBitmap.getWidth() / 2, (float) loadingBitmap.getHeight() / 2);
+        Bitmap bitmap = Bitmap.createBitmap(loadingBitmap.getHeight(), loadingBitmap.getWidth(), Bitmap.Config.ARGB_8888);
         Paint paint = new Paint();
         // Paint抗锯齿
         paint.setAntiAlias(true);
@@ -88,7 +84,7 @@ public class CustomProgressBar extends ImageView {
 
     /**
      * 获取图片id
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月9日 下午10:45:55
      * @param resName

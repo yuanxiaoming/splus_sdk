@@ -8,8 +8,8 @@ import org.json.JSONObject;
 
 /**
  * Created with IntelliJ IDEA. Copyright: Copyright (c) 2013
- * Company:上海三七玩网络科技有限公司 User: xiaoming.yuan
- * Time: 下午4:42 To change this template use File | Settings | File Templates.
+ * Company:上海三七玩网络科技有限公司 User: xiaoming.yuan Time: 下午4:42 To change this
+ * template use File | Settings | File Templates.
  */
 public class LoginParser extends BaseParser<JSONObject> {
     @Override

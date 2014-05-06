@@ -88,9 +88,13 @@ public class RechargeCardQuotaPage extends LinearLayout {
 
     private String mReferer;
 
-    private String mRoleName;
+    private Integer mServerId;
 
     private String mServerName;
+
+    private Integer mRoleId;
+
+    private String mRoleName;
 
     private String mOutOrderid;
 
@@ -108,17 +112,14 @@ public class RechargeCardQuotaPage extends LinearLayout {
 
     protected CustomProgressDialog mProgressDialog;
 
-
     private View mDialogClauseView;// 条款视图
 
     private Dialog mDialogClause;// 条款对话框
 
     private FrameLayout.LayoutParams mDialogClauseparams;// 条款对话框参数
 
-
-    public RechargeCardQuotaPage(UserModel userModel, Activity activity, String deviceno, String appKey,
-            Integer gameid, String partner, String referer, String roleName, String serverName,
-            String outOrderid, String pext, Integer type, String payway,Float money) {
+    public RechargeCardQuotaPage(UserModel userModel, Activity activity, String deviceno, String appKey, Integer gameid, String partner, String referer, Integer serverId, Integer roleId, String roleName, String serverName, String outOrderid, String pext, Integer type,
+                    String payway, Float money) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -127,15 +128,16 @@ public class RechargeCardQuotaPage extends LinearLayout {
         this.mGameid = gameid;
         this.mPartner = partner;
         this.mReferer = referer;
+        this.mRoleId = roleId;
+        this.mServerId = serverId;
         this.mRoleName = roleName;
         this.mServerName = serverName;
         this.mOutOrderid = outOrderid;
         this.mPext = pext;
         this.mType = type;
         this.mPayway = payway;
-        this.mRenminbi=money;
-        inflate(activity,
-                ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_card_quota_layout), this);
+        this.mRenminbi = money;
+        inflate(activity, ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_card_quota_layout), this);
         findViews();
         initViews();
         setlistener();
@@ -150,19 +152,13 @@ public class RechargeCardQuotaPage extends LinearLayout {
      */
 
     private void findViews() {
-        recharge_money_tips = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_tips));
-        recharge_comfirm_btn = (Button) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_comfirm_btn));
+        recharge_money_tips = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_tips));
+        recharge_comfirm_btn = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_comfirm_btn));
         recharge_comfirm_btn.setText(KR.string.splus_recharge_comfirm_tips);
-        recharge_money_ratio_tv = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_ratio_tv));
-        recharge_money_cardpassport_edit = (EditText) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_cardpassport_edit));
-        recharge_money_cardpassword_edit = (EditText) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_cardpassword_edit));
-        recharge_card_explian_ibtn=(ImageButton) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_card_explian_ibtn));
+        recharge_money_ratio_tv = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_ratio_tv));
+        recharge_money_cardpassport_edit = (EditText) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_cardpassport_edit));
+        recharge_money_cardpassword_edit = (EditText) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_cardpassword_edit));
+        recharge_card_explian_ibtn = (ImageButton) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_card_explian_ibtn));
 
     }
 
@@ -174,7 +170,7 @@ public class RechargeCardQuotaPage extends LinearLayout {
 
     private void initViews() {
 
-        recharge_money_tips.setText(Html.fromHtml("<font color=#FE8E35>充值金额: "+ mRenminbi+"元</font>"));
+        recharge_money_tips.setText(Html.fromHtml("<font color=#FE8E35>充值金额: " + mRenminbi + "元</font>"));
         recharge_money_ratio_tv.setHint(KR.string.splus_recharge_ratio_tv_tips);
         recharge_money_cardpassport_edit.setHint("请输入卡号");
         recharge_money_cardpassword_edit.setHint("请输入密码");
@@ -188,8 +184,6 @@ public class RechargeCardQuotaPage extends LinearLayout {
      */
 
     private void setlistener() {
-
-
 
         recharge_comfirm_btn.setOnClickListener(new OnClickListener() {
 
@@ -213,7 +207,6 @@ public class RechargeCardQuotaPage extends LinearLayout {
         });
     }
 
-
     /**
      * @Title: processLogic(这里用一句话描述这个方法的作用)
      * @author xiaoming.yuan
@@ -221,7 +214,7 @@ public class RechargeCardQuotaPage extends LinearLayout {
      */
 
     private void processLogic() {
-         getRatio();
+        getRatio();
     }
 
     /**
@@ -232,8 +225,7 @@ public class RechargeCardQuotaPage extends LinearLayout {
     private void getRatio() {
         long time = DateUtil.getUnixTime();
         String keyString = mGameid + mPayway + time + mAppKey;
-        RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time,
-                MD5Util.getMd5toLowerCase(keyString));
+        RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time, MD5Util.getMd5toLowerCase(keyString));
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.RATIO_URL, mRatioModel, new LoginParser()), onRatioebyCardCallBack);
     }
 
@@ -264,7 +256,7 @@ public class RechargeCardQuotaPage extends LinearLayout {
 
     /**
      * 根据元宝数，显示相应提示（纯色文字）
-     *
+     * 
      * @param money
      */
     private void setGetMoneyTextPure(Float money) {
@@ -290,21 +282,16 @@ public class RechargeCardQuotaPage extends LinearLayout {
             return;
         }
         long time = DateUtil.getUnixTime();
-        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner+ mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
-        RechargeModel rechargeModel = new RechargeModel(mGameid, mServerName, mDeviceno,
-                mPartner, mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleName,
-                time, mUserModel.getPassport(),mCardNumber,mCardPassword, String.valueOf(mRenminbi),mOutOrderid, mPext,
-                MD5Util.getMd5toLowerCase(keyString));
-
+        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
+        RechargeModel rechargeModel = new RechargeModel(mGameid, mServerId, mServerName, mDeviceno, mPartner, mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleId, mRoleName, time, mUserModel.getPassport(), mCardNumber, mCardPassword, String.valueOf(mRenminbi),
+                        mOutOrderid, mPext, MD5Util.getMd5toLowerCase(keyString));
 
         if (mProgressDialog == null || !mProgressDialog.isShowing()) {
             showProgressDialog();
         }
-        NetHttpUtil.getDataFromServerPOST(mActivity,new RequestModel(Constant.HTMLWAPPAY_URL,rechargeModel, new LoginParser()), onRechargebyCardCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.HTMLWAPPAY_URL, rechargeModel, new LoginParser()), onRechargebyCardCallBack);
 
     }
-
-
 
     private DataCallback<JSONObject> onRechargebyCardCallBack = new DataCallback<JSONObject>() {
         @Override
@@ -345,7 +332,6 @@ public class RechargeCardQuotaPage extends LinearLayout {
 
     };
 
-
     private void result_intent(String rechage_type) {
         Intent intent = new Intent();
         intent.setClass(mActivity, RechargeResultActivity.class);
@@ -357,7 +343,7 @@ public class RechargeCardQuotaPage extends LinearLayout {
 
     /**
      * 检测充值卡密码格式是否正确
-     *
+     * 
      * @param cardNumberpwd
      * @return
      */
@@ -387,7 +373,7 @@ public class RechargeCardQuotaPage extends LinearLayout {
 
     /**
      * 检测充值卡号格式是否正确
-     *
+     * 
      * @param cardNumber
      * @return
      */
@@ -435,13 +421,11 @@ public class RechargeCardQuotaPage extends LinearLayout {
         }
     }
 
-
-
-    private void show_card_explian(String title,String content,String okBtnStr) {
+    private void show_card_explian(String title, String content, String okBtnStr) {
         mDialogClauseparams = getMParames();
         if (mDialogClause == null) {
             mDialogClause = new Dialog(mActivity, android.R.style.Theme_Panel);
-            mDialogClause.addContentView(getmDialogView(title,content,okBtnStr), mDialogClauseparams);
+            mDialogClause.addContentView(getmDialogView(title, content, okBtnStr), mDialogClauseparams);
         }
         if (!mDialogClause.isShowing()) {
             mDialogClause.show();
@@ -450,23 +434,18 @@ public class RechargeCardQuotaPage extends LinearLayout {
     }
 
     /**
-     *
      * @return View
      * @exception
      * @since 1.0.0 xiaoming.yuan
      */
-    private View getmDialogView(String title,String content,String okBtnStr) {
+    private View getmDialogView(String title, String content, String okBtnStr) {
 
-        mDialogClauseView = CommonUtil.createCustomView(mActivity,
-                KR.layout.splus_recharge_card_explian_dialog);
-        TextView mContentTextView = (TextView) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_register_clause_dialog_tv_content));
+        mDialogClauseView = CommonUtil.createCustomView(mActivity, KR.layout.splus_recharge_card_explian_dialog);
+        TextView mContentTextView = (TextView) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity, KR.id.splus_register_clause_dialog_tv_content));
         mContentTextView.setText(Html.fromHtml(content));
-        TextView mTitleTextView = (TextView) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_register_clause_dialog_iv_title));
+        TextView mTitleTextView = (TextView) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity, KR.id.splus_register_clause_dialog_iv_title));
         mTitleTextView.setText(title);
-        Button button = (Button) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_register_clause_dialog_btn_agree));
+        Button button = (Button) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity, KR.id.splus_register_clause_dialog_btn_agree));
         button.setText(okBtnStr);
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -477,8 +456,7 @@ public class RechargeCardQuotaPage extends LinearLayout {
                 }
             }
         });
-        ImageView splus_login_clause_dialog_iv_close = (ImageView) mDialogClauseView
-                .findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_clause_iv_close));
+        ImageView splus_login_clause_dialog_iv_close = (ImageView) mDialogClauseView.findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_clause_iv_close));
         splus_login_clause_dialog_iv_close.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -492,9 +470,10 @@ public class RechargeCardQuotaPage extends LinearLayout {
 
         return mDialogClauseView;
     }
+
     /**
      * getMParames(生成窗口参数)
-     *
+     * 
      * @return LayoutParams
      * @exception
      * @since 1.0.0 xiaoming.yuan

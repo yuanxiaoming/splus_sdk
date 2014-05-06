@@ -201,8 +201,7 @@ public class JSplugin {
                 case JSplugin.SUCCESS_BACK_RECHARGE:
                     Activity activity = ExitAppUtils.getInstance().getRunActivity();
                     if (null != activity) {
-                        if (RechargeActivity.class.getSimpleName().equals(
-                                activity.getClass().getSimpleName())) {
+                        if (RechargeActivity.class.getSimpleName().equals(activity.getClass().getSimpleName())) {
                             if (null != RechargeActivity.getCustomWebView()) {
                                 while (RechargeActivity.getCustomWebView().canGoBack()) {
                                     RechargeActivity.getCustomWebView().goBack();
@@ -212,8 +211,7 @@ public class JSplugin {
                                     userModel = AppUtil.getUserData();
                                 }
                                 if (null != SplusPayManager.getInstance().getRechargeCallBack()) {
-                                    SplusPayManager.getInstance().getRechargeCallBack()
-                                            .rechargeSuccess(userModel);
+                                    SplusPayManager.getInstance().getRechargeCallBack().rechargeSuccess(userModel);
                                     LogHelper.i(TAG, "充值成功");
                                 }
                             }
@@ -223,15 +221,13 @@ public class JSplugin {
                 case JSplugin.ERROR_BACK_RECHARGE:
                     Activity activity2 = ExitAppUtils.getInstance().getRunActivity();
                     if (null != activity2) {
-                        if (RechargeActivity.class.getSimpleName().equals(
-                                activity2.getClass().getSimpleName())) {
+                        if (RechargeActivity.class.getSimpleName().equals(activity2.getClass().getSimpleName())) {
                             if (null != RechargeActivity.getCustomWebView()) {
                                 while (RechargeActivity.getCustomWebView().canGoBack()) {
                                     RechargeActivity.getCustomWebView().goBack();
                                 }
                                 if (null != SplusPayManager.getInstance().getRechargeCallBack()) {
-                                    SplusPayManager.getInstance().getRechargeCallBack()
-                                            .rechargeFaile("充值失败");
+                                    SplusPayManager.getInstance().getRechargeCallBack().rechargeFaile("充值失败");
                                     LogHelper.i(TAG, "充值失败");
                                 }
                             }
@@ -253,8 +249,7 @@ public class JSplugin {
                 case JSplugin.CALL_PHONE:
                     String phoneNumber = (String) msg.obj;
                     if (!TextUtils.isEmpty(phoneNumber)) {
-                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel://"
-                                + phoneNumber));
+                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel://" + phoneNumber));
                         // 去调用那些可以处理拨号行为的Activity
                         mActivity.startActivity(intent);
                     }
@@ -335,7 +330,6 @@ public class JSplugin {
         }
     };
 
-
     /**
      * @Title: union_payment(银联支付)
      * @author xiaoming.yuan
@@ -347,52 +341,46 @@ public class JSplugin {
             LogHelper.d(TAG, "支付的mActivity为空");
             return;
         }
-       // 生产环境00，测试01
+        // 生产环境00，测试01
         int startPay = UPPayAssistEx.startPay(mActivity, null, null, orderinfo, "01");
         if (startPay == UPPayAssistEx.PLUGIN_NOT_FOUND) {
             // 需要重新安装控件
             Log.e(TAG, " plugin not found or need upgrade!!!");
-            ProgressDialogUtil.showInfoDialog(mActivity, "提示", "完成购买需要安装银联支付控件，是否安装？", 0,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            boolean installUPPayPlugin = UPPayAssistEx
-                                    .installUPPayPlugin(mActivity);
-                            if (!installUPPayPlugin) {
-                             // 显示“正在支付”进度条
-                                mProgress = ProgressDialogUtil.showProgress(mActivity, null, "正在支付", false, true);
-                                new Thread(new Runnable() {
-                                    public void run() {
-                                        String cachePath = mActivity.getCacheDir()
-                                                .getAbsolutePath() + "/UPPayPluginEx.apk";
-                                        // 动态下载
-                                        retrieveApkFromNet(
-                                                mActivity,
-                                                "http://mobile.unionpay.com/getclient?platform=android&type=securepayplugin",
-                                                cachePath);
-                                        // 发送结果
-                                        Message msg = new Message();
-                                        msg.what = 1;
-                                        msg.obj = cachePath;
-                                        mUnionHandler.sendMessage(msg);
-                                    }
-                                }).start();
+            ProgressDialogUtil.showInfoDialog(mActivity, "提示", "完成购买需要安装银联支付控件，是否安装？", 0, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    boolean installUPPayPlugin = UPPayAssistEx.installUPPayPlugin(mActivity);
+                    if (!installUPPayPlugin) {
+                        // 显示“正在支付”进度条
+                        mProgress = ProgressDialogUtil.showProgress(mActivity, null, "正在支付", false, true);
+                        new Thread(new Runnable() {
+                            public void run() {
+                                String cachePath = mActivity.getCacheDir().getAbsolutePath() + "/UPPayPluginEx.apk";
+                                // 动态下载
+                                retrieveApkFromNet(mActivity, "http://mobile.unionpay.com/getclient?platform=android&type=securepayplugin", cachePath);
+                                // 发送结果
+                                Message msg = new Message();
+                                msg.what = 1;
+                                msg.obj = cachePath;
+                                mUnionHandler.sendMessage(msg);
                             }
-                        }
-                    }, new DialogInterface.OnClickListener() {
+                        }).start();
+                    }
+                }
+            }, new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }, true);
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }, true);
         }
 
     }
 
     /**
      * 动态下载apk
-     *
+     * 
      * @param context 上下文环境
      * @param strurl 下载地址
      * @param filename 文件名称
@@ -426,25 +414,24 @@ public class JSplugin {
 
     /**
      * 显示确认安装的提示
-     *
+     * 
      * @param context 上下文环境
      * @param cachePath 安装文件路径
      */
     public void showInstallAPK(final Context context, final String cachePath) {
-                // 修改apk权限
-                try {
-                    String command = "chmod " + "777" + " " + cachePath;
-                    Runtime runtime = Runtime.getRuntime();
-                    runtime.exec(command);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                // 安装安全支付服务APK
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setDataAndType(Uri.parse("file://" + cachePath),
-                        "application/vnd.android.package-archive");
-                context.startActivity(intent);
+        // 修改apk权限
+        try {
+            String command = "chmod " + "777" + " " + cachePath;
+            Runtime runtime = Runtime.getRuntime();
+            runtime.exec(command);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 安装安全支付服务APK
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setDataAndType(Uri.parse("file://" + cachePath), "application/vnd.android.package-archive");
+        context.startActivity(intent);
 
     }
 

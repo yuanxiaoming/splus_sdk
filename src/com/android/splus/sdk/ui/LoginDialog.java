@@ -22,7 +22,7 @@ import android.view.WindowManager;
 
 /**
  * LoginWindow xiaoming.yuan2013-12-11 下午4:28:02
- *
+ * 
  * @version 1.0.0
  */
 public class LoginDialog extends AlertDialog {
@@ -46,8 +46,7 @@ public class LoginDialog extends AlertDialog {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         if (mCurrentView != null) {
-            setContentView(mCurrentView,
-                    CommonUtil.getFrameLayoutParams(mActivity, 120, 120, 25, 25, Gravity.CENTER));
+            setContentView(mCurrentView, CommonUtil.getFrameLayoutParams(mActivity, 120, 120, 25, 25, Gravity.CENTER));
         } else {
             LogHelper.e("loginDialog", "mCurrentView is null");
         }
@@ -57,27 +56,25 @@ public class LoginDialog extends AlertDialog {
      * 调整视图
      */
     public void onWindowFocusChanged(boolean hasFocus) {
-//        if (!hasFocus) {
-//            initWindow();
-//        }
+        // if (!hasFocus) {
+        // initWindow();
+        // }
         initWindow();
-        setContentView(mCurrentView,
-                CommonUtil.getFrameLayoutParams(mActivity, 120, 120, 25, 25, Gravity.CENTER));
+        setContentView(mCurrentView, CommonUtil.getFrameLayoutParams(mActivity, 120, 120, 25, 25, Gravity.CENTER));
         super.onWindowFocusChanged(hasFocus);
 
     }
 
     /**
      * changeView(用于根据tag改变对话框中的view) (这里描述这个方法适用条件 – 可选)
-     *
+     * 
      * @param tag void
      * @exception
      * @since 1.0.0 xilin.chen
      */
     public void changeView(String tag) {
         createCurrentView(tag);
-        setContentView(mCurrentView,
-                CommonUtil.getFrameLayoutParams(mActivity, 120, 120, 25, 25, Gravity.CENTER));
+        setContentView(mCurrentView, CommonUtil.getFrameLayoutParams(mActivity, 120, 120, 25, 25, Gravity.CENTER));
     }
 
     private void createCurrentView(String tag) {
@@ -127,7 +124,7 @@ public class LoginDialog extends AlertDialog {
                 }
             }
             lp.height = height;
-            lp.width =  width;
+            lp.width = width;
         }
         lp.gravity = Gravity.CENTER;
         lp.windowAnimations = android.R.style.Animation;

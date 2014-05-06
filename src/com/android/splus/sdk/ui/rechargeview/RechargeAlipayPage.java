@@ -80,7 +80,6 @@ public class RechargeAlipayPage extends LinearLayout {
 
     private MoneyGridViewAdapter mMoneyGridViewAdapter;
 
-
     private float mRenminbi = 0; // 人民币
 
     private String mCoin_name = "金币";
@@ -99,9 +98,13 @@ public class RechargeAlipayPage extends LinearLayout {
 
     private String mReferer;
 
-    private String mRoleName;
+    private Integer mServerId;
 
     private String mServerName;
+
+    private Integer mRoleId;
+
+    private String mRoleName;
 
     private String mOutOrderid;
 
@@ -117,11 +120,10 @@ public class RechargeAlipayPage extends LinearLayout {
 
     private AlipayHtmlClick mAlipayHtmlClick;
 
-    private int mOrientation ;
+    private int mOrientation;
 
-    public RechargeAlipayPage(UserModel userModel, Activity activity, String deviceno,
-            String appKey, Integer gameid, String partner, String referer, String roleName,
-            String serverName, String outOrderid, String pext, Integer type, String payway,int orientation) {
+    public RechargeAlipayPage(UserModel userModel, Activity activity, String deviceno, String appKey, Integer gameid, String partner, String referer, Integer serverId, Integer roleId, String roleName, String serverName, String outOrderid, String pext, Integer type,
+                    String payway, int orientation) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -130,15 +132,16 @@ public class RechargeAlipayPage extends LinearLayout {
         this.mGameid = gameid;
         this.mPartner = partner;
         this.mReferer = referer;
+        this.mRoleId = roleId;
+        this.mServerId = serverId;
         this.mRoleName = roleName;
         this.mServerName = serverName;
         this.mOutOrderid = outOrderid;
         this.mPext = pext;
         this.mType = type;
         this.mPayway = payway;
-        this.mOrientation=orientation;
-        inflate(activity,
-                ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_layout), this);
+        this.mOrientation = orientation;
+        inflate(activity, ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_layout), this);
         findViews();
         initViews();
         setlistener();
@@ -153,17 +156,12 @@ public class RechargeAlipayPage extends LinearLayout {
      */
 
     private void findViews() {
-        recharge_money_tips = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_tips));
-        recharge_money_custom_et = (EditText) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_custom_et));
-        recharge_comfirm_btn = (Button) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_comfirm_btn));
+        recharge_money_tips = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_tips));
+        recharge_money_custom_et = (EditText) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_custom_et));
+        recharge_comfirm_btn = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_comfirm_btn));
         recharge_comfirm_btn.setText(KR.string.splus_recharge_comfirm_tips);
-        recharge_money_ratio_tv = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_ratio_tv));
-        recharge_money_gridview_select = (CustomGridView) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_recharge_money_gridview_select));
+        recharge_money_ratio_tv = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_ratio_tv));
+        recharge_money_gridview_select = (CustomGridView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_gridview_select));
 
         recharge_money_tips.setText(KR.string.splus_recharge_select_head_tips);
         recharge_money_custom_et.setFilters(new InputFilter[] {
@@ -181,24 +179,23 @@ public class RechargeAlipayPage extends LinearLayout {
 
     private void initViews() {
 
-        int orientation =mOrientation;
+        int orientation = mOrientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             recharge_money_gridview_select.setNumColumns(6);
             recharge_money_gridview_select.setColumnWidth(40);
-            recharge_money_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,Gravity.CENTER));
-       //     recharge_money_gridview_select.setPadding(5, 20, 5, 20);
+            recharge_money_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER));
+            // recharge_money_gridview_select.setPadding(5, 20, 5, 20);
             recharge_money_gridview_select.setVerticalSpacing(20);
             recharge_money_gridview_select.setHorizontalSpacing(20);
 
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-           //  竖屏
-             recharge_money_gridview_select.setNumColumns(3);
-             recharge_money_gridview_select.setLayoutParams(new
-             LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT,Gravity.CENTER));
-             recharge_money_gridview_select.setPadding(5, 20, 5, 20);
-             recharge_money_gridview_select.setVerticalSpacing(30);
-             recharge_money_gridview_select.setHorizontalSpacing(30);
+            // 竖屏
+            recharge_money_gridview_select.setNumColumns(3);
+            recharge_money_gridview_select.setLayoutParams(new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER));
+            recharge_money_gridview_select.setPadding(5, 20, 5, 20);
+            recharge_money_gridview_select.setVerticalSpacing(30);
+            recharge_money_gridview_select.setHorizontalSpacing(30);
 
         }
         recharge_money_gridview_select.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -273,8 +270,7 @@ public class RechargeAlipayPage extends LinearLayout {
                 }
                 String str = s.toString().trim();
                 if (str.length() > 0) {
-                    if (!TextUtils.isEmpty(str)
-                            && !str.subSequence(str.length() - 1, str.length()).equals(".")) {
+                    if (!TextUtils.isEmpty(str) && !str.subSequence(str.length() - 1, str.length()).equals(".")) {
                         mRenminbi = Float.valueOf(str);
                         setGetMoneyTextPure(mRenminbi);
                     }
@@ -290,7 +286,7 @@ public class RechargeAlipayPage extends LinearLayout {
      */
 
     private void processLogic() {
-         getRatio();
+        getRatio();
     }
 
     /**
@@ -301,10 +297,9 @@ public class RechargeAlipayPage extends LinearLayout {
     private void getRatio() {
         long time = DateUtil.getUnixTime();
         String keyString = mGameid + mPayway + time + mAppKey;
-        RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time,
-                MD5Util.getMd5toLowerCase(keyString));
+        RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time, MD5Util.getMd5toLowerCase(keyString));
 
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.RATIO_URL,mRatioModel, new LoginParser()), onRatioebyCardCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.RATIO_URL, mRatioModel, new LoginParser()), onRatioebyCardCallBack);
     }
 
     private DataCallback<JSONObject> onRatioebyCardCallBack = new DataCallback<JSONObject>() {
@@ -334,7 +329,7 @@ public class RechargeAlipayPage extends LinearLayout {
 
     /**
      * 根据元宝数，显示相应提示（纯色文字）
-     *
+     * 
      * @param money
      */
     private void setGetMoneyTextPure(Float money) {
@@ -347,37 +342,34 @@ public class RechargeAlipayPage extends LinearLayout {
 
     }
 
-
     /**
      * 核查充值金额
      */
-     private boolean checkInputMoney(Float userMoney) {
-         if (mUserModel.getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
-             if (userMoney < 0.01) {
-                 ToastUtil.showToast(mActivity,"单次充值最低0.01元起，请重新输入金额");
-                 return false;
-             }
-         } else {
-             if (userMoney < 10) {
-                 ToastUtil.showToast(mActivity,"单次充值最低10元起，请重新输入金额");
-                 return false;
-             }
-         }
-         return true;
+    private boolean checkInputMoney(Float userMoney) {
+        if (mUserModel.getPassport().equalsIgnoreCase(Constant.TEST_PASSPROT)) {
+            if (userMoney < 0.01) {
+                ToastUtil.showToast(mActivity, "单次充值最低0.01元起，请重新输入金额");
+                return false;
+            }
+        } else {
+            if (userMoney < 10) {
+                ToastUtil.showToast(mActivity, "单次充值最低10元起，请重新输入金额");
+                return false;
+            }
+        }
+        return true;
 
-     }
+    }
 
-     /**
-      *
-      * @Title: payQuest(请求支付)
-      * @author xiaoming.yuan
-      * @data 2014-3-18 上午10:19:41
-      * void 返回类型
-      */
+    /**
+     * @Title: payQuest(请求支付)
+     * @author xiaoming.yuan
+     * @data 2014-3-18 上午10:19:41 void 返回类型
+     */
     private void payQuest() {
 
-        if(!checkInputMoney(mRenminbi)){
-           return;
+        if (!checkInputMoney(mRenminbi)) {
+            return;
         }
         if (mPayway.equals(Constant.ALIPAY_FAST_PAYWAY)) {
             // check to see if the MobileSecurePay is already installed.
@@ -388,30 +380,23 @@ public class RechargeAlipayPage extends LinearLayout {
                 return;
             }
             long time = DateUtil.getUnixTime();
-            String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner
-                    + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
-            RechargeModel rechargeModel = new RechargeModel(mGameid, mServerName, mDeviceno,
-                    mPartner, mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleName,
-                    time, mUserModel.getPassport(), mOutOrderid, mPext,
-                    MD5Util.getMd5toLowerCase(keyString));
+            String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
+            RechargeModel rechargeModel = new RechargeModel(mGameid, mServerId, mServerName, mDeviceno, mPartner, mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleId, mRoleName, time, mUserModel.getPassport(), mOutOrderid, mPext,
+                            MD5Util.getMd5toLowerCase(keyString));
             if (mProgressDialog == null || !mProgressDialog.isShowing()) {
                 showProgressDialog();
             }
-            NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.HTMLWAPPAY_URL,rechargeModel, new LoginParser()), onRechargeCallBack);
+            NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.HTMLWAPPAY_URL, rechargeModel, new LoginParser()), onRechargeCallBack);
 
         } else {
-            String str = "充值金额：" + mRenminbi
-                    + "元, 请确认您的支付宝余额大于充值金额,否则请您先充值到余额宝！储蓄卡或信用卡支付，单笔限额500元，每日限额500元，每月限额500元";
-            ProgressDialogUtil.showInfoDialog(mActivity, "确认支付", str,
-                    android.R.drawable.ic_dialog_info, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mAlipayHtmlClick.onAlipayHtmlClick(mUserModel, mActivity, mDeviceno,
-                                    mAppKey, mGameid, mPartner, mReferer, mRoleName, mServerName,
-                                    mOutOrderid, mPext, mType, mPayway, mRenminbi);
-                        }
+            String str = "充值金额：" + mRenminbi + "元, 请确认您的支付宝余额大于充值金额,否则请您先充值到余额宝！储蓄卡或信用卡支付，单笔限额500元，每日限额500元，每月限额500元";
+            ProgressDialogUtil.showInfoDialog(mActivity, "确认支付", str, android.R.drawable.ic_dialog_info, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mAlipayHtmlClick.onAlipayHtmlClick(mUserModel, mActivity, mDeviceno, mAppKey, mGameid, mPartner, mReferer, mServerId, mRoleId, mRoleName, mServerName, mOutOrderid, mPext, mType, mPayway, mRenminbi);
+                }
 
-                    }, null, true);
+            }, null, true);
 
         }
 
@@ -422,7 +407,7 @@ public class RechargeAlipayPage extends LinearLayout {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             closeProgressDialog();
-            if (paramObject != null&& (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
+            if (paramObject != null && (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
                 String orderid = paramObject.optJSONObject("data").optString("orderid");
                 int time = paramObject.optJSONObject("data").optInt("time");
                 String orderinfo = paramObject.optJSONObject("data").optString("orderinfo");
@@ -544,10 +529,8 @@ public class RechargeAlipayPage extends LinearLayout {
 
     public interface AlipayHtmlClick {
 
-        public void onAlipayHtmlClick(UserModel userModel, Activity activity, String deviceno,
-                String appKey, Integer gamid, String partner, String referer, String roleName,
-                String serverName, String outOrderid, String pext, Integer type, String payway,
-                float renminbi);
+        public void onAlipayHtmlClick(UserModel userModel, Activity activity, String deviceno, String appKey, Integer gamid, String partner, String referer, Integer serverId, Integer roleId, String roleName, String serverName, String outOrderid, String pext, Integer type,
+                        String payway, float renminbi);
 
     }
 

@@ -1,5 +1,4 @@
-
- /**
+/**
  * @Title: RechargeTypeModel.java
  * @Package com.android.splus.sdk.model
  * Copyright: Copyright (c) 2013
@@ -9,7 +8,7 @@
  * @version V1.0
  */
 
- package com.android.splus.sdk.model;
+package com.android.splus.sdk.model;
 
 import java.util.HashMap;
 
@@ -19,39 +18,38 @@ import java.util.HashMap;
  * @date 2014-3-11 上午10:19:47
  */
 
-public class RechargeTypeModel  extends HashMap<String, Object>{
-
+public class RechargeTypeModel extends HashMap<String, Object> {
 
     /**
      * @Fields serialVersionUID :（用一句话描述这个变量表示什么）
      */
 
     private static final long serialVersionUID = 1L;
+
     private static final String TAG = "RechargeTypeModel";
 
     private String imgIcon;
-    public static final String IMGICON="imgIcon";
+
+    public static final String IMGICON = "imgIcon";
 
     private Integer rechargeType;
-    public static final String RECHARGETYPE="rechargeType";
+
+    public static final String RECHARGETYPE = "rechargeType";
 
     private String payway;
-    public static final String PAYWAY="payway";
 
+    public static final String PAYWAY = "payway";
 
-
-    public RechargeTypeModel(String imgIcon, Integer rechargeType,String payway) {
+    public RechargeTypeModel(String imgIcon, Integer rechargeType, String payway) {
         super();
         this.put(IMGICON, imgIcon == null ? 0 : imgIcon);
         this.put(RECHARGETYPE, rechargeType == null ? "" : rechargeType);
         this.put(PAYWAY, payway == null ? "" : payway);
     }
 
-
-
-
     /**
      * getter method
+     * 
      * @return the imgIcon
      */
 
@@ -59,20 +57,19 @@ public class RechargeTypeModel  extends HashMap<String, Object>{
         return (String) this.get(PAYWAY);
     }
 
-
     /**
      * setter method
-     * @param imgIcon
-     * the imgIcon to set
+     * 
+     * @param imgIcon the imgIcon to set
      */
 
     public void setPayway(String payway) {
         this.put(PAYWAY, payway == null ? 0 : payway);
     }
 
-
     /**
      * getter method
+     * 
      * @return the imgIcon
      */
 
@@ -80,20 +77,19 @@ public class RechargeTypeModel  extends HashMap<String, Object>{
         return (String) this.get(IMGICON);
     }
 
-
     /**
      * setter method
-     * @param imgIcon
-     * the imgIcon to set
+     * 
+     * @param imgIcon the imgIcon to set
      */
 
     public void setImgIcon(String imgIcon) {
         this.put(IMGICON, imgIcon == null ? 0 : imgIcon);
     }
 
-
     /**
      * getter method
+     * 
      * @return the rechargeType
      */
 
@@ -101,19 +97,14 @@ public class RechargeTypeModel  extends HashMap<String, Object>{
         return (Integer) this.get(RECHARGETYPE);
     }
 
-
     /**
      * setter method
-     * @param rechargeType
-     * the rechargeType to set
+     * 
+     * @param rechargeType the rechargeType to set
      */
 
     public void setRechargeType(Integer rechargeType) {
         this.put(RECHARGETYPE, rechargeType == null ? "" : rechargeType);
     }
 
-
-
-
 }
-

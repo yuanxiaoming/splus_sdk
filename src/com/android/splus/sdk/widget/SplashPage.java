@@ -48,7 +48,7 @@ public class SplashPage extends LinearLayout {
 
     private void init() {
         setBackgroundColor(Color.parseColor("#FFF2F2F2"));
-       // setBackgroundResource(getDrawableId(KR.drawable.splus_splash_background));
+        // setBackgroundResource(getDrawableId(KR.drawable.splus_splash_background));
         setOrientation(LinearLayout.VERTICAL);
         setGravity(Gravity.CENTER);
         setFocusable(true);
@@ -63,22 +63,21 @@ public class SplashPage extends LinearLayout {
 
     /**
      * dp转px
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月9日 下午10:45:10
      * @param dp
      * @return
      */
     private float dpTopx(float dp) {
-        float size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources()
-                .getDisplayMetrics());
+        float size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
         return size;
 
     }
 
     /**
      * 获取图片id
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月9日 下午10:45:55
      * @param resName

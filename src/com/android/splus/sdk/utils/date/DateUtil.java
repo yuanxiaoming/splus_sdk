@@ -1,12 +1,10 @@
+
 package com.android.splus.sdk.utils.date;
 
 import android.os.SystemClock;
 
 /**
- * Created with IntelliJ IDEA.
- * User: yuanxiaoming
- * Date: 13-11-5
- * Time: 上午9:29
+ * Created with IntelliJ IDEA. User: yuanxiaoming Date: 13-11-5 Time: 上午9:29
  */
 public class DateUtil {
 

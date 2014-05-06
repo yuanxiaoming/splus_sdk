@@ -28,9 +28,19 @@ public class BindPhoneModel extends BaseModel {
 
     private Integer uid;
 
+    public static final String SERVERID = "serverId";
+    private Integer serverId;
+
+    public static final String ROLEID = "roleId";
+    private Integer roleId;
+
     public static final String SERVERNAME = "serverName";
 
     private String serverName;
+
+    public static final String ROLENAME = "roleName";
+
+    private String roleName;
 
     public static final String GAMEID = "gameid";
 
@@ -70,12 +80,14 @@ public class BindPhoneModel extends BaseModel {
 
     private String mCode;
 
-    public BindPhoneModel(Integer uid, String serverName, Integer gameid, String sign, Long time,
-            String deviceno, String partner, String referer, String passport,String code, String phone) {
+    public BindPhoneModel(Integer uid,Integer serverId, Integer roleId,String serverName, String roleName, Integer gameid, String sign, Long time, String deviceno, String partner, String referer, String passport, String code, String phone) {
         super("");
         this.put(UID, uid == null ? 0 : uid);
-        this.put(SERVERNAME, serverName == null ? "" : serverName);
         this.put(GAMEID, gameid == null ? 0 : gameid);
+        this.put(SERVERID, serverId == null ? 0 : serverId);
+        this.put(SERVERNAME, serverName == null ? "" : serverName);
+        this.put(ROLEID, roleId == null ? 0 : roleId);
+        this.put(ROLENAME, roleName == null ? "" : roleName);
         this.put(SIGN, sign == null ? "" : sign);
         this.put(TIME, time == null ? 0 : time);
         this.put(DEVICENO, deviceno == null ? "" : deviceno);

@@ -64,7 +64,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setHorizontalScrollbarOverlay Description:
-     *
+     * 
      * @param overlay
      * @see android.webkit.WebView#setHorizontalScrollbarOverlay(boolean)
      */
@@ -78,7 +78,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setVerticalScrollbarOverlay Description:
-     *
+     * 
      * @param overlay
      * @see android.webkit.WebView#setVerticalScrollbarOverlay(boolean)
      */
@@ -91,7 +91,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: overlayHorizontalScrollbar Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#overlayHorizontalScrollbar()
      */
@@ -104,7 +104,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: overlayVerticalScrollbar Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#overlayVerticalScrollbar()
      */
@@ -118,7 +118,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: getCertificate Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#getCertificate()
      */
@@ -131,7 +131,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setCertificate Description:
-     *
+     * 
      * @param certificate
      * @deprecated
      * @see android.webkit.WebView#setCertificate(android.net.http.SslCertificate)
@@ -145,7 +145,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: savePassword Description:
-     *
+     * 
      * @param host
      * @param username
      * @param password
@@ -161,7 +161,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setHttpAuthUsernamePassword Description:
-     *
+     * 
      * @param host
      * @param realm
      * @param username
@@ -170,8 +170,7 @@ public class CustomWebView extends WebView {
      *      java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void setHttpAuthUsernamePassword(String host, String realm, String username,
-            String password) {
+    public void setHttpAuthUsernamePassword(String host, String realm, String username, String password) {
         LogHelper.i(TAG, "setHttpAuthUsernamePassword");
         super.setHttpAuthUsernamePassword(host, realm, username, password);
 
@@ -179,7 +178,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: getHttpAuthUsernamePassword Description:
-     *
+     * 
      * @param host
      * @param realm
      * @return
@@ -195,7 +194,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: destroy Description:
-     *
+     * 
      * @see android.webkit.WebView#destroy()
      */
     @Override
@@ -207,7 +206,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setNetworkAvailable Description:
-     *
+     * 
      * @param networkUp
      * @see android.webkit.WebView#setNetworkAvailable(boolean)
      */
@@ -220,7 +219,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: saveState Description:
-     *
+     * 
      * @param outState
      * @return
      * @see android.webkit.WebView#saveState(android.os.Bundle)
@@ -234,7 +233,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: restoreState Description:
-     *
+     * 
      * @param inState
      * @return
      * @see android.webkit.WebView#restoreState(android.os.Bundle)
@@ -248,7 +247,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: loadUrl Description:
-     *
+     * 
      * @param url
      * @param additionalHttpHeaders
      * @see android.webkit.WebView#loadUrl(java.lang.String, java.util.Map)
@@ -262,7 +261,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: loadUrl Description:
-     *
+     * 
      * @param url
      * @see android.webkit.WebView#loadUrl(java.lang.String)
      */
@@ -276,7 +275,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: postUrl Description:
-     *
+     * 
      * @param url
      * @param postData
      * @see android.webkit.WebView#postUrl(java.lang.String, byte[])
@@ -290,7 +289,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: loadData Description:
-     *
+     * 
      * @param data
      * @param mimeType
      * @param encoding
@@ -306,7 +305,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: loadDataWithBaseURL Description:
-     *
+     * 
      * @param baseUrl
      * @param data
      * @param mimeType
@@ -317,8 +316,7 @@ public class CustomWebView extends WebView {
      *      java.lang.String)
      */
     @Override
-    public void loadDataWithBaseURL(String baseUrl, String data, String mimeType, String encoding,
-            String historyUrl) {
+    public void loadDataWithBaseURL(String baseUrl, String data, String mimeType, String encoding, String historyUrl) {
         LogHelper.i(TAG, "loadDataWithBaseURL");
         super.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
 
@@ -326,7 +324,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: saveWebArchive Description:
-     *
+     * 
      * @param filename
      * @see android.webkit.WebView#saveWebArchive(java.lang.String)
      */
@@ -339,7 +337,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: saveWebArchive Description:
-     *
+     * 
      * @param basename
      * @param autoname
      * @param callback
@@ -355,7 +353,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: stopLoading Description:
-     *
+     * 
      * @see android.webkit.WebView#stopLoading()
      */
     @Override
@@ -367,7 +365,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: reload Description:
-     *
+     * 
      * @see android.webkit.WebView#reload()
      */
     @Override
@@ -379,7 +377,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: canGoBack Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#canGoBack()
      */
@@ -392,7 +390,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: goBack Description:
-     *
+     * 
      * @see android.webkit.WebView#goBack()
      */
     @Override
@@ -404,7 +402,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: canGoForward Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#canGoForward()
      */
@@ -417,7 +415,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: goForward Description:
-     *
+     * 
      * @see android.webkit.WebView#goForward()
      */
     @Override
@@ -429,7 +427,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: canGoBackOrForward Description:
-     *
+     * 
      * @param steps
      * @return
      * @see android.webkit.WebView#canGoBackOrForward(int)
@@ -443,7 +441,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: goBackOrForward Description:
-     *
+     * 
      * @param steps
      * @see android.webkit.WebView#goBackOrForward(int)
      */
@@ -456,7 +454,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: isPrivateBrowsingEnabled Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#isPrivateBrowsingEnabled()
      */
@@ -469,7 +467,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: pageUp Description:
-     *
+     * 
      * @param top
      * @return
      * @see android.webkit.WebView#pageUp(boolean)
@@ -483,7 +481,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: pageDown Description:
-     *
+     * 
      * @param bottom
      * @return
      * @see android.webkit.WebView#pageDown(boolean)
@@ -497,7 +495,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: clearView Description:
-     *
+     * 
      * @see android.webkit.WebView#clearView()
      */
     @Override
@@ -509,7 +507,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: capturePicture Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#capturePicture()
      */
@@ -522,7 +520,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: getScale Description:
-     *
+     * 
      * @return
      * @deprecated
      * @see android.webkit.WebView#getScale()
@@ -536,7 +534,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setInitialScale Description:
-     *
+     * 
      * @param scaleInPercent
      * @see android.webkit.WebView#setInitialScale(int)
      */
@@ -549,7 +547,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: invokeZoomPicker Description:
-     *
+     * 
      * @see android.webkit.WebView#invokeZoomPicker()
      */
     @Override
@@ -561,7 +559,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: getHitTestResult Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#getHitTestResult()
      */
@@ -574,7 +572,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: requestFocusNodeHref Description:
-     *
+     * 
      * @param hrefMsg
      * @see android.webkit.WebView#requestFocusNodeHref(android.os.Message)
      */
@@ -587,7 +585,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: requestImageRef Description:
-     *
+     * 
      * @param msg
      * @see android.webkit.WebView#requestImageRef(android.os.Message)
      */
@@ -600,7 +598,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: getUrl Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#getUrl()
      */
@@ -613,7 +611,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: getOriginalUrl Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#getOriginalUrl()
      */
@@ -626,7 +624,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: getTitle Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#getTitle()
      */
@@ -639,7 +637,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: getFavicon Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#getFavicon()
      */
@@ -652,7 +650,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: getProgress Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#getProgress()
      */
@@ -665,7 +663,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: getContentHeight Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#getContentHeight()
      */
@@ -678,7 +676,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: pauseTimers Description:
-     *
+     * 
      * @see android.webkit.WebView#pauseTimers()
      */
     @Override
@@ -690,7 +688,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: resumeTimers Description:
-     *
+     * 
      * @see android.webkit.WebView#resumeTimers()
      */
     @Override
@@ -702,7 +700,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onPause Description:
-     *
+     * 
      * @see android.webkit.WebView#onPause()
      */
     @Override
@@ -714,7 +712,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onResume Description:
-     *
+     * 
      * @see android.webkit.WebView#onResume()
      */
     @Override
@@ -726,7 +724,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: freeMemory Description:
-     *
+     * 
      * @see android.webkit.WebView#freeMemory()
      */
     @Override
@@ -738,7 +736,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: clearCache Description:
-     *
+     * 
      * @param includeDiskFiles
      * @see android.webkit.WebView#clearCache(boolean)
      */
@@ -751,7 +749,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: clearFormData Description:
-     *
+     * 
      * @see android.webkit.WebView#clearFormData()
      */
     @Override
@@ -763,7 +761,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: clearHistory Description:
-     *
+     * 
      * @see android.webkit.WebView#clearHistory()
      */
     @Override
@@ -775,7 +773,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: clearSslPreferences Description:
-     *
+     * 
      * @see android.webkit.WebView#clearSslPreferences()
      */
     @Override
@@ -787,7 +785,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: copyBackForwardList Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#copyBackForwardList()
      */
@@ -798,22 +796,23 @@ public class CustomWebView extends WebView {
 
     }
 
-//    /**
-//     * Title: setFindListener Description:
-//     *
-//     * @param listener
-//     * @see android.webkit.WebView#setFindListener(android.webkit.WebView.FindListener)
-//     */
-//    @Override
-//    public void setFindListener(FindListener listener) {
-//        LogHelper.i(TAG, "setFindListener");
-//        super.setFindListener(listener);
-//
-//    }
+    // /**
+    // * Title: setFindListener Description:
+    // *
+    // * @param listener
+    // * @see
+    // android.webkit.WebView#setFindListener(android.webkit.WebView.FindListener)
+    // */
+    // @Override
+    // public void setFindListener(FindListener listener) {
+    // LogHelper.i(TAG, "setFindListener");
+    // super.setFindListener(listener);
+    //
+    // }
 
     /**
      * Title: findNext Description:
-     *
+     * 
      * @param forward
      * @see android.webkit.WebView#findNext(boolean)
      */
@@ -826,7 +825,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: findAll Description:
-     *
+     * 
      * @param find
      * @return
      * @deprecated
@@ -839,22 +838,22 @@ public class CustomWebView extends WebView {
 
     }
 
-//    /**
-//     * Title: findAllAsync Description:
-//     *
-//     * @param find
-//     * @see android.webkit.WebView#findAllAsync(java.lang.String)
-//     */
-//    @Override
-//    public void findAllAsync(String find) {
-//        LogHelper.i(TAG, "findAllAsync");
-//        super.findAllAsync(find);
-//
-//    }
+    // /**
+    // * Title: findAllAsync Description:
+    // *
+    // * @param find
+    // * @see android.webkit.WebView#findAllAsync(java.lang.String)
+    // */
+    // @Override
+    // public void findAllAsync(String find) {
+    // LogHelper.i(TAG, "findAllAsync");
+    // super.findAllAsync(find);
+    //
+    // }
 
     /**
      * Title: showFindDialog Description:
-     *
+     * 
      * @param text
      * @param showIme
      * @return
@@ -869,7 +868,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: clearMatches Description:
-     *
+     * 
      * @see android.webkit.WebView#clearMatches()
      */
     @Override
@@ -881,7 +880,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: documentHasImages Description:
-     *
+     * 
      * @param response
      * @see android.webkit.WebView#documentHasImages(android.os.Message)
      */
@@ -894,7 +893,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setWebViewClient Description:
-     *
+     * 
      * @param client
      * @see android.webkit.WebView#setWebViewClient(android.webkit.WebViewClient)
      */
@@ -907,7 +906,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setDownloadListener Description:
-     *
+     * 
      * @param listener
      * @see android.webkit.WebView#setDownloadListener(android.webkit.DownloadListener)
      */
@@ -920,7 +919,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setWebChromeClient Description:
-     *
+     * 
      * @param client
      * @see android.webkit.WebView#setWebChromeClient(android.webkit.WebChromeClient)
      */
@@ -933,7 +932,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setPictureListener Description:
-     *
+     * 
      * @param listener
      * @deprecated
      * @see android.webkit.WebView#setPictureListener(android.webkit.WebView.PictureListener)
@@ -947,7 +946,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: addJavascriptInterface Description:
-     *
+     * 
      * @param object
      * @param name
      * @see android.webkit.WebView#addJavascriptInterface(java.lang.Object,
@@ -962,7 +961,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: removeJavascriptInterface Description:
-     *
+     * 
      * @param name
      * @see android.webkit.WebView#removeJavascriptInterface(java.lang.String)
      */
@@ -975,7 +974,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: getSettings Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#getSettings()
      */
@@ -988,7 +987,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onChildViewAdded Description:
-     *
+     * 
      * @param parent
      * @param child
      * @deprecated
@@ -1004,7 +1003,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onChildViewRemoved Description:
-     *
+     * 
      * @param p
      * @param child
      * @deprecated
@@ -1020,7 +1019,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onGlobalFocusChanged Description:
-     *
+     * 
      * @param oldFocus
      * @param newFocus
      * @deprecated
@@ -1036,7 +1035,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setMapTrackballToArrowKeys Description:
-     *
+     * 
      * @param setMap
      * @deprecated
      * @see android.webkit.WebView#setMapTrackballToArrowKeys(boolean)
@@ -1050,7 +1049,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: flingScroll Description:
-     *
+     * 
      * @param vx
      * @param vy
      * @see android.webkit.WebView#flingScroll(int, int)
@@ -1064,7 +1063,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: canZoomIn Description:
-     *
+     * 
      * @return
      * @deprecated
      * @see android.webkit.WebView#canZoomIn()
@@ -1078,7 +1077,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: canZoomOut Description:
-     *
+     * 
      * @return
      * @deprecated
      * @see android.webkit.WebView#canZoomOut()
@@ -1092,7 +1091,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: zoomIn Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#zoomIn()
      */
@@ -1105,7 +1104,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: zoomOut Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#zoomOut()
      */
@@ -1118,7 +1117,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onAttachedToWindow Description:
-     *
+     * 
      * @see android.webkit.WebView#onAttachedToWindow()
      */
     @Override
@@ -1130,7 +1129,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onDetachedFromWindow Description:
-     *
+     * 
      * @see android.webkit.WebView#onDetachedFromWindow()
      */
     @Override
@@ -1142,7 +1141,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setLayoutParams Description:
-     *
+     * 
      * @param params
      * @see android.webkit.WebView#setLayoutParams(android.view.ViewGroup.LayoutParams)
      */
@@ -1155,7 +1154,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setOverScrollMode Description:
-     *
+     * 
      * @param mode
      * @see android.webkit.WebView#setOverScrollMode(int)
      */
@@ -1168,7 +1167,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setScrollBarStyle Description:
-     *
+     * 
      * @param style
      * @see android.webkit.WebView#setScrollBarStyle(int)
      */
@@ -1181,7 +1180,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: computeHorizontalScrollRange Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#computeHorizontalScrollRange()
      */
@@ -1194,7 +1193,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: computeHorizontalScrollOffset Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#computeHorizontalScrollOffset()
      */
@@ -1207,7 +1206,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: computeVerticalScrollRange Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#computeVerticalScrollRange()
      */
@@ -1220,7 +1219,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: computeVerticalScrollOffset Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#computeVerticalScrollOffset()
      */
@@ -1233,7 +1232,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: computeVerticalScrollExtent Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#computeVerticalScrollExtent()
      */
@@ -1246,7 +1245,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: computeScroll Description:
-     *
+     * 
      * @see android.webkit.WebView#computeScroll()
      */
     @Override
@@ -1258,7 +1257,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onHoverEvent Description:
-     *
+     * 
      * @param event
      * @return
      * @see android.webkit.WebView#onHoverEvent(android.view.MotionEvent)
@@ -1272,7 +1271,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onTouchEvent Description:
-     *
+     * 
      * @param event
      * @return
      * @see android.webkit.WebView#onTouchEvent(android.view.MotionEvent)
@@ -1286,7 +1285,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onGenericMotionEvent Description:
-     *
+     * 
      * @param event
      * @return
      * @see android.webkit.WebView#onGenericMotionEvent(android.view.MotionEvent)
@@ -1300,7 +1299,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onTrackballEvent Description:
-     *
+     * 
      * @param event
      * @return
      * @see android.webkit.WebView#onTrackballEvent(android.view.MotionEvent)
@@ -1314,7 +1313,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onKeyDown Description:
-     *
+     * 
      * @param keyCode
      * @param event
      * @return
@@ -1329,7 +1328,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onKeyUp Description:
-     *
+     * 
      * @param keyCode
      * @param event
      * @return
@@ -1344,7 +1343,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onKeyMultiple Description:
-     *
+     * 
      * @param keyCode
      * @param repeatCount
      * @param event
@@ -1361,7 +1360,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: shouldDelayChildPressedState Description:
-     *
+     * 
      * @return
      * @deprecated
      * @see android.webkit.WebView#shouldDelayChildPressedState()
@@ -1375,7 +1374,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onInitializeAccessibilityNodeInfo Description:
-     *
+     * 
      * @param info
      * @see android.webkit.WebView#onInitializeAccessibilityNodeInfo(android.view.accessibility.AccessibilityNodeInfo)
      */
@@ -1389,7 +1388,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onInitializeAccessibilityEvent Description:
-     *
+     * 
      * @param event
      * @see android.webkit.WebView#onInitializeAccessibilityEvent(android.view.accessibility.AccessibilityEvent)
      */
@@ -1400,25 +1399,25 @@ public class CustomWebView extends WebView {
 
     }
 
-//    /**
-//     * Title: performAccessibilityAction Description:
-//     *
-//     * @param action
-//     * @param arguments
-//     * @return
-//     * @see android.webkit.WebView#performAccessibilityAction(int,
-//     *      android.os.Bundle)
-//     */
-//    @Override
-//    public boolean performAccessibilityAction(int action, Bundle arguments) {
-//        LogHelper.i(TAG, "performAccessibilityAction");
-//        return super.performAccessibilityAction(action, arguments);
-//
-//    }
+    // /**
+    // * Title: performAccessibilityAction Description:
+    // *
+    // * @param action
+    // * @param arguments
+    // * @return
+    // * @see android.webkit.WebView#performAccessibilityAction(int,
+    // * android.os.Bundle)
+    // */
+    // @Override
+    // public boolean performAccessibilityAction(int action, Bundle arguments) {
+    // LogHelper.i(TAG, "performAccessibilityAction");
+    // return super.performAccessibilityAction(action, arguments);
+    //
+    // }
 
     /**
      * Title: onOverScrolled Description:
-     *
+     * 
      * @param scrollX
      * @param scrollY
      * @param clampedX
@@ -1434,7 +1433,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onWindowVisibilityChanged Description:
-     *
+     * 
      * @param visibility
      * @see android.webkit.WebView#onWindowVisibilityChanged(int)
      */
@@ -1447,7 +1446,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onDraw Description:
-     *
+     * 
      * @param canvas
      * @see android.webkit.WebView#onDraw(android.graphics.Canvas)
      */
@@ -1460,7 +1459,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: performLongClick Description:
-     *
+     * 
      * @return
      * @see android.webkit.WebView#performLongClick()
      */
@@ -1473,7 +1472,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onConfigurationChanged Description:
-     *
+     * 
      * @param newConfig
      * @see android.webkit.WebView#onConfigurationChanged(android.content.res.Configuration)
      */
@@ -1486,7 +1485,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onCreateInputConnection Description:
-     *
+     * 
      * @param outAttrs
      * @return
      * @see android.webkit.WebView#onCreateInputConnection(android.view.inputmethod.EditorInfo)
@@ -1500,7 +1499,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onVisibilityChanged Description:
-     *
+     * 
      * @param changedView
      * @param visibility
      * @see android.webkit.WebView#onVisibilityChanged(android.view.View, int)
@@ -1514,7 +1513,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onWindowFocusChanged Description:
-     *
+     * 
      * @param hasWindowFocus
      * @see android.webkit.WebView#onWindowFocusChanged(boolean)
      */
@@ -1527,7 +1526,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onFocusChanged Description:
-     *
+     * 
      * @param focused
      * @param direction
      * @param previouslyFocusedRect
@@ -1543,7 +1542,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onSizeChanged Description:
-     *
+     * 
      * @param w
      * @param h
      * @param ow
@@ -1559,7 +1558,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onScrollChanged Description:
-     *
+     * 
      * @param l
      * @param t
      * @param oldl
@@ -1575,7 +1574,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: dispatchKeyEvent Description:
-     *
+     * 
      * @param event
      * @return
      * @see android.webkit.WebView#dispatchKeyEvent(android.view.KeyEvent)
@@ -1589,7 +1588,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: requestFocus Description:
-     *
+     * 
      * @param direction
      * @param previouslyFocusedRect
      * @return
@@ -1604,7 +1603,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: onMeasure Description:
-     *
+     * 
      * @param widthMeasureSpec
      * @param heightMeasureSpec
      * @deprecated
@@ -1619,7 +1618,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: requestChildRectangleOnScreen Description:
-     *
+     * 
      * @param child
      * @param rect
      * @param immediate
@@ -1636,7 +1635,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setBackgroundColor Description:
-     *
+     * 
      * @param color
      * @see android.webkit.WebView#setBackgroundColor(int)
      */
@@ -1649,7 +1648,7 @@ public class CustomWebView extends WebView {
 
     /**
      * Title: setLayerType Description:
-     *
+     * 
      * @param layerType
      * @param paint
      * @see android.webkit.WebView#setLayerType(int, android.graphics.Paint)

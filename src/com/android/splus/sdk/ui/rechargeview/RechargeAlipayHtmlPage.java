@@ -1,5 +1,4 @@
-
- /**
+/**
  * @Title: RechargeAlipayHtmlPage.java
  * @Package com.android.splus.sdk.ui.rechargeview
  * Copyright: Copyright (c) 2013
@@ -9,7 +8,7 @@
  * @version V1.0
  */
 
- package com.android.splus.sdk.ui.rechargeview;
+package com.android.splus.sdk.ui.rechargeview;
 
 import com.android.splus.sdk.model.RechargeModel;
 import com.android.splus.sdk.model.UserModel;
@@ -36,7 +35,7 @@ import android.widget.LinearLayout;
  * @date 2014-3-12 下午1:27:02
  */
 
-public class RechargeAlipayHtmlPage extends LinearLayout{
+public class RechargeAlipayHtmlPage extends LinearLayout {
     private static final String TAG = "RechargeAlipayHtmlPage";
 
     private Activity mActivity;
@@ -49,9 +48,13 @@ public class RechargeAlipayHtmlPage extends LinearLayout{
 
     private String mReferer;
 
-    private String mRoleName;
+    private Integer mServerId;
 
     private String mServerName;
+
+    private Integer mRoleId;
+
+    private String mRoleName;
 
     private String mOutOrderid;
 
@@ -67,14 +70,12 @@ public class RechargeAlipayHtmlPage extends LinearLayout{
 
     private float mRenminbi = 0; // 人民币
 
-    private  CustomWebView mCustomWebView;
+    private CustomWebView mCustomWebView;
 
     private RechargeModel mRechargeModel;
 
-
-    public RechargeAlipayHtmlPage(UserModel userModel, Activity activity, String deviceno,
-            String appKey, Integer gameid, String partner, String referer, String roleName,
-            String serverName, String outOrderid, String pext, Integer type, String payway,float renminbi ) {
+    public RechargeAlipayHtmlPage(UserModel userModel, Activity activity, String deviceno, String appKey, Integer gameid, String partner, String referer, Integer serverId, Integer roleId, String roleName, String serverName, String outOrderid, String pext, Integer type,
+                    String payway, float renminbi) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -83,21 +84,19 @@ public class RechargeAlipayHtmlPage extends LinearLayout{
         this.mGameid = gameid;
         this.mPartner = partner;
         this.mReferer = referer;
+        this.mRoleId = roleId;
+        this.mServerId = serverId;
         this.mRoleName = roleName;
         this.mServerName = serverName;
         this.mOutOrderid = outOrderid;
         this.mPext = pext;
         this.mType = type;
         this.mPayway = payway;
-        this.mRenminbi=renminbi;
+        this.mRenminbi = renminbi;
 
         long time = DateUtil.getUnixTime();
-        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner
-                + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
-         mRechargeModel = new RechargeModel(mGameid, mServerName, mDeviceno,
-                mPartner, mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleName,
-                time, mUserModel.getPassport(), mOutOrderid, mPext,
-                MD5Util.getMd5toLowerCase(keyString));
+        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
+        mRechargeModel = new RechargeModel(mGameid, mServerId, mServerName, mDeviceno, mPartner, mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleId, mRoleName, time, mUserModel.getPassport(), mOutOrderid, mPext, MD5Util.getMd5toLowerCase(keyString));
 
         mCustomWebView = new CustomWebView(activity);
         mCustomWebView.setWebChromeClient(new CustomWebChromeClient(activity, new WebChromeClient()));
@@ -112,8 +111,7 @@ public class RechargeAlipayHtmlPage extends LinearLayout{
 
         String data = NetHttpUtil.hashMapTOgetParams(mRechargeModel);
         mCustomWebView.postUrl(Constant.HTMLWAPPAY_URL, EncodingUtils.getBytes(data, "UTF-8"));
-        LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         addView(mCustomWebView, lps);
 
     }
@@ -128,4 +126,3 @@ public class RechargeAlipayHtmlPage extends LinearLayout{
     }
 
 }
-

@@ -40,7 +40,7 @@ public class SharedPreferencesHelper {
 
     /**
      * 获取登陆状态
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月31日 上午12:05:03
      * @param context
@@ -48,8 +48,7 @@ public class SharedPreferencesHelper {
      * @return
      */
     public boolean getLoginStatusPreferences(Context context, String appkey) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.LOGIN_STATUS_FILE,
-                Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.LOGIN_STATUS_FILE, Context.MODE_PRIVATE);
         String status = sharedPreferences.getString(Constant.LOGIN_STATUS, "");
         String sign = MD5Util.getMd5(true + appkey);
         if (sign.equals(status)) {
@@ -60,7 +59,7 @@ public class SharedPreferencesHelper {
 
     /**
      * 保存登陆状态
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月31日 上午12:05:25
      * @param context
@@ -68,14 +67,12 @@ public class SharedPreferencesHelper {
      * @param status
      */
     public void setLoginStatusPreferences(Context context, String appkey, boolean status) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.LOGIN_STATUS_FILE,
-                Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.LOGIN_STATUS_FILE, Context.MODE_PRIVATE);
         String sign = MD5Util.getMd5(status + appkey);
         sharedPreferences.edit().putString(Constant.LOGIN_STATUS, sign).commit();
     }
 
-    public boolean setCommonPreferences(Context context, int MODE, String fileName, String key,
-            String value) {
+    public boolean setCommonPreferences(Context context, int MODE, String fileName, String key, String value) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(fileName, MODE);
         Editor edit = sharedPreferences.edit();
         edit.putString(key, value);
@@ -83,8 +80,7 @@ public class SharedPreferencesHelper {
         return commit;
     }
 
-    public String getCommonPreferences(Context context, int MODE, String fileName, String key,
-            String defValue) {
+    public String getCommonPreferences(Context context, int MODE, String fileName, String key, String defValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(fileName, MODE);
         return sharedPreferences.getString(key, defValue);
 
@@ -99,8 +95,7 @@ public class SharedPreferencesHelper {
      * @return boolean 返回类型
      */
     public boolean setDevicenoPreferences(Context context, String value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.DEVICENO_FILE,
-                Context.MODE_WORLD_READABLE | Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.DEVICENO_FILE, Context.MODE_WORLD_READABLE | Context.MODE_WORLD_WRITEABLE);
         Editor edit = sharedPreferences.edit();
         edit.putString(Constant.DEVICENO, value);
         boolean commit = edit.commit();
@@ -115,8 +110,7 @@ public class SharedPreferencesHelper {
      * @return String 返回类型
      */
     public String getdevicenoPreferences(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.DEVICENO_FILE,
-                Context.MODE_WORLD_READABLE | Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.DEVICENO_FILE, Context.MODE_WORLD_READABLE | Context.MODE_WORLD_WRITEABLE);
         return sharedPreferences.getString(Constant.DEVICENO, "");
 
     }
@@ -130,8 +124,7 @@ public class SharedPreferencesHelper {
      * @return int 返回类型
      */
     public int getAccountRejectBindPhoneTimes(String account, Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(account,
-                Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(account, Context.MODE_PRIVATE);
         int times = 0;
         times = sharedPreferences.getInt("times", 0);
         String dateNow = getDate();
@@ -152,8 +145,7 @@ public class SharedPreferencesHelper {
      * @return boolean 返回类型
      */
     public boolean addAccountRejectBindPhoneTimes(String account, Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(account,
-                Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(account, Context.MODE_PRIVATE);
         String dateNow = getDate();
         int times = getAccountRejectBindPhoneTimes(account, context);
         Editor edit = sharedPreferences.edit();
@@ -186,8 +178,7 @@ public class SharedPreferencesHelper {
      * @return boolean 返回类型
      */
     public boolean setOnlineTimeStartPreferences(Context context, Long value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(
-                Constant.ONTIMELINE_FILE, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.ONTIMELINE_FILE, Context.MODE_PRIVATE);
         Editor edit = sharedPreferences.edit();
         edit.putLong(Constant.ONTIMELINE_START, value);
         boolean commit = edit.commit();
@@ -206,11 +197,9 @@ public class SharedPreferencesHelper {
      * @return String 返回类型
      */
     public Long getOnlineTimeStartPreferences(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(
-                Constant.ONTIMELINE_FILE, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.ONTIMELINE_FILE, Context.MODE_PRIVATE);
         return sharedPreferences.getLong(Constant.ONTIMELINE_START, 0);
     }
-
 
     /**
      * @Title: setOnlineTimeEndPreferences(保存在线时长结束值)
@@ -222,8 +211,7 @@ public class SharedPreferencesHelper {
      * @return boolean 返回类型
      */
     public boolean setOnlineTimeEndPreferences(Context context, Long value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(
-                Constant.ONTIMELINE_FILE, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.ONTIMELINE_FILE, Context.MODE_PRIVATE);
         Editor edit = sharedPreferences.edit();
         edit.putLong(Constant.ONTIMELINE_END, value);
         boolean commit = edit.commit();
@@ -242,10 +230,8 @@ public class SharedPreferencesHelper {
      * @return String 返回类型
      */
     public Long getOnlineTimeEedPreferences(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(
-                Constant.ONTIMELINE_FILE, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.ONTIMELINE_FILE, Context.MODE_PRIVATE);
         return sharedPreferences.getLong(Constant.ONTIMELINE_END, 0);
     }
-
 
 }

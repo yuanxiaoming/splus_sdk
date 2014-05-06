@@ -67,7 +67,7 @@ public class MoneyGridViewAdapter extends BaseAdapter {
 
     /**
      * Title: getView Description:
-     *
+     * 
      * @param position
      * @param convertView
      * @param parent
@@ -80,9 +80,7 @@ public class MoneyGridViewAdapter extends BaseAdapter {
         TextView textView = null;
         if (convertView == null) {
             textView = new TextView(mContext);
-            textView.setBackgroundDrawable(mContext.getResources().getDrawable(
-                    ResourceUtil.getDrawableId(mContext,
-                            KR.drawable.splus_recharge_money_item_selector)));
+            textView.setBackgroundDrawable(mContext.getResources().getDrawable(ResourceUtil.getDrawableId(mContext, KR.drawable.splus_recharge_money_item_selector)));
             textView.setMaxWidth(75);
             textView.setMinHeight(75);
             textView.setGravity(Gravity.CENTER);
@@ -91,10 +89,8 @@ public class MoneyGridViewAdapter extends BaseAdapter {
             textView = (TextView) convertView;
         }
         textView.setText(mMoneyArray[position] + "元");
-        int selectorId = ResourceUtil.getDrawableId(mContext,
-                KR.drawable.splus_recharge_money_item_press);
-        int unselectorId = ResourceUtil.getDrawableId(mContext,
-                KR.drawable.splus_recharge_money_item_normal);
+        int selectorId = ResourceUtil.getDrawableId(mContext, KR.drawable.splus_recharge_money_item_press);
+        int unselectorId = ResourceUtil.getDrawableId(mContext, KR.drawable.splus_recharge_money_item_normal);
 
         if (mMoneyIndex == position) {
             Drawable dw = mContext.getResources().getDrawable(selectorId);
@@ -111,8 +107,8 @@ public class MoneyGridViewAdapter extends BaseAdapter {
     }
 
     public void setMoneyIndex(int position) {
-         this.mMoneyIndex=position;
-         notifyDataSetChanged();
+        this.mMoneyIndex = position;
+        notifyDataSetChanged();
     }
 
 }

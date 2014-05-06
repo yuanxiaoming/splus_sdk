@@ -1,3 +1,4 @@
+
 package com.android.splus.sdk.widget;
 
 import com.android.splus.sdk.utils.log.LogHelper;
@@ -67,7 +68,7 @@ public class CustomWebChromeClient extends WebChromeClient {
 
     /**
      * 设置Request时的回调方法
-     *
+     * 
      * @param onWebViewRequestListener WebView中对象GET方式请求网络时执行的回调监听对象
      */
     public void setOnWebViewRequestListener(OnWebViewRequestListener onWebViewRequestListener) {
@@ -82,11 +83,9 @@ public class CustomWebChromeClient extends WebChromeClient {
     }
 
     @Override
-    public void onExceededDatabaseQuota(String url, String databaseIdentifier, long currentQuota,
-            long estimatedSize, long totalUsedQuota, QuotaUpdater quotaUpdater) {
+    public void onExceededDatabaseQuota(String url, String databaseIdentifier, long currentQuota, long estimatedSize, long totalUsedQuota, QuotaUpdater quotaUpdater) {
         LogHelper.i("onExceededDatabaseQuota", url);
-        mWrappedClient.onExceededDatabaseQuota(url, databaseIdentifier, currentQuota,
-                estimatedSize, totalUsedQuota, quotaUpdater);
+        mWrappedClient.onExceededDatabaseQuota(url, databaseIdentifier, currentQuota, estimatedSize, totalUsedQuota, quotaUpdater);
     }
 
     @Override
@@ -114,8 +113,7 @@ public class CustomWebChromeClient extends WebChromeClient {
     }
 
     @Override
-    public void onReachedMaxAppCacheSize(long spaceNeeded, long totalUsedQuota,
-            QuotaUpdater quotaUpdater) {
+    public void onReachedMaxAppCacheSize(long spaceNeeded, long totalUsedQuota, QuotaUpdater quotaUpdater) {
         LogHelper.i("onReachedMaxAppCacheSize", "onReachedMaxAppCacheSize");
         mWrappedClient.onReachedMaxAppCacheSize(spaceNeeded, totalUsedQuota, quotaUpdater);
     }
@@ -140,8 +138,7 @@ public class CustomWebChromeClient extends WebChromeClient {
     }
 
     @Override
-    public boolean onCreateWindow(WebView view, boolean dialog, boolean userGesture,
-            Message resultMsg) {
+    public boolean onCreateWindow(WebView view, boolean dialog, boolean userGesture, Message resultMsg) {
         // WebView newView = new WebView(context);
         // WebView.WebViewTransport transport = (WebView.WebViewTransport)
         // resultMsg.obj;
@@ -234,8 +231,7 @@ public class CustomWebChromeClient extends WebChromeClient {
      * 覆盖默认的window.prompt展示界面，避免title里显示为“：来自file:////”
      */
     @Override
-    public boolean onJsPrompt(WebView view, String url, String message, String defaultValue,
-            final JsPromptResult result) {
+    public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, final JsPromptResult result) {
         LogHelper.i("onJsPrompt", "url==" + url + "message=" + message);
         final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setTitle("提示").setMessage(message);
@@ -311,7 +307,7 @@ public class CustomWebChromeClient extends WebChromeClient {
 
     /**
      * WebView中对象GET方式请求网络时执行的回调方法
-     *
+     * 
      * @ClassName: OnWebViewRequestListener
      * @author xiaoming.yuan
      * @date 2013-11-5 下午2:55:30

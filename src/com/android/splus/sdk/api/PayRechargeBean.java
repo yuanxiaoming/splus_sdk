@@ -12,30 +12,38 @@ public class PayRechargeBean extends HashMap<String, Object> {
 
     private static final String TAG = "PayRechargeBean";
 
-    private  String orderid; // 订单号；360、91、anzhi、duoku、jifeng、xiaomi、oppo
+    private String orderid; // 订单号；360、91、anzhi、duoku、jifeng、xiaomi、oppo
+
     public static final String ORDERID = "orderid";
 
     private String productId; // 商品ID；360、91
+
     public static final String PRODUCTID = "productId";
 
     private String productName; // 商品名称；360、91、dcn、duoku、oppo
+
     public static final String PRODUCTNAME = "productName";
 
     private String productDescription; // 商品描述；91、anzhi、duoku、oppo
+
     public static final String PRODUCTDESCRIPTION = "productDescription";
 
     private double productPrice;
+
     public static final String PRODUCTPRICE = "productPrice";
 
     private double productOrginalPrice;
+
     public static final String PRODUCTORGINALPRICE = "productOrginalPrice";
 
     private int count;
+
     public static final String COUNT = "count";
 
-    private String notifyUri; // 充值回调地址;360、OPPO 必需参数，应用方提供的支付结果通知uri，最大255字符。360服务器将把支付接口回调给该uri，具体协议请查看文档中，支付结果通知接口–应用服务器提供接口。
-    public static final String NOTIFYURI = "notifyUri";
+    private String notifyUri; // 充值回调地址;360、OPPO
+                              // 必需参数，应用方提供的支付结果通知uri，最大255字符。360服务器将把支付接口回调给该uri，具体协议请查看文档中，支付结果通知接口–应用服务器提供接口。
 
+    public static final String NOTIFYURI = "notifyUri";
 
     // 必需参数，用户access token，要使用注意过期和刷新问题，最大64字符。
     private String accessToken;
@@ -69,19 +77,17 @@ public class PayRechargeBean extends HashMap<String, Object> {
     // 可选参数，应用订单号，应用内必须唯一，最大32字符。
     private String appOrderId;
 
-
-
     public PayRechargeBean(String jsonObject) {
         try {
             JSONObject data = new JSONObject(jsonObject);
-            this.orderid = data.optString(ORDERID)==null? "" : data.optString(ORDERID);
-            this.productId = data.optString(PRODUCTID)==null? "" : data.optString(PRODUCTID);
-            this.productName = data.optString(PRODUCTNAME)==null? "" : data.optString(PRODUCTNAME);
-            this.productDescription = data.optString(PRODUCTDESCRIPTION)==null? "" : data.optString(PRODUCTDESCRIPTION);
-            this.notifyUri = data.optString(NOTIFYURI)==null? "" : data.optString(NOTIFYURI);
-            this.productPrice = data.optDouble(PRODUCTPRICE)==0.0d? 0.0d : data.optDouble(PRODUCTPRICE);
-            this.productOrginalPrice = data.optDouble(PRODUCTORGINALPRICE)==0.0d? 0.0d : data.optDouble(PRODUCTORGINALPRICE);
-            this.count = data.optInt(COUNT)==0? 1 : data.optInt(COUNT);
+            this.orderid = data.optString(ORDERID) == null ? "" : data.optString(ORDERID);
+            this.productId = data.optString(PRODUCTID) == null ? "" : data.optString(PRODUCTID);
+            this.productName = data.optString(PRODUCTNAME) == null ? "" : data.optString(PRODUCTNAME);
+            this.productDescription = data.optString(PRODUCTDESCRIPTION) == null ? "" : data.optString(PRODUCTDESCRIPTION);
+            this.notifyUri = data.optString(NOTIFYURI) == null ? "" : data.optString(NOTIFYURI);
+            this.productPrice = data.optDouble(PRODUCTPRICE) == 0.0d ? 0.0d : data.optDouble(PRODUCTPRICE);
+            this.productOrginalPrice = data.optDouble(PRODUCTORGINALPRICE) == 0.0d ? 0.0d : data.optDouble(PRODUCTORGINALPRICE);
+            this.count = data.optInt(COUNT) == 0 ? 1 : data.optInt(COUNT);
             initMap();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -91,14 +97,13 @@ public class PayRechargeBean extends HashMap<String, Object> {
     protected void initMap() {
         this.put(ORDERID, orderid);
         this.put(PRODUCTID, productId);
-        this.put(PRODUCTNAME, productName );
+        this.put(PRODUCTNAME, productName);
         this.put(PRODUCTDESCRIPTION, productDescription);
         this.put(NOTIFYURI, notifyUri);
         this.put(PRODUCTPRICE, productPrice);
         this.put(PRODUCTORGINALPRICE, productOrginalPrice);
         this.put(COUNT, count);
     }
-
 
     public int getCount() {
 
@@ -160,14 +165,11 @@ public class PayRechargeBean extends HashMap<String, Object> {
         this.productDescription = productDescription;
     }
 
-
-    public void setProductPrice(double productPrice)
-    {
+    public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
 
-    public double getProductOrginalPrice()
-    {
+    public double getProductOrginalPrice() {
         return productOrginalPrice;
     }
 
@@ -180,8 +182,6 @@ public class PayRechargeBean extends HashMap<String, Object> {
 
         this.notifyUri = notifyUri;
     }
-
-
 
     public String getAccessToken() {
         return accessToken;
@@ -263,7 +263,4 @@ public class PayRechargeBean extends HashMap<String, Object> {
         this.appOrderId = appOrderId;
     }
 
-
-
 }
-

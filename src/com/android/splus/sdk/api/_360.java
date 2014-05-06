@@ -39,9 +39,10 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Properties;
 
-public class _360 implements IPayManager  {
+public class _360 implements IPayManager {
 
     private static final String TAG = "_360";
+
     private static _360 m_360;
 
     // 平台参数
@@ -61,10 +62,10 @@ public class _360 implements IPayManager  {
 
     private RechargeCallBack mRechargeCallBack;
 
-    private LogoutCallBack  mLogoutCallBack;
+    private LogoutCallBack mLogoutCallBack;
 
     // 下面参数仅在测试时用
-    private  UserModel userModel;
+    private UserModel userModel;
 
     private int mUid = 0;
 
@@ -73,11 +74,11 @@ public class _360 implements IPayManager  {
     private String mSessionid = "";
 
     private final String TOKEN = "token"; // 存放360 token
+
     // 登录响应模式：CODE模式。
     protected static final String RESPONSE_TYPE_CODE = "code";
 
     private final String PREFS = "prefs";
-
 
     /**
      * @Title: _360
@@ -113,8 +114,7 @@ public class _360 implements IPayManager  {
     }
 
     @Override
-    public void init(Activity activity, Integer gameid, String appkey, InitCallBack initCallBack,
-            boolean useUpdate, Integer orientation) {
+    public void init(Activity activity, Integer gameid, String appkey, InitCallBack initCallBack, boolean useUpdate, Integer orientation) {
 
         mInitBean.initSplus(activity, initCallBack);
         this.mInitCallBack = initCallBack;
@@ -123,7 +123,7 @@ public class _360 implements IPayManager  {
 
     }
 
-    IDispatcherCallback mIinitCallback=new  IDispatcherCallback(){
+    IDispatcherCallback mIinitCallback = new IDispatcherCallback() {
 
         @Override
         public void onFinished(String data) {
@@ -132,15 +132,16 @@ public class _360 implements IPayManager  {
         }
 
     };
+
     @Override
     public void login(Activity activity, LoginCallBack loginCallBack) {
         this.mActivity = activity;
-        this.mLoginCallBack=loginCallBack;
-        boolean  isLandScape=false;
-        if( mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT){
-            isLandScape=false;
-        }else{
-            isLandScape=true;
+        this.mLoginCallBack = loginCallBack;
+        boolean isLandScape = false;
+        if (mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
+            isLandScape = false;
+        } else {
+            isLandScape = true;
         }
 
         Bundle bundle = new Bundle();
@@ -163,8 +164,7 @@ public class _360 implements IPayManager  {
 
     }
 
-
-    IDispatcherCallback mILoginCallback =new IDispatcherCallback() {
+    IDispatcherCallback mILoginCallback = new IDispatcherCallback() {
 
         @Override
         public void onFinished(String data) {
@@ -178,7 +178,7 @@ public class _360 implements IPayManager  {
 
     /**
      * 从Json字符中获取授权码
-     *
+     * 
      * @param data Json字符串
      * @return 授权码
      */
@@ -238,7 +238,7 @@ public class _360 implements IPayManager  {
                 params.put("version", PayManager.SDK_VERSION);
                 params.put("sign", MD5Util.getMd5toLowerCase(keyString));
                 params.put("code", authorizationCode);
-                NetHttpUtil.getDataFromServerPOST(mActivity,new RequestModel(APIConstants.TS_VERIFY, params, new LoginParser()),mLoginDataCallBack);
+                NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(APIConstants.TS_VERIFY, params, new LoginParser()), mLoginDataCallBack);
             } else {
                 mLoginCallBack.loginFaile("登录失败，请稍后再试");
             }
@@ -277,25 +277,22 @@ public class _360 implements IPayManager  {
     };
 
     @Override
-    public void recharge(Activity activity, Integer serverId,String serverName, Integer roleId,String roleName,  String outOrderid,
-            String pext, RechargeCallBack rechargeCallBack) {
-        rechargeByQuota( activity, serverId,serverName, roleId, roleName, outOrderid,  pext,  0f, rechargeCallBack);
+    public void recharge(Activity activity, Integer serverId, String serverName, Integer roleId, String roleName, String outOrderid, String pext, RechargeCallBack rechargeCallBack) {
+        rechargeByQuota(activity, serverId, serverName, roleId, roleName, outOrderid, pext, 0f, rechargeCallBack);
     }
 
     @Override
-    public void rechargeByQuota(Activity activity,Integer serverId,String serverName, Integer roleId,String roleName,
-            String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
+    public void rechargeByQuota(Activity activity, Integer serverId, String serverName, Integer roleId, String roleName, String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
         this.mActivity = activity;
-        this.mRechargeCallBack=rechargeCallBack;
-        boolean  isLandScape=false;
-        if( mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT){
-            isLandScape=false;
-        }else{
-            isLandScape=true;
+        this.mRechargeCallBack = rechargeCallBack;
+        boolean isLandScape = false;
+        if (mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
+            isLandScape = false;
+        } else {
+            isLandScape = true;
         }
 
         Bundle bundle = new Bundle();
-
 
         // 界面相关参数，360SDK界面是否以横屏显示。
         bundle.putBoolean(ProtocolKeys.IS_SCREEN_ORIENTATION_LANDSCAPE, isLandScape);
@@ -304,7 +301,7 @@ public class _360 implements IPayManager  {
 
         // 设置PayRechargeBean中的参数。
 
-         PayRechargeBean payRechargeBean = new PayRechargeBean("");
+        PayRechargeBean payRechargeBean = new PayRechargeBean("");
         // 必需参数，用户access token，要使用注意过期和刷新问题，最大64字符。
         bundle.putString(ProtocolKeys.ACCESS_TOKEN, payRechargeBean.getAccessToken());
 
@@ -354,7 +351,6 @@ public class _360 implements IPayManager  {
         intent.putExtra(ProtocolKeys.IS_LOGIN_BG_TRANSPARENT, true);
         intent.putExtras(bundle);
 
-
     }
 
     @Override
@@ -379,8 +375,7 @@ public class _360 implements IPayManager  {
                         System.exit(0);
                     } else {
                         // android2.1
-                        ActivityManager am = (ActivityManager) context
-                                .getSystemService(Context.ACTIVITY_SERVICE);
+                        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
                         am.restartPackage(context.getPackageName());
                     }
                 } catch (Exception e) {
@@ -393,12 +388,12 @@ public class _360 implements IPayManager  {
     @Override
     public void logout(Activity activity, LogoutCallBack logoutCallBack) {
         this.mActivity = activity;
-        this.mLogoutCallBack=logoutCallBack;
-        boolean  isLandScape=false;
-        if( mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT){
-            isLandScape=false;
-        }else{
-            isLandScape=true;
+        this.mLogoutCallBack = logoutCallBack;
+        boolean isLandScape = false;
+        if (mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
+            isLandScape = false;
+        } else {
+            isLandScape = true;
         }
         Bundle bundle = new Bundle();
         // 界面相关参数，360SDK界面是否以横屏显示。
@@ -421,7 +416,6 @@ public class _360 implements IPayManager  {
 
     };
 
-
     @Override
     public void setDBUG(boolean logDbug) {
     }
@@ -431,19 +425,18 @@ public class _360 implements IPayManager  {
     }
 
     @Override
-    public void sendGameStatics(Activity activity,Integer serverId,String serverName, Integer roleId,String roleName, String level) {
-
+    public void sendGameStatics(Activity activity, Integer serverId, String serverName, Integer roleId, String roleName, String level) {
 
     }
 
     @Override
     public void enterBBS(Activity activity) {
         this.mActivity = activity;
-        boolean  isLandScape=false;
-        if( mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT){
-            isLandScape=false;
-        }else{
-            isLandScape=true;
+        boolean isLandScape = false;
+        if (mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
+            isLandScape = false;
+        } else {
+            isLandScape = true;
         }
         Bundle bundle = new Bundle();
         // 界面相关参数，360SDK界面是否以横屏显示。
@@ -454,18 +447,16 @@ public class _360 implements IPayManager  {
         intent.putExtras(bundle);
         Matrix.invokeActivity(mActivity, intent, null);
 
-
     }
 
     @Override
-    public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime,
-            FloatToolBarAlign align, float position) {
+    public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime, FloatToolBarAlign align, float position) {
         this.mActivity = activity;
-        boolean  isLandScape=false;
-        if( mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT){
-            isLandScape=false;
-        }else{
-            isLandScape=true;
+        boolean isLandScape = false;
+        if (mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
+            isLandScape = false;
+        } else {
+            isLandScape = true;
         }
         Bundle bundle = new Bundle();
         // 界面相关参数，360SDK界面是否以横屏显示。
@@ -473,8 +464,9 @@ public class _360 implements IPayManager  {
         bundle.putInt(ProtocolKeys.FUNCTION_CODE, ProtocolConfigs.FUNC_CODE_SETTINGS);
         Intent intent = new Intent(activity, ContainerActivity.class);
         intent.putExtras(bundle);
-        Matrix.execute(activity, intent,new IDispatcherCallback() {
-            @Override public void onFinished(String data) {
+        Matrix.execute(activity, intent, new IDispatcherCallback() {
+            @Override
+            public void onFinished(String data) {
                 Log.d(TAG, data);
 
             }
@@ -496,8 +488,6 @@ public class _360 implements IPayManager  {
     public void onStop(Activity activity) {
     }
 
-
-
     private void setToken(Context context, String token) {
         SharedPreferences uiState = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
         Editor editor = uiState.edit();
@@ -516,7 +506,4 @@ public class _360 implements IPayManager  {
         Matrix.destroy(activity);
     }
 
-
-
 }
-

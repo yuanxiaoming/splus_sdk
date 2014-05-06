@@ -34,6 +34,7 @@ import com.android.splus.sdk.utils.toast.ToastUtil;
 import com.android.splus.sdk.widget.CustomProgressDialog;
 import com.android.splus.sdk.widget.SmsReceiver;
 import com.android.splus.sdk.widget.SmsReceiver.SmsListener;
+import com.nd.commplatform.d.c.sp;
 
 import org.json.JSONObject;
 
@@ -127,6 +128,12 @@ public class BindPhoneDialog extends AlertDialog {
 
     private String mServerName;
 
+    private Integer mServerId;
+
+    private Integer mRoleId;
+
+    private String mRoleName;
+
     private String mDeviceno;
 
     private String mReferer;
@@ -149,10 +156,13 @@ public class BindPhoneDialog extends AlertDialog {
     private BindPhoneDialog(Activity activity) {
         super(activity);
         mActivity = activity;
-        mSplusPayManager=SplusPayManager.getInstance();
+        mSplusPayManager = SplusPayManager.getInstance();
         mLoginCallBack = mSplusPayManager.getLoginCallBack();
         mGameid = mSplusPayManager.getGameid();
         mServerName = mSplusPayManager.getServerName();
+        mServerId=mSplusPayManager.getServerId();
+        mRoleId=mSplusPayManager.getRoleId();
+        mRoleName=mSplusPayManager.getRoleName();
         mDeviceno = SharedPreferencesHelper.getInstance().getdevicenoPreferences(mActivity);
         mReferer = mSplusPayManager.getReferer();
         mPartner = mSplusPayManager.getPartner();
@@ -176,8 +186,7 @@ public class BindPhoneDialog extends AlertDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBindPhoneView = LayoutInflater.from(mActivity).inflate(
-                ResourceUtil.getLayoutId(mActivity, KR.layout.splus_login_bindphone_layout), null);
+        mBindPhoneView = LayoutInflater.from(mActivity).inflate(ResourceUtil.getLayoutId(mActivity, KR.layout.splus_login_bindphone_layout), null);
         mCurrentView = mBindPhoneView;
         setContentView(mCurrentView, CommonUtil.getFrameLayoutParams(mActivity, 120, 120, 25, 25, Gravity.CENTER));
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -229,13 +238,12 @@ public class BindPhoneDialog extends AlertDialog {
     }
 
     private void initViews() {
-        mPhone_et = (EditText) findViewById(ResourceUtil
-                .getId(mActivity, KR.id.splus_login_bindphone_num));
+        mPhone_et = (EditText) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_bindphone_num));
         mBtnCode = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_bindphone_get_code));
         mBtnCode.setTextColor(Color.WHITE);
-        mBtnLater = (Button) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_login_bindphone_later));
+        mBtnLater = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_bindphone_later));
         mBtnLater.setTextColor(Color.WHITE);
-        mCloseWindow = (ImageView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_login_iv_close));
+        mCloseWindow = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_iv_close));
 
         mPhone_et.setHint(KR.string.splus_person_account_phone_unrelated_hint);
         mBtnCode.setText(KR.string.splus_person_account_phone_unrelated_getcode_btn);
@@ -245,10 +253,10 @@ public class BindPhoneDialog extends AlertDialog {
         bind_phone_tv_firstline.setText("您的账号很危险!");
         bind_phone_tv_firstline.setTextColor(Color.parseColor("#fe792e"));
         bind_phone_tv_firstline.setSingleLine();
-        bind_phone_tv_secondline = (TextView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_login_bindphone_tv_secondline));
+        bind_phone_tv_secondline = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_bindphone_tv_secondline));
         bind_phone_tv_secondline.setText("请尽快绑定手机,忘记密码后可及时通过手机找回");
-        ImageView iv_title = (ImageView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_login_iv_title));
-        iv_title.setImageResource(ResourceUtil.getDrawableId(mActivity,KR.drawable.splus_login_bindphone_safe));
+        ImageView iv_title = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_login_iv_title));
+        iv_title.setImageResource(ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_login_bindphone_safe));
     }
 
     private void setListener() {
@@ -338,10 +346,8 @@ public class BindPhoneDialog extends AlertDialog {
             mDialog.show();
         }
         long time = DateUtil.getUnixTime();
-        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid
-                + mPassport + time + mAppkey;
-        CheckPhoneModel checkPhoneModel = new CheckPhoneModel(mGameid, mDeviceno, mPartner,
-                mReferer, mUid, mServerName, mPassport, time, MD5Util.getMd5toLowerCase(keyString));
+        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid + mPassport + time + mAppkey;
+        CheckPhoneModel checkPhoneModel = new CheckPhoneModel(mGameid, mDeviceno, mPartner, mReferer, mUid, mServerId,mRoleId,mServerName,mRoleName, mPassport, time, MD5Util.getMd5toLowerCase(keyString));
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL, checkPhoneModel, new LoginParser()), mCheckCallBack);
     }
 
@@ -397,16 +403,12 @@ public class BindPhoneDialog extends AlertDialog {
         mGetCode = true;
         mPhoneNumber = phone;
         long time = DateUtil.getUnixTime();
-        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid
-                + mPassport + time + mAppkey;
-        GetCodeModel getCodeModel = new GetCodeModel(mUid, mServerName, mGameid,
-                MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mReferer, mReferer,
-                mPassport, mPhoneNumber);
+        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid + mPassport + time + mAppkey;
+        GetCodeModel getCodeModel = new GetCodeModel(mUid, mServerId,mRoleId,mServerName,mRoleName, mGameid, MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mReferer, mReferer, mPassport, mPhoneNumber);
         mDialog = ProgressDialogUtil.showProgress(mActivity, "加载中...", null, false, false);
         registerReceiver();
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,getCodeModel, new LoginParser()), mCodeCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL, getCodeModel, new LoginParser()), mCodeCallBack);
     }
-
 
     /**
      * 获取短信验证码回调
@@ -460,8 +462,6 @@ public class BindPhoneDialog extends AlertDialog {
         }
     };
 
-
-
     /**
      * 接收验证码
      *
@@ -491,7 +491,6 @@ public class BindPhoneDialog extends AlertDialog {
 
         }
     };
-
 
     /**
      * 绑定手机号码
@@ -525,14 +524,11 @@ public class BindPhoneDialog extends AlertDialog {
         }
 
         long time = DateUtil.getUnixTime();
-        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid
-                + mPassport + time + mAppkey;
-        BindPhoneModel bindPhoneModel = new BindPhoneModel(mUid, mServerName, mGameid,
-                MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner, mReferer,
-                mPassport, mPhoneCode, mPhoneNumber);
+        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid + mPassport + time + mAppkey;
+        BindPhoneModel bindPhoneModel = new BindPhoneModel(mUid, mServerId,mRoleId,mServerName,mRoleName, mGameid, MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner, mReferer, mPassport, mPhoneCode, mPhoneNumber);
 
         mDialog = ProgressDialogUtil.showProgress(mActivity, "加载中...", null, false, false);
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL,bindPhoneModel, new LoginParser()), mBindCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.BINDMOBILE_URL, bindPhoneModel, new LoginParser()), mBindCallBack);
     }
 
     /**
@@ -559,15 +555,15 @@ public class BindPhoneDialog extends AlertDialog {
                     case SUCCESS:
                         titleStr = data.optString("title");
                         contentStr = data.optString("content");
-                        //    setContentView(new BindPhoneSuccessView(mActivity, BindPhoneDialog.this,
-                        //              mPassport, mPhoneNumber));
+                        // setContentView(new BindPhoneSuccessView(mActivity,
+                        // BindPhoneDialog.this,
+                        // mPassport, mPhoneNumber));
                         ToastUtil.showToast(mActivity, contentStr);
                         break;
                     default:
                         titleStr = data.optString("title");
                         contentStr = data.optString("content");
-                        mPhone_et.setError(Html.fromHtml("<font color=#000000> " + contentStr
-                                + "</font>"));
+                        mPhone_et.setError(Html.fromHtml("<font color=#000000> " + contentStr + "</font>"));
                         break;
                 }
             } else {
@@ -584,7 +580,6 @@ public class BindPhoneDialog extends AlertDialog {
             mPhone_et.setError(Html.fromHtml("<font color=#000000> 手机号码绑定失败！</font>"));
         }
     };
-
 
     /**
      * 倒计时
@@ -630,11 +625,8 @@ public class BindPhoneDialog extends AlertDialog {
         }
     };
 
-
-
     protected void loginSuccess() {
-        SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
-                mSplusPayManager.getAppkey(), true);
+        SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity, mSplusPayManager.getAppkey(), true);
         if (mLoginCallBack != null) {
             mLoginCallBack.loginSuccess(mUserModel);
         }
@@ -690,7 +682,7 @@ public class BindPhoneDialog extends AlertDialog {
         mBtnLater.setText(KR.string.splus_person_pwd_submit_btn_text);
         mPhone_et.setText("");
         mPhone_et.setHint(KR.string.splus_person_account_phone_unrelated_hint);
-        setContentView(mCurrentView,  CommonUtil.getFrameLayoutParams(mActivity, 120, 120, 25, 25, Gravity.CENTER));
+        setContentView(mCurrentView, CommonUtil.getFrameLayoutParams(mActivity, 120, 120, 25, 25, Gravity.CENTER));
 
     }
 

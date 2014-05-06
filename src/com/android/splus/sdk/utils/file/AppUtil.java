@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * 工具类集合
- *
+ * 
  * @author xiaoming.yuan
  */
 public class AppUtil {
@@ -34,8 +34,7 @@ public class AppUtil {
     /**
      * SD卡目录
      */
-    public static final String SDCARD_PATH = Environment.getExternalStorageDirectory()
-            .getAbsolutePath();
+    public static final String SDCARD_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
 
     /**
      * 应用根目录
@@ -50,7 +49,7 @@ public class AppUtil {
     /**
      * 下载目录
      */
-    public static final String DOWNLOAD_PATH =  ROOT_PATH + "/downs/";
+    public static final String DOWNLOAD_PATH = ROOT_PATH + "/downs/";
 
     /**
      * 配置目录
@@ -80,7 +79,7 @@ public class AppUtil {
 
     /**
      * 保存数据
-     *
+     * 
      * @param baseData
      */
     public static void saveDatatoFile(BaseModel baseData) {
@@ -120,7 +119,7 @@ public class AppUtil {
 
     /**
      * 获取数据
-     *
+     * 
      * @return
      */
     public static UserModel getUserData() {
@@ -159,7 +158,7 @@ public class AppUtil {
 
     /**
      * 获取最新登录的用户数据文件路径
-     *
+     * 
      * @return 用户数据文件路径
      */
     public static String getLatestUserDataFilePath() {
@@ -187,7 +186,7 @@ public class AppUtil {
 
     /**
      * 保存最新使用的用户数据文件路径
-     *
+     * 
      * @param userDataFilePath 用户数据文件路径
      */
     public static void saveLatestUserDataFilePath(String userDataFilePath) {
@@ -212,12 +211,12 @@ public class AppUtil {
     }
 
     private final static byte[] encrypt_key = new byte[] {
-            0x1a, 0x2b, 0x3c, 0x4d, 0x5e, 0x6f
+                    0x1a, 0x2b, 0x3c, 0x4d, 0x5e, 0x6f
     };
 
     /**
      * 加密
-     *
+     * 
      * @param source
      */
     public static void encrypt(byte[] source) {
@@ -232,7 +231,7 @@ public class AppUtil {
 
     /**
      * 解密
-     *
+     * 
      * @param source
      */
     public static void unEncrypt(byte[] source) {
@@ -250,14 +249,13 @@ public class AppUtil {
      * <p>
      * 调用方法:getDatasFromFilePath(USER_DATA_PATH, UserData.class)
      * </p>
-     *
+     * 
      * @param path 路径
      * @param cls 对象类名
      * @return
      */
 
-    public static ArrayList<? extends BaseModel> getDatasFromFilePath(String path,
-            Class<? extends BaseModel> cls) {
+    public static ArrayList<? extends BaseModel> getDatasFromFilePath(String path, Class<? extends BaseModel> cls) {
         /**
          * 读取所有账号
          */
@@ -326,7 +324,7 @@ public class AppUtil {
      * <p>
      * 调用方法:getDataFromFile(USER_DATA_PATH, UserData.class)
      * </p>
-     *
+     * 
      * @param fileName 文件名（包含路径）
      * @param cls 对象类名
      * @return
@@ -374,25 +372,26 @@ public class AppUtil {
         return null;
     }
 
-//    /**
-//     * 启动APK下载
-//     *
-//     * @param activity
-//     * @param packUrl
-//     */
-//    public static void startDownloadApkService(Activity activity, String gameName,
-//            String downloadApkUrl) {
-//        Intent intent = new Intent(activity, DownloadApkService.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("gameName", gameName);
-//        bundle.putString("downloadApkUrl", downloadApkUrl);
-//        intent.putExtras(bundle);
-//        activity.startService(intent);
-//    }
+    // /**
+    // * 启动APK下载
+    // *
+    // * @param activity
+    // * @param packUrl
+    // */
+    // public static void startDownloadApkService(Activity activity, String
+    // gameName,
+    // String downloadApkUrl) {
+    // Intent intent = new Intent(activity, DownloadApkService.class);
+    // Bundle bundle = new Bundle();
+    // bundle.putString("gameName", gameName);
+    // bundle.putString("downloadApkUrl", downloadApkUrl);
+    // intent.putExtras(bundle);
+    // activity.startService(intent);
+    // }
 
     /**
      * 获取Apk下载目录
-     *
+     * 
      * @return
      */
     public static String getDownloadApkPath(Context context) {
@@ -408,7 +407,7 @@ public class AppUtil {
 
     /**
      * 获取md5文件夹名称
-     *
+     * 
      * @param context
      * @return
      */
@@ -418,7 +417,7 @@ public class AppUtil {
 
     /**
      * 启动应用
-     *
+     * 
      * @param context
      * @param packageName 要启动的应用的包名
      */
@@ -446,14 +445,13 @@ public class AppUtil {
 
     /**
      * 安装应用APK
-     *
+     * 
      * @param cachePath
      */
     public static void installAPP(Context context, String downloadPath) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setDataAndType(Uri.parse("file://" + downloadPath),
-                "application/vnd.android.package-archive");
+        intent.setDataAndType(Uri.parse("file://" + downloadPath), "application/vnd.android.package-archive");
         context.startActivity(intent);
     }
 

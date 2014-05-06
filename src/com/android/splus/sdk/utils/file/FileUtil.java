@@ -29,7 +29,7 @@ public class FileUtil {
 
     /**
      * SD卡是否可用
-     *
+     * 
      * @return
      */
     public static boolean isSDCardAvailable() {
@@ -38,7 +38,7 @@ public class FileUtil {
 
     /**
      * 获取文件的输入流
-     *
+     * 
      * @param path
      * @return
      */
@@ -67,7 +67,7 @@ public class FileUtil {
 
     /**
      * 获取文件的输出流
-     *
+     * 
      * @param path
      * @return
      */
@@ -95,7 +95,7 @@ public class FileUtil {
 
     /**
      * 获取文件的数据
-     *
+     * 
      * @param path
      * @return
      */
@@ -127,7 +127,7 @@ public class FileUtil {
 
     /**
      * 文件大小
-     *
+     * 
      * @param path
      * @return
      */
@@ -137,7 +137,7 @@ public class FileUtil {
 
     /**
      * 重写文件的数据
-     *
+     * 
      * @param path
      * @param data
      */
@@ -166,7 +166,7 @@ public class FileUtil {
 
     /**
      * 重写文件的数据
-     *
+     * 
      * @param path
      * @param is
      */
@@ -207,7 +207,7 @@ public class FileUtil {
 
     /**
      * 向文件的末尾添加数据
-     *
+     * 
      * @param path
      * @param data
      */
@@ -238,7 +238,7 @@ public class FileUtil {
 
     /**
      * 向文件末尾添加数据
-     *
+     * 
      * @param path
      * @param is
      */
@@ -279,7 +279,7 @@ public class FileUtil {
 
     /**
      * 删除文件或文件夹(包括目录下的文件)
-     *
+     * 
      * @param path
      */
     public static void deleteFile(String filePath) {
@@ -304,7 +304,7 @@ public class FileUtil {
 
     /**
      * 删除文件
-     *
+     * 
      * @param filePath
      * @param deleteParent 是否删除父目录
      */
@@ -334,7 +334,7 @@ public class FileUtil {
 
     /**
      * 创建一个空的文件(创建文件的模式，已经存在的是否要覆盖)
-     *
+     * 
      * @param path
      * @param mode
      */
@@ -365,7 +365,7 @@ public class FileUtil {
 
     /**
      * 创建一个空的文件夹(创建文件夹的模式，已经存在的是否要覆盖)
-     *
+     * 
      * @param path
      * @param mode
      */
@@ -390,7 +390,7 @@ public class FileUtil {
 
     /**
      * 获取文件大小
-     *
+     * 
      * @param path
      * @return
      */
@@ -412,7 +412,7 @@ public class FileUtil {
 
     /**
      * 判断文件或文件夹是否存在
-     *
+     * 
      * @param path
      * @return true 文件存在
      */
@@ -432,7 +432,7 @@ public class FileUtil {
 
     /**
      * 重命名文件/文件夹
-     *
+     * 
      * @param path
      * @param newName
      */
@@ -455,7 +455,7 @@ public class FileUtil {
 
     /**
      * 列出目录文件
-     *
+     * 
      * @return
      */
     public static File[] listFiles(String filePath) {
@@ -468,7 +468,7 @@ public class FileUtil {
 
     /**
      * 移动文件
-     *
+     * 
      * @param oldFilePath 旧路径
      * @param newFilePath 新路径
      * @return

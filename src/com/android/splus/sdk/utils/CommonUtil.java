@@ -37,8 +37,6 @@ import android.widget.FrameLayout.LayoutParams;
 public class CommonUtil {
     private static final String TAG = "Common";
 
-
-
     /**
      * @Title: 比较版本
      * @author xiaoming.yuan
@@ -88,8 +86,7 @@ public class CommonUtil {
                         System.exit(0);
                     } else {
                         // android2.1
-                        ActivityManager am = (ActivityManager) mContext
-                                .getSystemService(Context.ACTIVITY_SERVICE);
+                        ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
                         am.restartPackage(mContext.getPackageName());
                     }
                 } catch (Exception e) {
@@ -101,7 +98,7 @@ public class CommonUtil {
 
     /**
      * setEditTextInputType(限制只能输入数字 大小写 下划线 同时限制最大长度) (这里描述这个方法适用条件 – 可选)
-     *
+     * 
      * @param edt void
      * @exception
      * @since 1.0.0 xiaoming.yuan
@@ -136,7 +133,7 @@ public class CommonUtil {
 
     /**
      * getFraLayoutParams(获取layoutparams参数) (视图离屏幕的距离)
-     *
+     * 
      * @param context
      * @param widthLandScapeScale 横屏全屏宽度
      * @param widthPortScapeScale 竖屏全屏宽度
@@ -147,9 +144,7 @@ public class CommonUtil {
      * @exception
      * @since 1.0.0 xiaoming.yuan
      */
-    public static FrameLayout.LayoutParams getFrameLayoutParams(Activity context,
-            int widthLandPadding, int widthPortPadding, int heightLandPadding,
-            int heightPortPadding, int gravity)  {
+    public static FrameLayout.LayoutParams getFrameLayoutParams(Activity context, int widthLandPadding, int widthPortPadding, int heightLandPadding, int heightPortPadding, int gravity) {
         int width = (Phoneuitl.getWpixels(context));
         int height = (Phoneuitl.getHpixels(context));
         int orientation = Phoneuitl.getOrientation(context);
@@ -165,10 +160,9 @@ public class CommonUtil {
         return dialogClauseparams;
     }
 
-
     /**
      * getFraLayoutParams(获取layoutparams参数)
-     *
+     * 
      * @param context
      * @param widthLandScapeScale 横屏全屏宽度比例
      * @param widthPortScapeScale 竖屏全屏宽度比例
@@ -179,9 +173,7 @@ public class CommonUtil {
      * @exception
      * @since 1.0.0 xiaoming.yuan
      */
-    public static FrameLayout.LayoutParams getFrameLayoutParams(Activity context,
-            double widthLandScapeScale, double widthPortScapeScale, double heightLandScapeScale,
-            double heightPortScapeScale, int gravity) {
+    public static FrameLayout.LayoutParams getFrameLayoutParams(Activity context, double widthLandScapeScale, double widthPortScapeScale, double heightLandScapeScale, double heightPortScapeScale, int gravity) {
         int width = (Phoneuitl.getWpixels(context));
         int height = (Phoneuitl.getHpixels(context));
         int orientation = Phoneuitl.getOrientation(context);
@@ -199,7 +191,7 @@ public class CommonUtil {
 
     /**
      * getmDialogClauseView(法律声明合同的视图)
-     *
+     * 
      * @param context
      * @param addViewToDialog
      * @return View
@@ -207,26 +199,28 @@ public class CommonUtil {
      * @since 1.0.0 xiaoming.yuan
      */
     public static View createCustomView(Context context, String resourceId) {
-        View dialogClauseView = LayoutInflater.from(context).inflate(
-                ResourceUtil.getLayoutId(context, resourceId), null);
+        View dialogClauseView = LayoutInflater.from(context).inflate(ResourceUtil.getLayoutId(context, resourceId), null);
         return dialogClauseView;
     }
 
     /**
      * 将dip或dp值转换为px值，保证尺寸大小不变
+     * 
      * @param context
      * @param dipValue
      * @return
      */
     public static int dip2px(Context context, float dipValue) {
-//        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, context
-//                .getResources().getDisplayMetrics());
-         final float scale =context.getResources().getDisplayMetrics().density;
-         return (int) (dipValue * scale + 0.5f);
+        // return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+        // dipValue, context
+        // .getResources().getDisplayMetrics());
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
     }
 
     /**
-     *将px值转换为dip或dp值，保证尺寸大小不变
+     * 将px值转换为dip或dp值，保证尺寸大小不变
+     * 
      * @param context
      * @param pxValue
      * @return
@@ -244,8 +238,7 @@ public class CommonUtil {
      */
     public static void showInput(Context context, EditText edit) {
         edit.requestFocus();
-        InputMethodManager imm = (InputMethodManager) context
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(edit, 0);
         edit.setSelection(edit.getText().toString().length());
     }

@@ -49,9 +49,7 @@ public class LoginAdapter extends BaseAdapter {
 
     private ArrayList<UserModel> mUsers = new ArrayList<UserModel>();
 
-
-    public LoginAdapter(Context context, ArrayList<UserModel> mUsers, TextView mUserName,
-            TextView mPassword, CheckBox cb_mindPassword,PopupWindow popView) {
+    public LoginAdapter(Context context, ArrayList<UserModel> mUsers, TextView mUserName, TextView mPassword, CheckBox cb_mindPassword, PopupWindow popView) {
         this.mUsers = mUsers;
         this.mContext = context;
         this.mUserName = mUserName;
@@ -75,7 +73,7 @@ public class LoginAdapter extends BaseAdapter {
 
     /**
      * Title: getCount Description:
-     *
+     * 
      * @return
      * @see android.widget.Adapter#getCount()
      */
@@ -88,7 +86,7 @@ public class LoginAdapter extends BaseAdapter {
 
     /**
      * Title: getItem Description:
-     *
+     * 
      * @param position
      * @return
      * @see android.widget.Adapter#getItem(int)
@@ -102,7 +100,7 @@ public class LoginAdapter extends BaseAdapter {
 
     /**
      * Title: getItemId Description:
-     *
+     * 
      * @param position
      * @return
      * @see android.widget.Adapter#getItemId(int)
@@ -116,7 +114,7 @@ public class LoginAdapter extends BaseAdapter {
 
     /**
      * Title: getView Description:
-     *
+     * 
      * @param position
      * @param convertView
      * @param parent
@@ -129,16 +127,12 @@ public class LoginAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(
-                    ResourceUtil.getLayoutId(mContext, KR.layout.splus_login_dropdown_item_layout), null);
-            holder.ll = (LinearLayout) convertView.findViewById(ResourceUtil.getId(mContext,
-                    KR.id.splus_login_dropdown_layout));
+            convertView = LayoutInflater.from(mContext).inflate(ResourceUtil.getLayoutId(mContext, KR.layout.splus_login_dropdown_item_layout), null);
+            holder.ll = (LinearLayout) convertView.findViewById(ResourceUtil.getId(mContext, KR.id.splus_login_dropdown_layout));
             holder.ll.setFocusable(false);
-            holder.btn = (ImageView) convertView.findViewById(ResourceUtil.getId(mContext,
-                    KR.id.splus_login_dropdown_delete));
+            holder.btn = (ImageView) convertView.findViewById(ResourceUtil.getId(mContext, KR.id.splus_login_dropdown_delete));
             holder.btn.setFocusable(false);
-            holder.tv = (TextView) convertView.findViewById(ResourceUtil.getId(mContext,
-                    KR.id.splus_login_dropdown_text));
+            holder.tv = (TextView) convertView.findViewById(ResourceUtil.getId(mContext, KR.id.splus_login_dropdown_text));
             holder.tv.setFocusable(false);
             convertView.setTag(holder);
         } else {

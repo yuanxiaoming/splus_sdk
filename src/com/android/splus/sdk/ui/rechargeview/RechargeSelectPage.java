@@ -58,8 +58,8 @@ public class RechargeSelectPage extends LinearLayout {
     private RechargeTypeAdapter mRechargeTypeAdapter;
 
     private ArrayList<RechargeTypeModel> mRechargeTypeArrayList;
-    private RechargeTypeModel rechargeTypeModel = null;
 
+    private RechargeTypeModel rechargeTypeModel = null;
 
     private RechargeItemClick mRechargeItemClick;
 
@@ -72,14 +72,14 @@ public class RechargeSelectPage extends LinearLayout {
      * @throws
      */
 
-    public RechargeSelectPage(Activity activity, String passport,Integer type,Float money,int orientation) {
+    public RechargeSelectPage(Activity activity, String passport, Integer type, Float money, int orientation) {
         super(activity);
         this.mActivity = activity;
         this.mPassport = passport;
-        this.mRenminbi=money;
-        this.mType=type;
-        this.mOrientation=orientation;
-        inflate(activity,ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_select_layout), this);
+        this.mRenminbi = money;
+        this.mType = type;
+        this.mOrientation = orientation;
+        inflate(activity, ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_select_layout), this);
         findViews();
         initViews();
         setlistener();
@@ -93,16 +93,16 @@ public class RechargeSelectPage extends LinearLayout {
      */
 
     private void findViews() {
-        recharge_username = (TextView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_recharge_select_username));
-        recharge_select_head_tips = (TextView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_recharge_select_head_tips));
-        recharge_type_gv = (CustomGridView) findViewById(ResourceUtil.getId(mActivity,KR.id.splus_recharge_type_gridview_select));
+        recharge_username = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_select_username));
+        recharge_select_head_tips = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_select_head_tips));
+        recharge_type_gv = (CustomGridView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_type_gridview_select));
 
         recharge_username.setGravity(Gravity.CENTER);
         recharge_username.setFocusable(true);
         recharge_username.setFocusableInTouchMode(true);
         recharge_username.requestFocus();
         recharge_username.setTextColor(Color.BLACK);
-        recharge_username.setText(Html.fromHtml("欢迎您: <font color=#FE8E35>"+mPassport+"</font>"));
+        recharge_username.setText(Html.fromHtml("欢迎您: <font color=#FE8E35>" + mPassport + "</font>"));
         recharge_select_head_tips.setText(KR.string.splus_recharge_select_head_tips);
     }
 
@@ -115,25 +115,23 @@ public class RechargeSelectPage extends LinearLayout {
     private void initViews() {
         mRechargeTypeArrayList = new ArrayList<RechargeTypeModel>();
 
-        if(mType==Constant.RECHARGE_BY_QUATO){
+        if (mType == Constant.RECHARGE_BY_QUATO) {
             showRechargeType(mRenminbi);
 
-        }else if(mType==Constant.RECHARGE_BY_NO_QUATO){
+        } else if (mType == Constant.RECHARGE_BY_NO_QUATO) {
             for (int i = 0; i < Constant.IMG_ICON.length; i++) {
-                rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[i],Constant.RECHARGE_TYPE[i],Constant.PAYWAY_TYPE[i]);
+                rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[i], Constant.RECHARGE_TYPE[i], Constant.PAYWAY_TYPE[i]);
                 mRechargeTypeArrayList.add(rechargeTypeModel);
             }
         }
 
-        int orientation =mOrientation;
+        int orientation = mOrientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // 横屏
             recharge_type_gv.setNumColumns(4);
             recharge_type_gv.setColumnWidth(30);
             recharge_type_gv.setPadding(5, 0, 5, 20);
-            recharge_type_gv.setLayoutParams(new LinearLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
-                    Gravity.CENTER));
+            recharge_type_gv.setLayoutParams(new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER));
             recharge_type_gv.setVerticalSpacing(25);
             recharge_type_gv.setHorizontalSpacing(30);
 
@@ -141,9 +139,7 @@ public class RechargeSelectPage extends LinearLayout {
             // 竖屏
             recharge_type_gv.setNumColumns(3);
             recharge_type_gv.setColumnWidth(20);
-            recharge_type_gv.setLayoutParams(new LinearLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT,
-                    Gravity.CENTER));
+            recharge_type_gv.setLayoutParams(new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER));
             recharge_type_gv.setPadding(5, 20, 5, 20);
             recharge_type_gv.setVerticalSpacing(30);
             recharge_type_gv.setHorizontalSpacing(30);
@@ -190,46 +186,44 @@ public class RechargeSelectPage extends LinearLayout {
 
     /**
      * 定额支付
-     *
+     * 
      * @param userMoney
      */
     private void showRechargeType(Float userMoney) {
 
         // 定额支付
-        for (int i = 0; i <=Constant.UNION_PAY; i++) {
-            if ((userMoney > 500&i==Constant.ALIPAY_CREDIT)||(userMoney > 500&i==Constant.ALIPAY_DEPOSIT)) {
+        for (int i = 0; i <= Constant.UNION_PAY; i++) {
+            if ((userMoney > 500 & i == Constant.ALIPAY_CREDIT) || (userMoney > 500 & i == Constant.ALIPAY_DEPOSIT)) {
                 continue;
             }
-            rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[i],Constant.RECHARGE_TYPE[i],Constant.PAYWAY_TYPE[i]);
+            rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[i], Constant.RECHARGE_TYPE[i], Constant.PAYWAY_TYPE[i]);
             mRechargeTypeArrayList.add(rechargeTypeModel);
         }
 
-
         for (int i = 0; i < Constant.CHINA_MOBILE_MONEY.length; i++) {
             if (userMoney == Constant.CHINA_MOBILE_MONEY[i]) {
-                rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[Constant.CHAIN_CMM],Constant.RECHARGE_TYPE[Constant.CHAIN_CMM],Constant.PAYWAY_TYPE[Constant.CHAIN_CMM]);
+                rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[Constant.CHAIN_CMM], Constant.RECHARGE_TYPE[Constant.CHAIN_CMM], Constant.PAYWAY_TYPE[Constant.CHAIN_CMM]);
                 mRechargeTypeArrayList.add(rechargeTypeModel);
                 break;
             }
         }
         for (int i = 0; i < Constant.CHINA_UNICOM_MONEY.length; i++) {
             if (userMoney == Constant.CHINA_UNICOM_MONEY[i]) {
-                rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[Constant.CHAIN_UNC],Constant.RECHARGE_TYPE[Constant.CHAIN_UNC],Constant.PAYWAY_TYPE[Constant.CHAIN_UNC]);
+                rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[Constant.CHAIN_UNC], Constant.RECHARGE_TYPE[Constant.CHAIN_UNC], Constant.PAYWAY_TYPE[Constant.CHAIN_UNC]);
                 mRechargeTypeArrayList.add(rechargeTypeModel);
                 break;
             }
         }
         for (int i = 0; i < Constant.CHINA_SDCOMM_ONEY.length; i++) {
             if (userMoney == Constant.CHINA_SDCOMM_ONEY[i]) {
-                rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[Constant.CHAIN_SD],Constant.RECHARGE_TYPE[Constant.CHAIN_SD],Constant.PAYWAY_TYPE[Constant.CHAIN_SD]);
+                rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[Constant.CHAIN_SD], Constant.RECHARGE_TYPE[Constant.CHAIN_SD], Constant.PAYWAY_TYPE[Constant.CHAIN_SD]);
                 mRechargeTypeArrayList.add(rechargeTypeModel);
                 break;
             }
         }
 
-        rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[Constant.PERSON],Constant.RECHARGE_TYPE[Constant.PERSON],Constant.PAYWAY_TYPE[Constant.PERSON]);
+        rechargeTypeModel = new RechargeTypeModel(Constant.IMG_ICON[Constant.PERSON], Constant.RECHARGE_TYPE[Constant.PERSON], Constant.PAYWAY_TYPE[Constant.PERSON]);
         mRechargeTypeArrayList.add(rechargeTypeModel);
     }
-
 
 }

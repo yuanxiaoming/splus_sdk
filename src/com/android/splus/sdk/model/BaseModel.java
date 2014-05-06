@@ -19,9 +19,7 @@ import java.util.Map;
  * @author xiaoming.yuan
  * @date 2014-2-19 上午10:48:31
  */
-public abstract class BaseModel extends HashMap<String, Object>  {
-
-
+public abstract class BaseModel extends HashMap<String, Object> {
 
     /**
      * @Fields serialVersionUID :（用一句话描述这个变量表示什么）
@@ -45,7 +43,7 @@ public abstract class BaseModel extends HashMap<String, Object>  {
 
     public BaseModel(String jsonObject) {
         this.put(VERSION, SplusPayManager.SDK_VERSION);
-    //    this.put(DEBUG, "1");
+        // this.put(DEBUG, "1");
     }
 
     /**
@@ -58,7 +56,7 @@ public abstract class BaseModel extends HashMap<String, Object>  {
 
     /**
      * 变量转换为json字符串
-     *
+     * 
      * @return
      */
     public String toString() {
@@ -82,7 +80,7 @@ public abstract class BaseModel extends HashMap<String, Object>  {
 
     /**
      * json字符串转化为数组对象
-     *
+     * 
      * @return
      */
     public byte[] getBytes() {
@@ -95,7 +93,7 @@ public abstract class BaseModel extends HashMap<String, Object>  {
 
     /**
      * 获取保存文件名
-     *
+     * 
      * @return
      */
     public String getPath() {

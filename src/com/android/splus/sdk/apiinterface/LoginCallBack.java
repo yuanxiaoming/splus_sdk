@@ -4,14 +4,14 @@ package com.android.splus.sdk.apiinterface;
 public interface LoginCallBack {
     /**
      * 登录成功
-     *
+     * 
      * @param account 帐号
      */
     public void loginSuccess(UserAccount account);
 
     /**
      * 登录失败
-     *
+     * 
      * @param errorMsg 出错信息
      */
     public void loginFaile(String errorMsg);

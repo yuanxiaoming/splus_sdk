@@ -84,7 +84,7 @@ public class DownLoadActivity extends BaseActivity {
 
     /**
      * Title: findViewById Description:
-     *
+     * 
      * @see com.canhe.android.sdk.ui.BaseActivity#findViewById()
      */
     @Override
@@ -92,13 +92,12 @@ public class DownLoadActivity extends BaseActivity {
 
         mPBar = (ProgressBar) findViewById(ResourceUtil.getId(this, KR.id.splus_download_pbar));
         mText = (TextView) findViewById(ResourceUtil.getId(this, KR.id.splus_download_txt));
-        mNotifyView = new RemoteViews(getPackageName(), ResourceUtil.getLayoutId(this,
-                KR.layout.splus_download_notify));
+        mNotifyView = new RemoteViews(getPackageName(), ResourceUtil.getLayoutId(this, KR.layout.splus_download_notify));
     }
 
     /**
      * Title: loadViewLayout Description:
-     *
+     * 
      * @see com.canhe.android.sdk.ui.BaseActivity#loadViewLayout()
      */
     @Override
@@ -112,7 +111,7 @@ public class DownLoadActivity extends BaseActivity {
 
     /**
      * Title: processLogic Description:
-     *
+     * 
      * @see com.canhe.android.sdk.ui.BaseActivity#processLogic()
      */
     @Override
@@ -123,92 +122,85 @@ public class DownLoadActivity extends BaseActivity {
         mIcon = appi.icon;
         mAppName = getString(appi.labelRes);
         Intent intent = new Intent(this, DownLoadActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mNotification.contentView = mNotifyView;
         mNotification.contentIntent = pIntent;
         mNotification.flags = Notification.FLAG_ONGOING_EVENT;
         // 通知的图标必须设置(其他属性为可选设置),否则通知无法显示
         mNotification.icon = mIcon;
-        mNotifyView.setImageViewResource(ResourceUtil.getId(this, KR.id.splus_download_notify_ic),
-                mIcon);// 起一个线程用来更新progress
-        mNotifyView.setTextViewText(ResourceUtil.getId(this, KR.id.splus_download_notify_app_name),
-                mAppName);
+        mNotifyView.setImageViewResource(ResourceUtil.getId(this, KR.id.splus_download_notify_ic), mIcon);// 起一个线程用来更新progress
+        mNotifyView.setTextViewText(ResourceUtil.getId(this, KR.id.splus_download_notify_app_name), mAppName);
         String networkType = NetWorkUtil.getNetworkType(this);
         if (NetWorkUtil.NetworkType.UNKNOWN.equals(networkType)) {
-            ProgressDialogUtil.showInfoDialog(this, "更新提示", "无网络连接，无法下载！", null,
-                    new DialogInterface.OnClickListener() {
+            ProgressDialogUtil.showInfoDialog(this, "更新提示", "无网络连接，无法下载！", null, new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            CommonUtil.killSDK(DownLoadActivity.this);
-                        }
-                    }, "退出", null, null, false);
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    CommonUtil.killSDK(DownLoadActivity.this);
+                }
+            }, "退出", null, null, false);
             return;
         }
         if (NetWorkUtil.NetworkType.NET_3G.equals(networkType)) {
-            ProgressDialogUtil.showInfoDialog(this, "更新提示", "当前为3G网络，是否进行下载？", null,
-                    new DialogInterface.OnClickListener() {
+            ProgressDialogUtil.showInfoDialog(this, "更新提示", "当前为3G网络，是否进行下载？", null, new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                            startDownload();
+                    startDownload();
 
-                        }
-                    }, "下载", new DialogInterface.OnClickListener() {
+                }
+            }, "下载", new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                            CommonUtil.killSDK(DownLoadActivity.this);
-                        }
-                    }, "取消", false);
+                    CommonUtil.killSDK(DownLoadActivity.this);
+                }
+            }, "取消", false);
         }
         if (NetWorkUtil.NetworkType.NET_2G.equals(networkType)) {
-            ProgressDialogUtil.showInfoDialog(this, "更新提示", "当前为2G网络，是否进行下载？", null,
-                    new DialogInterface.OnClickListener() {
+            ProgressDialogUtil.showInfoDialog(this, "更新提示", "当前为2G网络，是否进行下载？", null, new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                            startDownload();
+                    startDownload();
 
-                        }
-                    }, "下载", new DialogInterface.OnClickListener() {
+                }
+            }, "下载", new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                            CommonUtil.killSDK(DownLoadActivity.this);
-                        }
-                    }, "取消", false);
+                    CommonUtil.killSDK(DownLoadActivity.this);
+                }
+            }, "取消", false);
         }
         if (NetWorkUtil.NetworkType.WIFI.equals(networkType)) {
-            ProgressDialogUtil.showInfoDialog(this, "更新提示", "当前为WIFI网络，是否进行下载？", null,
-                    new DialogInterface.OnClickListener() {
+            ProgressDialogUtil.showInfoDialog(this, "更新提示", "当前为WIFI网络，是否进行下载？", null, new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                            startDownload();
+                    startDownload();
 
-                        }
-                    }, "下载", new DialogInterface.OnClickListener() {
+                }
+            }, "下载", new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                            CommonUtil.killSDK(DownLoadActivity.this);
-                        }
-                    }, "取消", false);
+                    CommonUtil.killSDK(DownLoadActivity.this);
+                }
+            }, "取消", false);
         }
 
     }
 
     /**
      * Title: setListener Description:
-     *
+     * 
      * @see com.canhe.android.sdk.ui.BaseActivity#setListener()
      */
     @Override
@@ -254,41 +246,38 @@ public class DownLoadActivity extends BaseActivity {
                     title = "服务器繁忙或异常";
                     break;
             }
-            ProgressDialogUtil.showInfoDialog(DownLoadActivity.this, "更新提示", title, null,
-                    new DialogInterface.OnClickListener() {
+            ProgressDialogUtil.showInfoDialog(DownLoadActivity.this, "更新提示", title, null, new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startDownload();
-                        }
-                    }, "重新下载", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startDownload();
+                }
+            }, "重新下载", new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                            CommonUtil.killSDK(DownLoadActivity.this);
-                        }
-                    }, "退出", true);
+                    CommonUtil.killSDK(DownLoadActivity.this);
+                }
+            }, "退出", true);
         }
     };
 
     /**
      * 更新进度
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月8日 下午2:08:43
      * @param mgr
      */
     public void updateDownload(DownloadTask mgr) {
         mPBar.setProgress((int) mgr.getDownloadPercent());
-        String txt = "" + (int) mgr.getDownloadPercent() + "%" + " " + mgr.getDownloadSpeed()
-                + "kbps" + " " + size(mgr.getDownloadSize()) + "/" + size(mgr.getTotalSize());
+        String txt = "" + (int) mgr.getDownloadPercent() + "%" + " " + mgr.getDownloadSpeed() + "kbps" + " " + size(mgr.getDownloadSize()) + "/" + size(mgr.getTotalSize());
         mText.setText(txt);
         if (!mInFront) {
             if (mgr.getDownloadPercent() - mPercent >= 1) {
                 mPercent = mgr.getDownloadPercent();
-                showNotify(size(mgr.getDownloadSize()) + "/" + size(mgr.getTotalSize()),
-                        (int) mgr.getDownloadPercent());
+                showNotify(size(mgr.getDownloadSize()) + "/" + size(mgr.getTotalSize()), (int) mgr.getDownloadPercent());
             }
         } else {
             hideNotify();
@@ -298,7 +287,7 @@ public class DownLoadActivity extends BaseActivity {
 
     /**
      * 文件大小转换
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月8日 下午1:05:56
      * @param size
@@ -317,7 +306,7 @@ public class DownLoadActivity extends BaseActivity {
 
     /**
      * 获取文件名
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月8日 下午12:02:52
      * @return
@@ -340,7 +329,7 @@ public class DownLoadActivity extends BaseActivity {
 
     /**
      * 开始下载
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月8日 上午11:43:26
      */
@@ -369,8 +358,7 @@ public class DownLoadActivity extends BaseActivity {
         if (file.exists())
             file.delete();
         try {
-            mDownloadTasks = new DownloadTask(this, mDownloadUrl, mDownloadDir,
-                    downloadTaskListener);
+            mDownloadTasks = new DownloadTask(this, mDownloadUrl, mDownloadDir, downloadTaskListener);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -380,7 +368,7 @@ public class DownLoadActivity extends BaseActivity {
 
     /**
      * 停止下载
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月8日 下午12:10:34
      */
@@ -417,14 +405,13 @@ public class DownLoadActivity extends BaseActivity {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setDataAndType(Uri.parse("file://" + cachePath),
-                "application/vnd.android.package-archive");
+        intent.setDataAndType(Uri.parse("file://" + cachePath), "application/vnd.android.package-archive");
         startActivity(intent);
     }
 
     /**
      * Title: onKeyUp Description:
-     *
+     * 
      * @param keyCode
      * @param event
      * @return
@@ -437,29 +424,26 @@ public class DownLoadActivity extends BaseActivity {
             return false;
         }
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            ProgressDialogUtil.showInfoDialog(this, "更新提示", "是否取消下载", null,
-                    new DialogInterface.OnClickListener() {
+            ProgressDialogUtil.showInfoDialog(this, "更新提示", "是否取消下载", null, new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // 清除下载完成通知
-                            stopDownload();
-                            mNotificationManager.cancel(ResourceUtil.getLayoutId(
-                                    DownLoadActivity.this, KR.layout.splus_download_notify));
-                            mNotificationManager.cancel(ResourceUtil.getLayoutId(
-                                    DownLoadActivity.this, KR.layout.splus_download_activity));
-                            mKillSelf = true;
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // 清除下载完成通知
+                    stopDownload();
+                    mNotificationManager.cancel(ResourceUtil.getLayoutId(DownLoadActivity.this, KR.layout.splus_download_notify));
+                    mNotificationManager.cancel(ResourceUtil.getLayoutId(DownLoadActivity.this, KR.layout.splus_download_activity));
+                    mKillSelf = true;
 
-                            CommonUtil.killSDK(DownLoadActivity.this);
+                    CommonUtil.killSDK(DownLoadActivity.this);
 
-                        }
-                    }, "确定", new DialogInterface.OnClickListener() {
+                }
+            }, "确定", new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                        }
-                    }, "取消", true);
+                }
+            }, "取消", true);
             return true;
         }
         return super.onKeyUp(keyCode, event);
@@ -475,12 +459,9 @@ public class DownLoadActivity extends BaseActivity {
      */
     private void showNotify(String context, int progress) {
         if (mNotificationManager != null) {
-            mNotifyView.setProgressBar(ResourceUtil.getId(this, KR.id.splus_download_notify_pb),
-                    mMaxLength, progress, false);
-            mNotifyView.setTextViewText(ResourceUtil.getId(this, KR.id.splus_download_notify_tv),
-                    context);
-            mNotificationManager.notify(
-                    ResourceUtil.getLayoutId(this, KR.layout.splus_download_notify), mNotification);// 关键部分，如果你不重新更新通知，进度条是不会更新的
+            mNotifyView.setProgressBar(ResourceUtil.getId(this, KR.id.splus_download_notify_pb), mMaxLength, progress, false);
+            mNotifyView.setTextViewText(ResourceUtil.getId(this, KR.id.splus_download_notify_tv), context);
+            mNotificationManager.notify(ResourceUtil.getLayoutId(this, KR.layout.splus_download_notify), mNotification);// 关键部分，如果你不重新更新通知，进度条是不会更新的
         }
     }
 
@@ -491,8 +472,7 @@ public class DownLoadActivity extends BaseActivity {
      */
     private void hideNotify() {
         if (mNotificationManager != null) {
-            mNotificationManager.cancel(ResourceUtil
-                    .getLayoutId(this, KR.layout.splus_download_notify));// 清除通知
+            mNotificationManager.cancel(ResourceUtil.getLayoutId(this, KR.layout.splus_download_notify));// 清除通知
         }
     }
 
@@ -504,27 +484,21 @@ public class DownLoadActivity extends BaseActivity {
         if (mNotificationManager != null) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setDataAndType(Uri.parse("file://" + cachePath),
-                    "application/vnd.android.package-archive");
-            PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+            intent.setDataAndType(Uri.parse("file://" + cachePath), "application/vnd.android.package-archive");
+            PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             mNotification.contentIntent = pIntent;
 
-            mNotifyView.setImageViewResource(ResourceUtil.getId(this, KR.id.splus_download_notify_ic),
-                    mIcon);// 起一个线程用来更新progress
-            mNotifyView.setProgressBar(ResourceUtil.getId(this, KR.id.splus_download_notify_pb),
-                    mMaxLength, mMaxLength, false);
-            mNotifyView.setTextViewText(ResourceUtil.getId(this, KR.id.splus_download_notify_tv),
-                    "下载已完成，点击安装");
-            mNotificationManager.notify(
-                    ResourceUtil.getLayoutId(this, KR.layout.splus_download_activity), mNotification);// 关键部分，如果你不重新更新通知，进度条是不会更新的
+            mNotifyView.setImageViewResource(ResourceUtil.getId(this, KR.id.splus_download_notify_ic), mIcon);// 起一个线程用来更新progress
+            mNotifyView.setProgressBar(ResourceUtil.getId(this, KR.id.splus_download_notify_pb), mMaxLength, mMaxLength, false);
+            mNotifyView.setTextViewText(ResourceUtil.getId(this, KR.id.splus_download_notify_tv), "下载已完成，点击安装");
+            mNotificationManager.notify(ResourceUtil.getLayoutId(this, KR.layout.splus_download_activity), mNotification);// 关键部分，如果你不重新更新通知，进度条是不会更新的
         }
     }
 
     /**
      * Title: onResume Description:
-     *
+     * 
      * @see android.app.Activity#onResume()
      */
     @Override
@@ -541,7 +515,7 @@ public class DownLoadActivity extends BaseActivity {
 
     /**
      * Title: onPause Description:
-     *
+     * 
      * @see android.app.Activity#onPause()
      */
     @Override
@@ -552,7 +526,7 @@ public class DownLoadActivity extends BaseActivity {
 
     /**
      * Title: onDestroy Description:
-     *
+     * 
      * @see com.canhe.android.sdk.ui.BaseActivity#onDestroy()
      */
     @Override

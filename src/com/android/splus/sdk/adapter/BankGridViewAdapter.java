@@ -67,7 +67,7 @@ public class BankGridViewAdapter extends BaseAdapter {
 
     /**
      * Title: getView Description:
-     *
+     * 
      * @param position
      * @param convertView
      * @param parent
@@ -80,9 +80,7 @@ public class BankGridViewAdapter extends BaseAdapter {
         TextView textView = null;
         if (convertView == null) {
             textView = new TextView(mContext);
-            textView.setBackgroundDrawable(mContext.getResources().getDrawable(
-                    ResourceUtil.getDrawableId(mContext,
-                            KR.drawable.splus_recharge_money_item_selector)));
+            textView.setBackgroundDrawable(mContext.getResources().getDrawable(ResourceUtil.getDrawableId(mContext, KR.drawable.splus_recharge_money_item_selector)));
             textView.setMaxWidth(75);
             textView.setMinHeight(75);
             textView.setSingleLine();
@@ -92,10 +90,8 @@ public class BankGridViewAdapter extends BaseAdapter {
             textView = (TextView) convertView;
         }
         textView.setText(mBankArray[position]);
-        int selectorId = ResourceUtil.getDrawableId(mContext,
-                KR.drawable.splus_recharge_money_item_press);
-        int unselectorId = ResourceUtil.getDrawableId(mContext,
-                KR.drawable.splus_recharge_money_item_normal);
+        int selectorId = ResourceUtil.getDrawableId(mContext, KR.drawable.splus_recharge_money_item_press);
+        int unselectorId = ResourceUtil.getDrawableId(mContext, KR.drawable.splus_recharge_money_item_normal);
 
         if (mIndex == position) {
             Drawable dw = mContext.getResources().getDrawable(selectorId);
@@ -112,8 +108,8 @@ public class BankGridViewAdapter extends BaseAdapter {
     }
 
     public void setIndex(int position) {
-         this.mIndex=position;
-         notifyDataSetChanged();
+        this.mIndex = position;
+        notifyDataSetChanged();
     }
 
 }

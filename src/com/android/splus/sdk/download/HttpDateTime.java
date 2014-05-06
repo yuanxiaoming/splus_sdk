@@ -28,47 +28,25 @@ import java.util.regex.Pattern;
 public final class HttpDateTime {
 
     /*
-     * Regular expression for parsing HTTP-date.
-     *
-     * Wdy, DD Mon YYYY HH:MM:SS GMT
-     * RFC 822, updated by RFC 1123
-     *
-     * Weekday, DD-Mon-YY HH:MM:SS GMT
-     * RFC 850, obsoleted by RFC 1036
-     *
-     * Wdy Mon DD HH:MM:SS YYYY
-     * ANSI C's asctime() format
-     *
-     * with following variations
-     *
-     * Wdy, DD-Mon-YYYY HH:MM:SS GMT
-     * Wdy, (SP)D Mon YYYY HH:MM:SS GMT
-     * Wdy,DD Mon YYYY HH:MM:SS GMT
-     * Wdy, DD-Mon-YY HH:MM:SS GMT
-     * Wdy, DD Mon YYYY HH:MM:SS -HHMM
-     * Wdy, DD Mon YYYY HH:MM:SS
-     * Wdy Mon (SP)D HH:MM:SS YYYY
-     * Wdy Mon DD HH:MM:SS YYYY GMT
-     *
-     * HH can be H if the first digit is zero.
-     *
-     * Mon can be the full name of the month.
+     * Regular expression for parsing HTTP-date. Wdy, DD Mon YYYY HH:MM:SS GMT
+     * RFC 822, updated by RFC 1123 Weekday, DD-Mon-YY HH:MM:SS GMT RFC 850,
+     * obsoleted by RFC 1036 Wdy Mon DD HH:MM:SS YYYY ANSI C's asctime() format
+     * with following variations Wdy, DD-Mon-YYYY HH:MM:SS GMT Wdy, (SP)D Mon
+     * YYYY HH:MM:SS GMT Wdy,DD Mon YYYY HH:MM:SS GMT Wdy, DD-Mon-YY HH:MM:SS
+     * GMT Wdy, DD Mon YYYY HH:MM:SS -HHMM Wdy, DD Mon YYYY HH:MM:SS Wdy Mon
+     * (SP)D HH:MM:SS YYYY Wdy Mon DD HH:MM:SS YYYY GMT HH can be H if the first
+     * digit is zero. Mon can be the full name of the month.
      */
-    private static final String HTTP_DATE_RFC_REGEXP =
-            "([0-9]{1,2})[- ]([A-Za-z]{3,9})[- ]([0-9]{2,4})[ ]"
-            + "([0-9]{1,2}:[0-9][0-9]:[0-9][0-9])";
+    private static final String HTTP_DATE_RFC_REGEXP = "([0-9]{1,2})[- ]([A-Za-z]{3,9})[- ]([0-9]{2,4})[ ]" + "([0-9]{1,2}:[0-9][0-9]:[0-9][0-9])";
 
-    private static final String HTTP_DATE_ANSIC_REGEXP =
-            "[ ]([A-Za-z]{3,9})[ ]+([0-9]{1,2})[ ]"
-            + "([0-9]{1,2}:[0-9][0-9]:[0-9][0-9])[ ]([0-9]{2,4})";
+    private static final String HTTP_DATE_ANSIC_REGEXP = "[ ]([A-Za-z]{3,9})[ ]+([0-9]{1,2})[ ]" + "([0-9]{1,2}:[0-9][0-9]:[0-9][0-9])[ ]([0-9]{2,4})";
 
     /**
      * The compiled version of the HTTP-date regular expressions.
      */
-    private static final Pattern HTTP_DATE_RFC_PATTERN =
-            Pattern.compile(HTTP_DATE_RFC_REGEXP);
-    private static final Pattern HTTP_DATE_ANSIC_PATTERN =
-            Pattern.compile(HTTP_DATE_ANSIC_REGEXP);
+    private static final Pattern HTTP_DATE_RFC_PATTERN = Pattern.compile(HTTP_DATE_RFC_REGEXP);
+
+    private static final Pattern HTTP_DATE_ANSIC_PATTERN = Pattern.compile(HTTP_DATE_ANSIC_REGEXP);
 
     private static class TimeOfDay {
         TimeOfDay(int h, int m, int s) {
@@ -78,12 +56,13 @@ public final class HttpDateTime {
         }
 
         int hour;
+
         int minute;
+
         int second;
     }
 
-    public static long parse(String timeString)
-            throws IllegalArgumentException {
+    public static long parse(String timeString) throws IllegalArgumentException {
 
         int date = 1;
         int month = Calendar.JANUARY;
@@ -116,38 +95,26 @@ public final class HttpDateTime {
         }
 
         Time time = new Time(Time.TIMEZONE_UTC);
-        time.set(timeOfDay.second, timeOfDay.minute, timeOfDay.hour, date,
-                month, year);
+        time.set(timeOfDay.second, timeOfDay.minute, timeOfDay.hour, date, month, year);
         return time.toMillis(false /* use isDst */);
     }
 
     private static int getDate(String dateString) {
         if (dateString.length() == 2) {
-            return (dateString.charAt(0) - '0') * 10
-                    + (dateString.charAt(1) - '0');
+            return (dateString.charAt(0) - '0') * 10 + (dateString.charAt(1) - '0');
         } else {
             return (dateString.charAt(0) - '0');
         }
     }
 
     /*
-     * jan = 9 + 0 + 13 = 22
-     * feb = 5 + 4 + 1 = 10
-     * mar = 12 + 0 + 17 = 29
-     * apr = 0 + 15 + 17 = 32
-     * may = 12 + 0 + 24 = 36
-     * jun = 9 + 20 + 13 = 42
-     * jul = 9 + 20 + 11 = 40
-     * aug = 0 + 20 + 6 = 26
-     * sep = 18 + 4 + 15 = 37
-     * oct = 14 + 2 + 19 = 35
-     * nov = 13 + 14 + 21 = 48
-     * dec = 3 + 4 + 2 = 9
+     * jan = 9 + 0 + 13 = 22 feb = 5 + 4 + 1 = 10 mar = 12 + 0 + 17 = 29 apr = 0
+     * + 15 + 17 = 32 may = 12 + 0 + 24 = 36 jun = 9 + 20 + 13 = 42 jul = 9 + 20
+     * + 11 = 40 aug = 0 + 20 + 6 = 26 sep = 18 + 4 + 15 = 37 oct = 14 + 2 + 19
+     * = 35 nov = 13 + 14 + 21 = 48 dec = 3 + 4 + 2 = 9
      */
     private static int getMonth(String monthString) {
-        int hash = Character.toLowerCase(monthString.charAt(0)) +
-                Character.toLowerCase(monthString.charAt(1)) +
-                Character.toLowerCase(monthString.charAt(2)) - 3 * 'a';
+        int hash = Character.toLowerCase(monthString.charAt(0)) + Character.toLowerCase(monthString.charAt(1)) + Character.toLowerCase(monthString.charAt(2)) - 3 * 'a';
         switch (hash) {
             case 22:
                 return Calendar.JANUARY;
@@ -180,8 +147,7 @@ public final class HttpDateTime {
 
     private static int getYear(String yearString) {
         if (yearString.length() == 2) {
-            int year = (yearString.charAt(0) - '0') * 10
-                    + (yearString.charAt(1) - '0');
+            int year = (yearString.charAt(0) - '0') * 10 + (yearString.charAt(1) - '0');
             if (year >= 70) {
                 return year + 1900;
             } else {
@@ -189,17 +155,12 @@ public final class HttpDateTime {
             }
         } else if (yearString.length() == 3) {
             // According to RFC 2822, three digit years should be added to 1900.
-            int year = (yearString.charAt(0) - '0') * 100
-                    + (yearString.charAt(1) - '0') * 10
-                    + (yearString.charAt(2) - '0');
+            int year = (yearString.charAt(0) - '0') * 100 + (yearString.charAt(1) - '0') * 10 + (yearString.charAt(2) - '0');
             return year + 1900;
         } else if (yearString.length() == 4) {
-             return (yearString.charAt(0) - '0') * 1000
-                    + (yearString.charAt(1) - '0') * 100
-                    + (yearString.charAt(2) - '0') * 10
-                    + (yearString.charAt(3) - '0');
+            return (yearString.charAt(0) - '0') * 1000 + (yearString.charAt(1) - '0') * 100 + (yearString.charAt(2) - '0') * 10 + (yearString.charAt(3) - '0');
         } else {
-             return 1970;
+            return 1970;
         }
     }
 
@@ -212,13 +173,11 @@ public final class HttpDateTime {
         // Skip ':'
         i++;
 
-        int minute = (timeString.charAt(i++) - '0') * 10
-                    + (timeString.charAt(i++) - '0');
+        int minute = (timeString.charAt(i++) - '0') * 10 + (timeString.charAt(i++) - '0');
         // Skip ':'
         i++;
 
-        int second = (timeString.charAt(i++) - '0') * 10
-                  + (timeString.charAt(i++) - '0');
+        int second = (timeString.charAt(i++) - '0') * 10 + (timeString.charAt(i++) - '0');
 
         return new TimeOfDay(hour, minute, second);
     }

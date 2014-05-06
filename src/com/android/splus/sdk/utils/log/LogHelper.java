@@ -5,12 +5,12 @@ import android.util.Log;
 
 /**
  * 日志
- *
+ * 
  * @author xiaoming.yuan
  */
 public final class LogHelper {
 
-    public  static boolean LOGDBUG = false;
+    public static boolean LOGDBUG = false;
 
     /** 日志级别 显示级别参考 android.util.Log的级别 配置0全部显示，配置大于7全不显示 */
     public static final int LEVLE = 0;
@@ -116,7 +116,7 @@ public final class LogHelper {
 
     /**
      * getter method
-     *
+     * 
      * @return the lOGDBUG
      */
 
@@ -126,7 +126,7 @@ public final class LogHelper {
 
     /**
      * setter method
-     *
+     * 
      * @param lOGDBUG the lOGDBUG to set
      */
 

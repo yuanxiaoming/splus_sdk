@@ -7,7 +7,8 @@ import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
 /**
- *  描述: 网络工具类
+ * 描述: 网络工具类
+ * 
  * @ClassName: NetWorkUtil
  * @author xiaoming.yuan
  * @date 2013-12-23 上午11:09:30
@@ -16,6 +17,7 @@ public class NetWorkUtil {
 
     /**
      * 描述:网络类型
+     * 
      * @ClassName: NetworkType
      * @author xiaoming.yuan
      * @date 2013-12-23 上午11:09:53
@@ -36,30 +38,25 @@ public class NetWorkUtil {
     }
 
     /**
-     *
      * @Title: isNetworkAvailable(这 当前是否有可用网络)
      * @author xiaoming.yuan
      * @data 2013-12-23 上午11:10:22
      * @param context
-     * @return
-     * boolean 返回类型
+     * @return boolean 返回类型
      */
     public static boolean isNetworkAvailable(Context context) {
         return !(NetworkType.UNKNOWN.endsWith(getNetworkType(context)));
     }
 
     /**
-     *
      * @Title: getNetworkType( 获取当前的网络类型)
      * @author xiaoming.yuan
      * @data 2013-12-23 上午11:10:45
      * @param context
-     * @return
-     * String 返回类型
+     * @return String 返回类型
      */
     public static String getNetworkType(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo == null) {
             return NetworkType.UNKNOWN;
@@ -67,8 +64,7 @@ public class NetWorkUtil {
         if (netInfo.getType() == ConnectivityManager.TYPE_WIFI) {
             return NetworkType.WIFI;
         }
-        TelephonyManager tm = (TelephonyManager) context
-                .getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         int netType = tm.getNetworkType();
 
         // 已知3G类型
@@ -90,34 +86,27 @@ public class NetWorkUtil {
         // NETWORK_TYPE_1xRTT 7
         // NETWORK_TYPE_IDEN 11
 
-        if (netType == TelephonyManager.NETWORK_TYPE_GPRS
-                || netType == TelephonyManager.NETWORK_TYPE_EDGE
-                || netType == TelephonyManager.NETWORK_TYPE_CDMA
-                || netType == TelephonyManager.NETWORK_TYPE_1xRTT || netType == 11) {
+        if (netType == TelephonyManager.NETWORK_TYPE_GPRS || netType == TelephonyManager.NETWORK_TYPE_EDGE || netType == TelephonyManager.NETWORK_TYPE_CDMA || netType == TelephonyManager.NETWORK_TYPE_1xRTT || netType == 11) {
             return NetworkType.NET_2G;
         }
         return NetworkType.NET_3G;
     }
 
     /**
-     *
      * @Title: isCmwap(是否cmwap)
      * @author xiaoming.yuan
      * @data 2013-12-23 上午11:11:27
      * @param context
-     * @return
-     * boolean 返回类型
+     * @return boolean 返回类型
      */
     public static boolean isCmwap(Context context) {
         String currentNetworkType = getNetworkType(context);
 
         if (NetworkType.NET_2G.equals(currentNetworkType)) {
             try {
-                ConnectivityManager connectMgr = (ConnectivityManager) context
-                        .getSystemService(Context.CONNECTIVITY_SERVICE);
+                ConnectivityManager connectMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                 if (connectMgr != null) {
-                    NetworkInfo mobNetInfo = connectMgr
-                            .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+                    NetworkInfo mobNetInfo = connectMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
                     if (mobNetInfo != null && mobNetInfo.isConnected()) {
                         if ("cmwap".equalsIgnoreCase(mobNetInfo.getExtraInfo())) {
                             return true;

@@ -30,6 +30,7 @@ import java.util.Properties;
 public class _UC implements IPayManager {
 
     private static final String TAG = "_UC";
+
     private static _UC _mUC;
 
     // 平台参数
@@ -51,17 +52,16 @@ public class _UC implements IPayManager {
 
     private RechargeCallBack mRechargeCallBack;
 
-    private LogoutCallBack  mLogoutCallBack;
+    private LogoutCallBack mLogoutCallBack;
 
     // 下面参数仅在测试时用
-    private  UserModel userModel;
+    private UserModel userModel;
 
     private int mUid = 0;
 
     private String mPassport = "";
 
     private String mSessionid = "";
-
 
     /**
      * @Title: _360
@@ -96,8 +96,7 @@ public class _UC implements IPayManager {
     }
 
     @Override
-    public void init(Activity activity, Integer gameid, String appkey, InitCallBack initCallBack,
-            boolean useUpdate, Integer orientation) {
+    public void init(Activity activity, Integer gameid, String appkey, InitCallBack initCallBack, boolean useUpdate, Integer orientation) {
         mInitBean.initSplus(activity, initCallBack);
         this.mInitCallBack = initCallBack;
         this.mActivity = activity;
@@ -135,7 +134,7 @@ public class _UC implements IPayManager {
             // setUIStyle已过时，不需调用。
             // UCGameSDK.defaultSDK().setUIStyle(UCUIStyle.STANDARD);
 
-            UCGameSDK.defaultSDK().initSDK(activity, UCLogLevel.DEBUG, true, gpi,mInitCallback);
+            UCGameSDK.defaultSDK().initSDK(activity, UCLogLevel.DEBUG, true, gpi, mInitCallback);
         } catch (UCCallbackListenerNullException e) {
             e.printStackTrace();
             mInitCallBack.initFaile(e.getLocalizedMessage());
@@ -144,24 +143,21 @@ public class _UC implements IPayManager {
             mInitCallBack.initFaile(e.getLocalizedMessage());
         }
 
-
     }
 
-
-
-    UCCallbackListener<String> mInitCallback=new UCCallbackListener<String>(){
+    UCCallbackListener<String> mInitCallback = new UCCallbackListener<String>() {
 
         @Override
         public void callback(int code, String msg) {
-            Log.e("UCGameSDK", "UCGameSDK初始化接口返回数据 msg:" + msg+ ",code:" + code );
+            Log.e("UCGameSDK", "UCGameSDK初始化接口返回数据 msg:" + msg + ",code:" + code);
             switch (code) {
-                // 初始化成功,可以执行后续的登录充值操作
+            // 初始化成功,可以执行后续的登录充值操作
                 case UCGameSDKStatusCode.SUCCESS:
                     // 调用sdk登录接口
                     mInitCallBack.initSuccess("初始化完成", null);
                     break;
 
-                    // 初始化失败
+                // 初始化失败
                 case UCGameSDKStatusCode.INIT_FAIL:
                     // 调用sdk初始化接口
                     mInitCallBack.initFaile("初始化失败");
@@ -171,10 +167,10 @@ public class _UC implements IPayManager {
 
     };
 
-    UCCallbackListener<String> mLogoutNotify=  new UCCallbackListener<String>() {
+    UCCallbackListener<String> mLogoutNotify = new UCCallbackListener<String>() {
         @Override
         public void callback(int statuscode, String msg) {
-            //  此处需要游戏客户端注销当前已经登录的游戏角色信息
+            // 此处需要游戏客户端注销当前已经登录的游戏角色信息
             String s = "游戏接收到用户退出通知。" + msg + statuscode;
             Log.e("UCGameSDK", s);
             // 未成功初始化
@@ -196,15 +192,12 @@ public class _UC implements IPayManager {
             }
         }
 
-
-
     };
-
 
     @Override
     public void login(Activity activity, LoginCallBack loginCallBack) {
         this.mActivity = activity;
-        this.mLoginCallBack=loginCallBack;
+        this.mLoginCallBack = loginCallBack;
         try {
             UCGameSDK.defaultSDK().login(activity, loginCallbackListener);
 
@@ -218,8 +211,7 @@ public class _UC implements IPayManager {
 
         @Override
         public void callback(int code, String msg) {
-            Log.e("UCGameSDK", "UCGameSdk登录接口返回数据:code=" + code
-                    + ",msg=" + msg);
+            Log.e("UCGameSDK", "UCGameSdk登录接口返回数据:code=" + code + ",msg=" + msg);
 
             // 登录成功。此时可以获取sid。并使用sid进行游戏的登录逻辑。
             // 客户端无法直接获取UCID
@@ -240,19 +232,15 @@ public class _UC implements IPayManager {
             }
         }
 
-
-
     };
 
     @Override
-    public void recharge(Activity activity, Integer serverId,String serverName, Integer roleId,String roleName, String outOrderid,
-            String pext, RechargeCallBack rechargeCallBack) {
-        rechargeByQuota( activity, serverId,serverName, roleId, roleName, outOrderid,  pext,  0f, rechargeCallBack);
+    public void recharge(Activity activity, Integer serverId, String serverName, Integer roleId, String roleName, String outOrderid, String pext, RechargeCallBack rechargeCallBack) {
+        rechargeByQuota(activity, serverId, serverName, roleId, roleName, outOrderid, pext, 0f, rechargeCallBack);
     }
 
     @Override
-    public void rechargeByQuota(Activity activity,Integer serverId,String serverName, Integer roleId,String roleName,
-            String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
+    public void rechargeByQuota(Activity activity, Integer serverId, String serverName, Integer roleId, String roleName, String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
     }
 
     @Override
@@ -276,7 +264,7 @@ public class _UC implements IPayManager {
     }
 
     @Override
-    public void sendGameStatics(Activity activity,Integer serverId,String serverName, Integer roleId,String roleName, String level) {
+    public void sendGameStatics(Activity activity, Integer serverId, String serverName, Integer roleId, String roleName, String level) {
         UCGameSDK.defaultSDK().notifyZone(serverName, serverName, roleName);
     }
 
@@ -285,8 +273,7 @@ public class _UC implements IPayManager {
     }
 
     @Override
-    public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime,
-            FloatToolBarAlign align, float position) {
+    public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime, FloatToolBarAlign align, float position) {
 
         return null;
 
@@ -308,4 +295,3 @@ public class _UC implements IPayManager {
     public void onDestroy(Activity activity) {
     }
 }
-

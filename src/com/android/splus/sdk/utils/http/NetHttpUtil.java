@@ -1,7 +1,6 @@
 
 package com.android.splus.sdk.utils.http;
 
-
 import com.android.splus.sdk.utils.log.LogHelper;
 
 import org.apache.http.Header;
@@ -56,9 +55,9 @@ public class NetHttpUtil {
 
     private final static int TIMEOUT_SOCKET = 30000;
 
-    private final static  boolean REQUEST_GET=false;
+    private final static boolean REQUEST_GET = false;
 
-    private final static boolean REQUEST_POST=true;
+    private final static boolean REQUEST_POST = true;
 
     private static boolean REQUEST_MODE;
 
@@ -78,43 +77,40 @@ public class NetHttpUtil {
 
     }
 
-
     /**
      * @return Object 返回类型
      * @Title: post(请求模型)
      * @author xiaoming.yuan
      * @data 2013-7-12 下午9:21:28
      */
-    public static Object post(RequestModel requestModel,Context context) {
+    public static Object post(RequestModel requestModel, Context context) {
         Object obj = null;
         try {
-            if (requestModel.mParams == null || requestModel.mParams.size() <= 0
-                    || TextUtils.isEmpty(requestModel.mRequestUrl)) {
+            if (requestModel.mParams == null || requestModel.mParams.size() <= 0 || TextUtils.isEmpty(requestModel.mRequestUrl)) {
                 return obj;
             }
             HttpParams httpParameters = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpParameters, TIMEOUT_CONNECTION);
             HttpConnectionParams.setSoTimeout(httpParameters, TIMEOUT_SOCKET);
-            //开启重定向
+            // 开启重定向
             HttpClientParams.setRedirecting(httpParameters, true);
             // 构造Httpclient实例
             HttpClient httpClient = new DefaultHttpClient(httpParameters);
-            //设置代理
-            if(NetWorkUtil.isCmwap(context)){
+            // 设置代理
+            if (NetWorkUtil.isCmwap(context)) {
                 // 获取默认代理主机ip
                 String host = android.net.Proxy.getDefaultHost();
                 // 获取端口
                 int port = android.net.Proxy.getDefaultPort();
 
                 HttpHost httpHost = new HttpHost(host, port);
-                httpClient.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY,httpHost);
+                httpClient.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY, httpHost);
             }
             // 创建post方法实例
             HttpPost httpPost = new HttpPost(requestModel.mRequestUrl);
             // 设置httppost请求参数
             httpPost.setHeaders(headers);
-            HttpEntity entity = new UrlEncodedFormEntity(hashMapTOpostParams(requestModel.mParams),
-                    HTTP.UTF_8);
+            HttpEntity entity = new UrlEncodedFormEntity(hashMapTOpostParams(requestModel.mParams), HTTP.UTF_8);
             httpPost.setEntity(entity);
             // 使用execute方法发送Http post请求并返回Httpresponse对象
             HttpResponse httpResponse = httpClient.execute(httpPost);
@@ -122,10 +118,10 @@ public class NetHttpUtil {
                 setCookie(httpResponse);
                 String result = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
                 obj = requestModel.mBaseParser.parseJSON(result);
-            }else{
-                LogHelper.d(TAG, "StatusCode---"+httpResponse.getStatusLine().getStatusCode());
+            } else {
+                LogHelper.d(TAG, "StatusCode---" + httpResponse.getStatusLine().getStatusCode());
             }
-            //结束连接
+            // 结束连接
             httpResponse.getEntity().consumeContent();
         } catch (ClientProtocolException e) {
             LogHelper.i(TAG, e.getLocalizedMessage(), e);
@@ -147,42 +143,40 @@ public class NetHttpUtil {
      * @author xiaoming.yuan
      * @data 2013-7-24 下午6:04:37
      */
-    public static Object get(RequestModel requestModel,Context context) {
+    public static Object get(RequestModel requestModel, Context context) {
         Object obj = null;
         try {
-            if (requestModel.mParams == null || requestModel.mParams.size() <= 0
-                    || TextUtils.isEmpty(requestModel.mRequestUrl)) {
+            if (requestModel.mParams == null || requestModel.mParams.size() <= 0 || TextUtils.isEmpty(requestModel.mRequestUrl)) {
                 return obj;
             }
 
             HttpParams httpParameters = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpParameters, TIMEOUT_CONNECTION);
             HttpConnectionParams.setSoTimeout(httpParameters, TIMEOUT_SOCKET);
-            //开启重定向
+            // 开启重定向
             HttpClientParams.setRedirecting(httpParameters, true);
             // 构造Httpclient实例
             HttpClient httpClient = new DefaultHttpClient(httpParameters);
-            //设置代理
-            if(NetWorkUtil.isCmwap(context)){
+            // 设置代理
+            if (NetWorkUtil.isCmwap(context)) {
                 // 获取默认代理主机ip
                 String host = android.net.Proxy.getDefaultHost();
                 // 获取端口
                 int port = android.net.Proxy.getDefaultPort();
                 HttpHost httpHost = new HttpHost(host, port);
-                httpClient.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY,httpHost);
+                httpClient.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY, httpHost);
             }
-            HttpGet httpGet = new HttpGet(hashMapTOgetParams(requestModel.mParams,
-                    requestModel.mRequestUrl));
+            HttpGet httpGet = new HttpGet(hashMapTOgetParams(requestModel.mParams, requestModel.mRequestUrl));
             httpGet.setHeaders(headers);
             HttpResponse httpResponse = httpClient.execute(httpGet);
             if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 setCookie(httpResponse);
                 String result = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
                 obj = requestModel.mBaseParser.parseJSON(result);
-            }else{
-                LogHelper.d(TAG, "StatusCode---"+httpResponse.getStatusLine().getStatusCode());
+            } else {
+                LogHelper.d(TAG, "StatusCode---" + httpResponse.getStatusLine().getStatusCode());
             }
-            //结束连接
+            // 结束连接
             httpResponse.getEntity().consumeContent();
         } catch (ClientProtocolException e) {
             LogHelper.i(TAG, e.getLocalizedMessage(), e);
@@ -199,7 +193,7 @@ public class NetHttpUtil {
 
     /**
      * 添加Cookie
-     *
+     * 
      * @param response
      */
     private static void setCookie(HttpResponse response) {
@@ -214,8 +208,7 @@ public class NetHttpUtil {
      * @Title: hashMapTOpostParams(把params集合转换为post(NameValuePair)请求参数的集合)
      * @author xiaoming.yuan create at 2013-5-29 上午10:27:59
      */
-    public static synchronized List<BasicNameValuePair> hashMapTOpostParams(
-            HashMap<String, Object> params) {
+    public static synchronized List<BasicNameValuePair> hashMapTOpostParams(HashMap<String, Object> params) {
 
         List<BasicNameValuePair> result = new ArrayList<BasicNameValuePair>();
         Iterator<String> iterators = params.keySet().iterator();
@@ -245,8 +238,7 @@ public class NetHttpUtil {
         while (iterators.hasNext()) {
             String key = iterators.next();
             try {
-                buf.append(key).append("=")
-                .append(URLEncoder.encode(params.get(key).toString(), "UTF-8")).append("&");
+                buf.append(key).append("=").append(URLEncoder.encode(params.get(key).toString(), "UTF-8")).append("&");
             } catch (UnsupportedEncodingException e) {
                 LogHelper.d(TAG, e.getLocalizedMessage());
             }
@@ -271,8 +263,7 @@ public class NetHttpUtil {
         while (iterators.hasNext()) {
             String key = iterators.next();
             try {
-                buf.append(key).append("=")
-                .append(URLEncoder.encode(params.get(key).toString(), "UTF-8")).append("&");
+                buf.append(key).append("=").append(URLEncoder.encode(params.get(key).toString(), "UTF-8")).append("&");
             } catch (UnsupportedEncodingException e) {
                 LogHelper.d(TAG, e.getLocalizedMessage());
             }
@@ -335,44 +326,35 @@ public class NetHttpUtil {
         return strAllParam;
     }
 
+    /**
+     * @Title: getDataFromServer(POST获取网络数据对外接口)
+     * @author xiaoming.yuan
+     * @data 2014-1-16 上午10:16:09
+     * @param context
+     * @param requestModel
+     * @param dataCallBack void 返回类型
+     */
+    public static <T> void getDataFromServerPOST(Context context, RequestModel requestModel, DataCallback<T> dataCallBack) {
+        REQUEST_MODE = REQUEST_POST;
+        BaseHandler handler = new BaseHandler(dataCallBack);
+        BaseTask taskThread = new BaseTask(context, requestModel, handler);
+        ThreadPoolManager.getInstance().addTask(taskThread);
+    }
 
-   /**
-    *
-    * @Title: getDataFromServer(POST获取网络数据对外接口)
-    * @author xiaoming.yuan
-    * @data 2014-1-16 上午10:16:09
-    * @param context
-    * @param requestModel
-    * @param dataCallBack
-    * void 返回类型
-    */
-   public static <T> void getDataFromServerPOST(Context context, RequestModel requestModel,
-           DataCallback<T> dataCallBack) {
-       REQUEST_MODE=REQUEST_POST;
-       BaseHandler handler = new BaseHandler(dataCallBack);
-       BaseTask taskThread = new BaseTask(context, requestModel, handler);
-       ThreadPoolManager.getInstance().addTask(taskThread);
-   }
-
-   /**
-    *
-    * @Title: getDataFromServerGET（GET获取网络数据对外接口)
-    * @author xiaoming.yuan
-    * @data 2014-4-11 下午5:07:49
-    * @param context
-    * @param requestModel
-    * @param dataCallBack
-    * void 返回类型
-    */
-   public static <T> void getDataFromServerGET(Context context, RequestModel requestModel,
-           DataCallback<T> dataCallBack) {
-       REQUEST_MODE=REQUEST_GET;
-       BaseHandler handler = new BaseHandler(dataCallBack);
-       BaseTask taskThread = new BaseTask(context, requestModel, handler);
-       ThreadPoolManager.getInstance().addTask(taskThread);
-   }
-
-
+    /**
+     * @Title: getDataFromServerGET（GET获取网络数据对外接口)
+     * @author xiaoming.yuan
+     * @data 2014-4-11 下午5:07:49
+     * @param context
+     * @param requestModel
+     * @param dataCallBack void 返回类型
+     */
+    public static <T> void getDataFromServerGET(Context context, RequestModel requestModel, DataCallback<T> dataCallBack) {
+        REQUEST_MODE = REQUEST_GET;
+        BaseHandler handler = new BaseHandler(dataCallBack);
+        BaseTask taskThread = new BaseTask(context, requestModel, handler);
+        ThreadPoolManager.getInstance().addTask(taskThread);
+    }
 
     /**
      * @ClassName: BaseHandler
@@ -438,11 +420,11 @@ public class NetHttpUtil {
             Message msg = Message.obtain();
             try {
                 if (NetWorkUtil.isNetworkAvailable(mContext)) {
-                    if(REQUEST_MODE==REQUEST_GET){
-                        msg.obj = NetHttpUtil.get(mRequestModel,mContext);
+                    if (REQUEST_MODE == REQUEST_GET) {
+                        msg.obj = NetHttpUtil.get(mRequestModel, mContext);
                     }
-                    if(REQUEST_MODE==REQUEST_POST){
-                        msg.obj = NetHttpUtil.post(mRequestModel,mContext);
+                    if (REQUEST_MODE == REQUEST_POST) {
+                        msg.obj = NetHttpUtil.post(mRequestModel, mContext);
 
                     }
                     msg.what = NetHttpUtil.SUCCESS;

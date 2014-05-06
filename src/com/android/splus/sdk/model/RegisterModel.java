@@ -53,7 +53,6 @@ public class RegisterModel extends BaseModel {
 
     private Long time;
 
-
     public static final String SIGN = "sign";
 
     private String sign;
@@ -62,9 +61,7 @@ public class RegisterModel extends BaseModel {
 
     private String fastreg;
 
-    public RegisterModel(Integer gameid, String deviceno, String partner, String referer,
-            String passport, String password, Long time, String sign,
-            String fastreg) {
+    public RegisterModel(Integer gameid, String deviceno, String partner, String referer, String passport, String password, Long time, String sign, String fastreg) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
         this.put(DEVICENO, deviceno == null ? "" : deviceno);
@@ -79,7 +76,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the gameid
      */
 
@@ -89,7 +86,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param gameid the gameid to set
      */
 
@@ -100,7 +97,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * fastreg
-     *
+     * 
      * @return the fastreg
      * @since 1.0.0 xilin.chen
      */
@@ -111,7 +108,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the deviceno
      */
 
@@ -121,7 +118,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param deviceno the deviceno to set
      */
 
@@ -139,7 +136,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the partner
      */
 
@@ -149,7 +146,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param otta the partner to set
      */
 
@@ -160,7 +157,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the partner
      */
 
@@ -171,7 +168,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param partner the partner to set
      */
 
@@ -182,7 +179,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the passport
      */
 
@@ -193,7 +190,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param passport the passport to set
      */
 
@@ -204,7 +201,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the password
      */
 
@@ -214,7 +211,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param password the password to set
      */
 
@@ -225,7 +222,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the time
      */
 
@@ -235,7 +232,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param time the time to set
      */
 
@@ -246,7 +243,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the sign
      */
 
@@ -256,7 +253,7 @@ public class RegisterModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param sign the sign to set
      */
 
@@ -266,12 +263,11 @@ public class RegisterModel extends BaseModel {
 
     /**
      * Title: initMap Description:
-     *
+     * 
      * @see com.canhe.android.sdk.model.BaseData#initMap()
      */
     @Override
     protected void initMap() {
-
 
     }
 

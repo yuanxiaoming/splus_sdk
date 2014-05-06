@@ -71,11 +71,14 @@ public class RechargeActivity extends BaseActivity {
 
     private Activity mActivity;
 
+    private SplusPayManager mSplusPayManager;
+
     private Float mMoney;
 
     public static final String TIME = "time";
 
     public static final String MONEY = "money";
+
 
     /**
      * Title: findViewById
@@ -91,6 +94,7 @@ public class RechargeActivity extends BaseActivity {
         recharge_titlr_middle_text.setTextSize(CommonUtil.dip2px(mActivity, 10));
         recharge_titlr_middle_text.setText(KR.string.splus_recharge_title_bar_middle_tips);
         mCustomWebView = (CustomWebView) findViewById(KR.id.splus_recharge_webview);
+        mSplusPayManager = SplusPayManager.getInstance();
     }
 
     /**
@@ -102,7 +106,7 @@ public class RechargeActivity extends BaseActivity {
     protected void loadViewLayout() {
         setContentView(KR.layout.splus_recharge_select_activity);
         mActivity = this;
-        mType = getIntent().getIntExtra(RechargeActivity.class.getName(),0);
+        mType = getIntent().getIntExtra(RechargeActivity.class.getName(), 0);
     }
 
     /**
@@ -112,7 +116,7 @@ public class RechargeActivity extends BaseActivity {
      */
     @Override
     protected void processLogic() {
-        mRechargeCallBack = SplusPayManager.getInstance().getRechargeCallBack();
+        mRechargeCallBack = mSplusPayManager.getRechargeCallBack();
         mPassport = getPassport();
         if (TextUtils.isEmpty(mPassport)) {
             ToastUtil.showToast(mActivity, "账号为空");
@@ -120,22 +124,13 @@ public class RechargeActivity extends BaseActivity {
         }
         mTime = DateUtil.getUnixTime();
         mUid = getUid();
-        mMoney=SplusPayManager.getInstance().getMoney();
-        mOutOrderid = SplusPayManager.getInstance().getOutorderid();
-        mPext = SplusPayManager.getInstance().getPext();
+        mMoney = mSplusPayManager.getMoney();
+        mOutOrderid = mSplusPayManager.getOutorderid();
+        mPext = mSplusPayManager.getPext();
 
-        String keyString = SplusPayManager.getInstance().getGameid()
-                + SplusPayManager.getInstance().getServerName() + getDeviceno()
-                + SplusPayManager.getInstance().getReferer()
-                + SplusPayManager.getInstance().getPartner()
-                + mUid
-                + mTime;
-        mRechargeModel = new RechargeModel(SplusPayManager.getInstance().getGameid(),
-                SplusPayManager.getInstance().getServerName(), getDeviceno(), SplusPayManager
-                .getInstance().getPartner(), SplusPayManager.getInstance().getReferer(),
-                mUid, mMoney,  mType,SplusPayManager
-                .getInstance().getRoleName(), mTime, mPassport, mOutOrderid, mPext,
-                MD5Util.getMd5toLowerCase(keyString + SplusPayManager.getInstance().getAppkey()));
+        String keyString = mSplusPayManager.getGameid() + mSplusPayManager.getServerName() + getDeviceno() + mSplusPayManager.getReferer() + mSplusPayManager.getPartner() + mUid + mTime;
+        mRechargeModel = new RechargeModel(mSplusPayManager.getGameid(),mSplusPayManager.getServerId(), mSplusPayManager.getServerName(), getDeviceno(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), mUid, mMoney, mType,
+                             mSplusPayManager.getRoleId(),SplusPayManager.getInstance().getRoleName(), mTime, mPassport, mOutOrderid, mPext, MD5Util.getMd5toLowerCase(keyString + mSplusPayManager.getAppkey()));
 
         mCustomWebView.setWebChromeClient(new CustomWebChromeClient(this, new WebChromeClient()));
         mCustomWebView.setWebViewClient(new CustomWebViewClient(this));
@@ -145,7 +140,7 @@ public class RechargeActivity extends BaseActivity {
         WebSettings webSettings = mCustomWebView.getSettings();
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setJavaScriptEnabled(true);
-        mCustomWebView.addJavascriptInterface(new JSplugin(mActivity),JSplugin.ANDROIDJSPLUG);
+        mCustomWebView.addJavascriptInterface(new JSplugin(mActivity), JSplugin.ANDROIDJSPLUG);
         String data = NetHttpUtil.hashMapTOgetParams(mRechargeModel);
         mCustomWebView.postUrl(Constant.HTMLWAPPAY_URL, EncodingUtils.getBytes(data, "UTF-8"));
 
@@ -169,9 +164,9 @@ public class RechargeActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                //密码找回界面
+                // 密码找回界面
                 Intent intent = new Intent(mActivity, PersonActivity.class);
-                intent.putExtra(PersonActivity.INTENT_TYPE,PersonActivity.INTENT_SQ);
+                intent.putExtra(PersonActivity.INTENT_TYPE, PersonActivity.INTENT_SQ);
                 mActivity.startActivity(intent);
 
             }
@@ -224,20 +219,21 @@ public class RechargeActivity extends BaseActivity {
     }
 
     /**
-     * Title: onActivityResult
-     * Description:
+     * Title: onActivityResult Description:
+     *
      * @param requestCode
      * @param resultCode
      * @param data
-     * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+     * @see android.app.Activity#onActivityResult(int, int,
+     *      android.content.Intent)
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data !=null) {
+        if (data != null) {
             /*************************************************
-             * 处理银联手机支付控件返回的支付结果
-             * 支付控件返回字符串:success、fail、cancel 分别代表支付成功，支付失败，支付取消
+             * 处理银联手机支付控件返回的支付结果 支付控件返回字符串:success、fail、cancel
+             * 分别代表支付成功，支付失败，支付取消
              ************************************************/
             String str = data.getExtras().getString("pay_result");
             if (str.equalsIgnoreCase("success")) {

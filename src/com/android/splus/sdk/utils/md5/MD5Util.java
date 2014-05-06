@@ -1,5 +1,4 @@
-
- /**
+/**
  * @Title: MD5.java
  * @Package com.android.cansh.sdk.utils.md5
  * Copyright: Copyright (c) 2013
@@ -9,7 +8,7 @@
  * @version V1.0
  */
 
- package com.android.splus.sdk.utils.md5;
+package com.android.splus.sdk.utils.md5;
 
 import java.security.MessageDigest;
 import java.util.Locale;
@@ -23,9 +22,9 @@ import java.util.Locale;
 public class MD5Util {
     private static final String TAG = "MD5";
 
-
     /**
      * 获取MD5
+     * 
      * @param input 字符串
      * @return
      */
@@ -41,6 +40,7 @@ public class MD5Util {
 
     /**
      * 获取MD5
+     * 
      * @param input 字符串
      * @return
      */
@@ -53,9 +53,10 @@ public class MD5Util {
             return "";
         }
     }
+
     /**
      * 获取MD5
-     *
+     * 
      * @param input 字符串
      * @param encode 编码
      * @return
@@ -80,9 +81,7 @@ public class MD5Util {
     }
 
     private static char[] hexChar = {
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
     };
 
-
 }
-

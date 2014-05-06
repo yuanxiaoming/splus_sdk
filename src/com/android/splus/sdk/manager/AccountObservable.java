@@ -1,3 +1,4 @@
+
 package com.android.splus.sdk.manager;
 
 import com.android.splus.sdk.model.UserModel;
@@ -5,17 +6,19 @@ import com.android.splus.sdk.utils.file.AppUtil;
 
 import java.util.ArrayList;
 import java.util.Observable;
+
 /**
- *
  * @ClassName: AccountObservable
  * @author xiaoming.yuan
  * @date 2014-2-19 下午3:30:59
  */
 public class AccountObservable extends Observable {
     public static final String TAG = "AccountObservable";
+
     private static final int FIRST_POSITION = 0;
 
     private static AccountObservable mObservable = null;
+
     private ArrayList<UserModel> mUsers = new ArrayList<UserModel>();
 
     private AccountObservable() {

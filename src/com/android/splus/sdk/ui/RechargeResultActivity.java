@@ -58,10 +58,9 @@ public class RechargeResultActivity extends BaseActivity {
 
     private Activity mActivity;
 
-
     /**
      * Title: findViewById Description:
-     *
+     * 
      * @see com.canhe.android.sdk.ui.BaseActivity#findViewById()
      */
     @Override
@@ -88,19 +87,19 @@ public class RechargeResultActivity extends BaseActivity {
 
     /**
      * Title: loadViewLayout Description:
-     *
+     * 
      * @see com.canhe.android.sdk.ui.BaseActivity#loadViewLayout()
      */
     @Override
     protected void loadViewLayout() {
 
         setContentView(KR.layout.splus_recharge_result_activity);
-        mActivity=this;
+        mActivity = this;
     }
 
     /**
      * Title: processLogic Description:
-     *
+     * 
      * @see com.canhe.android.sdk.ui.BaseActivity#processLogic()
      */
     @Override
@@ -111,13 +110,13 @@ public class RechargeResultActivity extends BaseActivity {
         mMoney = intent.getStringExtra(Constant.MONEY);
         LogHelper.i(TAG, mMoney);
         if (mRecharge_Type.equals(Constant.RECHARGE_RESULT_SUCCESS_TIPS)) {
-//            tv_rechage_result_tips.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(
-//                    ResourceUtil.getDrawableId(this,KR.drawable.splus_recharge_result_success_icon)), null, null,null);
+            // tv_rechage_result_tips.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(
+            // ResourceUtil.getDrawableId(this,KR.drawable.splus_recharge_result_success_icon)),
+            // null, null,null);
             tv_rechage_result_tips.setText(KR.string.splus_recharge_success_result_tips.replace("%s", mMoney));
             recharge_titlr_middle_text.setText(KR.string.splus_recharge_success_result_head_tips);
         } else if (mRecharge_Type.equals(Constant.RECHARGE_RESULT_FAIL_TIPS)) {
-            tv_rechage_result_tips.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(
-                            ResourceUtil.getDrawableId(this, KR.drawable.splus_recharge_result__fail_icon)),null, null, null);
+            tv_rechage_result_tips.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(ResourceUtil.getDrawableId(this, KR.drawable.splus_recharge_result__fail_icon)), null, null, null);
             tv_rechage_result_tips.setText(KR.string.splus_recharge_fail_result_tips);
             recharge_titlr_middle_text.setText(KR.string.splus_recharge_fail_result_head_tips);
         }
@@ -126,7 +125,7 @@ public class RechargeResultActivity extends BaseActivity {
 
     /**
      * Title: setListener Description:
-     *
+     * 
      * @see com.canhe.android.sdk.ui.BaseActivity#setListener()
      */
     @Override
@@ -151,7 +150,7 @@ public class RechargeResultActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                //密码找回界面
+                // 密码找回界面
                 if (mRecharge_Type.equals(Constant.RECHARGE_RESULT_SUCCESS_TIPS)) {
                     if (mRechargeCallBack != null) {
                         UserModel userModel = SplusPayManager.getInstance().getUserModel();
@@ -170,7 +169,7 @@ public class RechargeResultActivity extends BaseActivity {
 
                 }
                 Intent intent = new Intent(mActivity, PersonActivity.class);
-                intent.putExtra(PersonActivity.INTENT_TYPE,PersonActivity.INTENT_SQ);
+                intent.putExtra(PersonActivity.INTENT_TYPE, PersonActivity.INTENT_SQ);
                 mActivity.startActivity(intent);
                 finish();
             }
@@ -180,7 +179,7 @@ public class RechargeResultActivity extends BaseActivity {
 
     /**
      * Title: onBackPressed Description:
-     *
+     * 
      * @see android.app.Activity#onBackPressed()
      */
     @Override
@@ -215,10 +214,9 @@ public class RechargeResultActivity extends BaseActivity {
 
     }
 
-
     /**
      * Title: onDestroy Description:
-     *
+     * 
      * @see com.canhe.android.sdk.ui.BaseActivity#onDestroy()
      */
     @Override

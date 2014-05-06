@@ -5,8 +5,8 @@ import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA. Copyright: Copyright (c) 2013 User: xiaoming.yuan
- * Date: 13-9-17 Time: 上午11:02 To change this
- * template use File | Settings | File Templates.
+ * Date: 13-9-17 Time: 上午11:02 To change this template use File | Settings |
+ * File Templates.
  */
 public class ActiveModel extends BaseModel {
 
@@ -72,9 +72,7 @@ public class ActiveModel extends BaseModel {
 
     private String sign;
 
-    public ActiveModel(Integer gameid, String partner, String referer, String mac, String imei,
-            Integer wpixels, Integer hpixels, String mode, String os, String osver, Long time,
-            String sign) {
+    public ActiveModel(Integer gameid, String partner, String referer, String mac, String imei, Integer wpixels, Integer hpixels, String mode, String os, String osver, Long time, String sign) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
         this.put(PARTNER, partner == null ? "" : partner);
@@ -93,7 +91,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the gameid
      */
     public Integer getGameid() {
@@ -102,7 +100,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param gameid the gameid to set
      */
 
@@ -113,7 +111,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the partner
      */
 
@@ -123,7 +121,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param otta the partner to set
      */
 
@@ -134,7 +132,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the partner
      */
 
@@ -144,7 +142,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param partner the partner to set
      */
 
@@ -155,7 +153,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the mac
      */
 
@@ -165,7 +163,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param mac the mac to set
      */
 
@@ -176,7 +174,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the imei
      */
 
@@ -187,7 +185,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param imei the imei to set
      */
 
@@ -198,7 +196,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the wpixels
      */
 
@@ -208,7 +206,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param wpixels the wpixels to set
      */
 
@@ -219,7 +217,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the hpixels
      */
 
@@ -230,7 +228,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param hpixels the hpixels to set
      */
 
@@ -241,7 +239,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the mode
      */
 
@@ -251,7 +249,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param mode the mode to set
      */
 
@@ -262,7 +260,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the os
      */
 
@@ -272,7 +270,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param os the os to set
      */
 
@@ -283,7 +281,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the osver
      */
 
@@ -293,7 +291,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param osver the osver to set
      */
 
@@ -305,7 +303,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the time
      */
 
@@ -315,7 +313,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param time the time to set
      */
 
@@ -326,7 +324,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * getter method
-     *
+     * 
      * @return the sign
      */
 
@@ -336,7 +334,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * setter method
-     *
+     * 
      * @param sign the sign to set
      */
 
@@ -346,7 +344,7 @@ public class ActiveModel extends BaseModel {
 
     /**
      * Title: initMap Description:
-     *
+     * 
      * @see com.BaseModel.android.sdk.model.BaseData#initMap()
      */
     @Override

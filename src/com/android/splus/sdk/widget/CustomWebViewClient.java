@@ -52,8 +52,7 @@ public class CustomWebViewClient extends WebViewClient {
 
     @Override
     public void onFormResubmission(WebView view, Message dontResend, Message resend) {
-        LogHelper.i(TAG + ":onFormResubmission:", "dontResend" + dontResend.getData().toString()
-                + "resend" + resend.getData().toString());
+        LogHelper.i(TAG + ":onFormResubmission:", "dontResend" + dontResend.getData().toString() + "resend" + resend.getData().toString());
         super.onFormResubmission(view, dontResend, resend);
     }
 
@@ -66,10 +65,7 @@ public class CustomWebViewClient extends WebViewClient {
             int endIndex = url.indexOf("/", 7);
             if (endIndex >= 14) {
                 String ip = url.substring(7, endIndex);
-                boolean isMatch = ip.matches("^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
-                        + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
-                        + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
-                        + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$");
+                boolean isMatch = ip.matches("^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\." + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$");
                 if (isMatch) {
                     LogHelper.i(TAG, "网络需要登陆");
                 }
@@ -85,8 +81,7 @@ public class CustomWebViewClient extends WebViewClient {
     }
 
     @Override
-    public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host,
-            String realm) {
+    public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
         LogHelper.i(TAG + ":onReceivedHttpAuthRequest:", host);
         super.onReceivedHttpAuthRequest(view, handler, host, realm);
     }
@@ -117,8 +112,7 @@ public class CustomWebViewClient extends WebViewClient {
 
     @Override
     public void onUnhandledKeyEvent(WebView view, KeyEvent event) {
-        LogHelper.i(TAG + ":onUnhandledKeyEvent:", "KeyCode" + event.getKeyCode() + "Action"
-                + event.getAction());
+        LogHelper.i(TAG + ":onUnhandledKeyEvent:", "KeyCode" + event.getKeyCode() + "Action" + event.getAction());
         super.onUnhandledKeyEvent(view, event);
     }
 
@@ -130,8 +124,7 @@ public class CustomWebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
-        LogHelper.i(TAG + ":shouldOverrideKeyEvent:", "KeyCode" + event.getKeyCode() + "Action"
-                + event.getAction());
+        LogHelper.i(TAG + ":shouldOverrideKeyEvent:", "KeyCode" + event.getKeyCode() + "Action" + event.getAction());
         return super.shouldOverrideKeyEvent(view, event);
     }
 

@@ -72,7 +72,6 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
 
     private int mRatio = 10;
 
-
     private String mPayway;
 
     private UserModel mUserModel;
@@ -83,9 +82,13 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
 
     private String mReferer;
 
-    private String mRoleName;
+    private Integer mServerId;
 
     private String mServerName;
+
+    private Integer mRoleId;
+
+    private String mRoleName;
 
     private String mOutOrderid;
 
@@ -99,9 +102,8 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
 
     protected CustomProgressDialog mProgressDialog;
 
-    public RechargeUnionQuotaPayPage(UserModel userModel, Activity activity, String deviceno,
-            String appKey, Integer gameid, String partner, String referer, String roleName,
-            String serverName, String outOrderid, String pext, Integer type, String payway,Float money) {
+    public RechargeUnionQuotaPayPage(UserModel userModel, Activity activity, String deviceno, String appKey, Integer gameid, String partner, String referer, Integer serverId, Integer roleId, String roleName, String serverName, String outOrderid, String pext, Integer type,
+                    String payway, Float money) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -110,15 +112,16 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
         this.mGameid = gameid;
         this.mPartner = partner;
         this.mReferer = referer;
+        this.mRoleId = roleId;
+        this.mServerId = serverId;
         this.mRoleName = roleName;
         this.mServerName = serverName;
         this.mOutOrderid = outOrderid;
         this.mPext = pext;
         this.mType = type;
         this.mPayway = payway;
-        this.mRenminbi=money;
-        inflate(activity,
-                ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_quota_layout), this);
+        this.mRenminbi = money;
+        inflate(activity, ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_quota_layout), this);
         findViews();
         initViews();
         setlistener();
@@ -133,13 +136,10 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
      */
 
     private void findViews() {
-        recharge_money_tips = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_tips));
-        recharge_comfirm_btn = (Button) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_comfirm_btn));
+        recharge_money_tips = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_tips));
+        recharge_comfirm_btn = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_comfirm_btn));
         recharge_comfirm_btn.setText(KR.string.splus_recharge_comfirm_tips);
-        recharge_money_ratio_tv = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_ratio_tv));
+        recharge_money_ratio_tv = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_ratio_tv));
 
         recharge_money_tips.setText(KR.string.splus_recharge_select_head_tips);
         recharge_money_ratio_tv.setHint(KR.string.splus_recharge_ratio_tv_tips);
@@ -153,7 +153,7 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
 
     private void initViews() {
 
-        recharge_money_tips.setText(Html.fromHtml("<font color=#FE8E35>充值金额: "+ mRenminbi+"元</font>"));
+        recharge_money_tips.setText(Html.fromHtml("<font color=#FE8E35>充值金额: " + mRenminbi + "元</font>"));
         recharge_money_ratio_tv.setHint(KR.string.splus_recharge_ratio_tv_tips);
     }
 
@@ -182,7 +182,7 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
      */
 
     private void processLogic() {
-         getRatio();
+        getRatio();
     }
 
     /**
@@ -193,8 +193,7 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
     private void getRatio() {
         long time = DateUtil.getUnixTime();
         String keyString = mGameid + mPayway + time + mAppKey;
-        RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time,
-                MD5Util.getMd5toLowerCase(keyString));
+        RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time, MD5Util.getMd5toLowerCase(keyString));
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.RATIO_URL, mRatioModel, new LoginParser()), onRatioebyCardCallBack);
     }
 
@@ -224,7 +223,7 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
 
     /**
      * 根据元宝数，显示相应提示（纯色文字）
-     *
+     * 
      * @param money
      */
     private void setGetMoneyTextPure(Float money) {
@@ -239,16 +238,14 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
 
     private void payQuest() {
         long time = DateUtil.getUnixTime();
-        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner
-                + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
-        RechargeModel rechargeModel = new RechargeModel(mGameid, mServerName, mDeviceno, mPartner,
-                mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleName, time,
-                mUserModel.getPassport(), mOutOrderid, mPext, MD5Util.getMd5toLowerCase(keyString));
+        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
+        RechargeModel rechargeModel = new RechargeModel(mGameid, mServerId, mServerName, mDeviceno, mPartner, mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleId, mRoleName, time, mUserModel.getPassport(), mOutOrderid, mPext, MD5Util.getMd5toLowerCase(keyString));
         if (mProgressDialog == null || !mProgressDialog.isShowing()) {
             showProgressDialog();
         }
-    //    LogHelper.i(TAG,"url---"+ NetHttpUtil.hashMapTOgetParams(rechargeModel, Constant.PAY_URL));
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.PAY_URL, rechargeModel,new LoginParser()), onRechargeCallBack);
+        // LogHelper.i(TAG,"url---"+
+        // NetHttpUtil.hashMapTOgetParams(rechargeModel, Constant.PAY_URL));
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.PAY_URL, rechargeModel, new LoginParser()), onRechargeCallBack);
 
     }
 
@@ -257,7 +254,7 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             closeProgressDialog();
-            if (paramObject != null&& (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
+            if (paramObject != null && (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
                 String orderid = paramObject.optJSONObject("data").optString("orderid");
                 int time = paramObject.optJSONObject("data").optInt("time");
                 String orderinfo = paramObject.optJSONObject("data").optString("orderinfo");
@@ -267,36 +264,32 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
                     if (startPay == UPPayAssistEx.PLUGIN_NOT_FOUND) {
                         // 需要重新安装控件
                         Log.e(TAG, " plugin not found or need upgrade!!!");
-                        ProgressDialogUtil.showInfoDialog(mActivity, "提示", "完成购买需要安装银联支付控件，是否安装？",
-                                0, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (!UPPayAssistEx.installUPPayPlugin(mActivity)) {
-                                            showProgressDialog();
-                                            new Thread(new Runnable() {
-                                                public void run() {
-                                                    String cachePath = mActivity.getCacheDir().getAbsolutePath() + "/UPPayPluginEx.apk";
-                                                    // 动态下载
-                                                    retrieveApkFromNet(
-                                                            mActivity,
-                                                            "http://mobile.unionpay.com/getclient?platform=android&type=securepayplugin",
-                                                            cachePath);
-                                                    // 发送结果
-                                                    Message msg = new Message();
-                                                    msg.what = RechargeUnionPayPage.UNIONPAY_INSTALL;
-                                                    msg.obj = cachePath;
-                                                    mHandler.sendMessage(msg);
-                                                }
-                                            }).start();
+                        ProgressDialogUtil.showInfoDialog(mActivity, "提示", "完成购买需要安装银联支付控件，是否安装？", 0, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (!UPPayAssistEx.installUPPayPlugin(mActivity)) {
+                                    showProgressDialog();
+                                    new Thread(new Runnable() {
+                                        public void run() {
+                                            String cachePath = mActivity.getCacheDir().getAbsolutePath() + "/UPPayPluginEx.apk";
+                                            // 动态下载
+                                            retrieveApkFromNet(mActivity, "http://mobile.unionpay.com/getclient?platform=android&type=securepayplugin", cachePath);
+                                            // 发送结果
+                                            Message msg = new Message();
+                                            msg.what = RechargeUnionPayPage.UNIONPAY_INSTALL;
+                                            msg.obj = cachePath;
+                                            mHandler.sendMessage(msg);
                                         }
-                                    }
-                                }, new DialogInterface.OnClickListener() {
+                                    }).start();
+                                }
+                            }
+                        }, new DialogInterface.OnClickListener() {
 
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }, true);
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }, true);
                     }
 
                 } else {
@@ -326,12 +319,10 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
     };
 
     /**
-     *
      * @Title: result_intent(跳转到支付界面)
      * @author xiaoming.yuan
      * @data 2014-3-17 上午11:06:05
-     * @param rechage_type
-     * void 返回类型
+     * @param rechage_type void 返回类型
      */
     public void result_intent(String rechage_type) {
         Intent intent = new Intent();
@@ -366,7 +357,7 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
 
     /**
      * 动态下载apk
-     *
+     * 
      * @param context 上下文环境
      * @param strurl 下载地址
      * @param filename 文件名称
@@ -401,27 +392,26 @@ public class RechargeUnionQuotaPayPage extends LinearLayout {
 
     /**
      * 显示确认安装的提示
-     *
+     * 
      * @param context 上下文环境
      * @param cachePath 安装文件路径
      */
     public void showInstallAPK(final Context context, final String cachePath) {
 
-                // 修改apk权限
-                try {
-                    String command = "chmod " + "777" + " " + cachePath;
-                    Runtime runtime = Runtime.getRuntime();
-                    runtime.exec(command);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    ToastUtil.showToast(context, "安装失败");
-                }
-                // 安装安全支付服务APK
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setDataAndType(Uri.parse("file://" + cachePath),
-                        "application/vnd.android.package-archive");
-                context.startActivity(intent);
+        // 修改apk权限
+        try {
+            String command = "chmod " + "777" + " " + cachePath;
+            Runtime runtime = Runtime.getRuntime();
+            runtime.exec(command);
+        } catch (IOException e) {
+            e.printStackTrace();
+            ToastUtil.showToast(context, "安装失败");
+        }
+        // 安装安全支付服务APK
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setDataAndType(Uri.parse("file://" + cachePath), "application/vnd.android.package-archive");
+        context.startActivity(intent);
 
     }
 

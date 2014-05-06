@@ -29,7 +29,7 @@ import javax.net.ssl.SSLSession;
 
 /**
  * 网络连接管理类
- *
+ * 
  * @author xiaoming.yuan
  */
 public class NetworkManager {
@@ -52,8 +52,7 @@ public class NetworkManager {
      * 检查代理，是否cnwap接入
      */
     private void detectProxy() {
-        ConnectivityManager cm = (ConnectivityManager) mContext
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni != null && ni.isAvailable() && ni.getType() == ConnectivityManager.TYPE_MOBILE) {
             String proxyHost = android.net.Proxy.getDefaultHost();
@@ -78,7 +77,7 @@ public class NetworkManager {
 
     /**
      * 发送和接收数据
-     *
+     * 
      * @param strReqData 请求数据
      * @param strUrl 请求地址
      * @return
@@ -105,8 +104,7 @@ public class NetworkManager {
             httpConnect.setConnectTimeout(connectTimeout);
             httpConnect.setReadTimeout(readTimeout);
             httpConnect.setDoOutput(true);
-            httpConnect.addRequestProperty("Content-type",
-                    "application/x-www-form-urlencoded;charset=utf-8");
+            httpConnect.addRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
             httpConnect.connect();
 
@@ -128,7 +126,7 @@ public class NetworkManager {
 
     /**
      * 下载文件
-     *
+     * 
      * @param context 上下文环境
      * @param strurl 下载地址
      * @param path 下载路径
@@ -176,7 +174,6 @@ public class NetworkManager {
 
         return bRet;
     }
-
 
     /**
      * @Title: convertStreamToString(流转字符串方法)

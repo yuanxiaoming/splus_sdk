@@ -22,7 +22,7 @@ import java.util.HashMap;
 
 /**
  * CheckUserInfoParser
- *
+ * 
  * @author yuanxiaoming
  */
 public class UserInfoParser extends BaseParser<HashMap<String, Object>> {

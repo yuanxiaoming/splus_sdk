@@ -11,7 +11,7 @@ import java.util.List;
  * 1.在Activity的onCreate()的方法中调用addActivity()方法添加到mActivityList
  * 2.你可以在Activity的onDestroy()的方法中调用delActivity()来删除已经销毁的Activity实例
  * 这样避免了mActivityList容器中有多余的实例而影响程序退出速度
- *
+ * 
  * @author yuanxiaoming
  */
 public class ExitAppUtils {
@@ -31,7 +31,7 @@ public class ExitAppUtils {
 
     /**
      * 获取ExitAppUtils的实例，保证只有一个ExitAppUtils实例存在
-     *
+     * 
      * @return
      */
     public static ExitAppUtils getInstance() {
@@ -47,7 +47,7 @@ public class ExitAppUtils {
 
     /**
      * 添加Activity实例到mActivityList中，在onCreate()中调用
-     *
+     * 
      * @param activity
      */
     public void addActivity(Activity activity) {
@@ -56,7 +56,7 @@ public class ExitAppUtils {
 
     /**
      * 从容器中删除多余的Activity实例，在onDestroy()中调用
-     *
+     * 
      * @param activity
      */
     public void delActivity(Activity activity) {
@@ -76,7 +76,7 @@ public class ExitAppUtils {
 
     /**
      * 获取当前的sdk运行的Activity
-     *
+     * 
      * @return
      */
     public Activity getRunActivity() {

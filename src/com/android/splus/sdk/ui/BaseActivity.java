@@ -27,8 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created with IntelliJ IDEA. Copyright: Copyright (c) 2013
- * User: xiaoming.yuan
+ * Created with IntelliJ IDEA. Copyright: Copyright (c) 2013 User: xiaoming.yuan
  * 13-9-17 Time: 上午10:51 To change this template use File | Settings | File
  * Templates.
  */
@@ -44,16 +43,15 @@ public abstract class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (SplusPayManager.getInstance().getOrientation()== Configuration.ORIENTATION_LANDSCAPE) {
+        if (SplusPayManager.getInstance().getOrientation() == Configuration.ORIENTATION_LANDSCAPE) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            mOrientation=Configuration.ORIENTATION_LANDSCAPE;
-        } else{
+            mOrientation = Configuration.ORIENTATION_LANDSCAPE;
+        } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            mOrientation=Configuration.ORIENTATION_PORTRAIT;
+            mOrientation = Configuration.ORIENTATION_PORTRAIT;
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mBaseActivity = this;
         initView();
         ExitAppUtils.getInstance().addActivity(this);
@@ -159,24 +157,21 @@ public abstract class BaseActivity extends Activity {
         return userModel;
     }
 
-
     /**
      * 隐藏软键盘
      */
     protected void hideSoftInput(Context context) {
-        InputMethodManager manager = (InputMethodManager) context
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager manager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         // manager.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
         View view = getCurrentFocus();
         if (view != null) {
-            manager.hideSoftInputFromWindow(view.getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
+            manager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
     /**
      * Title: onResume Description:
-     *
+     * 
      * @see android.app.Activity#onResume()
      */
     @Override
@@ -245,8 +240,6 @@ public abstract class BaseActivity extends Activity {
             this.mProgressDialog.dismiss();
     }
 
-
-
     /**
      * @return void 返回类型
      * @Title: loadViewLayout(设置布局文件)
@@ -279,8 +272,6 @@ public abstract class BaseActivity extends Activity {
      * @data 2013-7-12 下午10:09:01
      */
     protected abstract void processLogic();
-
-
 
     protected <T> void getDataFromServer(RequestModel mRequestModel, DataCallback<T> callBack) {
 
@@ -321,6 +312,5 @@ public abstract class BaseActivity extends Activity {
     protected String getDeviceno() {
         return SharedPreferencesHelper.getInstance().getdevicenoPreferences(mBaseActivity);
     }
-
 
 }

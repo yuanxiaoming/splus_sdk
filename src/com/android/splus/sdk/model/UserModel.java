@@ -8,8 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created with IntelliJ IDEA. Copyright: Copyright (c) 2013
- * User: xiaoming.yuan
+ * Created with IntelliJ IDEA. Copyright: Copyright (c) 2013 User: xiaoming.yuan
  * Time: 下午4:34 To change this template use File | Settings | File Templates.
  */
 public class UserModel extends BaseModel implements UserAccount {
@@ -65,8 +64,7 @@ public class UserModel extends BaseModel implements UserAccount {
         setPath(AppUtil.USER_DATA_PATH, passport);
     }
 
-    public UserModel(Integer uid, String passport, String password, String sessionid, Integer time,
-            Boolean checked) {
+    public UserModel(Integer uid, String passport, String password, String sessionid, Integer time, Boolean checked) {
         super("");
         this.uid = uid;
         this.passport = passport;
@@ -92,7 +90,7 @@ public class UserModel extends BaseModel implements UserAccount {
 
     /**
      * getter method
-     *
+     * 
      * @return the checked
      */
 
@@ -102,7 +100,7 @@ public class UserModel extends BaseModel implements UserAccount {
 
     /**
      * setter method
-     *
+     * 
      * @param checked the checked to set
      */
 
@@ -152,10 +150,9 @@ public class UserModel extends BaseModel implements UserAccount {
         this.put(SESSIONID, sessionid == null ? "" : sessionid);
     }
 
-
     /**
      * Title: getSession Description:
-     *
+     * 
      * @return
      * @see com.canhe.android.sdk.apinterface.UserAccount#getSession()
      */
@@ -168,7 +165,7 @@ public class UserModel extends BaseModel implements UserAccount {
 
     /**
      * Title: getUserUid Description:
-     *
+     * 
      * @return
      * @see com.canhe.android.sdk.apinterface.UserAccount#getUserUid()
      */
@@ -181,7 +178,7 @@ public class UserModel extends BaseModel implements UserAccount {
 
     /**
      * Title: getUserName Description:
-     *
+     * 
      * @return
      * @see com.canhe.android.sdk.apinterface.UserAccount#getUserName()
      */

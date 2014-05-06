@@ -1,5 +1,4 @@
-
- /**
+/**
  * @Title: ProgressDialogUtil.java
  * @Package com.android.cansh.sdk.utils.progress
  * Copyright: Copyright (c) 2013
@@ -9,7 +8,7 @@
  * @version V1.0
  */
 
- package com.android.splus.sdk.utils.progressDialog;
+package com.android.splus.sdk.utils.progressDialog;
 
 import com.android.splus.sdk.widget.CustomProgressDialog;
 
@@ -27,6 +26,7 @@ import android.text.TextUtils;
 
 public class ProgressDialogUtil {
     private static final String TAG = "ProgressDialogUtil";
+
     /**
      * @Title: showProgress(这显示进度条)
      * @author xiaoming.yuan
@@ -38,8 +38,7 @@ public class ProgressDialogUtil {
      * @param cancelable cancelable 可撤销
      * @return ProgressDialog 返回类型
      */
-    public static ProgressDialog showProgress(Context context, CharSequence title,
-            CharSequence message, boolean indeterminate, boolean cancelable) {
+    public static ProgressDialog showProgress(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable) {
         CustomProgressDialog dialog = new CustomProgressDialog(context);
         dialog.setTitle(title);
         dialog.setMessage(message);
@@ -65,9 +64,7 @@ public class ProgressDialogUtil {
      * @param cancleStr
      * @param cancle void 返回类型
      */
-    public static void showInfoDialog(Context context, String strTitle, String message,
-            Integer icon, DialogInterface.OnClickListener onClickOKListener, String okStr,
-            DialogInterface.OnClickListener onClickCancleListener, String cancleStr, boolean cancle) {
+    public static void showInfoDialog(Context context, String strTitle, String message, Integer icon, DialogInterface.OnClickListener onClickOKListener, String okStr, DialogInterface.OnClickListener onClickCancleListener, String cancleStr, boolean cancle) {
         AlertDialog.Builder localBuilder = new AlertDialog.Builder(context);
         if (icon != null) {
             localBuilder.setIcon(icon);
@@ -96,9 +93,7 @@ public class ProgressDialogUtil {
      * @param: onClickListener
      * @return void 返回类型
      */
-    public static void showInfoDialog(Context context, String strTitle, String message, int icon,
-            DialogInterface.OnClickListener onClickOKListener,
-            DialogInterface.OnClickListener onClickCancleListener, boolean cancle) {
+    public static void showInfoDialog(Context context, String strTitle, String message, int icon, DialogInterface.OnClickListener onClickOKListener, DialogInterface.OnClickListener onClickCancleListener, boolean cancle) {
 
         AlertDialog.Builder localBuilder = new AlertDialog.Builder(context);
         if (icon != 0) {
@@ -117,4 +112,3 @@ public class ProgressDialogUtil {
     }
 
 }
-

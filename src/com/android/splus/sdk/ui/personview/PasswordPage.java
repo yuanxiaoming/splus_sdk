@@ -72,6 +72,12 @@ public class PasswordPage extends ScrollView implements View.OnFocusChangeListen
 
     private String mServerName;
 
+    private Integer mServerId;
+
+    private Integer mRoleId;
+
+    private String mRoleName;
+
     private String mDeviceno;
 
     private String mPartner;
@@ -91,13 +97,15 @@ public class PasswordPage extends ScrollView implements View.OnFocusChangeListen
      */
     private boolean mLandscape = true;
 
-    public PasswordPage(Activity activity, String passport, Integer uid, String serverName,
-            String deviceno, String partner, String referer, Integer gameid,String appkey, Handler handler,int orientation ) {
+    public PasswordPage(Activity activity, String passport, Integer uid, Integer serverId, Integer roleId,String serverName,String roleName, String deviceno, String partner, String referer, Integer gameid, String appkey, Handler handler, int orientation) {
         super(activity);
         this.mActivity = activity;
         this.mPassport = passport;
         this.mUid = uid;
         this.mServerName = serverName;
+        this.mServerId=serverId;
+        this.mRoleId=roleId;
+        this.mRoleName=roleName;
         this.mDeviceno = deviceno;
         this.mPartner = partner;
         this.mGameid = gameid;
@@ -123,26 +131,19 @@ public class PasswordPage extends ScrollView implements View.OnFocusChangeListen
      * @date 2013年9月29日 下午3:50:58
      */
     private void findViews() {
-        tv_oldpwd = (TextView) findViewById(ResourceUtil
-                .getId(mActivity, KR.id.splus_person_pwd_old_tv));
-        tv_newpwd = (TextView) findViewById(ResourceUtil
-                .getId(mActivity, KR.id.splus_person_pwd_new_tv));
-        tv_newpwd_repeat = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_pwd_new_repeat_tv));
+        tv_oldpwd = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_pwd_old_tv));
+        tv_newpwd = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_pwd_new_tv));
+        tv_newpwd_repeat = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_pwd_new_repeat_tv));
 
-        et_oldpwd = (EditText) findViewById(ResourceUtil
-                .getId(mActivity, KR.id.splus_person_pwd_old_et));
-        et_newpwd = (EditText) findViewById(ResourceUtil
-                .getId(mActivity, KR.id.splus_person_pwd_new_et));
-        et_newpwd_repeat = (EditText) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_pwd_new_repeat_et));
+        et_oldpwd = (EditText) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_pwd_old_et));
+        et_newpwd = (EditText) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_pwd_new_et));
+        et_newpwd_repeat = (EditText) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_pwd_new_repeat_et));
 
         llayout_oldpwd = (LinearLayout) et_oldpwd.getParent();
         llayout_newpwd = (LinearLayout) et_newpwd.getParent();
         llayout_newpwd_repeat = (LinearLayout) et_newpwd_repeat.getParent();
 
-        mBtnSubmit = (Button) findViewById(ResourceUtil
-                .getId(mActivity, KR.id.splus_person_pwd_submit_btn));
+        mBtnSubmit = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_pwd_submit_btn));
         mBtnSubmit.setTextColor(Color.WHITE);
 
     }
@@ -230,15 +231,12 @@ public class PasswordPage extends ScrollView implements View.OnFocusChangeListen
             return;
         }
         long time = DateUtil.getUnixTime();
-        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid + mPassport + time
-                + getOldPwd() + getNewPwd()+mAppkey;
-        PasswordModel passwordModel = new PasswordModel(mUid, mServerName, mGameid,
-                MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner,  mReferer,
-                mPassport, getOldPwd(), getNewPwd());
+        String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUid + mPassport + time + getOldPwd() + getNewPwd() + mAppkey;
+        PasswordModel passwordModel = new PasswordModel(mUid, mServerId,mRoleId,mServerName,mRoleName, mGameid, MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner, mReferer, mPassport, getOldPwd(), getNewPwd());
 
         mDialog = ProgressDialogUtil.showProgress(mActivity, "加载中...", null, false, false);
 
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.PASSWORD_URL,passwordModel, new LoginParser()), mPwdDataCallback);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.PASSWORD_URL, passwordModel, new LoginParser()), mPwdDataCallback);
 
     }
 

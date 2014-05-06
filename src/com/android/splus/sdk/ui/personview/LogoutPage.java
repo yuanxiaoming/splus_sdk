@@ -51,8 +51,7 @@ public class LogoutPage extends ScrollView {
 
         mApplicationInfo = activity.getApplicationInfo();
         try {
-            mPackageInfo = activity.getPackageManager()
-                    .getPackageInfo(activity.getPackageName(), 0);
+            mPackageInfo = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
         } catch (NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -65,23 +64,15 @@ public class LogoutPage extends ScrollView {
 
     private void findViews() {
 
-        tv_welcom = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_logout_account_tv));
-        tv_playgame = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_logout_game_tv));
-        tv_gamehint = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_logout_game_name_hint));
-        tv_gamename = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_logout_game_name_text));
-        tv_verhint = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_logout_game_version_hint));
-        tv_vername = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_logout_game_version_text));
-        btn_logout = (Button) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_logout_btn));
+        tv_welcom = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_logout_account_tv));
+        tv_playgame = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_logout_game_tv));
+        tv_gamehint = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_logout_game_name_hint));
+        tv_gamename = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_logout_game_name_text));
+        tv_verhint = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_logout_game_version_hint));
+        tv_vername = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_logout_game_version_text));
+        btn_logout = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_logout_btn));
         btn_logout.setTextColor(Color.WHITE);
-        img_gameicon = (ImageView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_person_logout_game_ic));
+        img_gameicon = (ImageView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_logout_game_ic));
     }
 
     private void initViews() {
@@ -118,11 +109,8 @@ public class LogoutPage extends ScrollView {
 
         String replaceWelcom = KR.string.splus_person_logout_account_tv.replace("%s", mPassport);
         tv_welcom.setText(replaceWelcom);
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(
-                tv_welcom.getText());
-        spannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor(COLORFE5F2E)),
-                replaceWelcom.indexOf(mPassport), replaceWelcom.length(),
-                Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(tv_welcom.getText());
+        spannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor(COLORFE5F2E)), replaceWelcom.indexOf(mPassport), replaceWelcom.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         tv_welcom.setText(spannableStringBuilder);
 
     }

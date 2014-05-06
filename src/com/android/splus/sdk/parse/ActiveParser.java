@@ -30,7 +30,7 @@ public class ActiveParser extends BaseParser<HashMap<String, Object>> {
         mHashMap = new HashMap<String, Object>();
         if (paramObject != null && paramObject.optInt(CODE) == SUCCESS) {
             JSONObject jsonObject = paramObject.optJSONObject(DATA);
-            if(jsonObject!=null){
+            if (jsonObject != null) {
                 String deviceno = jsonObject.optString(ActiveData.DEVICENO);
                 int updatetype = jsonObject.optInt(ActiveData.UPDATETYPE);
                 String sdkVersion = jsonObject.optString(ActiveData.SDKVER);
@@ -39,8 +39,7 @@ public class ActiveParser extends BaseParser<HashMap<String, Object>> {
                 String updatecontent = jsonObject.optString(ActiveData.UPDATECONTENT);
                 String easyRegisterPassport = jsonObject.optString(ActiveData.PASSPORT);
                 String relationships = jsonObject.optString(ActiveData.RELATIONSHIPS);
-                mActiveData = new ActiveData(deviceno, updatetype, sdkVersion, gameVersion, updateurl,
-                        updatecontent, easyRegisterPassport, relationships);
+                mActiveData = new ActiveData(deviceno, updatetype, sdkVersion, gameVersion, updateurl, updatecontent, easyRegisterPassport, relationships);
             }
         } else {
             msg = paramObject.getString(MSG);

@@ -48,9 +48,7 @@ public class CustomProgressDialog extends ProgressDialog {
         mProgressBar = new ProgressBar(context);
         mProgressBar.setIndeterminate(false);
         mProgressBar.setInterpolator(context, android.R.anim.linear_interpolator);
-        mLayoutParams = new FrameLayout.LayoutParams(
-                android.widget.FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+        mLayoutParams = new FrameLayout.LayoutParams(android.widget.FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
         setContentView(mProgressBar, mLayoutParams);
     }
 

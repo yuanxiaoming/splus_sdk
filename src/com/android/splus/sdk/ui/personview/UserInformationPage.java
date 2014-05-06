@@ -1,3 +1,4 @@
+
 package com.android.splus.sdk.ui.personview;
 
 import com.android.splus.sdk.data.UserInfoData;
@@ -38,29 +39,49 @@ import java.util.HashMap;
 
 /**
  * 个人资料页面
- * @author yuanxiaoming
  *
+ * @author yuanxiaoming
  */
-public class UserInformationPage extends ScrollView implements RadioGroup.OnCheckedChangeListener, OnFocusChangeListener, View.OnClickListener{
+public class UserInformationPage extends ScrollView implements RadioGroup.OnCheckedChangeListener, OnFocusChangeListener, View.OnClickListener {
 
     private static final String TAG = "ActiveParser";
+
     private TextView mTvWelcome, mTvRealName, mTvSex, mTvIdCard, mTvQQ;
+
     private EditText mEtRealName, mEtIdCard, mEtQQ;
+
     private RadioGroup mRgSex;
+
     private RadioButton mRbSecret, mRbBoy, mRbGirl;
+
     private LinearLayout mLlayout_realname, mLlayout_idcard, mLlayout_qq;
 
     private Button mBtnComplete;
+
     private TextView mTvTips;
 
     private Activity mActivity;
+
     private String mPassport;
+
     private Integer mUid;
+
     private String mServerName;
+
+    private Integer mServerId;
+
+    private Integer mRoleId;
+
+    private String mRoleName;
+
     private String mDeviceno;
+
     private String mPartner;
+
     private String mReferer;
+
     private Integer mGameid;
+
     private String mAppkey;
 
     /**
@@ -78,13 +99,15 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
      */
     private static final String COLORFE5F2E = "#fe5f2e";
 
-    public UserInformationPage(Activity activity, String passport, Integer uid, String serverName,
-            String deviceno, String partner, String referer, Integer gameid, String appkey,int orientation ) {
+    public UserInformationPage(Activity activity, String passport, Integer uid, Integer serverId, Integer roleId,String serverName, String roleName, String deviceno, String partner, String referer, Integer gameid, String appkey, int orientation) {
         super(activity);
         this.mActivity = activity;
         this.mPassport = passport;
         this.mUid = uid;
+        this.mRoleName = roleName;
         this.mServerName = serverName;
+        this.mRoleId=roleId;
+        this.mServerId=serverId;
         this.mDeviceno = deviceno;
         this.mPartner = partner;
         this.mReferer = referer;
@@ -102,55 +125,41 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
 
     }
 
-    private void init(){
+    private void init() {
         inflate(mActivity, ResourceUtil.getLayoutId(mActivity, KR.layout.splus_person_userinformation), this);
         findViews();
         initViews();
 
     }
 
-    private void findViews(){
-        mTvWelcome = (TextView) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_welcome_text));
+    private void findViews() {
+        mTvWelcome = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_welcome_text));
         setUserName();
-        mTvRealName = (TextView) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_realname_tv));
-        mEtRealName = (EditText) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_realname_et));
+        mTvRealName = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_realname_tv));
+        mEtRealName = (EditText) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_realname_et));
 
-        mTvSex = (TextView) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_sex_tv));
-        mRgSex = (RadioGroup) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_sex_rg));
-        mRbSecret = (RadioButton) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_sex_secret_rb));
-        mRbBoy = (RadioButton) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_sex_boy_rb));
-        mRbGirl = (RadioButton) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_sex_girl_rb));
+        mTvSex = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_sex_tv));
+        mRgSex = (RadioGroup) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_sex_rg));
+        mRbSecret = (RadioButton) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_sex_secret_rb));
+        mRbBoy = (RadioButton) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_sex_boy_rb));
+        mRbGirl = (RadioButton) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_sex_girl_rb));
 
-        mTvIdCard = (TextView) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_idcard_tv));
-        mEtIdCard = (EditText) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_idcard_et));
+        mTvIdCard = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_idcard_tv));
+        mEtIdCard = (EditText) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_idcard_et));
 
-        mTvQQ = (TextView) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_qq_tv));
-        mEtQQ = (EditText) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_qq_et));
+        mTvQQ = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_qq_tv));
+        mEtQQ = (EditText) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_qq_et));
 
-        mBtnComplete = (Button) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_complete_btn));
+        mBtnComplete = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_complete_btn));
         mBtnComplete.setTextColor(Color.WHITE);
-        mTvTips = (TextView) findViewById(ResourceUtil.getId(
-                mActivity, KR.id.splus_person_center_userinformation_tips_tv));
+        mTvTips = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_person_center_userinformation_tips_tv));
 
         mLlayout_realname = (LinearLayout) mEtRealName.getParent();
         mLlayout_idcard = (LinearLayout) mEtIdCard.getParent();
         mLlayout_qq = (LinearLayout) mEtQQ.getParent();
     }
 
-    private void initViews(){
+    private void initViews() {
         mTvRealName.setText(KR.string.splus_person_center_userinformation_realname_text);
         mTvSex.setText(KR.string.splus_person_center_userinformation_sex_text);
         mRbSecret.setText(KR.string.splus_person_center_userinformation_sex_rb_secret_text);
@@ -180,12 +189,9 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
         }
         mTvWelcome.setText(replace);
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(mTvWelcome.getText());
-        spannableStringBuilder.setSpan
-        (new ForegroundColorSpan(Color.parseColor(COLORFE5F2E)), replace.indexOf(mPassport),
-                replace.indexOf(mPassport) + mPassport.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        spannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor(COLORFE5F2E)), replace.indexOf(mPassport), replace.indexOf(mPassport) + mPassport.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         mTvWelcome.setText(spannableStringBuilder);
     }
-
 
     /**
      * @Title: setEnabledCompons(点击动作完成，恢复控件功能)
@@ -242,21 +248,22 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
      */
     private void getUserInfoFromServer() {
         Long time = DateUtil.getUnixTime();
-        String keyString = mGameid + mDeviceno + mReferer + mPartner + mUid + mPassport + time+mAppkey;
-        UserRequestInfoModel mCheckUserRequestInfoData = new UserRequestInfoModel(mUid, mServerName,
-                mGameid, MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner, mReferer,mPassport);
+        String keyString = mGameid + mDeviceno + mReferer + mPartner + mUid + mPassport + time + mAppkey;
+        UserRequestInfoModel mCheckUserRequestInfoData = new UserRequestInfoModel(mUid, mServerId,mRoleId,mServerName,mRoleName, mGameid, MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner, mReferer, mPassport);
 
-   //     LogHelper.i("UserInformationPage", "url---"+ NetHttpUtil.hashMapTOgetParams(mCheckUserRequestInfoData, Constant.USERINFO_URL));
+        // LogHelper.i("UserInformationPage", "url---"+
+        // NetHttpUtil.hashMapTOgetParams(mCheckUserRequestInfoData,
+        // Constant.USERINFO_URL));
 
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.USERINFO_URL,mCheckUserRequestInfoData, new UserInfoParser()), userInfoCallBack);
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.USERINFO_URL, mCheckUserRequestInfoData, new UserInfoParser()), userInfoCallBack);
     }
 
     private DataCallback<HashMap<String, Object>> userInfoCallBack = new DataCallback<HashMap<String, Object>>() {
 
         @Override
         public void callbackSuccess(HashMap<String, Object> paramObject) {
-            UserInfoData  userInfoData =(UserInfoData) paramObject.get(BaseParser.DATA);
-            if(userInfoData!=null){
+            UserInfoData userInfoData = (UserInfoData) paramObject.get(BaseParser.DATA);
+            if (userInfoData != null) {
                 mEtRealName.setText(userInfoData.getRealname());
                 if (TextUtils.isEmpty(userInfoData.getGendertype())) {
                     mRbSecret.setChecked(true);
@@ -270,12 +277,12 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
                 mEtIdCard.setText(userInfoData.getIdcard());
                 mEtQQ.setText(userInfoData.getQq());
 
-            }else{
+            } else {
                 String msg = paramObject.get(BaseParser.MSG).toString();
                 LogHelper.i(TAG, msg);
                 ToastUtil.showToast(mActivity, msg);
             }
-            //做一些成功后的操作
+            // 做一些成功后的操作
             mBtnComplete.setText(KR.string.splus_person_center_userinformation_edit_text);
             setEnabledCompons(false);
 
@@ -283,7 +290,7 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
 
         @Override
         public void callbackError(String error) {
-            //请求数据失败
+            // 请求数据失败
             ToastUtil.showToast(mActivity, error);
         }
 
@@ -332,8 +339,7 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
                         return;
                     }
                 }
-                sendUserInfoToServer(mEtRealName.getText().toString().trim(), mGenderType,
-                        mEtIdCard.getText().toString().trim(), mEtQQ.getText().toString().trim());
+                sendUserInfoToServer(mEtRealName.getText().toString().trim(), mGenderType, mEtIdCard.getText().toString().trim(), mEtQQ.getText().toString().trim());
             } else {
                 mBtnComplete.setText(KR.string.splus_person_center_userinformation_complete_text);
                 setEnabledCompons(true);
@@ -344,23 +350,23 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
     /**
      * 发送个人资料到服务器
      */
-    private void sendUserInfoToServer(String realName, int genderType, String idCard, String qq){
+    private void sendUserInfoToServer(String realName, int genderType, String idCard, String qq) {
         Long time = DateUtil.getUnixTime();
-        String keyString = mGameid  + mDeviceno + mReferer + mPartner + mUid + mPassport + time+mAppkey;
-        UserRequestInfoModel mSendUserRequestInfoData = new UserRequestInfoModel(mUid, mServerName,
-                mGameid, MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner,
-                mReferer, mPassport, realName, genderType, idCard, qq);
+        String keyString = mGameid + mDeviceno + mReferer + mPartner + mUid + mPassport + time + mAppkey;
+        UserRequestInfoModel mSendUserRequestInfoData = new UserRequestInfoModel(mUid, mServerName, mGameid, MD5Util.getMd5toLowerCase(keyString), time, mDeviceno, mPartner, mReferer, mPassport, realName, genderType, idCard, qq);
 
-    //    LogHelper.i("UserInformationPage", "url---"+ NetHttpUtil.hashMapTOgetParams(mSendUserRequestInfoData, Constant.USERINFO_URL));
-        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.USERINFO_URL,mSendUserRequestInfoData, new UserInfoParser()), sendUserInfoCallBack);
+        // LogHelper.i("UserInformationPage", "url---"+
+        // NetHttpUtil.hashMapTOgetParams(mSendUserRequestInfoData,
+        // Constant.USERINFO_URL));
+        NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.USERINFO_URL, mSendUserRequestInfoData, new UserInfoParser()), sendUserInfoCallBack);
     }
 
     private DataCallback<HashMap<String, Object>> sendUserInfoCallBack = new DataCallback<HashMap<String, Object>>() {
 
         @Override
         public void callbackSuccess(HashMap<String, Object> paramObject) {
-            UserInfoData  userInfoData =(UserInfoData) paramObject.get(BaseParser.DATA);
-            if(userInfoData!=null){
+            UserInfoData userInfoData = (UserInfoData) paramObject.get(BaseParser.DATA);
+            if (userInfoData != null) {
                 mEtRealName.setText(userInfoData.getRealname());
                 if (userInfoData.getGendertype().equals("")) {
                     mRbSecret.setChecked(true);
@@ -375,19 +381,19 @@ public class UserInformationPage extends ScrollView implements RadioGroup.OnChec
                 mEtQQ.setText(userInfoData.getQq());
 
                 ToastUtil.showToast(mActivity, "更新资料成功");
-            }else{
+            } else {
                 String msg = paramObject.get(BaseParser.MSG).toString();
                 LogHelper.i(TAG, msg);
                 ToastUtil.showToast(mActivity, msg);
             }
-            //做一些成功后的操作
+            // 做一些成功后的操作
             mBtnComplete.setText(KR.string.splus_person_center_userinformation_edit_text);
             setEnabledCompons(false);
         }
 
         @Override
         public void callbackError(String error) {
-            //发送数据失败
+            // 发送数据失败
             mBtnComplete.setText(KR.string.splus_person_center_userinformation_edit_text);
             setEnabledCompons(false);
             ToastUtil.showToast(mActivity, "更新资料失败");

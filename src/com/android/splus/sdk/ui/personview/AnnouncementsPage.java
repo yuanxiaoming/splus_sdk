@@ -31,13 +31,17 @@ public class AnnouncementsPage extends LinearLayout {
 
     private Activity mActivity;
 
-    private String mRoleName;
-
     private String mServerName;
+
+    private Integer mServerId;
+
+    private Integer mRoleId;
+
+    private String mRoleName;
 
     private SQModel mSqModel;
 
-    private  CustomWebView mCustomWebView;
+    private CustomWebView mCustomWebView;
 
     private Integer mUid;
 
@@ -45,20 +49,22 @@ public class AnnouncementsPage extends LinearLayout {
 
     private String mPassword;
 
-    public AnnouncementsPage(Activity activity, String deviceno,Integer gameid, String partner, String referer,Integer uid, String passport, String password,String roleName, String serverName) {
+    public AnnouncementsPage(Activity activity, String deviceno, Integer gameid, String partner, String referer, Integer uid, String passport, String password,Integer serverId, Integer roleId, String roleName, String serverName) {
 
         super(activity);
-        this.mActivity=activity;
-        this.mDeviceno=deviceno;
-        this.mGameid=gameid;
-        this.mPartner=partner;
-        this.mReferer=referer;
-        this.mUid=uid;
-        this.mPassword=password;
-        this.mPassport=passport;
-        this.mRoleName=roleName;
-        this.mServerName=serverName;
-        mSqModel=new SQModel(mGameid, mDeviceno, mReferer, mPartner,mUid, mPassport, mPassword, mRoleName, mServerName);
+        this.mActivity = activity;
+        this.mDeviceno = deviceno;
+        this.mGameid = gameid;
+        this.mPartner = partner;
+        this.mReferer = referer;
+        this.mUid = uid;
+        this.mPassword = password;
+        this.mPassport = passport;
+        this.mRoleName = roleName;
+        this.mServerName = serverName;
+        this.mServerId=serverId;
+        this.mRoleId=roleId;
+        mSqModel = new SQModel(mGameid, mDeviceno, mReferer, mPartner, mUid, mPassport, mPassword, mServerId,mRoleId,mRoleName, mServerName);
         mCustomWebView = new CustomWebView(activity);
         mCustomWebView.setWebChromeClient(new CustomWebChromeClient(activity, new WebChromeClient()));
         mCustomWebView.setWebViewClient(new CustomWebViewClient(activity));
@@ -71,8 +77,7 @@ public class AnnouncementsPage extends LinearLayout {
         mCustomWebView.addJavascriptInterface(new JSplugin(activity), JSplugin.ANDROIDJSPLUG);
         String data = NetHttpUtil.hashMapTOgetParams(mSqModel);
         mCustomWebView.postUrl(Constant.HTMLWAPPAY_URL, EncodingUtils.getBytes(data, "UTF-8"));
-        LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         addView(mCustomWebView, lps);
 
     }
@@ -86,4 +91,3 @@ public class AnnouncementsPage extends LinearLayout {
         }
     }
 }
-

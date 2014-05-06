@@ -1,3 +1,4 @@
+
 package com.android.splus.sdk.download;
 
 import org.apache.http.HttpResponse;
@@ -23,29 +24,49 @@ import java.net.URL;
 public class DownloadTask extends AsyncTask<Void, Integer, Long> {
 
     public final static int ERROR_NONE = 0;
+
     public final static int ERROR_SD_NO_MEMORY = 1;
+
     public final static int ERROR_BLOCK_INTERNET = 2;
+
     public final static int ERROR_UNKONW = 3;
+
     public final static int TIME_OUT = 30000;
+
     private final static int BUFFER_SIZE = 1024 * 1024;
 
     private URL URL;
+
     private File file;
+
     private String url;
+
     private Throwable exception;
+
     private RandomAccessFile outputStream;
+
     private DownloadTaskListener listener;
+
     private Context context;
+
     private AndroidHttpClient client = null;
 
     private long downloadSize;
+
     private long previousFileSize;
+
     private long totalSize;
+
     private long downloadPercent;
+
     private long networkSpeed; // 网速
+
     private long previousTime;
+
     private long totalTime;
+
     private int errStausCode = ERROR_NONE;
+
     private boolean interrupt = false;
 
     private final class ProgressReportingRandomAccessFile extends RandomAccessFile {
@@ -286,8 +307,8 @@ public class DownloadTask extends AsyncTask<Void, Integer, Long> {
     }
 
     /*
-    * 获取 SD 卡内存
-    */
+     * 获取 SD 卡内存
+     */
     public static long getAvailableStorage() {
         String storageDirectory = null;
         storageDirectory = Environment.getExternalStorageDirectory().toString();

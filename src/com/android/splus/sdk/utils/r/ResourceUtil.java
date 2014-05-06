@@ -5,7 +5,7 @@ import android.content.Context;
 
 /**
  * 资源读取类
- *
+ * 
  * @ClassName: ResourceUtil
  * @author xiaoming.yuan
  * @date 2013-8-5 下午8:07:18
@@ -14,7 +14,7 @@ public class ResourceUtil {
 
     /**
      * 获取layout
-     *
+     * 
      * @param context
      * @param resName
      * @return
@@ -25,7 +25,7 @@ public class ResourceUtil {
 
     /**
      * 获取string
-     *
+     * 
      * @param context
      * @param resName
      * @return
@@ -36,7 +36,7 @@ public class ResourceUtil {
 
     /**
      * 获取drawable
-     *
+     * 
      * @param context
      * @param resName
      * @return
@@ -47,7 +47,7 @@ public class ResourceUtil {
 
     /**
      * 获取style
-     *
+     * 
      * @param context
      * @param resName
      * @return
@@ -58,7 +58,7 @@ public class ResourceUtil {
 
     /**
      * 获取id
-     *
+     * 
      * @param context
      * @param resName
      * @return
@@ -70,7 +70,7 @@ public class ResourceUtil {
 
     /**
      * 获取color
-     *
+     * 
      * @param context
      * @param resName
      * @return

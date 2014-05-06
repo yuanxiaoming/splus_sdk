@@ -3,7 +3,7 @@ package com.android.splus.sdk.apiinterface;
 
 /**
  * 帐户信息
- *
+ * 
  * @ClassName: UserAccount
  * @author xiaoming.yuan
  * @date 2013-8-1 下午3:04:20
@@ -18,7 +18,6 @@ public interface UserAccount {
      * @return String 返回类型
      */
     public String getUserName();
-
 
     /**
      * @Title: getSession(获取会话)

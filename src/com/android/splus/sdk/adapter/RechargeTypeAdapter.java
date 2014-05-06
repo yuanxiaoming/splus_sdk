@@ -1,5 +1,4 @@
-
- /**
+/**
  * @Title: RechargeTypeAdapter.java
  * @Package com.android.splus.sdk.adapter
  * Copyright: Copyright (c) 2013
@@ -9,7 +8,7 @@
  * @version V1.0
  */
 
- package com.android.splus.sdk.adapter;
+package com.android.splus.sdk.adapter;
 
 import com.android.splus.sdk.model.RechargeTypeModel;
 import com.android.splus.sdk.utils.r.ResourceUtil;
@@ -30,6 +29,7 @@ import java.util.ArrayList;
 
 public class RechargeTypeAdapter extends BaseAdapter {
     private ArrayList<RechargeTypeModel> mRechargeTypeArrayList;
+
     private Context mContext;
 
     public RechargeTypeAdapter(ArrayList<RechargeTypeModel> rechargeTypeArrayList, Context context) {
@@ -40,7 +40,7 @@ public class RechargeTypeAdapter extends BaseAdapter {
 
     /**
      * Title: getCount Description:
-     *
+     * 
      * @return
      * @see android.widget.Adapter#getCount()
      */
@@ -51,7 +51,7 @@ public class RechargeTypeAdapter extends BaseAdapter {
 
     /**
      * Title: getItem Description:
-     *
+     * 
      * @param position
      * @return
      * @see android.widget.Adapter#getItem(int)
@@ -68,7 +68,7 @@ public class RechargeTypeAdapter extends BaseAdapter {
 
     /**
      * Title: getView Description:
-     *
+     * 
      * @param position
      * @param convertView
      * @param parent
@@ -81,19 +81,19 @@ public class RechargeTypeAdapter extends BaseAdapter {
         ImageView mImageView;
         if (convertView == null) {
             mImageView = new ImageView(mContext);
-        //    mImageView.setLayoutParams(new GridView.LayoutParams(240, 175));//设置ImageView对象布局
-            mImageView.setAdjustViewBounds(false);//设置边界对齐
-            mImageView.setScaleType(ImageView.ScaleType. FIT_XY);//设置刻度的类型
-            mImageView.setPadding(8, 8, 8, 8);//设置间距
+            // mImageView.setLayoutParams(new GridView.LayoutParams(240,
+            // 175));//设置ImageView对象布局
+            mImageView.setAdjustViewBounds(false);// 设置边界对齐
+            mImageView.setScaleType(ImageView.ScaleType.FIT_XY);// 设置刻度的类型
+            mImageView.setPadding(8, 8, 8, 8);// 设置间距
             convertView = mImageView;
         } else {
             mImageView = (ImageView) convertView;
         }
-        mImageView.setBackgroundDrawable(mContext.getResources().getDrawable(ResourceUtil.getDrawableId(mContext,mRechargeTypeArrayList.get(position).getImgIcon())));
+        mImageView.setBackgroundDrawable(mContext.getResources().getDrawable(ResourceUtil.getDrawableId(mContext, mRechargeTypeArrayList.get(position).getImgIcon())));
 
         return convertView;
 
     }
 
 }
-

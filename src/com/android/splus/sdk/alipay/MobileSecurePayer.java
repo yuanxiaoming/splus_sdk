@@ -53,15 +53,14 @@ public class MobileSecurePayer {
 
     /**
      * 向支付宝发送支付请求
-     *
+     * 
      * @param strOrderInfo 订单信息
      * @param callback 回调handler
      * @param myWhat 回调信息
      * @param activity 目标activity
      * @return
      */
-    public boolean pay(final String strOrderInfo, final Handler callback, final int myWhat,
-            final Activity activity) {
+    public boolean pay(final String strOrderInfo, final Handler callback, final int myWhat, final Activity activity) {
         if (mbPaying)
             return false;
         mbPaying = true;
@@ -75,8 +74,7 @@ public class MobileSecurePayer {
             // 绑定安全支付服务需要获取上下文环境，
             // 如果绑定不成功使用mActivity.getApplicationContext().bindService
             // 解绑时同理
-            mActivity.getApplicationContext().bindService(new Intent(IAlixPay.class.getName()),
-                    mAlixPayConnection, Context.BIND_AUTO_CREATE);
+            mActivity.getApplicationContext().bindService(new Intent(IAlixPay.class.getName()), mAlixPayConnection, Context.BIND_AUTO_CREATE);
         }
         // else ok.
 
@@ -146,8 +144,7 @@ public class MobileSecurePayer {
          * running in our main thread like most other things -- so, to update
          * the UI, we need to use a Handler to hop over there. 通过IPC机制启动安全支付服务
          */
-        public void startActivity(String packageName, String className, int iCallingPid,
-                Bundle bundle) throws RemoteException {
+        public void startActivity(String packageName, String className, int iCallingPid, Bundle bundle) throws RemoteException {
             Intent intent = new Intent(Intent.ACTION_MAIN, null);
 
             if (bundle == null)

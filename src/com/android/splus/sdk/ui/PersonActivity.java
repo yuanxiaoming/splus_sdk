@@ -38,6 +38,7 @@ import android.widget.ViewFlipper;
 public class PersonActivity extends BaseActivity {
 
     private static final String TAG = "PersonActivity";
+
     private Activity mActivity;
 
     private SplusPayManager mSplusPayManager;
@@ -81,7 +82,6 @@ public class PersonActivity extends BaseActivity {
      */
     private PersonCenterPage mPersonCenterPage;
 
-
     /**
      * 注销页面
      */
@@ -117,14 +117,10 @@ public class PersonActivity extends BaseActivity {
      */
     private PasswordPage mPasswordPage;
 
-
     /**
      * 绑定手机页面
      */
     private PhoneBindPage mPhoneBindPage;
-
-
-
 
     @Override
     protected void loadViewLayout() {
@@ -157,8 +153,7 @@ public class PersonActivity extends BaseActivity {
 
             // 进入客服中心页面
             if (mSqPage == null) {
-                mSqPage = new SQPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
-                        uid, passport,password, mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
+                mSqPage = new SQPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), uid, passport, password,mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(), mSplusPayManager.getRoleName(), mSplusPayManager.getServerName());
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_sq_btn_text);
             addView(mSqPage, SQPage.class.getName());
@@ -174,13 +169,11 @@ public class PersonActivity extends BaseActivity {
             }
             // 进入活动页面
             if (mAnnouncementsPage == null) {
-                mAnnouncementsPage = new AnnouncementsPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
-                        uid, passport,password, mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
+                mAnnouncementsPage = new AnnouncementsPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), uid, passport, password, mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getRoleName(), mSplusPayManager.getServerName());
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_announcementspage_btn_text);
             // 把活动页面显示在前台
             addView(mAnnouncementsPage, AnnouncementsPage.class.getName());
-
 
         } else if (INTENT_FORUM.equals(type)) {
             String passport = intent.getStringExtra(Constant.LOGIN_INTENT_USERNAME);
@@ -194,32 +187,26 @@ public class PersonActivity extends BaseActivity {
             }
             // 进入论坛页面看
             if (mForumPage == null) {
-                mForumPage = new ForumPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
-                        uid, passport,password, mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
+                mForumPage = new ForumPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), uid, passport, password, mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getRoleName(), mSplusPayManager.getServerName());
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_forum_btn_text);
             // 把论坛页面显示在前台
             addView(mForumPage, ForumPage.class.getName());
 
-
         } else {
-            mPersonCenterPage = new PersonCenterPage(this, getPassport(),mOrientation);
+            mPersonCenterPage = new PersonCenterPage(this, getPassport(), mOrientation);
             mTvTitleBarCenter.setText(KR.string.splus_person_center_text);
             addView(mPersonCenterPage, PersonCenterPage.class.getName());
         }
 
-        anim_in_into = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1,
-                Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
+        anim_in_into = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
         anim_in_into.setDuration(mAnim_time);
-        anim_out_into = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, -1, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
+        anim_out_into = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
         anim_out_into.setDuration(mAnim_time);
 
-        anim_in_back = new TranslateAnimation(Animation.RELATIVE_TO_SELF, -1,
-                Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
+        anim_in_back = new TranslateAnimation(Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
         anim_in_back.setDuration(mAnim_time);
-        anim_out_back = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, 1, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
+        anim_out_back = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 0);
         anim_out_back.setDuration(mAnim_time);
     }
 
@@ -249,7 +236,6 @@ public class PersonActivity extends BaseActivity {
     protected void processLogic() {
     }
 
-
     /**
      * 个人中心页面点击事件
      */
@@ -259,8 +245,8 @@ public class PersonActivity extends BaseActivity {
         public void onAccountClick(View v) {
             // 进入账号安全页面
             if (mAccountManagerPage == null) {
-                mAccountManagerPage = new AccountManagerPage(mActivity, getPassport(),
-                        getUid(), mSplusPayManager.getServerName(), getDeviceno(), mSplusPayManager.getPartner(),mSplusPayManager.getReferer(), mSplusPayManager.getGameid(), mSplusPayManager.getAppkey(),mOrientation);
+                mAccountManagerPage = new AccountManagerPage(mActivity, getPassport(), getUid(), mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getServerName(),mSplusPayManager.getRoleName(), getDeviceno(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), mSplusPayManager.getGameid(), mSplusPayManager.getAppkey(),
+                                mOrientation);
                 mAccountManagerPage.setOnAccountClickListener(mAccountClickListener);
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_idcard_btn_text);
@@ -273,8 +259,7 @@ public class PersonActivity extends BaseActivity {
         public void onSQClick(View v) {
             // 进入客服中心页面
             if (mSqPage == null) {
-                mSqPage = new SQPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
-                        getUid(), getPassport(), getPassword(), mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
+                mSqPage = new SQPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), getUid(), getPassport(), getPassword(), mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getRoleName(), mSplusPayManager.getServerName());
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_sq_btn_text);
             addView(mSqPage, SQPage.class.getName());
@@ -284,8 +269,7 @@ public class PersonActivity extends BaseActivity {
         public void onForumClick(View v) {
             // 进入论坛页面看
             if (mForumPage == null) {
-                mForumPage = new ForumPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
-                        getUid(), getPassport(), getPassword(), mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
+                mForumPage = new ForumPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), getUid(), getPassport(), getPassword(), mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getRoleName(), mSplusPayManager.getServerName());
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_forum_btn_text);
             // 把论坛页面显示在前台
@@ -308,8 +292,8 @@ public class PersonActivity extends BaseActivity {
         public void onAnnouncement(View v) {
             // 进入活动页面
             if (mAnnouncementsPage == null) {
-                mAnnouncementsPage = new AnnouncementsPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(),mSplusPayManager.getPartner(), mSplusPayManager.getReferer(),
-                        getUid(), getPassport(), getPassword(), mSplusPayManager.getRoleName(),mSplusPayManager.getServerName());
+                mAnnouncementsPage = new AnnouncementsPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), getUid(), getPassport(), getPassword(),mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(), mSplusPayManager.getRoleName(),
+                                mSplusPayManager.getServerName());
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_announcementspage_btn_text);
             // 把活动页面显示在前台
@@ -320,10 +304,8 @@ public class PersonActivity extends BaseActivity {
         @Override
         public void onGameRecommendationClick(View v) {
 
-
         }
     };
-
 
     /**
      * 安全信息页面点击事件
@@ -335,8 +317,8 @@ public class PersonActivity extends BaseActivity {
 
             // 进入个人资料页面
             if (mUserInformationPage == null) {
-                mUserInformationPage = new UserInformationPage(PersonActivity.this, getPassport(),getUid(), mSplusPayManager.getServerName(), getDeviceno(), mSplusPayManager.getPartner(),
-                        mSplusPayManager.getReferer(),mSplusPayManager.getGameid(), mSplusPayManager.getAppkey(),mOrientation);
+                mUserInformationPage = new UserInformationPage(PersonActivity.this, getPassport(), getUid(), mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getServerName(),mSplusPayManager.getRoleName(), getDeviceno(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), mSplusPayManager.getGameid(), mSplusPayManager.getAppkey(),
+                                mOrientation);
             }
             // 把个人资料页面显示在前台
             mTvTitleBarCenter.setText(KR.string.splus_person_account_user_information);
@@ -348,13 +330,12 @@ public class PersonActivity extends BaseActivity {
         public void onPasswordClick(View v) {
             // 进入修改密码页面
             if (mPasswordPage == null) {
-                mPasswordPage = new PasswordPage(PersonActivity.this, getPassport(), getUid(),mSplusPayManager.getServerName(),
-                        getDeviceno(),mSplusPayManager.getPartner(),mSplusPayManager.getReferer(),mSplusPayManager.getGameid(),mSplusPayManager.getAppkey(), mHandler,mOrientation);
+                mPasswordPage = new PasswordPage(PersonActivity.this, getPassport(), getUid(), mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getServerName(),mSplusPayManager.getRoleName(), getDeviceno(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), mSplusPayManager.getGameid(), mSplusPayManager.getAppkey(), mHandler,
+                                mOrientation);
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_account_modify_pwd);
             // 把修改密码页面显示在前台
             addView(mPasswordPage, PasswordPage.class.getName());
-
 
         }
 
@@ -362,15 +343,13 @@ public class PersonActivity extends BaseActivity {
         public void onPhoneClick(View v) {
             // 进入绑定手机页面
             if (mPhoneBindPage == null) {
-                mPhoneBindPage = new PhoneBindPage(PersonActivity.this, getPassport(), getUid(),
-                        mSplusPayManager.getServerName(), getDeviceno(), mSplusPayManager.getPartner(),mSplusPayManager.getReferer(),mSplusPayManager.getGameid(),
-                        mSplusPayManager.getAppkey(), mAccountManagerPage.isBinded(), mHandler,mOrientation);
+                mPhoneBindPage = new PhoneBindPage(PersonActivity.this, getPassport(), getUid(), mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getServerName(),mSplusPayManager.getRoleName(), getDeviceno(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), mSplusPayManager.getGameid(), mSplusPayManager.getAppkey(),
+                                mAccountManagerPage.isBinded(), mHandler, mOrientation);
             }
             mPhoneBindPage.setBindedStatus();
             mTvTitleBarCenter.setText(KR.string.splus_person_account_binding_phone);
             // 把绑定手机页面显示在前台
             addView(mPhoneBindPage, PhoneBindPage.class.getName());
-
 
         }
 
@@ -420,7 +399,6 @@ public class PersonActivity extends BaseActivity {
         vf_person_center.showNext();
         hideSoftInput(mActivity);
     }
-
 
     /**
      * 页面返回事件
@@ -474,7 +452,7 @@ public class PersonActivity extends BaseActivity {
             mTvTitleBarCenter.setText(KR.string.splus_person_center_text);
         }
 
-        if (AccountManagerPage.class.getName().equals(mCurrentPage) && mAccountManagerPage!= null) {
+        if (AccountManagerPage.class.getName().equals(mCurrentPage) && mAccountManagerPage != null) {
             mTvTitleBarCenter.setText(KR.string.splus_person_center_idcard_btn_text);
         }
 
@@ -492,23 +470,18 @@ public class PersonActivity extends BaseActivity {
         }
     }
 
-
-
     /**
-     *
      * @Title: logout_in_person(个人中心注销)
      * @author xiaoming.yuan
-     * @data 2014-3-24 上午10:48:42
-     * void 返回类型
+     * @data 2014-3-24 上午10:48:42 void 返回类型
      */
     public void logout_in_person() {
-        SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity,
-                mSplusPayManager.getAppkey(), false);
+        SharedPreferencesHelper.getInstance().setLoginStatusPreferences(mActivity, mSplusPayManager.getAppkey(), false);
         finish();
         ExitAppUtils.getInstance().exit();
         if (mLogoutCallBack != null) {
             mLogoutCallBack.logoutCallBack();
-        }else{
+        } else {
             Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
@@ -528,7 +501,7 @@ public class PersonActivity extends BaseActivity {
                     goBack();
                     break;
                 case PHONEBIND:
-                    if(mAccountManagerPage!=null){
+                    if (mAccountManagerPage != null) {
                         mAccountManagerPage.setBindStatus(true);
                     }
                     goBack();
@@ -551,7 +524,7 @@ public class PersonActivity extends BaseActivity {
      * @param newPwd
      */
     private void savaNewPwd(String newPwd) {
-        UserModel userModel =mSplusPayManager.getUserModel();
+        UserModel userModel = mSplusPayManager.getUserModel();
         if (userModel == null) {
             userModel = AppUtil.getUserData();
         }
@@ -578,15 +551,15 @@ public class PersonActivity extends BaseActivity {
         if (mPhoneBindPage != null) {
             mPhoneBindPage.unregisterReceiver();
         }
-        mPersonCenterPage=null;
-        mLogoutPage=null;
-        mSqPage=null;
-        mForumPage=null;
-        mAnnouncementsPage=null;
-        mAccountManagerPage=null;
-        mUserInformationPage=null;
-        mPasswordPage=null;
-        mPhoneBindPage=null;
+        mPersonCenterPage = null;
+        mLogoutPage = null;
+        mSqPage = null;
+        mForumPage = null;
+        mAnnouncementsPage = null;
+        mAccountManagerPage = null;
+        mUserInformationPage = null;
+        mPasswordPage = null;
+        mPhoneBindPage = null;
     }
 
     /**
@@ -600,7 +573,4 @@ public class PersonActivity extends BaseActivity {
         ExitAppUtils.getInstance().exit();
     }
 
-
-
 }
-

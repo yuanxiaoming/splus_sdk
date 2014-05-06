@@ -1,4 +1,3 @@
-
 /**
  * @Title: ToastUtil.java
  * @Package com.android.cansh.sdk.utils.toast
@@ -52,7 +51,7 @@ public class ToastUtil {
 
     /**
      * showWelcomeToast(账号提示框) (这里描述这个方法适用条件 – 可选)
-     *
+     * 
      * @param context
      * @param userName void
      * @exception
@@ -61,21 +60,17 @@ public class ToastUtil {
     public static void showPassportToast(Activity context, String userName) {
         Toast toast = new Toast(context);
         FrameLayout view = new FrameLayout(context);
-        FrameLayout.LayoutParams framParams = new LayoutParams(LayoutParams.MATCH_PARENT,
-               CommonUtil.dip2px(context,45));
+        FrameLayout.LayoutParams framParams = new LayoutParams(LayoutParams.MATCH_PARENT, CommonUtil.dip2px(context, 45));
         view.setLayoutParams(framParams);
-        view.setBackgroundResource(ResourceUtil
-                .getDrawableId(context, KR.drawable.splus_login_success_toast_background));
-        LayoutParams ivParam = new LayoutParams(CommonUtil.dip2px(context,80),
-                CommonUtil.dip2px(context,45));
+        view.setBackgroundResource(ResourceUtil.getDrawableId(context, KR.drawable.splus_login_success_toast_background));
+        LayoutParams ivParam = new LayoutParams(CommonUtil.dip2px(context, 80), CommonUtil.dip2px(context, 45));
         ivParam.gravity = Gravity.CENTER_VERTICAL;
         ivParam.bottomMargin = 10;
         ivParam.topMargin = 10;
         ivParam.leftMargin = 10;
         ivParam.rightMargin = 5;
         ImageView iv = new ImageView(context);
-        iv.setBackgroundResource(ResourceUtil.getDrawableId(context,
-                KR.drawable.splus_login_success_toast_logo));
+        iv.setBackgroundResource(ResourceUtil.getDrawableId(context, KR.drawable.splus_login_success_toast_logo));
         iv.setScaleType(ScaleType.FIT_XY);
         view.addView(iv, ivParam);
         TextView tv = new TextView(context);
@@ -84,8 +79,7 @@ public class ToastUtil {
         tv.setTextColor(Color.WHITE);
         tv.setText(userName + "," + "欢迎您回来！");
         tv.setGravity(Gravity.CENTER);
-        FrameLayout.LayoutParams tvParams = new LayoutParams(Phoneuitl.getWpixels(context),
-                LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams tvParams = new LayoutParams(Phoneuitl.getWpixels(context), LayoutParams.MATCH_PARENT);
         tvParams.gravity = Gravity.CENTER;
         view.addView(tv, tvParams);
         toast.setView(view);
@@ -95,4 +89,3 @@ public class ToastUtil {
     }
 
 }
-

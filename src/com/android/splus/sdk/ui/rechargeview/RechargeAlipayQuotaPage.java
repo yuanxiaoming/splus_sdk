@@ -68,7 +68,6 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
 
     private int mRatio = 10;
 
-
     private String mPayway;
 
     private UserModel mUserModel;
@@ -79,9 +78,13 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
 
     private String mReferer;
 
-    private String mRoleName;
+    private Integer mServerId;
 
     private String mServerName;
+
+    private Integer mRoleId;
+
+    private String mRoleName;
 
     private String mOutOrderid;
 
@@ -97,9 +100,8 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
 
     private AlipayQuotaHtmlClick mAlipayHtmlClick;
 
-    public RechargeAlipayQuotaPage(UserModel userModel, Activity activity, String deviceno,
-            String appKey, Integer gameid, String partner, String referer, String roleName,
-            String serverName, String outOrderid, String pext, Integer type, String payway,Float money) {
+    public RechargeAlipayQuotaPage(UserModel userModel, Activity activity, String deviceno, String appKey, Integer gameid, String partner, String referer, Integer serverId, Integer roleId, String roleName, String serverName, String outOrderid, String pext, Integer type,
+                    String payway, Float money) {
         super(activity);
         this.mUserModel = userModel;
         this.mActivity = activity;
@@ -108,15 +110,16 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
         this.mGameid = gameid;
         this.mPartner = partner;
         this.mReferer = referer;
+        this.mRoleId = roleId;
+        this.mServerId = serverId;
         this.mRoleName = roleName;
         this.mServerName = serverName;
         this.mOutOrderid = outOrderid;
         this.mPext = pext;
         this.mType = type;
         this.mPayway = payway;
-        this.mRenminbi=money;
-        inflate(activity,
-                ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_quota_layout), this);
+        this.mRenminbi = money;
+        inflate(activity, ResourceUtil.getLayoutId(activity, KR.layout.splus_recharge_alipay_quota_layout), this);
         findViews();
         initViews();
         setlistener();
@@ -131,14 +134,11 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
      */
 
     private void findViews() {
-        recharge_money_tips = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_tips));
+        recharge_money_tips = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_tips));
 
-        recharge_comfirm_btn = (Button) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_comfirm_btn));
+        recharge_comfirm_btn = (Button) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_comfirm_btn));
         recharge_comfirm_btn.setText(KR.string.splus_recharge_comfirm_tips);
-        recharge_money_ratio_tv = (TextView) findViewById(ResourceUtil.getId(mActivity,
-                KR.id.splus_recharge_money_ratio_tv));
+        recharge_money_ratio_tv = (TextView) findViewById(ResourceUtil.getId(mActivity, KR.id.splus_recharge_money_ratio_tv));
     }
 
     /**
@@ -149,9 +149,8 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
 
     private void initViews() {
 
-        recharge_money_tips.setText(Html.fromHtml("<font color=#FE8E35>充值金额: "+ mRenminbi+"元</font>"));
+        recharge_money_tips.setText(Html.fromHtml("<font color=#FE8E35>充值金额: " + mRenminbi + "元</font>"));
         recharge_money_ratio_tv.setHint(KR.string.splus_recharge_ratio_tv_tips);
-
 
     }
 
@@ -162,7 +161,6 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
      */
 
     private void setlistener() {
-
 
         recharge_comfirm_btn.setOnClickListener(new OnClickListener() {
 
@@ -181,7 +179,7 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
      */
 
     private void processLogic() {
-         getRatio();
+        getRatio();
     }
 
     /**
@@ -192,8 +190,7 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
     private void getRatio() {
         long time = DateUtil.getUnixTime();
         String keyString = mGameid + mPayway + time + mAppKey;
-        RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time,
-                MD5Util.getMd5toLowerCase(keyString));
+        RatioModel mRatioModel = new RatioModel(mGameid, mPayway, time, MD5Util.getMd5toLowerCase(keyString));
         NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.RATIO_URL, mRatioModel, new LoginParser()), onRatioebyCardCallBack);
     }
 
@@ -224,7 +221,7 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
 
     /**
      * 根据元宝数，显示相应提示（纯色文字）
-     *
+     * 
      * @param money
      */
     private void setGetMoneyTextPure(Float money) {
@@ -247,30 +244,23 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
                 return;
             }
             long time = DateUtil.getUnixTime();
-            String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner
-                    + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
-            RechargeModel rechargeModel = new RechargeModel(mGameid, mServerName, mDeviceno,
-                    mPartner, mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleName,
-                    time, mUserModel.getPassport(), mOutOrderid, mPext,
-                    MD5Util.getMd5toLowerCase(keyString));
+            String keyString = mGameid + mServerName + mDeviceno + mReferer + mPartner + mUserModel.getUid() + mRenminbi + mPayway + time + mAppKey;
+            RechargeModel rechargeModel = new RechargeModel(mGameid, mServerId, mServerName, mDeviceno, mPartner, mReferer, mUserModel.getUid(), mRenminbi, mType, mPayway, mRoleId, mRoleName, time, mUserModel.getPassport(), mOutOrderid, mPext,
+                            MD5Util.getMd5toLowerCase(keyString));
             if (mProgressDialog == null || !mProgressDialog.isShowing()) {
                 showProgressDialog();
             }
             NetHttpUtil.getDataFromServerPOST(mActivity, new RequestModel(Constant.HTMLWAPPAY_URL, rechargeModel, new LoginParser()), onRechargeCallBack);
 
         } else {
-            String str = "充值金额：" + mRenminbi
-                    + "元, 请确认您的支付宝余额大于充值金额,否则请您先充值到余额宝！储蓄卡或信用卡支付，单笔限额500元，每日限额500元，每月限额500元";
-            ProgressDialogUtil.showInfoDialog(mActivity, "确认支付", str,
-                    android.R.drawable.ic_dialog_info, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mAlipayHtmlClick.onAlipayQuotaHtmlClick(mUserModel, mActivity, mDeviceno,
-                                    mAppKey, mGameid, mPartner, mReferer, mRoleName, mServerName,
-                                    mOutOrderid, mPext, mType, mPayway, mRenminbi);
-                        }
+            String str = "充值金额：" + mRenminbi + "元, 请确认您的支付宝余额大于充值金额,否则请您先充值到余额宝！储蓄卡或信用卡支付，单笔限额500元，每日限额500元，每月限额500元";
+            ProgressDialogUtil.showInfoDialog(mActivity, "确认支付", str, android.R.drawable.ic_dialog_info, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mAlipayHtmlClick.onAlipayQuotaHtmlClick(mUserModel, mActivity, mDeviceno, mAppKey, mGameid, mPartner, mReferer, mServerId, mRoleId, mRoleName, mServerName, mOutOrderid, mPext, mType, mPayway, mRenminbi);
+                }
 
-                    }, null, true);
+            }, null, true);
         }
 
     }
@@ -280,7 +270,7 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
         @Override
         public void callbackSuccess(JSONObject paramObject) {
             closeProgressDialog();
-            if (paramObject != null&& (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
+            if (paramObject != null && (paramObject.optInt("code") == 24 || paramObject.optInt("code") == 1)) {
                 String orderid = paramObject.optJSONObject("data").optString("orderid");
                 int time = paramObject.optJSONObject("data").optInt("time");
                 String orderinfo = paramObject.optJSONObject("data").optString("orderinfo");
@@ -402,10 +392,8 @@ public class RechargeAlipayQuotaPage extends LinearLayout {
 
     public interface AlipayQuotaHtmlClick {
 
-        public void onAlipayQuotaHtmlClick(UserModel userModel, Activity activity, String deviceno,
-                String appKey, Integer gamid, String partner, String referer, String roleName,
-                String serverName, String outOrderid, String pext, Integer type, String payway,
-                float renminbi);
+        public void onAlipayQuotaHtmlClick(UserModel userModel, Activity activity, String deviceno, String appKey, Integer gamid, String partner, String referer, Integer serverId, Integer roleId, String roleName, String serverName, String outOrderid, String pext, Integer type,
+                        String payway, float renminbi);
 
     }
 

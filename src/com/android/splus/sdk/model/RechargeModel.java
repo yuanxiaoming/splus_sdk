@@ -30,6 +30,9 @@ public class RechargeModel extends BaseModel {
 
     private Integer gameid;
 
+    public static final String SERVERID = "serverId";
+    private Integer serverId;
+
     public static final String SERVERNAME = "serverName";
 
     private String serverName;
@@ -62,6 +65,9 @@ public class RechargeModel extends BaseModel {
 
     private String money;
 
+    public static final String ROLEID = "roleId";
+    private Integer roleId;
+
     public static final String ROLENAME = "roleName";
 
     private String roleName;
@@ -82,7 +88,6 @@ public class RechargeModel extends BaseModel {
 
     private String passport;
 
-
     public static final String CARDNUMBER = "cardnumber";
 
     private String cardnumber;
@@ -99,32 +104,30 @@ public class RechargeModel extends BaseModel {
 
     private String sign;
 
-  /**
-   *
-   * @Title:  RechargeModel
-   * @Description:( 网页支付)
-   * @param gameid
-   * @param serverName
-   * @param deviceno
-   * @param partner
-   * @param referer
-   * @param uid
-   * @param type
-   * @param money
-   * @param roleName
-   * @param time
-   * @param passport
-   * @param outOrderid
-   * @param pext
-   * @param sign
-   * @throws
-   */
+    /**
+     * @Title: RechargeModel
+     * @Description:( 网页支付)
+     * @param gameid
+     * @param serverName
+     * @param deviceno
+     * @param partner
+     * @param referer
+     * @param uid
+     * @param type
+     * @param money
+     * @param roleName
+     * @param time
+     * @param passport
+     * @param outOrderid
+     * @param pext
+     * @param sign
+     * @throws
+     */
 
-    public RechargeModel(Integer gameid, String serverName, String deviceno, String partner,
-            String referer, Integer uid,  Float money,Integer type, String roleName, Long time,
-            String passport, String outOrderid, String pext, String sign) {
+    public RechargeModel(Integer gameid, Integer serverId, String serverName, String deviceno, String partner, String referer, Integer uid, Float money, Integer type,Integer roleId, String roleName, Long time, String passport, String outOrderid, String pext, String sign) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
+        this.put(SERVERID, serverId == null ? 0 : serverId);
         this.put(SERVERNAME, serverName == null ? "" : serverName);
         this.put(DEVICENO, deviceno == null ? "" : deviceno);
         this.put(PARTNER, partner == null ? "" : partner);
@@ -132,6 +135,7 @@ public class RechargeModel extends BaseModel {
         this.put(UID, uid == null ? 0 : uid);
         this.put(MONEY, money == null ? 0.0 : money);
         this.put(TYPE, type == null ? 0 : type);
+        this.put(ROLEID, roleId == null ? 0 : roleId);
         this.put(ROLENAME, roleName == null ? "" : roleName);
         this.put(TIME, time == null ? 0 : time);
         this.put(PASSPORT, passport == null ? "" : passport);
@@ -140,12 +144,11 @@ public class RechargeModel extends BaseModel {
         this.put(SIGN, sign == null ? "" : sign.toLowerCase());
     }
 
-
-    public RechargeModel(Integer gameid, String serverName, String deviceno, String partner,
-            String referer, Integer uid, Float money, Integer type, String payway,String roleName, Long time,
-            String passport, String outOrderid, String pext, String sign) {
+    public RechargeModel(Integer gameid, Integer serverId, String serverName, String deviceno, String partner, String referer, Integer uid, Float money, Integer type, String payway, Integer roleId, String roleName, Long time, String passport, String outOrderid, String pext,
+                    String sign) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
+        this.put(SERVERID, serverId == null ? 0 : serverId);
         this.put(SERVERNAME, serverName == null ? "" : serverName);
         this.put(DEVICENO, deviceno == null ? "" : deviceno);
         this.put(PARTNER, partner == null ? "" : partner);
@@ -154,6 +157,7 @@ public class RechargeModel extends BaseModel {
         this.put(MONEY, money == null ? 0.0 : money);
         this.put(TYPE, type == null ? 0 : type);
         this.put(PAYWAY, payway == null ? 0 : payway);
+        this.put(ROLEID, roleId == null ? 0 : roleId);
         this.put(ROLENAME, roleName == null ? "" : roleName);
         this.put(TIME, time == null ? 0 : time);
         this.put(PASSPORT, passport == null ? "" : passport);
@@ -162,12 +166,11 @@ public class RechargeModel extends BaseModel {
         this.put(SIGN, sign == null ? "" : sign.toLowerCase());
     }
 
-
-    public RechargeModel(Integer gameid, String serverName, String deviceno, String partner,
-            String referer, Integer uid,  Float money,Integer type, String payway,String roleName, Long time,
-            String passport, String cardnumber,String cardpwd,String cardamt, String outOrderid, String pext, String sign) {
+    public RechargeModel(Integer gameid, Integer serverId, String serverName, String deviceno, String partner, String referer, Integer uid, Float money, Integer type, String payway, Integer roleId, String roleName, Long time, String passport, String cardnumber, String cardpwd,
+                    String cardamt, String outOrderid, String pext, String sign) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
+        this.put(SERVERID, serverId == null ? 0 : serverId);
         this.put(SERVERNAME, serverName == null ? "" : serverName);
         this.put(DEVICENO, deviceno == null ? "" : deviceno);
         this.put(PARTNER, partner == null ? "" : partner);
@@ -176,6 +179,7 @@ public class RechargeModel extends BaseModel {
         this.put(MONEY, money == null ? 0.0 : money);
         this.put(TYPE, type == null ? 0 : type);
         this.put(PAYWAY, payway == null ? 0 : payway);
+        this.put(ROLEID, roleId == null ? 0 : roleId);
         this.put(ROLENAME, roleName == null ? "" : roleName);
         this.put(TIME, time == null ? 0 : time);
         this.put(PASSPORT, passport == null ? "" : passport);
@@ -187,7 +191,6 @@ public class RechargeModel extends BaseModel {
         this.put(SIGN, sign == null ? "" : sign.toLowerCase());
     }
 
-
     /**
      * Title: initMap Description:
      *
@@ -195,7 +198,6 @@ public class RechargeModel extends BaseModel {
      */
     @Override
     protected void initMap() {
-
 
     }
 

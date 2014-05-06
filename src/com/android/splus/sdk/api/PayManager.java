@@ -28,7 +28,7 @@ public class PayManager {
 
     private static PayManager mPayManager;
 
-    private boolean  mLogDbug;
+    private boolean mLogDbug;
 
     public static final String SDK_VERSION = "1.0";
 
@@ -61,7 +61,7 @@ public class PayManager {
 
     /**
      * Title: init Description:
-     *
+     * 
      * @param mBaseActivity
      * @param appkey
      * @param callBack
@@ -71,14 +71,13 @@ public class PayManager {
      *      java.lang.String, com.android.splus.sdk.apiinterface.InitCallBack,
      *      boolean, int)
      */
-    public  void init(Activity activity,Integer gameid, String appkey, InitCallBack initCallBack,
-            boolean useUpdate, Integer orientation) {
+    public void init(Activity activity, Integer gameid, String appkey, InitCallBack initCallBack, boolean useUpdate, Integer orientation) {
 
         this.mActivity = activity;
 
         if (mInitBean == null || mInitBean.getUsesdk() != APIConstants.SPLUS) {
             Properties prop = readPropertites(activity, APIConstants.CONFIG_FILENAME);
-            mInitBean = InitBean.inflactBean(activity, prop,gameid, appkey,orientation);
+            mInitBean = InitBean.inflactBean(activity, prop, gameid, appkey, orientation);
         }
         switch (mInitBean.getUsesdk()) {
             case APIConstants.SPLUS:
@@ -117,7 +116,7 @@ public class PayManager {
             mIPayManager.setDBUG(mLogDbug);
         }
         mIPayManager.setInitBean(mInitBean);
-        mIPayManager.init(mActivity,gameid, appkey, initCallBack, useUpdate, orientation);
+        mIPayManager.init(mActivity, gameid, appkey, initCallBack, useUpdate, orientation);
     }
 
     /**
@@ -132,22 +131,18 @@ public class PayManager {
     /**
      * 充值
      */
-    public void recharge(Activity activity,Integer serverId,String serverName, Integer roleId,String roleName, String outOrderid,
-            String pext, RechargeCallBack rechargeCallBack) {
+    public void recharge(Activity activity, Integer serverId, String serverName, Integer roleId, String roleName, String outOrderid, String pext, RechargeCallBack rechargeCallBack) {
         if (mIPayManager != null) {
-            mIPayManager.recharge(activity,serverId, serverName,roleId, roleName, outOrderid, pext,
-                    rechargeCallBack);
+            mIPayManager.recharge(activity, serverId, serverName, roleId, roleName, outOrderid, pext, rechargeCallBack);
         }
     }
 
     /**
      * 定额充值
      */
-    public void rechargeByQuota(Activity activity, Integer serverId,String serverName,Integer roleId,String roleName,
-            String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
+    public void rechargeByQuota(Activity activity, Integer serverId, String serverName, Integer roleId, String roleName, String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
         if (mIPayManager != null) {
-            mIPayManager.rechargeByQuota(activity, serverId, serverName,roleId, roleName, outOrderid, pext, money,
-                    rechargeCallBack);
+            mIPayManager.rechargeByQuota(activity, serverId, serverName, roleId, roleName, outOrderid, pext, money, rechargeCallBack);
         }
     }
 
@@ -172,7 +167,7 @@ public class PayManager {
 
     /**
      * 注销游戏接口
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月12日 上午11:38:34
      */
@@ -187,7 +182,7 @@ public class PayManager {
      * 控制日志DUBG
      */
     public void setDBUG(boolean logDbug) {
-         mLogDbug=logDbug;
+        mLogDbug = logDbug;
         if (mIPayManager != null) {
             mIPayManager.setDBUG(mLogDbug);
         }
@@ -195,7 +190,7 @@ public class PayManager {
 
     /**
      * 进入个人中心
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月14日 上午10:27:05
      */
@@ -208,9 +203,9 @@ public class PayManager {
     /**
      * 統計区服角色等级接口
      */
-    public void sendGameStatics(Activity activity, Integer serverId,String serverName, Integer roleId,String roleName, String level) {
+    public void sendGameStatics(Activity activity, Integer serverId, String serverName, Integer roleId, String roleName, String level) {
         if (mIPayManager != null) {
-            mIPayManager.sendGameStatics(activity, serverId, serverName,roleId, roleName,level);
+            mIPayManager.sendGameStatics(activity, serverId, serverName, roleId, roleName, level);
         }
     }
 
@@ -227,8 +222,7 @@ public class PayManager {
      * 悬浮按钮
      */
 
-    public FloatToolBar creatFloatButton(Activity mActivity, boolean showlasttime,
-            FloatToolBarAlign align, float position) {
+    public FloatToolBar creatFloatButton(Activity mActivity, boolean showlasttime, FloatToolBarAlign align, float position) {
         if (mIPayManager != null) {
             return mIPayManager.creatFloatButton(mActivity, showlasttime, align, position);
         }
@@ -254,14 +248,12 @@ public class PayManager {
         }
     }
 
-
-    public void onStop(Activity activity){
+    public void onStop(Activity activity) {
         if (mIPayManager != null) {
             mIPayManager.onStop(activity);
         }
 
     }
-
 
     public void onDestroy(Activity activity) {
 
@@ -270,10 +262,9 @@ public class PayManager {
         }
     }
 
-
     /**
      * 取assets下的配置参数
-     *
+     * 
      * @param context
      * @param file
      * @return

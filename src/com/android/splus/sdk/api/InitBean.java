@@ -57,9 +57,9 @@ public class InitBean {
 
     private int mWidth;
 
-    public static InitBean inflactBean(Activity activity, Properties prop,Integer gameid, String appkey,Integer orientation) {
+    public static InitBean inflactBean(Activity activity, Properties prop, Integer gameid, String appkey, Integer orientation) {
         InitBean bean = new InitBean();
-        if (prop != null && !TextUtils.isEmpty(appkey)&&gameid!=null) {
+        if (prop != null && !TextUtils.isEmpty(appkey) && gameid != null) {
             bean.setProperties(prop);
             bean.getGameConfig(activity, null);
             if (orientation == null) {
@@ -69,7 +69,7 @@ public class InitBean {
             }
             bean.setFixed(Integer.parseInt(prop.getProperty("quota").trim() == null ? "1" : prop.getProperty("quota").trim())); // 默认是1-定额
             bean.mAppkey = appkey;
-            bean.mGameid=gameid;
+            bean.mGameid = gameid;
         }
         return bean;
     }
@@ -77,12 +77,11 @@ public class InitBean {
     public void initSplus(final Activity activity, final InitCallBack initCallBack) {
         this.mActivity = activity;
         if (mUseSDK != APIConstants.SPLUS) {
-            init(activity,mGameid, mAppkey, initCallBack,mOrientation == 1 ? Configuration.ORIENTATION_PORTRAIT: Configuration.ORIENTATION_LANDSCAPE);
+            init(activity, mGameid, mAppkey, initCallBack, mOrientation == 1 ? Configuration.ORIENTATION_PORTRAIT : Configuration.ORIENTATION_LANDSCAPE);
         }
     }
 
-    public synchronized void init(Activity mActivity, Integer gameid,String appkey, InitCallBack initCallBack,
-            int orientation) {
+    public synchronized void init(Activity mActivity, Integer gameid, String appkey, InitCallBack initCallBack, int orientation) {
         if (initCallBack == null) {
             LogHelper.d(TAG, "InitCallBack参数不能为空");
             return;
@@ -103,7 +102,7 @@ public class InitBean {
             initCallBack.initFaile("appkey参数不能为空");
             return;
         }
-        if (gameid==null) {
+        if (gameid == null) {
             LogHelper.i(TAG, "gameid参数不能为空");
             initCallBack.initFaile("gameid参数不能为空");
             return;
@@ -138,10 +137,8 @@ public class InitBean {
         String imei = Phoneuitl.getIMEI(activity);
         String keyString = mGameid + mReferer + mPartner + mac + imei + time;
         String sign = MD5Util.getMd5toLowerCase(keyString + mAppkey);
-        ActiveModel mActiveMode = new ActiveModel(mGameid, mPartner, mReferer, mac, imei, mWidth,
-                mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time, sign);
-        NetHttpUtil.getDataFromServerPOST(activity, new RequestModel(Constant.ACTIVE_URL,
-                mActiveMode, new LoginParser()), onActiveCallBack);
+        ActiveModel mActiveMode = new ActiveModel(mGameid, mPartner, mReferer, mac, imei, mWidth, mHeight, Phoneuitl.MODE, Phoneuitl.OS, Phoneuitl.OSVER, time, sign);
+        NetHttpUtil.getDataFromServerPOST(activity, new RequestModel(Constant.ACTIVE_URL, mActiveMode, new LoginParser()), onActiveCallBack);
         // LogHelper.i("requestInit",
         // NetHttpUtil.hashMapTOgetParams(mActiveMode, Constant.ACTIVE_URL));
 
@@ -156,16 +153,15 @@ public class InitBean {
 
         if (!NetWorkUtil.isNetworkAvailable(activity)) {
 
-            ProgressDialogUtil.showInfoDialog(activity, "提示", "当前网络不稳定,请检查您的网络设置！", 0,
-                    new OnClickListener() {
+            ProgressDialogUtil.showInfoDialog(activity, "提示", "当前网络不稳定,请检查您的网络设置！", 0, new OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                            repeatInit(activity);
+                    repeatInit(activity);
 
-                        }
-                    }, "确定", null, null, false);
+                }
+            }, "确定", null, null, false);
 
         } else {
             requestInit(activity);
@@ -223,7 +219,7 @@ public class InitBean {
             InputStream in = assetManager.open(APIConstants.CONFIG_FILENAME);
             Properties prop = new Properties();
             prop.load(in);
-       //     mGameid = Integer.parseInt(prop.getProperty("gameid").trim());
+            // mGameid = Integer.parseInt(prop.getProperty("gameid").trim());
             mPartner = prop.getProperty("partner").trim();
             mReferer = prop.getProperty("referer").trim();
         } catch (IOException e) {

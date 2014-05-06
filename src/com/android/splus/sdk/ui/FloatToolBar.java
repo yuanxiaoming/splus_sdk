@@ -23,19 +23,17 @@ public class FloatToolBar {
 
     private FloatWindow mFloatButton;
 
-    private FloatToolBar(Activity activity, boolean showlasttime, FloatToolBarAlign align,
-            float position) {
+    private FloatToolBar(Activity activity, boolean showlasttime, FloatToolBarAlign align, float position) {
         mFloatButton = new FloatWindow(activity, showlasttime, align, position);
     }
 
-    static FloatToolBar getFloatToolBar(Activity activity, boolean showlasttime,
-            FloatToolBarAlign align, float position) {
+    static FloatToolBar getFloatToolBar(Activity activity, boolean showlasttime, FloatToolBarAlign align, float position) {
         return new FloatToolBar(activity, showlasttime, align, position);
     }
 
     /**
      * 隐藏
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月30日 下午11:19:07
      */
@@ -47,7 +45,7 @@ public class FloatToolBar {
 
     /**
      * 显示
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月30日 下午11:19:45
      */
@@ -81,7 +79,7 @@ public class FloatToolBar {
 
     /**
      * 位置
-     *
+     * 
      * @ClassName:FloatToolBarPlace
      * @author xiaoming.yuan
      * @date 2013年10月25日 下午1:49:56

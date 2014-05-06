@@ -60,7 +60,7 @@ public class _91 implements IPayManager {
     private RechargeCallBack mRechargeCallBack;
 
     // 下面参数仅在测试时用
-    private  UserModel userModel;
+    private UserModel userModel;
 
     private int mUid = 0;
 
@@ -105,28 +105,22 @@ public class _91 implements IPayManager {
     }
 
     @Override
-    public void init(Activity activity,Integer gameid, String appkey, InitCallBack initCallBack,
-            boolean useUpdate, Integer orientation) {
+    public void init(Activity activity, Integer gameid, String appkey, InitCallBack initCallBack, boolean useUpdate, Integer orientation) {
         mInitBean.initSplus(activity, initCallBack);
         this.mInitCallBack = initCallBack;
         this.mActivity = activity;
-        this.mAppForeground=true;
+        this.mAppForeground = true;
         if (mInitBean.getOrientation() == Configuration.ORIENTATION_LANDSCAPE) {
-            NdCommplatform.getInstance().ndSetScreenOrientation(
-                    NdCommplatform.SCREEN_ORIENTATION_LANDSCAPE);
+            NdCommplatform.getInstance().ndSetScreenOrientation(NdCommplatform.SCREEN_ORIENTATION_LANDSCAPE);
         } else if (mInitBean.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
-            NdCommplatform.getInstance().ndSetScreenOrientation(
-                    NdCommplatform.SCREEN_ORIENTATION_PORTRAIT);
+            NdCommplatform.getInstance().ndSetScreenOrientation(NdCommplatform.SCREEN_ORIENTATION_PORTRAIT);
         } else {
-            NdCommplatform.getInstance().ndSetScreenOrientation(
-                    NdCommplatform.SCREEN_ORIENTATION_AUTO);
+            NdCommplatform.getInstance().ndSetScreenOrientation(NdCommplatform.SCREEN_ORIENTATION_AUTO);
         }
 
         if (mProperties != null) {
-            mAppId = mProperties.getProperty("91_appid") == null ? "0" : mProperties
-                    .getProperty("91_appid");
-            mAppKey = mProperties.getProperty("91_appkey") == null ? "" : mProperties
-                    .getProperty("91_appkey");
+            mAppId = mProperties.getProperty("91_appid") == null ? "0" : mProperties.getProperty("91_appid");
+            mAppKey = mProperties.getProperty("91_appkey") == null ? "" : mProperties.getProperty("91_appkey");
         }
         NdAppInfo appInfo = new NdAppInfo();
         appInfo.setCtx(activity);
@@ -187,8 +181,7 @@ public class _91 implements IPayManager {
                 // NetHttpUtil.getDataFromServerPOST(mActivity,new
                 // RequestModel(APIConstants.TS_VERIFY, params, new
                 // LoginParser()),mLoginDataCallBack);
-                UserModel userModel = new UserModel(10001, "xiaoming", "123456", "fksofjsofsdf",
-                        123435, true);
+                UserModel userModel = new UserModel(10001, "xiaoming", "123456", "fksofjsofsdf", 123435, true);
                 mLoginCallBack.loginSuccess(userModel);
 
             } else if (code == NdErrorCode.ND_COM_PLATFORM_ERROR_CANCEL) {
@@ -232,32 +225,31 @@ public class _91 implements IPayManager {
     };
 
     @Override
-    public void recharge(Activity activity, Integer serverId,String serverName, Integer roleId,String roleName, String outOrderid,
-            String pext, RechargeCallBack rechargeCallBack) {
-        rechargeByQuota( activity, serverId,serverName,  roleId,roleName, outOrderid,  pext,  0f, rechargeCallBack);
+    public void recharge(Activity activity, Integer serverId, String serverName, Integer roleId, String roleName, String outOrderid, String pext, RechargeCallBack rechargeCallBack) {
+        rechargeByQuota(activity, serverId, serverName, roleId, roleName, outOrderid, pext, 0f, rechargeCallBack);
     }
 
     @Override
-    public void rechargeByQuota(Activity activity, Integer serverId,String serverName, Integer roleId,String roleName,
-            String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
-        this.mActivity=activity;
-        this.mRechargeCallBack=rechargeCallBack;
+    public void rechargeByQuota(Activity activity, Integer serverId, String serverName, Integer roleId, String roleName, String outOrderid, String pext, Float money, RechargeCallBack rechargeCallBack) {
+        this.mActivity = activity;
+        this.mRechargeCallBack = rechargeCallBack;
 
-        if(NdCommplatform.getInstance().isLogined()){
-            //已经是登录状态
+        if (NdCommplatform.getInstance().isLogined()) {
+            // 已经是登录状态
             Toast.makeText(mActivity, "已经是登录状态", Toast.LENGTH_SHORT).show();
-        }else{
-            //未登录状态
+        } else {
+            // 未登录状态
             Toast.makeText(mActivity, "未登录状态,请重新登录游戏", Toast.LENGTH_SHORT).show();
         }
         String cooOrderSerial = UUID.randomUUID().toString();
         int needPayCoins = 50;
-        int ndUniPayForCoin = NdCommplatform.getInstance().ndUniPayForCoin(cooOrderSerial,needPayCoins, outOrderid, activity);
-
+        int ndUniPayForCoin = NdCommplatform.getInstance().ndUniPayForCoin(cooOrderSerial, needPayCoins, outOrderid, activity);
 
         // HashMap<String, Object> params = new HashMap<String, Object>();
 
-        //  NetHttpUtil.getDataFromServerPOST(activity, new RequestModel(APIConstants.TS_PAY, params,new LoginParser()), mRechargeDataCallBack);
+        // NetHttpUtil.getDataFromServerPOST(activity, new
+        // RequestModel(APIConstants.TS_PAY, params,new LoginParser()),
+        // mRechargeDataCallBack);
 
     }
 
@@ -269,18 +261,19 @@ public class _91 implements IPayManager {
             try {
                 if (paramObject != null && paramObject.optInt("code") == 1) {
                     String data = paramObject.optString("data");
-                    PayRechargeBean rechargeBean=new PayRechargeBean(data);
+                    PayRechargeBean rechargeBean = new PayRechargeBean(data);
                     NdBuyInfo buyInfo = new NdBuyInfo(); //
                     buyInfo.setSerial(rechargeBean.getOrderid());
-                    buyInfo.setProductId(rechargeBean.getProductId());//商品ID，厂商也可以使用固定商品ID 例如“1”
-                    buyInfo.setProductName(rechargeBean.getProductName());//产品名称
-                    buyInfo.setProductPrice(rechargeBean.getProductPrice());//产品现价 (不能小于0.01个91豆)
-                    buyInfo.setProductOrginalPrice(rechargeBean.getProductOrginalPrice());//产品原价，同上面的价格
-                    buyInfo.setCount(rechargeBean.getCount());//购买数量(商品数量最大10000，最新1)
-                    buyInfo.setProductName(rechargeBean.getProductDescription());//服务器分区，不超过20个字符，只允许英文或数字
+                    buyInfo.setProductId(rechargeBean.getProductId());// 商品ID，厂商也可以使用固定商品ID
+                                                                      // 例如“1”
+                    buyInfo.setProductName(rechargeBean.getProductName());// 产品名称
+                    buyInfo.setProductPrice(rechargeBean.getProductPrice());// 产品现价
+                                                                            // (不能小于0.01个91豆)
+                    buyInfo.setProductOrginalPrice(rechargeBean.getProductOrginalPrice());// 产品原价，同上面的价格
+                    buyInfo.setCount(rechargeBean.getCount());// 购买数量(商品数量最大10000，最新1)
+                    buyInfo.setProductName(rechargeBean.getProductDescription());// 服务器分区，不超过20个字符，只允许英文或数字
 
-                    int aError = NdCommplatform.getInstance().ndUniPayAsyn(buyInfo, mActivity,
-                            new NdMiscCallbackListener.OnPayProcessListener() {
+                    int aError = NdCommplatform.getInstance().ndUniPayAsyn(buyInfo, mActivity, new NdMiscCallbackListener.OnPayProcessListener() {
                         @Override
                         public void finishPayProcess(int code) {
                             switch (code) {
@@ -357,8 +350,7 @@ public class _91 implements IPayManager {
                         System.exit(0);
                     } else {
                         // android2.1
-                        ActivityManager am = (ActivityManager) context
-                                .getSystemService(Context.ACTIVITY_SERVICE);
+                        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
                         am.restartPackage(context.getPackageName());
                     }
                 } catch (Exception e) {
@@ -390,7 +382,7 @@ public class _91 implements IPayManager {
     }
 
     @Override
-    public void sendGameStatics(Activity activity,Integer serverId,String serverName, Integer roleId,String roleName, String level) {
+    public void sendGameStatics(Activity activity, Integer serverId, String serverName, Integer roleId, String roleName, String level) {
     }
 
     @Override
@@ -399,23 +391,22 @@ public class _91 implements IPayManager {
     }
 
     @Override
-    public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime,
-            FloatToolBarAlign align, float position) {
-        int place=1;
-        if(align==FloatToolBarAlign.Left&&position<0.5f){
-            place=NdToolBarPlace.NdToolBarTopLeft;
-        } else if(align==FloatToolBarAlign.Left&&position==0.5f){
-            place=NdToolBarPlace.NdToolBarLeftMid;
-        }else if(align==FloatToolBarAlign.Left&&position>0.5f){
-            place=NdToolBarPlace.NdToolBarBottomLeft;
-        }else if(align==FloatToolBarAlign.Right&&position<0.5f){
-            place=NdToolBarPlace.NdToolBarTopRight;
-        }else if(align==FloatToolBarAlign.Right&&position==0.5f){
-            place=NdToolBarPlace.NdToolBarRightMid;
-        }else if(align==FloatToolBarAlign.Right&&position>0.5f){
-            place=NdToolBarPlace.NdToolBarTopRight;
-        } else if(align==FloatToolBarAlign.Right&&position<0.5f){
-            place=NdToolBarPlace.NdToolBarBottomRight;
+    public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime, FloatToolBarAlign align, float position) {
+        int place = 1;
+        if (align == FloatToolBarAlign.Left && position < 0.5f) {
+            place = NdToolBarPlace.NdToolBarTopLeft;
+        } else if (align == FloatToolBarAlign.Left && position == 0.5f) {
+            place = NdToolBarPlace.NdToolBarLeftMid;
+        } else if (align == FloatToolBarAlign.Left && position > 0.5f) {
+            place = NdToolBarPlace.NdToolBarBottomLeft;
+        } else if (align == FloatToolBarAlign.Right && position < 0.5f) {
+            place = NdToolBarPlace.NdToolBarTopRight;
+        } else if (align == FloatToolBarAlign.Right && position == 0.5f) {
+            place = NdToolBarPlace.NdToolBarRightMid;
+        } else if (align == FloatToolBarAlign.Right && position > 0.5f) {
+            place = NdToolBarPlace.NdToolBarTopRight;
+        } else if (align == FloatToolBarAlign.Right && position < 0.5f) {
+            place = NdToolBarPlace.NdToolBarBottomRight;
         }
         mToolBar = NdToolBar.create(activity, place);
         mToolBar.show();
@@ -426,37 +417,35 @@ public class _91 implements IPayManager {
     @Override
     public void onResume(Activity activity) {
 
-        if(!mAppForeground){//从后台切到前台，打开91SDK暂停页
+        if (!mAppForeground) {// 从后台切到前台，打开91SDK暂停页
 
             NdCommplatform.getInstance().ndPause(new NdPageCallbackListener.OnPauseCompleteListener(activity) {
 
                 @Override
                 public void onComplete() {
 
-                    //   Toast.makeText(activity, "退出DEMO", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(activity, "退出DEMO",
+                    // Toast.LENGTH_LONG).show();
                 }
             });
             mAppForeground = true;
         }
 
-
     }
 
     /**
      * 判断App是否在前台运行
-     *
+     * 
      * @return
      */
     public boolean isAppOnForeground(Activity activity) {
-        ActivityManager activityManager = (ActivityManager) activity.getApplicationContext()
-                .getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) activity.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
         String packageName = activity.getApplicationContext().getPackageName();
         List<RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
         if (appProcesses == null)
             return false;
         for (RunningAppProcessInfo appProcess : appProcesses) {
-            if (appProcess.processName.equals(packageName)
-                    && appProcess.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+            if (appProcess.processName.equals(packageName) && appProcess.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
                 return true;
             }
         }
@@ -464,22 +453,20 @@ public class _91 implements IPayManager {
     }
 
     @Override
-    public void onPause( Activity activity) {
-
+    public void onPause(Activity activity) {
 
     }
 
-
     @Override
     public void onStop(Activity activity) {
-        if(!isAppOnForeground(activity)){//app进入后台
+        if (!isAppOnForeground(activity)) {// app进入后台
             mAppForeground = false;
         }
     }
 
     @Override
     public void onDestroy(Activity activity) {
-        if(mToolBar != null) {
+        if (mToolBar != null) {
             mToolBar.recycle();
             mToolBar = null;
         }

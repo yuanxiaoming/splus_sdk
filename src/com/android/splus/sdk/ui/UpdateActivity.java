@@ -1,5 +1,4 @@
-
- /**
+/**
  * @Title: UpdateActivity.java
  * @Package com.android.cansh.sdk.ui
  * Copyright: Copyright (c) 2013
@@ -9,7 +8,7 @@
  * @version V1.0
  */
 
- package com.android.splus.sdk.ui;
+package com.android.splus.sdk.ui;
 
 import com.android.splus.sdk.manager.ExitAppUtils;
 import com.android.splus.sdk.utils.CommonUtil;
@@ -26,7 +25,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.Window;
 
-
 /**
  * @ClassName: UpdateActivity
  * @author xiaoming.yuan
@@ -37,7 +35,9 @@ public class UpdateActivity extends BaseActivity {
     private static final String TAG = "UpdateActivity";
 
     private int mUptype = 0;
-    private  static final String UPTYPE="uptype";
+
+    private static final String UPTYPE = "uptype";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -47,8 +47,8 @@ public class UpdateActivity extends BaseActivity {
     }
 
     /**
-     * Title: findViewById
-     * Description:
+     * Title: findViewById Description:
+     * 
      * @see com.android.splus.sdk.ui.BaseActivity#findViewById()
      */
     @Override
@@ -56,8 +56,8 @@ public class UpdateActivity extends BaseActivity {
     }
 
     /**
-     * Title: loadViewLayout
-     * Description:
+     * Title: loadViewLayout Description:
+     * 
      * @see com.android.splus.sdk.ui.BaseActivity#loadViewLayout()
      */
     @Override
@@ -65,8 +65,8 @@ public class UpdateActivity extends BaseActivity {
     }
 
     /**
-     * Title: processLogic
-     * Description:
+     * Title: processLogic Description:
+     * 
      * @see com.android.splus.sdk.ui.BaseActivity#processLogic()
      */
     @Override
@@ -76,8 +76,7 @@ public class UpdateActivity extends BaseActivity {
         if (SplusPayManager.INTENT_LOGOUT.equals(type)) {
             finish();
             ExitAppUtils.getInstance().exit();
-            SharedPreferencesHelper.getInstance().setLoginStatusPreferences(UpdateActivity.this,
-                    SplusPayManager.getInstance().getAppkey(), false);
+            SharedPreferencesHelper.getInstance().setLoginStatusPreferences(UpdateActivity.this, SplusPayManager.getInstance().getAppkey(), false);
             intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -95,8 +94,7 @@ public class UpdateActivity extends BaseActivity {
                 String remoteAppVer = mJSONObject.optString(SplusPayManager.GAMEVERSION);
                 String updatecontent = mJSONObject.optString(SplusPayManager.UPDATECONTENT);
                 String remoteSDKVer = mJSONObject.optString(SplusPayManager.SDKVERSION);
-                update(localAppVer, remoteAppVer, SplusPayManager.SDK_VERSION, remoteSDKVer, mUptype,
-                        updatecontent);
+                update(localAppVer, remoteAppVer, SplusPayManager.SDK_VERSION, remoteSDKVer, mUptype, updatecontent);
             } catch (Exception e) {
                 LogHelper.i(TAG, e.getLocalizedMessage());
                 finish(true);
@@ -105,8 +103,8 @@ public class UpdateActivity extends BaseActivity {
     }
 
     /**
-     * Title: setListener
-     * Description:
+     * Title: setListener Description:
+     * 
      * @see com.android.splus.sdk.ui.BaseActivity#setListener()
      */
     @Override
@@ -115,7 +113,7 @@ public class UpdateActivity extends BaseActivity {
 
     /**
      * 比较游戏版本号和游戏SDK版本升级
-     *
+     * 
      * @author xiaoming.yuan
      * @date 2013年10月9日 下午2:57:22
      * @param localAppVer 本地游戏包版本
@@ -125,30 +123,24 @@ public class UpdateActivity extends BaseActivity {
      * @param updatetype 是否强制更新
      * @param updatecontent 更新内容
      */
-    private void update(String localAppVer, String remoteAppVer, String localSDKVer,
-            String remoteSDKVer, int updatetype, String updatecontent) {
-        if (CommonUtil.compareVersion(localAppVer.trim(), remoteAppVer.trim())
-                || (localAppVer.trim().equals(remoteAppVer.trim()) && CommonUtil.compareVersion(
-                        localSDKVer.trim(), remoteSDKVer.trim()))) {
+    private void update(String localAppVer, String remoteAppVer, String localSDKVer, String remoteSDKVer, int updatetype, String updatecontent) {
+        if (CommonUtil.compareVersion(localAppVer.trim(), remoteAppVer.trim()) || (localAppVer.trim().equals(remoteAppVer.trim()) && CommonUtil.compareVersion(localSDKVer.trim(), remoteSDKVer.trim()))) {
             switch (updatetype) {
                 case SplusPayManager.MUST_UPDATE:
-                    ProgressDialogUtil.showInfoDialog(UpdateActivity.this, "版本更新", updatecontent, 0,
-                            mUpdateListener, "更新", null, null, false);
+                    ProgressDialogUtil.showInfoDialog(UpdateActivity.this, "版本更新", updatecontent, 0, mUpdateListener, "更新", null, null, false);
                     break;
                 case SplusPayManager.NO_UPDATE:
                     finish(true);
                     break;
                 case SplusPayManager.ORDINARY_UPDATE:
-                    ProgressDialogUtil.showInfoDialog(UpdateActivity.this, "版本更新", updatecontent, 0,
-                            mUpdateListener, "更新", new DialogInterface.OnClickListener() {
+                    ProgressDialogUtil.showInfoDialog(UpdateActivity.this, "版本更新", updatecontent, 0, mUpdateListener, "更新", new DialogInterface.OnClickListener() {
 
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-
-                                    finish(true);
-                                }
-                            }, "取消", false);
+                            finish(true);
+                        }
+                    }, "取消", false);
                     break;
                 default:
                     finish(true);
@@ -179,4 +171,3 @@ public class UpdateActivity extends BaseActivity {
         super.finish();
     }
 }
-

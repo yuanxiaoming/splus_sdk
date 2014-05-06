@@ -17,40 +17,37 @@ public class Constant {
 
     public static final String REGISTER_URL = URL + "sdk/reg.php";
 
-    public static final String RATIO_URL = URL+"sdk/pay_way_ratio.php";
+    public static final String RATIO_URL = URL + "sdk/pay_way_ratio.php";
 
-    public static final String USERINFO_URL = URL+"sdk/user_info.php";
+    public static final String USERINFO_URL = URL + "sdk/user_info.php";
 
-    public static final String PASSWORD_URL = URL+"sdk/changepasswd.php";
+    public static final String PASSWORD_URL = URL + "sdk/changepasswd.php";
 
-    public static final String STATISTICS_GAME_URL = URL+"sdk/enter_server.php";
+    public static final String STATISTICS_GAME_URL = URL + "sdk/enter_server.php";
 
-    public static final String STATISTICS_ONLINETIME_URL = URL+"sdk/onlinetime.php";
+    public static final String STATISTICS_ONLINETIME_URL = URL + "sdk/onlinetime.php";
 
-    public static final String PAY_URL = URL+"pay/";
+    public static final String PAY_URL = URL + "pay/";
 
     public static final String HTMLWAPPAY_URL = "http://sy.api.37wan.cn/htmlWapPay_test/payIndex.php";
 
     public static final String BINDMOBILE_URL = "http://sy.api.37wan.cn/action/activebindmobile.php?";
 
-
-
-
     // 充值：
     public static final int[] CHINA_MOBILE_MONEY = {
-            10, 20, 30, 50, 100, 300, 500
+                    10, 20, 30, 50, 100, 300, 500
     };
 
     public static final int[] CHINA_UNICOM_MONEY = {
-            20, 30, 50, 100, 300, 500
+                    20, 30, 50, 100, 300, 500
     };
 
     public static final int[] CHINA_SDCOMM_ONEY = {
-            10, 30, 35, 45, 100, 350, 1000
+                    10, 30, 35, 45, 100, 350, 1000
     };
 
     public static final int[] ALIPAY_MONEY = {
-            10, 20, 30, 50, 100, 200, 300, 500, 1000, 2000, 3000, 5000
+                    10, 20, 30, 50, 100, 200, 300, 500, 1000, 2000, 3000, 5000
     };
 
     public static final int RECHARGE_BY_NO_QUATO = 0;
@@ -76,19 +73,12 @@ public class Constant {
     public final static int PERSON = 8;
 
     public static final Integer RECHARGE_TYPE[] = {
-            ALIPAY_FAST, ALIPAY_WAP, ALIPAY_DEPOSIT, ALIPAY_CREDIT, UNION_PAY, CHAIN_CMM,
-            CHAIN_UNC, CHAIN_SD, PERSON
+                    ALIPAY_FAST, ALIPAY_WAP, ALIPAY_DEPOSIT, ALIPAY_CREDIT, UNION_PAY, CHAIN_CMM, CHAIN_UNC, CHAIN_SD, PERSON
     };
 
     public static final String IMG_ICON[] = {
-            KR.drawable.splus_recharge_by_alipay_fast_selector,
-            KR.drawable.splus_recharge_by_alipay_wap_selector,
-            KR.drawable.splus_recharge_by_alipay_deposit_selector,
-            KR.drawable.splus_recharge_by_alipay_credit_selector,
-            KR.drawable.splus_recharge_by_alipay_deposit_selector,
-            KR.drawable.splus_recharge_by_cmm_selector, KR.drawable.splus_recharge_by_unc_selector,
-            KR.drawable.splus_recharge_by_sd_selector,
-            KR.drawable.splus_recharge_by_person_selector
+                    KR.drawable.splus_recharge_by_alipay_fast_selector, KR.drawable.splus_recharge_by_alipay_wap_selector, KR.drawable.splus_recharge_by_alipay_deposit_selector, KR.drawable.splus_recharge_by_alipay_credit_selector,
+                    KR.drawable.splus_recharge_by_alipay_deposit_selector, KR.drawable.splus_recharge_by_cmm_selector, KR.drawable.splus_recharge_by_unc_selector, KR.drawable.splus_recharge_by_sd_selector, KR.drawable.splus_recharge_by_person_selector
     };
 
     /**
@@ -114,8 +104,7 @@ public class Constant {
     public final static String PERSON_PAYWAY = "";
 
     public static final String[] PAYWAY_TYPE = {
-            ALIPAY_FAST_PAYWAY, ALIPAY_WAP_PAYWAY, ALIPAY_DEPOSIT_PAYWAY, ALIPAY_CREDIT_PAYWAY,
-            UNION_PAYWAY, CHAIN_CMM_PAYWAY, CHAIN_UNC_PAYWAY, CHAIN_SD_PAYWAY, PERSON_PAYWAY
+                    ALIPAY_FAST_PAYWAY, ALIPAY_WAP_PAYWAY, ALIPAY_DEPOSIT_PAYWAY, ALIPAY_CREDIT_PAYWAY, UNION_PAYWAY, CHAIN_CMM_PAYWAY, CHAIN_UNC_PAYWAY, CHAIN_SD_PAYWAY, PERSON_PAYWAY
     };
 
     /** ******************************************************************************************/

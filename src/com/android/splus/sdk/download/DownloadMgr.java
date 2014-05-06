@@ -1,3 +1,4 @@
+
 package com.android.splus.sdk.download;
 
 import android.content.Context;
@@ -13,170 +14,174 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class DownloadMgr extends AsyncTask<Void, Void, Boolean> {
-	public static final String SDCARD_ROOT =
-			Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
-	protected final Context mContext;
-	protected final Handler mMainThreadHandler;
-	protected final String mFileRoot;
-	protected final Queue<String> mTaskQueue;
+    public static final String SDCARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
 
-	protected Handler mBackgroundHandler;
+    protected final Context mContext;
 
-	protected volatile AsyncTask<Void, Integer, Long> mTaskHolder;
-	private DownloadTaskListener mTaskListener;
+    protected final Handler mMainThreadHandler;
 
-	// Executed in the UI thread.
-	private final Runnable mTaskStarter = new Runnable() {
-		@Override
-		public void run() {
-			String task = mTaskQueue.peek();
-			try {
-				AsyncTask<Void, Integer, Long> newTask = null;
-				newTask = download(task);
-				mTaskHolder = newTask.execute();
-			} catch (Exception e) {
-				Log.v(null, e.getMessage(), e);
-			}
+    protected final String mFileRoot;
 
-			if (mBackgroundHandler != null) {
-				mBackgroundHandler.post(mTaskWorker);
-			}
-		}
-	};
+    protected final Queue<String> mTaskQueue;
 
-	// Executed in the background.
-	private final Runnable mTaskWorker = new Runnable() {
-		@Override
-		public void run() {
-			String task = mTaskQueue.peek();
-			try {
-				if (mTaskHolder != null && mTaskHolder.get() != null) {
-					mTaskQueue.remove();
-					mTaskHolder = null;
-					// Post processing.
-					if (mTaskQueue.size() == 0) {
-						// We're done here.
+    protected Handler mBackgroundHandler;
 
-						return;
-					} else if (mMainThreadHandler != null) {
-						// There's still some work to do.
-						mMainThreadHandler.post(mTaskStarter);
-						return;
-					}
-				}
-			} catch (Exception e) {
-				Log.e(null,"" + e);
-			}
-			// Something went wrong...
-			Log.e(null,"Downloading failed, url: " + task);
-			Looper.myLooper().quit();
-		}
-	};
+    protected volatile AsyncTask<Void, Integer, Long> mTaskHolder;
 
-	public DownloadMgr(Context context, String dirName, DownloadTaskListener listener) {
-		mContext = context;
-		mMainThreadHandler = new Handler();
-		mTaskQueue = new LinkedList<String>();
-		mFileRoot = SDCARD_ROOT + dirName;
-		mTaskListener = listener;
-	}
+    private DownloadTaskListener mTaskListener;
 
-	public void post(String url) {
-		mTaskQueue.offer(url);
-	}
+    // Executed in the UI thread.
+    private final Runnable mTaskStarter = new Runnable() {
+        @Override
+        public void run() {
+            String task = mTaskQueue.peek();
+            try {
+                AsyncTask<Void, Integer, Long> newTask = null;
+                newTask = download(task);
+                mTaskHolder = newTask.execute();
+            } catch (Exception e) {
+                Log.v(null, e.getMessage(), e);
+            }
 
-	public void start() {
-		execute();
-	}
+            if (mBackgroundHandler != null) {
+                mBackgroundHandler.post(mTaskWorker);
+            }
+        }
+    };
 
-	public void stop() {
-		Looper.myLooper().quit();
-	}
+    // Executed in the background.
+    private final Runnable mTaskWorker = new Runnable() {
+        @Override
+        public void run() {
+            String task = mTaskQueue.peek();
+            try {
+                if (mTaskHolder != null && mTaskHolder.get() != null) {
+                    mTaskQueue.remove();
+                    mTaskHolder = null;
+                    // Post processing.
+                    if (mTaskQueue.size() == 0) {
+                        // We're done here.
 
-	public void pause() {
-		if (mTaskHolder != null) {
-			DownloadTask task = (DownloadTask)mTaskHolder;
-			task.onCancelled();
-		}
-	}
+                        return;
+                    } else if (mMainThreadHandler != null) {
+                        // There's still some work to do.
+                        mMainThreadHandler.post(mTaskStarter);
+                        return;
+                    }
+                }
+            } catch (Exception e) {
+                Log.e(null, "" + e);
+            }
+            // Something went wrong...
+            Log.e(null, "Downloading failed, url: " + task);
+            Looper.myLooper().quit();
+        }
+    };
 
-	@Override
-	protected Boolean doInBackground(Void... params) {
-		new Thread(new Runnable() {
+    public DownloadMgr(Context context, String dirName, DownloadTaskListener listener) {
+        mContext = context;
+        mMainThreadHandler = new Handler();
+        mTaskQueue = new LinkedList<String>();
+        mFileRoot = SDCARD_ROOT + dirName;
+        mTaskListener = listener;
+    }
 
-			@Override
-			public void run() {
-				executeInBackground();
-				final boolean result = (mTaskQueue.size() == 0);
-				mMainThreadHandler.post(new Runnable() {
-					@Override
-					public void run() {
-						finish(result);
-					}
-				});
-			};
+    public void post(String url) {
+        mTaskQueue.offer(url);
+    }
 
-		}).start();
-		return true;
-	}
+    public void start() {
+        execute();
+    }
 
-	private boolean executeInBackground() {
-		File root = new File(mFileRoot);
-		if (root.exists()) {
-			delete(root);
-		}
+    public void stop() {
+        Looper.myLooper().quit();
+    }
 
-		if (!root.mkdirs()) {
-			Log.e(null, "Failed to make directories: " + root.getAbsolutePath());
-			return false;
-		}
+    public void pause() {
+        if (mTaskHolder != null) {
+            DownloadTask task = (DownloadTask) mTaskHolder;
+            task.onCancelled();
+        }
+    }
 
-		if (Looper.myLooper() == null) {
-			Looper.prepare();
-		}
+    @Override
+    protected Boolean doInBackground(Void... params) {
+        new Thread(new Runnable() {
 
-		mBackgroundHandler = new Handler(Looper.myLooper());
-		mMainThreadHandler.post(mTaskStarter);
-		Looper.loop();
-		// Have we executed all the tasks?
-		return (mTaskQueue.size() == 0);
-	}
+            @Override
+            public void run() {
+                executeInBackground();
+                final boolean result = (mTaskQueue.size() == 0);
+                mMainThreadHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish(result);
+                    }
+                });
+            };
 
-	protected void finish(boolean result) {
-		if (result) {
-			// TODO listener
-		} else {
-			if (mTaskHolder != null) {
-				mTaskHolder.cancel(true);
-			}
-			// TODO listener
-		}
-	}
+        }).start();
+        return true;
+    }
 
-	protected AsyncTask<Void, Integer, Long> download(String in) throws MalformedURLException {
-		String out = mFileRoot;
-		return new DownloadTask(mContext,in, out, mTaskListener);
-	}
+    private boolean executeInBackground() {
+        File root = new File(mFileRoot);
+        if (root.exists()) {
+            delete(root);
+        }
 
-	public static boolean delete(File path) {
-		boolean result = true;
-		if (path.exists()) {
-			if (path.isDirectory()) {
-				for (File child : path.listFiles()) {
-					result &= delete(child);
-				}
-				result &= path.delete(); // Delete empty directory.
-			}
-			if (path.isFile()) {
-				result &= path.delete();
-			}
-			if (!result) {
-				Log.e(null, "Delete failed;");
-			}
-			return result;
-		} else {
-			Log.e(null,"File does not exist.");
-			return false;
-		}
-	}
+        if (!root.mkdirs()) {
+            Log.e(null, "Failed to make directories: " + root.getAbsolutePath());
+            return false;
+        }
+
+        if (Looper.myLooper() == null) {
+            Looper.prepare();
+        }
+
+        mBackgroundHandler = new Handler(Looper.myLooper());
+        mMainThreadHandler.post(mTaskStarter);
+        Looper.loop();
+        // Have we executed all the tasks?
+        return (mTaskQueue.size() == 0);
+    }
+
+    protected void finish(boolean result) {
+        if (result) {
+            // TODO listener
+        } else {
+            if (mTaskHolder != null) {
+                mTaskHolder.cancel(true);
+            }
+            // TODO listener
+        }
+    }
+
+    protected AsyncTask<Void, Integer, Long> download(String in) throws MalformedURLException {
+        String out = mFileRoot;
+        return new DownloadTask(mContext, in, out, mTaskListener);
+    }
+
+    public static boolean delete(File path) {
+        boolean result = true;
+        if (path.exists()) {
+            if (path.isDirectory()) {
+                for (File child : path.listFiles()) {
+                    result &= delete(child);
+                }
+                result &= path.delete(); // Delete empty directory.
+            }
+            if (path.isFile()) {
+                result &= path.delete();
+            }
+            if (!result) {
+                Log.e(null, "Delete failed;");
+            }
+            return result;
+        } else {
+            Log.e(null, "File does not exist.");
+            return false;
+        }
+    }
 }

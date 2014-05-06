@@ -1,7 +1,7 @@
 
 package com.android.splus.sdk.model;
-public class SQModel extends BaseModel {
 
+public class SQModel extends BaseModel {
 
     /**
      * @Fields serialVersionUID
@@ -9,9 +9,7 @@ public class SQModel extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 
-
     private static final String TAG = "SQModel";
-
 
     public static final String GAMEID = "gameid";
 
@@ -37,10 +35,16 @@ public class SQModel extends BaseModel {
 
     private String passport;
 
-
     public static final String PASSWORD = "password";
 
     private String password;
+
+    public static final String SERVERID = "serverId";
+    private Integer serverId;
+
+    public static final String ROLEID = "roleId";
+    private Integer roleId;
+
 
     public static final String ROLENAME = "roleName";
 
@@ -50,12 +54,13 @@ public class SQModel extends BaseModel {
 
     private String serverName;
 
-
-
-    public SQModel(Integer gameid, String deviceno, String referer,String partner, Integer uid, String passport, String password,String roleName, String serverName) {
+    public SQModel(Integer gameid, String deviceno, String referer, String partner, Integer uid, String passport, String password,Integer serverId, Integer roleId, String roleName, String serverName) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
+        this.put(SERVERID, serverId == null ? 0 : serverId);
         this.put(SERVERNAME, serverName == null ? "" : serverName);
+        this.put(ROLEID, roleId == null ? 0 : roleId);
+        this.put(ROLENAME, roleName == null ? "" : roleName);
         this.put(DEVICENO, deviceno == null ? "" : deviceno);
         this.put(PARTNER, partner == null ? "" : partner);
         this.put(REFERER, referer == null ? "" : referer);
@@ -65,10 +70,7 @@ public class SQModel extends BaseModel {
         this.put(PASSWORD, passport == null ? "" : passport);
     }
 
-
-
     @Override
     protected void initMap() {
     }
 }
-

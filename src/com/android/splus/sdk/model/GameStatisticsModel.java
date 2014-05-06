@@ -58,6 +58,12 @@ public class GameStatisticsModel extends BaseModel {
 
     private String sign;
 
+    public static final String SERVERID = "serverId";
+    private Integer serverId;
+
+    public static final String ROLEID = "roleId";
+    private Integer roleId;
+
     public static final String ROLENAME = "roleName";
 
     private String roleName;
@@ -82,64 +88,62 @@ public class GameStatisticsModel extends BaseModel {
 
     private long onlinetimestart;
 
-    /**
-     * @Title: StatisticsData
-     * @Description:(选服的构造方法)
-     * @param gameid
-     * @param deviceno
-     * @param partner
-     * @param referer
-     * @param uid
-     * @param passport
-     * @param time
-     * @param dsid
-     * @param debug
-     * @param sign
-     * @throws
-     */
-    public GameStatisticsModel(Integer gameid, String deviceno, String partner, String referer,
-            String uid, String passport, Long time, String serverName,  String sign) {
-        super("");
-        this.put(GAMEID, gameid == null ? 0 : gameid);
-        this.put(DEVICENO, deviceno == null ? "" : deviceno);
-        this.put(PARTNER, partner == null ? "" : partner);
-        this.put(REFERER, referer == null ? "" : referer);
-        this.put(UID, uid == null ? "" : uid);
-        this.put(PASSPORT, passport == null ? "" : passport);
-        this.put(TIME, time == 0 ? 0 : time);
-        this.put(SERVERNAME, serverName == null ? "" : serverName);
-        this.put(SIGN, sign == null ? "" : sign.toLowerCase());
-    }
-
-    /**
-     * @Title: StatisticsData
-     * @Description:(选角色构造方法)
-     * @param gameid
-     * @param deviceno
-     * @param partner
-     * @param referer
-     * @param uid
-     * @param passport
-     * @param roleName
-     * @param time
-     * @param debug
-     * @param sign
-     * @throws
-     */
-    public GameStatisticsModel(Integer gameid, String deviceno, String partner, String referer,
-            String uid, String passport, String roleName, Long time, String sign) {
-        super("");
-        this.put(GAMEID, gameid == null ? 0 : gameid);
-        this.put(DEVICENO, deviceno == null ? "" : deviceno);
-        this.put(PARTNER, partner == null ? "" : partner);
-        this.put(REFERER, referer == null ? "" : referer);
-        this.put(UID, uid == null ? "" : uid);
-        this.put(PASSPORT, passport == null ? "" : passport);
-        this.put(TIME, time == 0 ? 0 : time);
-        this.put(ROLENAME, roleName == null ? "" : roleName);
-        this.put(SIGN, sign == null ? "" : sign.toLowerCase());
-    }
-
+//    /**
+//     * @Title: StatisticsData
+//     * @Description:(选服的构造方法)
+//     * @param gameid
+//     * @param deviceno
+//     * @param partner
+//     * @param referer
+//     * @param uid
+//     * @param passport
+//     * @param time
+//     * @param dsid
+//     * @param debug
+//     * @param sign
+//     * @throws
+//     */
+//    public GameStatisticsModel(Integer gameid, String deviceno, String partner, String referer, String uid, String passport, Long time, String serverName, String sign) {
+//        super("");
+//        this.put(GAMEID, gameid == null ? 0 : gameid);
+//        this.put(DEVICENO, deviceno == null ? "" : deviceno);
+//        this.put(PARTNER, partner == null ? "" : partner);
+//        this.put(REFERER, referer == null ? "" : referer);
+//        this.put(UID, uid == null ? "" : uid);
+//        this.put(PASSPORT, passport == null ? "" : passport);
+//        this.put(TIME, time == 0 ? 0 : time);
+//        this.put(SERVERNAME, serverName == null ? "" : serverName);
+//        this.put(SIGN, sign == null ? "" : sign.toLowerCase());
+//    }
+//
+//    /**
+//     * @Title: StatisticsData
+//     * @Description:(选角色构造方法)
+//     * @param gameid
+//     * @param deviceno
+//     * @param partner
+//     * @param referer
+//     * @param uid
+//     * @param passport
+//     * @param roleName
+//     * @param time
+//     * @param debug
+//     * @param sign
+//     * @throws
+//     */
+//    public GameStatisticsModel(Integer gameid, String deviceno, String partner, String referer, String uid, String passport, String roleName, Long time, String sign) {
+//        super("");
+//        this.put(GAMEID, gameid == null ? 0 : gameid);
+//        this.put(DEVICENO, deviceno == null ? "" : deviceno);
+//        this.put(PARTNER, partner == null ? "" : partner);
+//        this.put(REFERER, referer == null ? "" : referer);
+//        this.put(UID, uid == null ? "" : uid);
+//        this.put(PASSPORT, passport == null ? "" : passport);
+//        this.put(TIME, time == 0 ? 0 : time);
+//        this.put(ROLENAME, roleName == null ? "" : roleName);
+//        this.put(SIGN, sign == null ? "" : sign.toLowerCase());
+//    }
+//
     /**
      * @Title: StatisticsData
      * @Description:(选角色等级构造方法)
@@ -157,8 +161,7 @@ public class GameStatisticsModel extends BaseModel {
      * @param sign
      * @throws
      */
-    public GameStatisticsModel(Integer gameid, String deviceno, String partner, String referer,
-            String uid, String passport, String roleName, String level, String serverName, Long time,String sign) {
+    public GameStatisticsModel(Integer gameid, String deviceno, String partner, String referer, String uid, String passport, Integer serverId,Integer roleId, String roleName, String level, String serverName, Long time, String sign) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
         this.put(DEVICENO, deviceno == null ? "" : deviceno);
@@ -167,6 +170,8 @@ public class GameStatisticsModel extends BaseModel {
         this.put(UID, uid == null ? "" : uid);
         this.put(PASSPORT, passport == null ? "" : passport);
         this.put(TIME, time == 0 ? 0 : time);
+        this.put(ROLEID, roleId == null? 0 : roleId);
+        this.put(SERVERID, serverId == null? 0 : serverId);
         this.put(ROLENAME, roleName == null ? "" : roleName);
         this.put(LEVEL, level == null ? "" : level);
         this.put(SERVERNAME, serverName == null ? "" : serverName);
@@ -191,9 +196,7 @@ public class GameStatisticsModel extends BaseModel {
      * @param sign
      * @throws
      */
-    public GameStatisticsModel(Integer gameid, String deviceno, String partner, String referer,
-            String uid, String passport, String roleName, String level, String serverName,
-            Long onLineTimeStart, Long onLineTimeEnd, Long onLineTime, Long time,String sign) {
+    public GameStatisticsModel(Integer gameid, String deviceno, String partner, String referer, String uid, String passport, Integer serverId,Integer roleId,String roleName, String level, String serverName, Long onLineTimeStart, Long onLineTimeEnd, Long onLineTime, Long time, String sign) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
         this.put(DEVICENO, deviceno == null ? "" : deviceno);
@@ -201,6 +204,8 @@ public class GameStatisticsModel extends BaseModel {
         this.put(REFERER, referer == null ? "" : referer);
         this.put(UID, uid == null ? "" : uid);
         this.put(PASSPORT, passport == null ? "" : passport);
+        this.put(ROLEID, roleId == null? 0 : roleId);
+        this.put(SERVERID, serverId == null? 0 : serverId);
         this.put(ROLENAME, roleName == null ? "" : roleName);
         this.put(LEVEL, level == null ? "" : level);
         this.put(SERVERNAME, serverName == null ? "" : serverName);
@@ -218,7 +223,6 @@ public class GameStatisticsModel extends BaseModel {
      */
     @Override
     protected void initMap() {
-
 
     }
 

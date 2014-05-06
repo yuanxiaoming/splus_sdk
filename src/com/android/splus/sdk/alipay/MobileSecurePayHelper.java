@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * 检测安全支付服务是否正确安装，如果没有安装进行本地安装，或者下载安装， 检测安全支付服务版本，有新版本时进行下载。
- *
+ * 
  * @author xiaoming.yuan
  */
 public class MobileSecurePayHelper {
@@ -54,7 +54,7 @@ public class MobileSecurePayHelper {
 
     /**
      * 检测安全支付服务是否安装
-     *
+     * 
      * @return
      */
     public boolean detectMobile_sp() {
@@ -75,7 +75,7 @@ public class MobileSecurePayHelper {
                         PackageInfo apkInfo = getApkInfo(mContext, cachePath);
                         String newApkdlUrl = checkNewUpdate(apkInfo);
                         // 动态下载
-                        if (newApkdlUrl != null){
+                        if (newApkdlUrl != null) {
                             retrieveApkFromNet(mContext, newApkdlUrl, cachePath);
                         }
                         // 发送结果
@@ -91,9 +91,9 @@ public class MobileSecurePayHelper {
                 new Thread(new Runnable() {
                     public void run() {
                         String newApkdlUrl = checkNewUpdate();
-                        if (newApkdlUrl != null){
+                        if (newApkdlUrl != null) {
                             retrieveApkFromNet(mContext, newApkdlUrl, cachePath);
-                            }
+                        }
                         // 发送结果
                         Message msg = new Message();
                         msg.what = AlixId.RQF_INSTALL_CHECK;
@@ -108,7 +108,7 @@ public class MobileSecurePayHelper {
 
     /**
      * 显示确认安装的提示
-     *
+     * 
      * @param context 上下文环境
      * @param cachePath 安装文件路径
      */
@@ -125,8 +125,7 @@ public class MobileSecurePayHelper {
                 // 安装安全支付服务APK
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setDataAndType(Uri.parse("file://" + cachePath),
-                        "application/vnd.android.package-archive");
+                intent.setDataAndType(Uri.parse("file://" + cachePath), "application/vnd.android.package-archive");
                 context.startActivity(intent);
             }
         });
@@ -141,7 +140,7 @@ public class MobileSecurePayHelper {
 
     /**
      * 遍历程序列表，判断是否安装安全支付服务
-     *
+     * 
      * @return
      */
     public boolean isMobile_spExist() {
@@ -158,7 +157,7 @@ public class MobileSecurePayHelper {
 
     /**
      * 安装安全支付服务，安装assets文件夹下的apk
-     *
+     * 
      * @param context 上下文环境
      * @param fileName apk名称
      * @param path 安装路径
@@ -194,20 +193,19 @@ public class MobileSecurePayHelper {
 
     /**
      * 获取未安装的APK信息
-     *
+     * 
      * @param context
      * @param archiveFilePath APK文件的路径。如：/sdcard/download/XX.apk
      */
     public static PackageInfo getApkInfo(Context context, String archiveFilePath) {
         PackageManager pm = context.getPackageManager();
-        PackageInfo apkInfo = pm.getPackageArchiveInfo(archiveFilePath,
-                PackageManager.GET_META_DATA);
+        PackageInfo apkInfo = pm.getPackageArchiveInfo(archiveFilePath, PackageManager.GET_META_DATA);
         return apkInfo;
     }
 
     /**
      * 检查是否有新版本，如果有，返回apk下载地址
-     *
+     * 
      * @param packageInfo {@link android.content.pm.PackageInfo}
      * @return
      */
@@ -230,7 +228,7 @@ public class MobileSecurePayHelper {
 
     /**
      * 检查是否有新版本，如果有，返回apk下载地址
-     *
+     * 
      * @param packageInfo {@link android.content.pm.PackageInfo}
      * @return
      */
@@ -253,7 +251,7 @@ public class MobileSecurePayHelper {
 
     /**
      * 发送当前版本信息，返回是否需要升级 如果需要升级返回更新apk地址
-     *
+     * 
      * @param versionName 当前版本号
      * @return
      */
@@ -280,7 +278,7 @@ public class MobileSecurePayHelper {
 
     /**
      * 发送json数据
-     *
+     * 
      * @param content
      * @return
      */
@@ -310,7 +308,7 @@ public class MobileSecurePayHelper {
 
     /**
      * 动态下载apk
-     *
+     * 
      * @param context 上下文环境
      * @param strurl 下载地址
      * @param filename 文件名称
@@ -352,7 +350,7 @@ public class MobileSecurePayHelper {
                         String cachePath = (String) msg.obj;
                         showInstallConfirmDialog(mContext, cachePath);
                     }
-                    break;
+                        break;
                 }
 
                 super.handleMessage(msg);
