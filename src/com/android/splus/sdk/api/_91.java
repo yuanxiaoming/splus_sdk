@@ -347,7 +347,7 @@ public class _91 implements IPayManager {
 
                 int currentVersion = Build.VERSION.SDK_INT;
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                     if (currentVersion > Build.VERSION_CODES.ECLAIR_MR1) {
                         Intent startMain = new Intent(Intent.ACTION_MAIN);
                         startMain.addCategory(Intent.CATEGORY_HOME);

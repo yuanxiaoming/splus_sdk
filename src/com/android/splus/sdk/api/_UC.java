@@ -115,6 +115,7 @@ public class _UC implements IPayManager {
     public void init(Activity activity, Integer gameid, String appkey, InitCallBack initCallBack, boolean useUpdate, Integer orientation) {
         this.mInitCallBack = initCallBack;
         this.mActivity = activity;
+        mLogined=false;
         mInitBean.initSplus(activity, initCallBack ,new InitBeanSuccess() {
 
             @Override
@@ -207,6 +208,7 @@ public class _UC implements IPayManager {
             Log.e("UCGameSDK", "UCGameSdk登录接口返回数据:code=" + code + ",msg=" + msg);
             // 登录成功。此时可以获取sid。并使用sid进行游戏的登录逻辑。
             // 客户端无法直接获取UCID
+
             if (code == UCGameSDKStatusCode.SUCCESS) {
                 // 获取sid。（注：ucid需要使用sid作为身份标识去SDK的服务器获取）
                 UCGameSDK.defaultSDK().getSid();
@@ -221,6 +223,7 @@ public class _UC implements IPayManager {
 
             // 登录退出。该回调会在登录界面退出时执行。
             if (code == UCGameSDKStatusCode.LOGIN_EXIT) {
+
                 // 登录界面关闭，游戏需判断此时是否已登录成功进行相应操作
                 if(mLogined){
                     mLoginCallBack.loginSuccess(null);
@@ -306,7 +309,7 @@ public class _UC implements IPayManager {
             public void run() {
                 int currentVersion = Build.VERSION.SDK_INT;
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                     if (currentVersion > Build.VERSION_CODES.ECLAIR_MR1) {
                         Intent startMain = new Intent(Intent.ACTION_MAIN);
                         startMain.addCategory(Intent.CATEGORY_HOME);
@@ -361,6 +364,7 @@ public class _UC implements IPayManager {
             if (statuscode == UCGameSDKStatusCode.SUCCESS) {
                 // 执行销毁悬浮按钮接口
                 UCGameSDK.defaultSDK().destoryFloatButton(mActivity);
+                mLogoutCallBack.logoutCallBack();
             }
             // 退出账号失败
             if (statuscode == UCGameSDKStatusCode.FAIL) {

@@ -77,7 +77,7 @@ public class CommonUtil {
 
                 int currentVersion = Build.VERSION.SDK_INT;
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                     if (currentVersion > Build.VERSION_CODES.ECLAIR_MR1) {
                         Intent startMain = new Intent(Intent.ACTION_MAIN);
                         startMain.addCategory(Intent.CATEGORY_HOME);
@@ -98,7 +98,7 @@ public class CommonUtil {
 
     /**
      * setEditTextInputType(限制只能输入数字 大小写 下划线 同时限制最大长度) (这里描述这个方法适用条件 – 可选)
-     * 
+     *
      * @param edt void
      * @exception
      * @since 1.0.0 xiaoming.yuan
@@ -133,7 +133,7 @@ public class CommonUtil {
 
     /**
      * getFraLayoutParams(获取layoutparams参数) (视图离屏幕的距离)
-     * 
+     *
      * @param context
      * @param widthLandScapeScale 横屏全屏宽度
      * @param widthPortScapeScale 竖屏全屏宽度
@@ -162,7 +162,7 @@ public class CommonUtil {
 
     /**
      * getFraLayoutParams(获取layoutparams参数)
-     * 
+     *
      * @param context
      * @param widthLandScapeScale 横屏全屏宽度比例
      * @param widthPortScapeScale 竖屏全屏宽度比例
@@ -191,7 +191,7 @@ public class CommonUtil {
 
     /**
      * getmDialogClauseView(法律声明合同的视图)
-     * 
+     *
      * @param context
      * @param addViewToDialog
      * @return View
@@ -205,7 +205,7 @@ public class CommonUtil {
 
     /**
      * 将dip或dp值转换为px值，保证尺寸大小不变
-     * 
+     *
      * @param context
      * @param dipValue
      * @return
@@ -220,7 +220,7 @@ public class CommonUtil {
 
     /**
      * 将px值转换为dip或dp值，保证尺寸大小不变
-     * 
+     *
      * @param context
      * @param pxValue
      * @return

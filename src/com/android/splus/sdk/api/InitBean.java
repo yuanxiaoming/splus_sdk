@@ -24,6 +24,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -188,14 +189,17 @@ public class InitBean {
                         mInitBeanSuccess.initBeaned(true);
                     }else{
                         mInitCallBack.initFaile("初始化失败");
+                        Toast.makeText(mActivity, "初始化失败", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     String msg = paramObject.getString("msg");
                     LogHelper.d(TAG, msg);
                     repeatInit(mActivity);
+                    Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 LogHelper.d(TAG, e.getLocalizedMessage());
+                Toast.makeText(mActivity, "数据异常", Toast.LENGTH_SHORT).show();
                 repeatInit(mActivity);
             }
         }
@@ -204,6 +208,7 @@ public class InitBean {
         public void callbackError(String error) {
             LogHelper.d(TAG, error);
             repeatInit(mActivity);
+            Toast.makeText(mActivity, error, Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -233,6 +238,7 @@ public class InitBean {
         } catch (IOException e) {
             LogHelper.i(TAG, e.getLocalizedMessage(), e);
             LogHelper.i(TAG, APIConstants.CONFIG_FILENAME + "文件配置错误");
+            Toast.makeText(activity, "文件配置错误", Toast.LENGTH_SHORT).show();
             initCallBack.initFaile(APIConstants.CONFIG_FILENAME + "文件配置错误");
         }
 
@@ -241,7 +247,7 @@ public class InitBean {
             mUseSDK = Integer.parseInt(mPartner);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-
+            Toast.makeText(activity, "mPartner", Toast.LENGTH_SHORT).show();
         }
     }
 
