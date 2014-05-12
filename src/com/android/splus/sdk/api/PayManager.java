@@ -96,6 +96,7 @@ public class PayManager {
 
                 break;
             case APIConstants.SPLUS_DCN:
+                mIPayManager=_DCN.getInstance();
 
                 break;
             case APIConstants.SPLUS_DUOKU:

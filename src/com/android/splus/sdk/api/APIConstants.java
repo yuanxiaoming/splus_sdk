@@ -11,13 +11,13 @@ public class APIConstants {
 
     public static final int SPLUS_91 = 2;
 
-    public static final int SPLUS_UC = 1;
+    public static final int SPLUS_UC = 6;
 
     public static final int SPLUS_XIAOMI = 4;
 
     public static final int SPLUS_JIFENG = 5;
 
-    public static final int SPLUS_DCN = 6;
+    public static final int SPLUS_DCN = 1;
 
     public static final int SPLUS_DUOKU = 7;
 

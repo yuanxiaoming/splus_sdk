@@ -411,8 +411,6 @@ public class _91 implements IPayManager {
             place = NdToolBarPlace.NdToolBarRightMid;
         } else if (align == FloatToolBarAlign.Right && position > 0.5f) {
             place = NdToolBarPlace.NdToolBarTopRight;
-        } else if (align == FloatToolBarAlign.Right && position < 0.5f) {
-            place = NdToolBarPlace.NdToolBarBottomRight;
         }
         mToolBar = NdToolBar.create(activity, place);
         mToolBar.show();
