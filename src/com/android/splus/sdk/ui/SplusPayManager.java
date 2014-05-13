@@ -726,21 +726,21 @@ public class SplusPayManager implements IPayManager {
         ExitAppUtils.getInstance().exit();
     }
 
-    /**
-     * Title: exitGame Description:
-     *
-     * @param context
-     * @see com.android.splus.sdk.apiinterface.IPayManager#exitGame(android.content.Context)
-     */
-    @Override
-    public void exitGame(Context context) {
-        if (context == null) {
-            return;
-        }
-        ExitAppUtils.getInstance().exit();
-        // 如果上面没关闭好自己，或者没填写任何东西，就我们sdk来关闭进程。
-        CommonUtil.killSDK(context);
-    }
+//    /**
+//     * Title: exitGame Description:
+//     *
+//     * @param context
+//     * @see com.android.splus.sdk.apiinterface.IPayManager#exitGame(android.content.Context)
+//     */
+//    @Override
+//    public void exitGame(Context context) {
+//        if (context == null) {
+//            return;
+//        }
+//        ExitAppUtils.getInstance().exit();
+//        // 如果上面没关闭好自己，或者没填写任何东西，就我们sdk来关闭进程。
+//        CommonUtil.killSDK(context);
+//    }
 
     /**
      * Title: logout Description:

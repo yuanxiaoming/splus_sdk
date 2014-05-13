@@ -21,6 +21,8 @@ import com.android.splus.sdk.utils.sharedPreferences.SharedPreferencesHelper;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -481,11 +483,25 @@ public class PersonActivity extends BaseActivity {
         ExitAppUtils.getInstance().exit();
         if (mLogoutCallBack != null) {
             mLogoutCallBack.logoutCallBack();
+
         } else {
-            Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(i);
+            Intent intent =getApplicationContext().getPackageManager().getLaunchIntentForPackage(mActivity.getPackageName());
+            if(android.os.Build.VERSION.SDK_INT >= 11){
+                intent.addFlags(32768);
+            }else{
+                intent.addFlags(67108864);
+            }
+            PendingIntent intent1 = PendingIntent.getActivity(mActivity, 223344, intent, 268435456);
+            ((AlarmManager)getSystemService("alarm")).set(1, System.currentTimeMillis() + 100L, intent1);
+            System.exit(0);
         }
+
+        //        else {
+        //            Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+        //            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //            startActivity(i);
+        //        }
+
     }
 
     /**

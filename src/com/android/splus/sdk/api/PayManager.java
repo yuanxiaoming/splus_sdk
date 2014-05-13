@@ -157,16 +157,6 @@ public class PayManager {
     }
 
     /**
-     * 退出游戏
-     */
-    public void exitGame(Context context) {
-        if (mIPayManager != null) {
-            mIPayManager.exitGame(context);
-        }
-
-    }
-
-    /**
      * 注销游戏接口
      *
      * @author xiaoming.yuan

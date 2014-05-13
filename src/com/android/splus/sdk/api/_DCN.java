@@ -16,6 +16,8 @@ import com.downjoy.util.Util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -120,11 +122,11 @@ public class _DCN implements IPayManager{
     public void login(Activity activity, LoginCallBack loginCallBack) {
         this.mActivity=activity;
         this.mLoginCallBack=loginCallBack;
-        if (mDownjoyinstance != null) {
-            mDownjoyinstance.openLoginDialog(activity, mLoginCallbackListener);
-        }else{
-            Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey).openLoginDialog(activity, mLoginCallbackListener);
+        if (mDownjoyinstance == null) {
+            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
+        mDownjoyinstance.openLoginDialog(activity, mLoginCallbackListener);
+
     }
 
     com.downjoy.CallbackListener mLoginCallbackListener=new com.downjoy.CallbackListener(){
@@ -181,12 +183,10 @@ public class _DCN implements IPayManager{
         String productName = "测试商品"; // 商品名称
         String extInfo = "123"; // CP自定义信息，多为CP订单号
 
-        if (mDownjoyinstance != null) {
-            mDownjoyinstance.openPaymentDialog(activity,money, productName, extInfo, mRechargeCallbackListener);
-        }else{
-            Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey).openPaymentDialog(activity,money, productName, extInfo, mRechargeCallbackListener);
+        if (mDownjoyinstance == null) {
+            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
-
+        mDownjoyinstance.openPaymentDialog(activity,money, productName, extInfo, mRechargeCallbackListener);
 
     }
 
@@ -225,44 +225,19 @@ public class _DCN implements IPayManager{
 
     @Override
     public void exitSDK() {
-    }
 
-    @Override
-    public void exitGame(final Context context) {
-
-        // 如果上面没关闭好自己，或者没填写任何东西，就我们sdk来关闭进程。
-        new Thread(new Runnable() {
-            public void run() {
-                int currentVersion = Build.VERSION.SDK_INT;
-                try {
-                    Thread.sleep(3000);
-                    if (currentVersion > Build.VERSION_CODES.ECLAIR_MR1) {
-                        Intent startMain = new Intent(Intent.ACTION_MAIN);
-                        startMain.addCategory(Intent.CATEGORY_HOME);
-                        startMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        context.startActivity(startMain);
-                        System.exit(0);
-                    } else {
-                        // android2.1
-                        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-                        am.restartPackage(context.getPackageName());
-                    }
-                } catch (Exception e) {
-                }
-            };
-        }).start();
 
     }
+
 
     @Override
     public void logout(Activity activity, LogoutCallBack logoutCallBack) {
         this.mLogoutCallBack=logoutCallBack;
         this.mActivity=activity;
-        if (mDownjoyinstance != null) {
-            mDownjoyinstance.logout(activity, mLogoutCallbackListener1);
-        }else{
-            Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey).logout(activity, mLogoutCallbackListener1);
+        if (mDownjoyinstance == null) {
+            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
+        mDownjoyinstance.logout(activity, mLogoutCallbackListener1);
 
     }
 
@@ -299,18 +274,17 @@ public class _DCN implements IPayManager{
     public void enterUserCenter(Activity activity, LogoutCallBack logoutCallBack) {
         this.mActivity=activity;
         this.mLogoutCallBack=logoutCallBack;
-        if (mDownjoyinstance != null) {
-            mDownjoyinstance.openMemberCenterDialog(activity, mLogoutCallbackListener);
-        }else{
-            Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey).openMemberCenterDialog(activity, mLogoutCallbackListener);
+        if (mDownjoyinstance == null) {
+            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
+        mDownjoyinstance.openMemberCenterDialog(activity, mLogoutCallbackListener);
     }
     com.downjoy.CallbackListener mLogoutCallbackListener=new com.downjoy.CallbackListener(){
 
 
         @Override
         public void onSwitchAccountAndRestart() {
-            mLogoutCallBack.logoutCallBack();
+ //           mLogoutCallBack.logoutCallBack();
 
         }
 
@@ -352,36 +326,30 @@ public class _DCN implements IPayManager{
         } else if (align == FloatToolBarAlign.Right && position > 0.5f) {
             place = Downjoy.LOCATION_RIGHT_BOTTOM;
         }
-
-        if (mDownjoyinstance != null) {
-            mDownjoyinstance.showDownjoyIconAfterLogined(true);
-            mDownjoyinstance.setInitLocation(place);
-        }else{
-            Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey).showDownjoyIconAfterLogined(true);
-            Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey).setInitLocation(place);
+        if (mDownjoyinstance == null) {
+            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
+        mDownjoyinstance.showDownjoyIconAfterLogined(true);
+        mDownjoyinstance.setInitLocation(place);
         return null;
 
     }
 
     @Override
     public void onResume(Activity activity) {
-
-        if (mDownjoyinstance != null) {
-            mDownjoyinstance.resume(activity);
-        }else{
-            Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey).resume(activity);
+        if (mDownjoyinstance == null) {
+            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
+        mDownjoyinstance.resume(activity);
+
     }
 
     @Override
     public void onPause(Activity activity) {
-
-        if (mDownjoyinstance != null) {
-            mDownjoyinstance.pause();
-        }else{
-            Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey).pause();
-        }
+//        if (mDownjoyinstance == null) {
+//            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
+//        }
+//        mDownjoyinstance.pause();
 
 
     }
@@ -392,6 +360,10 @@ public class _DCN implements IPayManager{
 
     @Override
     public void onDestroy(Activity activity) {
+        if (mDownjoyinstance == null) {
+            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
+        }
+        mDownjoyinstance.destroy();
 
     }
 }

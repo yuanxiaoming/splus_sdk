@@ -54,10 +54,10 @@ public interface IPayManager {
      */
     public void exitSDK();
 
-    /**
-     * 退出游戏
-     */
-    public void exitGame(Context context);
+//    /**
+//     * 退出游戏
+//     */
+//    public void exitGame(Context context);
 
     /**
      * 注销游戏接口
