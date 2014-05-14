@@ -25,7 +25,6 @@ import com.android.splus.sdk.model.UserModel;
 import com.android.splus.sdk.parse.ActiveParser;
 import com.android.splus.sdk.parse.LoginParser;
 import com.android.splus.sdk.ui.FloatToolBar.FloatToolBarAlign;
-import com.android.splus.sdk.utils.CommonUtil;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.date.DateUtil;
 import com.android.splus.sdk.utils.file.AppUtil;
@@ -46,7 +45,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;

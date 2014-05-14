@@ -6,7 +6,6 @@ import com.android.splus.sdk.ui.FloatToolBar;
 import com.android.splus.sdk.ui.FloatToolBar.FloatToolBarAlign;
 
 import android.app.Activity;
-import android.content.Context;
 
 /**
  * 游戏充值管理接口（对外api接口）

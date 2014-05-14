@@ -90,7 +90,7 @@ public class PayManager {
                 mIPayManager=_UC.getInstance();
                 break;
             case APIConstants.SPLUS_XIAOMI:
-
+                mIPayManager=_XIAOMI.getInstance();
                 break;
             case APIConstants.SPLUS_JIFENG:
 

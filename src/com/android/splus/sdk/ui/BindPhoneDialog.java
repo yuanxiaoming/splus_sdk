@@ -34,7 +34,6 @@ import com.android.splus.sdk.utils.toast.ToastUtil;
 import com.android.splus.sdk.widget.CustomProgressDialog;
 import com.android.splus.sdk.widget.SmsReceiver;
 import com.android.splus.sdk.widget.SmsReceiver.SmsListener;
-import com.nd.commplatform.d.c.sp;
 
 import org.json.JSONObject;
 

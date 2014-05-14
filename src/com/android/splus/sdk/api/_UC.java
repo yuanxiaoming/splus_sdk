@@ -62,7 +62,7 @@ public class _UC implements IPayManager {
 
 
     // 下面参数仅在测试时用
-    private UserModel userModel;
+    private UserModel mUserModel;
 
     private int mUid = 0;
 

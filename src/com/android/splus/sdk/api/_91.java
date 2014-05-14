@@ -28,9 +28,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -61,7 +59,7 @@ public class _91 implements IPayManager {
     private RechargeCallBack mRechargeCallBack;
 
     // 下面参数仅在测试时用
-    private UserModel userModel;
+    private UserModel mUserModel;
 
     private int mUid = 0;
 
@@ -213,8 +211,8 @@ public class _91 implements IPayManager {
                     mUid = data.optInt("uid");
                     mPassport = data.optString("passport");
                     mSessionid = data.optString("sessionid");
-                    userModel = new UserModel(data.toString());
-                    mLoginCallBack.loginSuccess(userModel);
+                    mUserModel = new UserModel(data.toString());
+                    mLoginCallBack.loginSuccess(mUserModel);
                 } else {
                     mLoginCallBack.loginFaile(paramObject.optString("msg"));
                 }
@@ -285,7 +283,7 @@ public class _91 implements IPayManager {
                             switch (code) {
                                 case NdErrorCode.ND_COM_PLATFORM_SUCCESS:
                                     Toast.makeText(mActivity, "购买成功", Toast.LENGTH_SHORT).show();
-                                    mRechargeCallBack.rechargeSuccess(userModel);
+                                    mRechargeCallBack.rechargeSuccess(mUserModel);
                                     break;
                                 case NdErrorCode.ND_COM_PLATFORM_ERROR_PAY_FAILURE:
                                     Toast.makeText(mActivity, "购买失败", Toast.LENGTH_SHORT).show();

@@ -1,6 +1,9 @@
 
 package com.android.splus.sdk.utils.file;
 
+import android.os.Environment;
+import android.text.TextUtils;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,9 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import android.os.Environment;
-import android.text.TextUtils;
 
 /**
  * 文件操作类

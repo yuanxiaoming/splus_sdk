@@ -25,13 +25,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -66,7 +64,7 @@ public class _360 implements IPayManager {
     private LogoutCallBack mLogoutCallBack;
 
     // 下面参数仅在测试时用
-    private UserModel userModel;
+    private UserModel mUserModel;
 
     private int mUid = 0;
 
@@ -264,8 +262,8 @@ public class _360 implements IPayManager {
                     mUid = data.optInt("uid");
                     mPassport = data.optString("passport");
                     mSessionid = data.optString("sessionid");
-                    userModel = new UserModel(data.toString());
-                    mLoginCallBack.loginSuccess(userModel);
+                    mUserModel = new UserModel(data.toString());
+                    mLoginCallBack.loginSuccess(mUserModel);
 
                 } else {
                     mLoginCallBack.loginFaile(paramObject.optString("msg"));

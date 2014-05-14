@@ -13,7 +13,6 @@ package com.android.splus.sdk.ui.rechargeview;
 import com.android.splus.sdk.adapter.RechargeTypeAdapter;
 import com.android.splus.sdk.model.RechargeTypeModel;
 import com.android.splus.sdk.utils.Constant;
-import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
 import com.android.splus.sdk.widget.CustomGridView;

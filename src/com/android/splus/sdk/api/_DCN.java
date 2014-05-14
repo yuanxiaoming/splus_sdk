@@ -15,12 +15,6 @@ import com.downjoy.DownjoyError;
 import com.downjoy.util.Util;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import java.util.Properties;
@@ -56,7 +50,7 @@ public class _DCN implements IPayManager{
 
 
     // 下面参数仅在测试时用
-    private UserModel userModel;
+    private UserModel mUserModel;
 
     private int mUid = 0;
 
@@ -98,10 +92,10 @@ public class _DCN implements IPayManager{
         this.mInitBean = bean;
         this.mProperties = mInitBean.getProperties();
         if (mProperties != null) {
-            mAppId = mProperties.getProperty("Dcn_appid") == null ? "0" : mProperties.getProperty("Dcn_appid");
-            mAppkey = mProperties.getProperty("Dcn_appkey") == null ? "0" : mProperties.getProperty("Dcn_appkey");
-            mServerSeqNum = mProperties.getProperty("Dcn_serverSeqNum") == null ? "1" : mProperties.getProperty("Dcn_serverSeqNum");
-            mMerchantId = mProperties.getProperty("Dcn_merchantId") == null ? "0" : mProperties.getProperty("Dcn_merchantId");
+            mAppId = mProperties.getProperty("dcn_appid") == null ? "0" : mProperties.getProperty("dcn_appid");
+            mAppkey = mProperties.getProperty("dcn_appkey") == null ? "0" : mProperties.getProperty("dcn_appkey");
+            mServerSeqNum = mProperties.getProperty("dcn_serverSeqNum") == null ? "1" : mProperties.getProperty("dcn_serverSeqNum");
+            mMerchantId = mProperties.getProperty("dcn_merchantId") == null ? "0" : mProperties.getProperty("dcn_merchantId");
         }
     }
 
@@ -123,7 +117,7 @@ public class _DCN implements IPayManager{
         this.mActivity=activity;
         this.mLoginCallBack=loginCallBack;
         if (mDownjoyinstance == null) {
-            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
+            mDownjoyinstance=Downjoy.getInstance(activity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
         mDownjoyinstance.openLoginDialog(activity, mLoginCallbackListener);
 
@@ -184,7 +178,7 @@ public class _DCN implements IPayManager{
         String extInfo = "123"; // CP自定义信息，多为CP订单号
 
         if (mDownjoyinstance == null) {
-            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
+            mDownjoyinstance=Downjoy.getInstance(activity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
         mDownjoyinstance.openPaymentDialog(activity,money, productName, extInfo, mRechargeCallbackListener);
 
@@ -235,7 +229,7 @@ public class _DCN implements IPayManager{
         this.mLogoutCallBack=logoutCallBack;
         this.mActivity=activity;
         if (mDownjoyinstance == null) {
-            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
+            mDownjoyinstance=Downjoy.getInstance(activity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
         mDownjoyinstance.logout(activity, mLogoutCallbackListener1);
 
@@ -275,7 +269,7 @@ public class _DCN implements IPayManager{
         this.mActivity=activity;
         this.mLogoutCallBack=logoutCallBack;
         if (mDownjoyinstance == null) {
-            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
+            mDownjoyinstance=Downjoy.getInstance(activity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
         mDownjoyinstance.openMemberCenterDialog(activity, mLogoutCallbackListener);
     }
@@ -284,7 +278,7 @@ public class _DCN implements IPayManager{
 
         @Override
         public void onSwitchAccountAndRestart() {
- //           mLogoutCallBack.logoutCallBack();
+           mLogoutCallBack.logoutCallBack();
 
         }
 
@@ -327,7 +321,7 @@ public class _DCN implements IPayManager{
             place = Downjoy.LOCATION_RIGHT_BOTTOM;
         }
         if (mDownjoyinstance == null) {
-            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
+            mDownjoyinstance=Downjoy.getInstance(activity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
         mDownjoyinstance.showDownjoyIconAfterLogined(true);
         mDownjoyinstance.setInitLocation(place);
@@ -338,7 +332,7 @@ public class _DCN implements IPayManager{
     @Override
     public void onResume(Activity activity) {
         if (mDownjoyinstance == null) {
-            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
+            mDownjoyinstance=Downjoy.getInstance(activity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
         mDownjoyinstance.resume(activity);
 
@@ -347,7 +341,7 @@ public class _DCN implements IPayManager{
     @Override
     public void onPause(Activity activity) {
 //        if (mDownjoyinstance == null) {
-//            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
+//            mDownjoyinstance=Downjoy.getInstance(activity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
 //        }
 //        mDownjoyinstance.pause();
 
@@ -361,7 +355,7 @@ public class _DCN implements IPayManager{
     @Override
     public void onDestroy(Activity activity) {
         if (mDownjoyinstance == null) {
-            mDownjoyinstance=Downjoy.getInstance(mActivity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
+            mDownjoyinstance=Downjoy.getInstance(activity, mMerchantId, mAppId,mServerSeqNum, mAppkey);
         }
         mDownjoyinstance.destroy();
 

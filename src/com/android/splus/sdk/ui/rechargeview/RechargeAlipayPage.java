@@ -26,7 +26,6 @@ import com.android.splus.sdk.utils.http.NetHttpUtil.DataCallback;
 import com.android.splus.sdk.utils.http.RequestModel;
 import com.android.splus.sdk.utils.log.LogHelper;
 import com.android.splus.sdk.utils.md5.MD5Util;
-import com.android.splus.sdk.utils.phone.Phoneuitl;
 import com.android.splus.sdk.utils.progressDialog.ProgressDialogUtil;
 import com.android.splus.sdk.utils.r.KR;
 import com.android.splus.sdk.utils.r.ResourceUtil;
