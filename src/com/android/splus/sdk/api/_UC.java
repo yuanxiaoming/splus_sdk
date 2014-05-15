@@ -76,7 +76,7 @@ public class _UC implements IPayManager {
     private boolean mLogined = false;
 
     /**
-     * @Title: _360
+     * @Title: _UC
      * @Description:( 将构造函数私有化)
      */
     private _UC() {

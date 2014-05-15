@@ -100,7 +100,7 @@ public class PayManager {
 
                 break;
             case APIConstants.SPLUS_DUOKU:
-
+                mIPayManager=_DuoKu.getInstance();
                 break;
             case APIConstants.SPLUS_OPPO:
 

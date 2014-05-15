@@ -62,7 +62,7 @@ public class _DCN implements IPayManager{
 
 
     /**
-     * @Title: _360
+     * @Title: _DCN
      * @Description:( 将构造函数私有化)
      */
     private _DCN() {
@@ -73,7 +73,7 @@ public class _DCN implements IPayManager{
      * @Title: getInstance(获取实例)
      * @author xiaoming.yuan
      * @data 2014-2-26 下午2:30:02
-     * @return _UC 返回类型
+     * @return _DCN 返回类型
      */
     public static _DCN getInstance() {
 
