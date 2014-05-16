@@ -17,6 +17,7 @@ import com.duoku.platform.DkPlatformSettings.GameCategory;
 import com.duoku.platform.DkProtocolConfig;
 import com.duoku.platform.DkProtocolKeys;
 import com.duoku.platform.ui.DKContainerActivity;
+import com.duoku.platform.ui.DKPaycenterActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +28,8 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Properties;
@@ -204,12 +207,60 @@ public class _DuoKu implements IPayManager{
          * @param strPayDesc            支付描述，cp可以在此处自定义字段完成自己的需求，若不需要传入空串，请勿传null
          * @return                          返回Intent对象
          */
-
-
+        Bundle bundle = new Bundle();
+        bundle.putInt(DkProtocolKeys.FUNCTION_CODE , DkProtocolConfig.FUNCTION_Pay);
+        bundle.putString(DkProtocolKeys.FUNCTION_AMOUNT, String.valueOf(money));                                  // 金额（转换成String）
+        bundle.putString(DkProtocolKeys.FUNCTION_EXCHANGE_RATIO, "100");       // 兑换比例 （转换成String）
+        bundle.putString(DkProtocolKeys.FUNCTION_ORDER_ID , outOrderid);                                    // 订单号
+        bundle.putString(DkProtocolKeys.FUNCTION_PAY_DESC, "");                                 // 支付描述
+        bundle.putString(DkProtocolKeys.FUNCTION_GAMEBI_NAME, "金币") ;                  // 游戏币名称
+        Intent intent = new Intent(activity, DKPaycenterActivity.class);
+        intent.putExtras(bundle);
+        // 参数说明
+        // 参数一：进入支付中心的当前activity
+        // 参数二：兑换比例，如1酷币兑换100游戏币，则兑换比例为100
+        // 参数三：游戏币名称，如金币、符石
+        // 参数四：cp生成的订单号，充值结束后，多酷服务器会通知业务服务器该订单号及充值结果
+        // 参数五：定额支付消费金额（人民币），如购买1元的物品或者游戏币，则amount为1；若不需要定额支付则传入0
+        // 参数六：支付描述，cp可以在此处自定义字段完成自己的需求，若不需要传入空串，请勿传null
+        // 参数七：退出支付中心回调接口，cp收到该通知后可根据参数四去自家服务器查询订单是否成功
+        // 此处订单号strOrderId在退出支付中心时，将原样返回给开发者
+        // 特别注意：此处的参数二和参数三，均需在百度多酷开发者平台去进行配置，若不配置或配置错误，将会导致支付异常
+        DkPlatform.invokeActivity(activity, intent, mRechargeIDKSDKCallBack);
 
 
 
     }
+
+    com.duoku.platform.IDKSDKCallBack mRechargeIDKSDKCallBack=new com.duoku.platform.IDKSDKCallBack(){
+
+        @Override
+        public void onResponse(String paramString) {
+            Log.i(TAG, paramString);
+            try {
+                JSONObject jsonObject = new JSONObject(paramString);
+                String code = jsonObject.optString(DkProtocolKeys.FUNCTION_STATE_CODE); // 状态码
+                if(!TextUtils.isEmpty(code)){
+                    int  mStateCode=Integer.valueOf(code);
+                    String message = jsonObject.optString(DkProtocolKeys.FUNCTION_MESSAGE);        // 信息
+                    String orderId =jsonObject.optString(DkProtocolKeys.FUNCTION_ORDER_ID);             // 订单号
+                    Log.d(TAG, "订单:"+ orderId + "的状-----message"+message);
+                    if(mStateCode == DkErrorCode.DK_ORDER_NEED_CHECK) {                                     // 需要查询订单
+                        mRechargeCallBack.rechargeSuccess(null);
+
+                    } else if (mStateCode == DkErrorCode.DK_ORDER_NOT_CHECK) {                          // 不需要查询订单
+                        mRechargeCallBack.rechargeFaile("充值失败");
+                    }
+                }else{
+                    mRechargeCallBack.rechargeFaile("充值失败");
+                }
+            } catch (JSONException e) {
+                mRechargeCallBack.rechargeFaile("充值失败");
+            }
+
+        }
+    };
+
 
 
     @Override
@@ -223,8 +274,9 @@ public class _DuoKu implements IPayManager{
     public void logout(Activity activity, LogoutCallBack logoutCallBack) {
         this.mLogoutCallBack=logoutCallBack;
         this.mActivity=activity;
-
-
+        DkPlatform.doDKUserLogout();
+        DkPlatform.destroy(activity);
+        logoutCallBack.logoutCallBack();
 
     }
 
@@ -317,12 +369,13 @@ public class _DuoKu implements IPayManager{
 
     @Override
     public void onStop(Activity activity) {
+
     }
 
     @Override
     public void onDestroy(Activity activity) {
 
-
+  //      DkPlatform.destroy(activity);
     }
 }
 
