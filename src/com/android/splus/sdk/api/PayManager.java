@@ -89,29 +89,25 @@ public class PayManager {
             case APIConstants.SPLUS_UC:
                 mIPayManager=_UC.getInstance();
                 break;
+            case APIConstants.SPLUS__360:
+                mIPayManager = _360.getInstance();
+                break;
             case APIConstants.SPLUS_XIAOMI:
                 mIPayManager=_XIAOMI.getInstance();
                 break;
-            case APIConstants.SPLUS_JIFENG:
-
-                break;
             case APIConstants.SPLUS_DCN:
                 mIPayManager=_DCN.getInstance();
-
                 break;
             case APIConstants.SPLUS_DUOKU:
                 mIPayManager=_DuoKu.getInstance();
                 break;
+            case APIConstants.SPLUS_GFAN:
+                mIPayManager=_Gfan.getInstance();
+                break;
             case APIConstants.SPLUS_OPPO:
 
                 break;
-            case APIConstants.SPLUS__91DJ:
 
-                break;
-            case APIConstants.SPLUS__360:
-                mIPayManager = _360.getInstance();
-
-                break;
         }
         if (mIPayManager != null) {
             mIPayManager.setDBUG(mLogDbug);
