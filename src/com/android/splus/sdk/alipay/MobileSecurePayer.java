@@ -1,7 +1,3 @@
-/**
- *
- */
-
 package com.android.splus.sdk.alipay;
 
 import com.alipay.android.app.IAlixPay;
@@ -23,7 +19,7 @@ import android.os.RemoteException;
  * @author xiaoming.yuan
  */
 public class MobileSecurePayer {
-    private static String TAG = "MobileSecurePayer";
+    static String TAG = "MobileSecurePayer";
 
     Integer lock = 0;
 
@@ -60,7 +56,8 @@ public class MobileSecurePayer {
      * @param activity 目标activity
      * @return
      */
-    public boolean pay(final String strOrderInfo, final Handler callback, final int myWhat, final Activity activity) {
+    public boolean pay(final String strOrderInfo, final Handler callback, final int myWhat,
+            final Activity activity) {
         if (mbPaying)
             return false;
         mbPaying = true;
@@ -74,7 +71,8 @@ public class MobileSecurePayer {
             // 绑定安全支付服务需要获取上下文环境，
             // 如果绑定不成功使用mActivity.getApplicationContext().bindService
             // 解绑时同理
-            mActivity.getApplicationContext().bindService(new Intent(IAlixPay.class.getName()), mAlixPayConnection, Context.BIND_AUTO_CREATE);
+            mActivity.getApplicationContext().bindService(new Intent(IAlixPay.class.getName()),
+                    mAlixPayConnection, Context.BIND_AUTO_CREATE);
         }
         // else ok.
 
@@ -144,7 +142,8 @@ public class MobileSecurePayer {
          * running in our main thread like most other things -- so, to update
          * the UI, we need to use a Handler to hop over there. 通过IPC机制启动安全支付服务
          */
-        public void startActivity(String packageName, String className, int iCallingPid, Bundle bundle) {
+        public void startActivity(String packageName, String className, int iCallingPid,
+                Bundle bundle) throws RemoteException {
             Intent intent = new Intent(Intent.ACTION_MAIN, null);
 
             if (bundle == null)
@@ -165,6 +164,7 @@ public class MobileSecurePayer {
         /**
          * when the msp loading dialog gone, call back this method.
          */
+        @Override
         public boolean isHideLoadingScreen() throws RemoteException {
             return false;
         }
@@ -173,6 +173,7 @@ public class MobileSecurePayer {
          * when the current trade is finished or cancelled, call back this
          * method.
          */
+        @Override
         public void payEnd(boolean arg0, String arg1) throws RemoteException {
 
         }

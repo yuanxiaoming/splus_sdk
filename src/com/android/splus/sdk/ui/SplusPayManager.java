@@ -10,8 +10,8 @@
 
 package com.android.splus.sdk.ui;
 
-import com.android.splus.sdk.api.InitBean;
 import com.android.splus.sdk.apiinterface.IPayManager;
+import com.android.splus.sdk.apiinterface.InitBean;
 import com.android.splus.sdk.apiinterface.InitCallBack;
 import com.android.splus.sdk.apiinterface.LoginCallBack;
 import com.android.splus.sdk.apiinterface.LogoutCallBack;
@@ -1191,13 +1191,19 @@ public class SplusPayManager implements IPayManager {
     }
 
     @Override
-    public FloatToolBar creatFloatButton(Activity activity, boolean showlasttime, FloatToolBarAlign align, float position) {
-        return FloatToolBar.getFloatToolBar(activity, showlasttime, align, position);
+    public void creatFloatButton(Activity activity, boolean showlasttime, int align, float position) {
+        if(align==0){
+            FloatToolBar.getFloatToolBar(activity, showlasttime, FloatToolBarAlign.Left, position);
+        }else{
+            FloatToolBar.getFloatToolBar(activity, showlasttime, FloatToolBarAlign.Right, position);
+        }
+        FloatToolBar.show();
 
     }
 
     @Override
     public void onDestroy(Activity activity) {
+        FloatToolBar.recycle();
     }
 
 }

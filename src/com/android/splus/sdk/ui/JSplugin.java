@@ -380,7 +380,7 @@ public class JSplugin {
 
     /**
      * 动态下载apk
-     * 
+     *
      * @param context 上下文环境
      * @param strurl 下载地址
      * @param filename 文件名称
@@ -414,7 +414,7 @@ public class JSplugin {
 
     /**
      * 显示确认安装的提示
-     * 
+     *
      * @param context 上下文环境
      * @param cachePath 安装文件路径
      */

@@ -21,10 +21,12 @@ import android.app.Activity;
 public class FloatToolBar {
     public static final String TAG = "FloatToolBar";
 
-    private FloatWindow mFloatButton;
+    private static FloatWindow mFloatButton;
 
     private FloatToolBar(Activity activity, boolean showlasttime, FloatToolBarAlign align, float position) {
-        mFloatButton = new FloatWindow(activity, showlasttime, align, position);
+        if(mFloatButton==null){
+            mFloatButton = new FloatWindow(activity, showlasttime, align, position);
+        }
     }
 
     static FloatToolBar getFloatToolBar(Activity activity, boolean showlasttime, FloatToolBarAlign align, float position) {
@@ -33,11 +35,11 @@ public class FloatToolBar {
 
     /**
      * 隐藏
-     * 
+     *
      * @author xiaoming.yuan
      * @date 2013年10月30日 下午11:19:07
      */
-    public void hide() {
+    static void hide() {
         if (mFloatButton != null) {
             mFloatButton.hide();
         }
@@ -45,11 +47,11 @@ public class FloatToolBar {
 
     /**
      * 显示
-     * 
+     *
      * @author xiaoming.yuan
      * @date 2013年10月30日 下午11:19:45
      */
-    public void show() {
+    static void show() {
         if (mFloatButton != null && !isShowing()) {
             mFloatButton.show();
         }
@@ -59,9 +61,11 @@ public class FloatToolBar {
      * @author xiaoming.yuan
      * @date 2013年10月30日 下午11:20:15
      */
-    public void recycle() {
+    static void recycle() {
         if (mFloatButton != null) {
+            mFloatButton.hide() ;
             mFloatButton.recycle();
+            mFloatButton=null;
         }
     };
 
@@ -70,7 +74,7 @@ public class FloatToolBar {
      * @date 2013年10月30日 下午11:21:01
      * @return
      */
-    private boolean isShowing() {
+    private static boolean isShowing() {
         if (mFloatButton != null) {
             return mFloatButton.isShowing();
         }
@@ -79,7 +83,7 @@ public class FloatToolBar {
 
     /**
      * 位置
-     * 
+     *
      * @ClassName:FloatToolBarPlace
      * @author xiaoming.yuan
      * @date 2013年10月25日 下午1:49:56
