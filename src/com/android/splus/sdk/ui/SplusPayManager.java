@@ -782,7 +782,7 @@ public class SplusPayManager implements IPayManager {
     /**
      * Title: enterUserCenter (个人中心) Description:
      *
-     * @param mActivity
+     * @param activity
      * @param mLogoutCallBack
      * @see com.android.splus.sdk.apiinterface.IPayManager#enterUserCenter(android.app.Activity,
      *      com.android.splus.sdk.apiinterface.LogoutCallBack)
@@ -818,7 +818,7 @@ public class SplusPayManager implements IPayManager {
     /**
      * Title: sendGameStatics 统计游戏数据 Description:
      *
-     * @param mActivity
+     * @param activity
      * @param roleName
      * @param level
      * @param serverName
@@ -885,7 +885,7 @@ public class SplusPayManager implements IPayManager {
     /**
      * Title: enterBBS BBS Description:
      *
-     * @param mActivity
+     * @param activity
      * @see com.android.splus.sdk.apiinterface.IPayManager#enterBBS(android.app.Activity)
      */
     @Override
@@ -915,7 +915,7 @@ public class SplusPayManager implements IPayManager {
     /**
      * Title: onResume Description:
      *
-     * @param mActivity
+     * @param activity
      * @see com.android.splus.sdk.apiinterface.IPayManager#onResume(android.app.Activity)
      */
     @Override
@@ -931,7 +931,7 @@ public class SplusPayManager implements IPayManager {
     /**
      * Title: onPause Description:
      *
-     * @param mActivity
+     * @param activity
      * @see com.android.splus.sdk.apiinterface.IPayManager#onPause(android.app.Activity)
      */
     @Override
@@ -948,7 +948,7 @@ public class SplusPayManager implements IPayManager {
     /**
      * Title: sendOnLineTimeStatics 统计在线时长 Description:
      *
-     * @param mActivity
+     * @param activity
      * @param rolename
      * @param serverName
      * @param level
