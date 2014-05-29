@@ -124,13 +124,13 @@ public class NetHttpUtil {
             // 结束连接
             httpResponse.getEntity().consumeContent();
         } catch (ClientProtocolException e) {
-            LogHelper.i(TAG, e.getLocalizedMessage(), e);
+            LogHelper.e(TAG, e.getLocalizedMessage(), e);
             return null;
         } catch (IOException e) {
-            LogHelper.i(TAG, e.getLocalizedMessage(), e);
+            LogHelper.e(TAG, e.getLocalizedMessage(), e);
             return null;
         } catch (JSONException e) {
-            LogHelper.i(TAG, e.getLocalizedMessage(), e);
+            LogHelper.e(TAG, e.getLocalizedMessage(), e);
             return null;
 
         }
@@ -179,13 +179,13 @@ public class NetHttpUtil {
             // 结束连接
             httpResponse.getEntity().consumeContent();
         } catch (ClientProtocolException e) {
-            LogHelper.i(TAG, e.getLocalizedMessage(), e);
+            LogHelper.e(TAG, e.getLocalizedMessage(), e);
             return null;
         } catch (IOException e) {
-            LogHelper.i(TAG, e.getLocalizedMessage(), e);
+            LogHelper.e(TAG, e.getLocalizedMessage(), e);
             return null;
         } catch (JSONException e) {
-            LogHelper.i(TAG, e.getLocalizedMessage(), e);
+            LogHelper.e(TAG, e.getLocalizedMessage(), e);
             return null;
         }
         return obj;
@@ -193,12 +193,12 @@ public class NetHttpUtil {
 
     /**
      * 添加Cookie
-     * 
+     *
      * @param response
      */
     private static void setCookie(HttpResponse response) {
         if (response.getHeaders("Set-Cookie").length > 0) {
-            LogHelper.d(TAG, response.getHeaders("Set-Cookie")[0].getValue());
+            LogHelper.d(TAG, "Set-Cookie---"+response.getHeaders("Set-Cookie")[0].getValue());
             headers[10] = new BasicHeader("Cookie", response.getHeaders("Set-Cookie")[0].getValue());
         }
     }
@@ -240,7 +240,7 @@ public class NetHttpUtil {
             try {
                 buf.append(key).append("=").append(URLEncoder.encode(params.get(key).toString(), "UTF-8")).append("&");
             } catch (UnsupportedEncodingException e) {
-                LogHelper.d(TAG, e.getLocalizedMessage());
+                LogHelper.e(TAG, e.getLocalizedMessage());
             }
         }
         buf.deleteCharAt(buf.length() - 1);
@@ -265,7 +265,7 @@ public class NetHttpUtil {
             try {
                 buf.append(key).append("=").append(URLEncoder.encode(params.get(key).toString(), "UTF-8")).append("&");
             } catch (UnsupportedEncodingException e) {
-                LogHelper.d(TAG, e.getLocalizedMessage());
+                LogHelper.e(TAG, e.getLocalizedMessage());
             }
         }
         buf.deleteCharAt(buf.length() - 1);
