@@ -45,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -370,8 +371,18 @@ public class SplusPayManager implements IPayManager {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
                     repeatInit();
+                    Intent intent=null;
+                    //判断手机系统的版本  即API大于10 就是3.0或以上版本
+                    if(android.os.Build.VERSION.SDK_INT>10){
+                        intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                    }else{
+                        intent = new Intent();
+                        ComponentName component = new ComponentName("com.android.settings","com.android.settings.WirelessSettings");
+                        intent.setComponent(component);
+                        intent.setAction("android.intent.action.VIEW");
+                    }
+                    mActivity.startActivity(intent);
 
                 }
             }, "确定", null, null, false);
@@ -1192,18 +1203,18 @@ public class SplusPayManager implements IPayManager {
 
     @Override
     public void creatFloatButton(Activity activity, boolean showlasttime, int align, float position) {
+        FloatToolBar.recycle();
         if(align==0){
-            FloatToolBar.getFloatToolBar(activity, showlasttime, FloatToolBarAlign.Left, position);
+            FloatToolBar.getFloatToolBar(activity, showlasttime, FloatToolBarAlign.Left, position).show();
         }else{
-            FloatToolBar.getFloatToolBar(activity, showlasttime, FloatToolBarAlign.Right, position);
+            FloatToolBar.getFloatToolBar(activity, showlasttime, FloatToolBarAlign.Right, position).show();
         }
-        FloatToolBar.show();
 
     }
 
     @Override
     public void onDestroy(Activity activity) {
-        FloatToolBar.recycle();
+       FloatToolBar.recycle();
     }
 
 }
