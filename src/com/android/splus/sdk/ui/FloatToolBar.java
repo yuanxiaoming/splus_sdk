@@ -22,11 +22,14 @@ public class FloatToolBar {
     public static final String TAG = "FloatToolBar";
 
     private static FloatWindow mFloatButton;
+    private  Activity mActivity;
 
     private FloatToolBar(Activity activity, boolean showlasttime, FloatToolBarAlign align, float position) {
         if(mFloatButton==null){
-            mFloatButton = new FloatWindow(activity, showlasttime, align, position);
+            recycle();
         }
+        mFloatButton = new FloatWindow(activity, showlasttime, align, position);
+        this.mActivity=activity;
     }
 
     static FloatToolBar getFloatToolBar(Activity activity, boolean showlasttime, FloatToolBarAlign align, float position) {
@@ -39,9 +42,11 @@ public class FloatToolBar {
      * @author xiaoming.yuan
      * @date 2013年10月30日 下午11:19:07
      */
-    static void hide() {
-        if (mFloatButton != null) {
-            mFloatButton.hide();
+    void hide() {
+        if(mActivity!=null&&!mActivity.isFinishing()){
+            if (mFloatButton != null) {
+                mFloatButton.hide();
+            }
         }
     }
 
@@ -51,9 +56,11 @@ public class FloatToolBar {
      * @author xiaoming.yuan
      * @date 2013年10月30日 下午11:19:45
      */
-    static void show() {
-        if (mFloatButton != null && !isShowing()) {
-            mFloatButton.show();
+    void show() {
+        if(mActivity!=null&&!mActivity.isFinishing()){
+            if (mFloatButton != null && !isShowing()) {
+                mFloatButton.show();
+            }
         }
     };
 
@@ -61,11 +68,13 @@ public class FloatToolBar {
      * @author xiaoming.yuan
      * @date 2013年10月30日 下午11:20:15
      */
-    static void recycle() {
-        if (mFloatButton != null) {
-            mFloatButton.hide() ;
-            mFloatButton.recycle();
-            mFloatButton=null;
+    void  recycle() {
+        if(mActivity!=null&&!mActivity.isFinishing()){
+            if (mFloatButton != null) {
+                mFloatButton.hide() ;
+                mFloatButton.recycle();
+                mFloatButton=null;
+            }
         }
     };
 
@@ -74,7 +83,7 @@ public class FloatToolBar {
      * @date 2013年10月30日 下午11:21:01
      * @return
      */
-    private static boolean isShowing() {
+    private  boolean isShowing() {
         if (mFloatButton != null) {
             return mFloatButton.isShowing();
         }

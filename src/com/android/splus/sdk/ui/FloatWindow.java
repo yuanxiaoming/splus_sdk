@@ -122,7 +122,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 创建一个新的实例 FloatWindow.
-     * 
+     *
      * @param context
      * @param attrs
      * @param defStyle
@@ -134,7 +134,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 创建一个新的实例 FloatWindow.
-     * 
+     *
      * @param context
      * @param attrs
      */
@@ -145,7 +145,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 创建一个新的实例 FloatWindow.
-     * 
+     *
      * @param context
      */
 
@@ -194,14 +194,14 @@ public class FloatWindow extends ImageView {
 
     /**
      * 初始化变量
-     * 
+     *
      * @author
      */
     private void initVariables() {
         mScreenHeight = getResources().getDisplayMetrics().heightPixels;
         mScreenWidth = getResources().getDisplayMetrics().widthPixels;
         mDensity = getResources().getDisplayMetrics().density;
-        // 获取的是WindowManagerImpl.CompatModeWrapper
+        // 获取的是WindowManagerImpl.CompatModeWrapper 只是属于Activity的LocalWindowManager
         mWindowManager = (WindowManager) mActivity.getSystemService(Context.WINDOW_SERVICE);
         mIconNormal = getResources().getDrawable(ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_icon_normal));
         mIconExpanded = getResources().getDrawable(ResourceUtil.getDrawableId(mActivity, KR.drawable.splus_float_icon_press));
@@ -209,7 +209,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 初始化视图
-     * 
+     *
      * @author
      */
     private void initViews() {
@@ -222,7 +222,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 初始化WindowManager
-     * 
+     *
      * @author
      */
     private void initButtonWindow() {
@@ -266,7 +266,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 设置位置
-     * 
+     *
      * @author
      * @param tempX
      * @param tempY
@@ -283,7 +283,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 两边靠
-     * 
+     *
      * @author
      * @param side
      */
@@ -350,7 +350,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 保存位置
-     * 
+     *
      * @author
      * @param align
      * @param position
@@ -435,7 +435,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 显示菜单
-     * 
+     *
      * @author
      */
     private void showMenu(int x, int y) {
@@ -480,7 +480,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 隐藏菜单
-     * 
+     *
      * @author
      */
     private void hideMenu() {
@@ -494,7 +494,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 获取状态栏高度
-     * 
+     *
      * @author
      * @return
      */
@@ -506,7 +506,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 隐藏
-     * 
+     *
      * @author
      */
     public void hide() {
@@ -522,7 +522,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * 显示
-     * 
+     *
      * @author
      */
     public void show() {
@@ -693,7 +693,7 @@ public class FloatWindow extends ImageView {
 
     /**
      * dp转px
-     * 
+     *
      * @author
      * @param dp
      * @return

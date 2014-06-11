@@ -372,18 +372,19 @@ public class SplusPayManager implements IPayManager {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     repeatInit();
-                    Intent intent=null;
-                    //判断手机系统的版本  即API大于10 就是3.0或以上版本
-                    if(android.os.Build.VERSION.SDK_INT>10){
-                        intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                    }else{
-                        intent = new Intent();
-                        ComponentName component = new ComponentName("com.android.settings","com.android.settings.WirelessSettings");
-                        intent.setComponent(component);
-                        intent.setAction("android.intent.action.VIEW");
+                    if(!NetWorkUtil.isNetworkAvailable(getContext())){
+                        Intent intent=null;
+                        //判断手机系统的版本  即API大于10 就是3.0或以上版本
+                        if(android.os.Build.VERSION.SDK_INT>10){
+                            intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                        }else{
+                            intent = new Intent();
+                            ComponentName component = new ComponentName("com.android.settings","com.android.settings.WirelessSettings");
+                            intent.setComponent(component);
+                            intent.setAction("android.intent.action.VIEW");
+                        }
+                        getContext().startActivityForResult( intent , 0);
                     }
-                    mActivity.startActivity(intent);
-
                 }
             }, "确定", null, null, false);
 
@@ -735,21 +736,21 @@ public class SplusPayManager implements IPayManager {
         ExitAppUtils.getInstance().exit();
     }
 
-//    /**
-//     * Title: exitGame Description:
-//     *
-//     * @param context
-//     * @see com.android.splus.sdk.apiinterface.IPayManager#exitGame(android.content.Context)
-//     */
-//    @Override
-//    public void exitGame(Context context) {
-//        if (context == null) {
-//            return;
-//        }
-//        ExitAppUtils.getInstance().exit();
-//        // 如果上面没关闭好自己，或者没填写任何东西，就我们sdk来关闭进程。
-//        CommonUtil.killSDK(context);
-//    }
+    //    /**
+    //     * Title: exitGame Description:
+    //     *
+    //     * @param context
+    //     * @see com.android.splus.sdk.apiinterface.IPayManager#exitGame(android.content.Context)
+    //     */
+    //    @Override
+    //    public void exitGame(Context context) {
+    //        if (context == null) {
+    //            return;
+    //        }
+    //        ExitAppUtils.getInstance().exit();
+    //        // 如果上面没关闭好自己，或者没填写任何东西，就我们sdk来关闭进程。
+    //        CommonUtil.killSDK(context);
+    //    }
 
     /**
      * Title: logout Description:
@@ -1024,6 +1025,23 @@ public class SplusPayManager implements IPayManager {
 
     }
 
+    @Override
+    public void creatFloatButton(Activity activity, boolean showlasttime, int align, float position) {
+        if(align==0){
+            FloatToolBar.getFloatToolBar(activity, showlasttime, FloatToolBarAlign.Left, position).show();
+        }else{
+            FloatToolBar.getFloatToolBar(activity, showlasttime, FloatToolBarAlign.Right, position).show();
+        }
+
+    }
+
+    @Override
+    public void onDestroy(Activity activity) {
+       // FloatToolBar.recycle();
+    }
+
+
+
     /**
      * @Title: getContext(获取上下文)
      * @author xiaoming.yuan
@@ -1199,22 +1217,6 @@ public class SplusPayManager implements IPayManager {
             BigDecimal b = new BigDecimal(this.mMoney);
             return b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
         }
-    }
-
-    @Override
-    public void creatFloatButton(Activity activity, boolean showlasttime, int align, float position) {
-        FloatToolBar.recycle();
-        if(align==0){
-            FloatToolBar.getFloatToolBar(activity, showlasttime, FloatToolBarAlign.Left, position).show();
-        }else{
-            FloatToolBar.getFloatToolBar(activity, showlasttime, FloatToolBarAlign.Right, position).show();
-        }
-
-    }
-
-    @Override
-    public void onDestroy(Activity activity) {
-       FloatToolBar.recycle();
     }
 
 }
