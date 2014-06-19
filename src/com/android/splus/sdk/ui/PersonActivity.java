@@ -155,7 +155,7 @@ public class PersonActivity extends BaseActivity {
 
             // 进入客服中心页面
             if (mSqPage == null) {
-                mSqPage = new SQPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), uid, passport, password,mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(), mSplusPayManager.getRoleName(), mSplusPayManager.getServerName());
+                mSqPage = new SQPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), uid, passport, password,mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(), mSplusPayManager.getRoleName(), mSplusPayManager.getServerName(),mSplusPayManager.getAppkey());
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_sq_btn_text);
             addView(mSqPage, SQPage.class.getName());
@@ -171,7 +171,7 @@ public class PersonActivity extends BaseActivity {
             }
             // 进入活动页面
             if (mAnnouncementsPage == null) {
-                mAnnouncementsPage = new AnnouncementsPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), uid, passport, password, mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getRoleName(), mSplusPayManager.getServerName());
+                mAnnouncementsPage = new AnnouncementsPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), uid, passport, password, mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getRoleName(), mSplusPayManager.getServerName(),mSplusPayManager.getAppkey());
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_announcementspage_btn_text);
             // 把活动页面显示在前台
@@ -189,7 +189,7 @@ public class PersonActivity extends BaseActivity {
             }
             // 进入论坛页面看
             if (mForumPage == null) {
-                mForumPage = new ForumPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), uid, passport, password, mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getRoleName(), mSplusPayManager.getServerName());
+                mForumPage = new ForumPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), uid, passport, password, mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getRoleName(), mSplusPayManager.getServerName(),mSplusPayManager.getAppkey());
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_forum_btn_text);
             // 把论坛页面显示在前台
@@ -261,7 +261,7 @@ public class PersonActivity extends BaseActivity {
         public void onSQClick(View v) {
             // 进入客服中心页面
             if (mSqPage == null) {
-                mSqPage = new SQPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), getUid(), getPassport(), getPassword(), mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getRoleName(), mSplusPayManager.getServerName());
+                mSqPage = new SQPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), getUid(), getPassport(), getPassword(), mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getRoleName(), mSplusPayManager.getServerName(),mSplusPayManager.getAppkey());
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_sq_btn_text);
             addView(mSqPage, SQPage.class.getName());
@@ -271,7 +271,7 @@ public class PersonActivity extends BaseActivity {
         public void onForumClick(View v) {
             // 进入论坛页面看
             if (mForumPage == null) {
-                mForumPage = new ForumPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), getUid(), getPassport(), getPassword(), mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getRoleName(), mSplusPayManager.getServerName());
+                mForumPage = new ForumPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), getUid(), getPassport(), getPassword(), mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(),mSplusPayManager.getRoleName(), mSplusPayManager.getServerName(),mSplusPayManager.getAppkey());
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_forum_btn_text);
             // 把论坛页面显示在前台
@@ -295,7 +295,7 @@ public class PersonActivity extends BaseActivity {
             // 进入活动页面
             if (mAnnouncementsPage == null) {
                 mAnnouncementsPage = new AnnouncementsPage(mActivity, getDeviceno(), mSplusPayManager.getGameid(), mSplusPayManager.getPartner(), mSplusPayManager.getReferer(), getUid(), getPassport(), getPassword(),mSplusPayManager.getServerId(),mSplusPayManager.getRoleId(), mSplusPayManager.getRoleName(),
-                                mSplusPayManager.getServerName());
+                                mSplusPayManager.getServerName(),mSplusPayManager.getAppkey());
             }
             mTvTitleBarCenter.setText(KR.string.splus_person_center_announcementspage_btn_text);
             // 把活动页面显示在前台

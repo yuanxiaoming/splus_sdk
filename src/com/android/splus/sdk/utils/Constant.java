@@ -31,23 +31,29 @@ public class Constant {
 
     public static final String HTMLWAPPAY_URL = "http://sy.api.37wan.cn/htmlWapPay_test/payIndex.php";
 
+    public static final String SQPAGE_URL = "http://api.splusgame.com/dest/feedback.html";
+
+    public static final String FORUMPAGE_URL = "http://bbs.splusgame.com";
+
+    public static final String ANNOUNCEMENTSPAGE_URL = "http://api.splusgame.com/dest/activity.html";
+
     public static final String BINDMOBILE_URL = "http://sy.api.37wan.cn/action/activebindmobile.php?";
 
     // 充值：
     public static final int[] CHINA_MOBILE_MONEY = {
-                    10, 20, 30, 50, 100, 300, 500
+        10, 20, 30, 50, 100, 300, 500
     };
 
     public static final int[] CHINA_UNICOM_MONEY = {
-                    20, 30, 50, 100, 300, 500
+        20, 30, 50, 100, 300, 500
     };
 
     public static final int[] CHINA_SDCOMM_ONEY = {
-                    10, 30, 35, 45, 100, 350, 1000
+        10, 30, 35, 45, 100, 350, 1000
     };
 
     public static final int[] ALIPAY_MONEY = {
-                    10, 20, 30, 50, 100, 200, 300, 500, 1000, 2000, 3000, 5000
+        10, 20, 30, 50, 100, 200, 300, 500, 1000, 2000, 3000, 5000
     };
 
     public static final int RECHARGE_BY_NO_QUATO = 0;
@@ -73,71 +79,71 @@ public class Constant {
     public final static int PERSON = 8;
 
     public static final Integer RECHARGE_TYPE[] = {
-                    ALIPAY_FAST, ALIPAY_WAP, ALIPAY_DEPOSIT, ALIPAY_CREDIT, UNION_PAY, CHAIN_CMM, CHAIN_UNC, CHAIN_SD, PERSON
+        ALIPAY_FAST, ALIPAY_WAP, ALIPAY_DEPOSIT, ALIPAY_CREDIT, UNION_PAY, CHAIN_CMM, CHAIN_UNC, CHAIN_SD, PERSON
     };
 
     public static final String IMG_ICON[] = {
-                    KR.drawable.splus_recharge_by_alipay_fast_selector, KR.drawable.splus_recharge_by_alipay_wap_selector, KR.drawable.splus_recharge_by_alipay_deposit_selector, KR.drawable.splus_recharge_by_alipay_credit_selector,
-                    KR.drawable.splus_recharge_by_alipay_deposit_selector, KR.drawable.splus_recharge_by_cmm_selector, KR.drawable.splus_recharge_by_unc_selector, KR.drawable.splus_recharge_by_sd_selector, KR.drawable.splus_recharge_by_person_selector
+        KR.drawable.splus_recharge_by_alipay_fast_selector, KR.drawable.splus_recharge_by_alipay_wap_selector, KR.drawable.splus_recharge_by_alipay_deposit_selector, KR.drawable.splus_recharge_by_alipay_credit_selector,
+        KR.drawable.splus_recharge_by_alipay_deposit_selector, KR.drawable.splus_recharge_by_cmm_selector, KR.drawable.splus_recharge_by_unc_selector, KR.drawable.splus_recharge_by_sd_selector, KR.drawable.splus_recharge_by_person_selector
     };
 
     /**
      * 充值类型
      */
 
-    public final static String ALIPAY_FAST_PAYWAY = "alipay_fast";
+     public final static String ALIPAY_FAST_PAYWAY = "alipay_fast";
 
-    public final static String ALIPAY_WAP_PAYWAY = "alipay_way";
+     public final static String ALIPAY_WAP_PAYWAY = "alipay_way";
 
-    public final static String ALIPAY_DEPOSIT_PAYWAY = "alipay_deposit";
+     public final static String ALIPAY_DEPOSIT_PAYWAY = "alipay_deposit";
 
-    public final static String ALIPAY_CREDIT_PAYWAY = "alipay_credit";
+     public final static String ALIPAY_CREDIT_PAYWAY = "alipay_credit";
 
-    public final static String UNION_PAYWAY = "union_pay";
+     public final static String UNION_PAYWAY = "union_pay";
 
-    public final static String CHAIN_CMM_PAYWAY = "szx";
+     public final static String CHAIN_CMM_PAYWAY = "szx";
 
-    public final static String CHAIN_UNC_PAYWAY = "unicom";
+     public final static String CHAIN_UNC_PAYWAY = "unicom";
 
-    public final static String CHAIN_SD_PAYWAY = "sndacard";
+     public final static String CHAIN_SD_PAYWAY = "sndacard";
 
-    public final static String PERSON_PAYWAY = "";
+     public final static String PERSON_PAYWAY = "";
 
-    public static final String[] PAYWAY_TYPE = {
-                    ALIPAY_FAST_PAYWAY, ALIPAY_WAP_PAYWAY, ALIPAY_DEPOSIT_PAYWAY, ALIPAY_CREDIT_PAYWAY, UNION_PAYWAY, CHAIN_CMM_PAYWAY, CHAIN_UNC_PAYWAY, CHAIN_SD_PAYWAY, PERSON_PAYWAY
-    };
+     public static final String[] PAYWAY_TYPE = {
+         ALIPAY_FAST_PAYWAY, ALIPAY_WAP_PAYWAY, ALIPAY_DEPOSIT_PAYWAY, ALIPAY_CREDIT_PAYWAY, UNION_PAYWAY, CHAIN_CMM_PAYWAY, CHAIN_UNC_PAYWAY, CHAIN_SD_PAYWAY, PERSON_PAYWAY
+     };
 
-    /** ******************************************************************************************/
-    /** sharespreferences 设备唯一标示* */
-    public static final String DEVICENO_FILE = "deviceno_file";
+     /** ******************************************************************************************/
+     /** sharespreferences 设备唯一标示* */
+     public static final String DEVICENO_FILE = "deviceno_file";
 
-    public static final String DEVICENO = "deviceno";
+     public static final String DEVICENO = "deviceno";
 
-    public static final String LOGIN_STATUS_FILE = "login_status_file";
+     public static final String LOGIN_STATUS_FILE = "login_status_file";
 
-    public static final String LOGIN_STATUS = "login_status";
+     public static final String LOGIN_STATUS = "login_status";
 
-    public static final String ONTIMELINE_FILE = "onlinetime_file";
+     public static final String ONTIMELINE_FILE = "onlinetime_file";
 
-    public static final String ONTIMELINE_START = "onlinetime_start";
+     public static final String ONTIMELINE_START = "onlinetime_start";
 
-    public static final String ONTIMELINE_END = "onlinetime_end";
+     public static final String ONTIMELINE_END = "onlinetime_end";
 
-    /** ******************************************************************************************/
-    public static String RECHARGE_RESULT_TIPS = "recharge_result_tips";
+     /** ******************************************************************************************/
+     public static String RECHARGE_RESULT_TIPS = "recharge_result_tips";
 
-    public static String RECHARGE_RESULT_SUCCESS_TIPS = "recharge_result_success_tips";
+     public static String RECHARGE_RESULT_SUCCESS_TIPS = "recharge_result_success_tips";
 
-    public static String RECHARGE_RESULT_FAIL_TIPS = "recharge_result_fail_tips";
+     public static String RECHARGE_RESULT_FAIL_TIPS = "recharge_result_fail_tips";
 
-    public static final String MONEY = "money";
+     public static final String MONEY = "money";
 
-    public static final String TEST_PASSPROT = "splus123";
+     public static final String TEST_PASSPROT = "splus123";
 
-    public static final String LOGIN_INTENT_USERNAME = "login_intent_username";
+     public static final String LOGIN_INTENT_USERNAME = "login_intent_username";
 
-    public static final String LOGIN_INTENT_USERID = "login_intent_userid";
+     public static final String LOGIN_INTENT_USERID = "login_intent_userid";
 
-    public static final String LOGIN_INTENT_USERPWD = "login_intent_userpwd";
+     public static final String LOGIN_INTENT_USERPWD = "login_intent_userpwd";
 
 }

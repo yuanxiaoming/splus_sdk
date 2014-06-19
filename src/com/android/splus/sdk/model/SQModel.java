@@ -54,7 +54,11 @@ public class SQModel extends BaseModel {
 
     private String serverName;
 
-    public SQModel(Integer gameid, String deviceno, String referer, String partner, Integer uid, String passport, String password,Integer serverId, Integer roleId, String roleName, String serverName) {
+    public static final String SIGN = "sign";
+
+    private String sign;
+
+    public SQModel(Integer gameid, String deviceno, String referer, String partner, Integer uid, String passport, String password,Integer serverId, Integer roleId, String roleName, String serverName,String sign) {
         super("");
         this.put(GAMEID, gameid == null ? 0 : gameid);
         this.put(SERVERID, serverId == null ? 0 : serverId);
@@ -68,6 +72,7 @@ public class SQModel extends BaseModel {
         this.put(ROLENAME, roleName == null ? "" : roleName);
         this.put(PASSPORT, passport == null ? "" : passport);
         this.put(PASSWORD, passport == null ? "" : passport);
+        this.put(SIGN, sign == null ? "" : sign.toLowerCase());
     }
 
     @Override

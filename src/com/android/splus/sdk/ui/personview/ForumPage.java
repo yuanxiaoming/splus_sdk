@@ -5,6 +5,7 @@ import com.android.splus.sdk.model.SQModel;
 import com.android.splus.sdk.ui.JSplugin;
 import com.android.splus.sdk.utils.Constant;
 import com.android.splus.sdk.utils.http.NetHttpUtil;
+import com.android.splus.sdk.utils.md5.MD5Util;
 import com.android.splus.sdk.widget.CustomWebChromeClient;
 import com.android.splus.sdk.widget.CustomWebView;
 import com.android.splus.sdk.widget.CustomWebViewClient;
@@ -49,7 +50,11 @@ public class ForumPage extends LinearLayout {
 
     private String mPassword;
 
-    public ForumPage(Activity activity, String deviceno, Integer gameid, String partner, String referer, Integer uid, String passport, String password,Integer serverId, Integer roleId, String roleName, String serverName) {
+    private String mSign;
+
+    private String mAppkey;
+
+    public ForumPage(Activity activity, String deviceno, Integer gameid, String partner, String referer, Integer uid, String passport, String password,Integer serverId, Integer roleId, String roleName, String serverName,String appkey) {
 
         super(activity);
         this.mActivity = activity;
@@ -64,7 +69,10 @@ public class ForumPage extends LinearLayout {
         this.mServerName = serverName;
         this.mServerId=serverId;
         this.mRoleId=roleId;
-        mSqModel = new SQModel(mGameid, mDeviceno, mReferer, mPartner, mUid, mPassport, mPassword, mServerId,mRoleId,mRoleName, mServerName);
+        this.mAppkey=appkey;
+        String keyString=mGameid+mDeviceno+ mReferer+mPartner+mUid+mAppkey;
+        this.mSign=MD5Util.getMd5toLowerCase(keyString);
+        mSqModel = new SQModel(mGameid, mDeviceno, mReferer, mPartner, mUid, mPassport, mPassword,mServerId,mRoleId, mRoleName, mServerName,mSign);
         mCustomWebView = new CustomWebView(activity);
         mCustomWebView.setWebChromeClient(new CustomWebChromeClient(activity, new WebChromeClient()));
         mCustomWebView.setWebViewClient(new CustomWebViewClient(activity));
@@ -76,7 +84,8 @@ public class ForumPage extends LinearLayout {
         webSettings.setJavaScriptEnabled(true);
         mCustomWebView.addJavascriptInterface(new JSplugin(activity), JSplugin.ANDROIDJSPLUG);
         String data = NetHttpUtil.hashMapTOgetParams(mSqModel);
-        mCustomWebView.postUrl(Constant.HTMLWAPPAY_URL, EncodingUtils.getBytes(data, "UTF-8"));
+        System.out.println(NetHttpUtil.hashMapTOgetParams(mSqModel, Constant.FORUMPAGE_URL));
+        mCustomWebView.postUrl(Constant.FORUMPAGE_URL, EncodingUtils.getBytes(data, "UTF-8"));
         LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         addView(mCustomWebView, lps);
 
