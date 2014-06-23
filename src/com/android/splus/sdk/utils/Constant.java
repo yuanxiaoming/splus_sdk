@@ -31,11 +31,11 @@ public class Constant {
 
     public static final String HTMLWAPPAY_URL = "http://sy.api.37wan.cn/htmlWapPay_test/payIndex.php";
 
-    public static final String SQPAGE_URL = "http://api.splusgame.com/dest/feedback.html";
+    public static final String SQPAGE_URL = "http://api.splusgame.com/dest/feedback.php";
 
     public static final String FORUMPAGE_URL = "http://bbs.splusgame.com";
 
-    public static final String ANNOUNCEMENTSPAGE_URL = "http://api.splusgame.com/dest/activity.html";
+    public static final String ANNOUNCEMENTSPAGE_URL = "http://api.splusgame.com/dest/activity.php";
 
     public static final String BINDMOBILE_URL = "http://sy.api.37wan.cn/action/activebindmobile.php?";
 

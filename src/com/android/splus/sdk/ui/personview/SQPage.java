@@ -86,6 +86,7 @@ public class SQPage extends LinearLayout {
         String data = NetHttpUtil.hashMapTOgetParams(mSqModel);
         System.out.println(NetHttpUtil.hashMapTOgetParams(mSqModel, Constant.SQPAGE_URL));
         mCustomWebView.postUrl(Constant.SQPAGE_URL, EncodingUtils.getBytes(data, "UTF-8"));
+     //   mCustomWebView.loadUrl(NetHttpUtil.hashMapTOgetParams(mSqModel, Constant.SQPAGE_URL));
         LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         addView(mCustomWebView, lps);
 
